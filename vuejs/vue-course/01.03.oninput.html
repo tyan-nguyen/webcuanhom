@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>01 Hello</title>
+	<script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+
+	<div id="obj">
+		<input type="text" name="text-1" v-on:input="changeValue">
+		<p>{{ noidung }}</p>
+	</div>
+
+
+	<script type="text/javascript">
+		var vue1 = new Vue({
+			el: '#obj',
+			data: {
+				noidung: 'Noi dung o day'
+			},
+			methods: {
+				changeValue: function(event){
+					this.noidung = event.target.value;
+				}
+			}
+		});		
+	</script>
+</body>
+</html>

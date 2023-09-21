@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Practice of Vue JS</title>
+	<link rel="stylesheet" type="text/css" href="./assets/style.css">
+</head>
+<body>
+	<div class="nav-bar"></div>
+	<div id="app">
+		<div class="product">
+			<div class="product-image">
+				<img v-bind:src="image">
+			</div>
+
+			<div class="product-info">
+				<h1>{{ product }}</h1>
+				<p v-if="inStock">In Stock</p>
+				<p v-else>Out of Stock</p>
+
+				<ul>
+					<li v-for="detail in details">{{ detail }}</li>
+				</ul>
+
+				<div v-for="variant in variants":key="variant.variantId" >
+					<p>{{ variant.variantColor }}</p>
+				</div>
+
+				<ul>
+					<li v-for="variant in variants" :key="variant.variantId">{{ variant.variantColor }}</li>
+				</ul>
+
+			</div>
+
+		</div>		
+
+	</div>
+
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<script type="text/javascript" src="main04.js"></script>
+</body>
+</html>
