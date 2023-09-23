@@ -75,6 +75,26 @@ Vue.component('product-review', {
 })
 
 
+Vue.component('product-tabs', {
+	template: `
+		<div>
+			<span class="tab" 
+			:class="{activeTab: selectedTab == tab}"
+			v-for="(tab, index) in tabs" 
+			:key="index"
+			@click="selectedTab = tab"
+			>{{ tab }}</span>
+		</div>
+	`,
+	data(){
+		return {
+			tabs: ["Reviews", "Make a Review"],
+			selectedTab: 'Reviews'
+		}
+	}
+})
+
+
 Vue.component('product-detail',{
 	props: {
 		details: {
@@ -131,6 +151,7 @@ Vue.component('product', {
 
 			</div>
 
+			<product-tabs></product-tabs>
 			<div>
 				<h2>Reviews</h2>
 				<p v-if="!reviews.length">Chua co review. Hay la nguoi dau tien!</p>
