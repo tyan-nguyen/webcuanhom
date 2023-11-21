@@ -22,13 +22,18 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         //'css/ajaxcrud.css',
+        'css/fontawesome-free-6.4.0-web/css/all.min.css',
+        'js/fancybox-master/dist/jquery.fancybox.min.css'
     ];
     public $js = [
-        'https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js',
+        //'https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js',
         //'assets/9b731ec9/js/dialog.js',
+        'js/vue.js',
         'js/ModalRemote.js',
         'js/ajaxcrud.js',
+        'js/fancybox-master/dist/jquery.fancybox.min.js',
         //'assets/9b731ec9/js/bootstrap-dialog.js'
+        //'filemanager/responsivefilemanager.com_fancybox_jquery.fancybox-1.3.4.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

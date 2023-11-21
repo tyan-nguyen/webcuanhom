@@ -1,0 +1,11 @@
+- tao phien bản màu sắc cho tên bộ cửa
+- tao danh sach phu kien mac dinh theo ten bo cua
+
+Khi tạo cửa theo tên bộ cửa (nhập kích thước, màu sắc) thì
+sẽ tạo mặc định danh sách phụ kiện, màu sắc thì theo phiên bản màu, 
+cho phép thay đổi tên phụ kiện (phiên bản bình thường, cao cấp), thay đổi số lượng 
+nếu cần thiết (tùy theo chiều dài bản lề có thể dùng nhiều hơn, tay nắm có thể lớn hơn.....)
+
+
+-> phụ kiện phải có phiên bản màu sắc, phiên bản theo bình thường /cao cấp
+-> tên cửa thì phải có danh sách phụ kiện mặc định, phiên bản màu sắc.

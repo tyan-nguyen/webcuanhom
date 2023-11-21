@@ -26,6 +26,8 @@ function ModalRemote(modalId) {
     this.dialog = $(modalId).find('.modal-dialog');
 
     this.header = $(modalId).find('.modal-header');
+    
+    this.headerToolbar = $(modalId).find('.header-toolbar');
 
     this.content = $(modalId).find('.modal-body');
 
@@ -147,7 +149,23 @@ function ModalRemote(modalId) {
      * @param {string} content The content of modal footer
      */
     this.setFooter = function (content) {
-        $(this.footer).html(content);
+        //$(this.footer).html(content);
+        
+        content = content.replace('>Close<', ' class="btn btn-sm btn-primary-custom pull-left"><i class="fa-regular fa-circle-xmark"></i>&nbsp; Đóng<');
+        content = content.replace('>Save<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i>&nbsp;Lưu lại<');
+        content = content.replace('>Create More<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i>&nbsp;Tiếp tục thêm<');
+        content = content.replace('>Import1<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-file-excel"></i>&nbsp;Nhập cửa từ Excel<');
+        content = content.replace('>Edit<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Chỉnh sửa<');
+        content = content.replace('>Upload<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i>&nbsp;Upload<');
+        content = content.replace('>Start Upload<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i>&nbsp;Bắt đầu import dữ liệu<');
+        content = content.replace('>Back<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-arrow-left"></i>&nbsp;Quay lại<');
+        content = content.replace('>addTonKho<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-warehouse"></i>&nbsp;Thêm vào kho<');
+        
+        
+        
+        
+		
+        $(this.headerToolbar).html(content);
     };
 
     /**
@@ -269,6 +287,13 @@ function ModalRemote(modalId) {
                 $.pjax.reload({ container: response.forceReload });
             }
         }
+        
+        //***dung chung hinh anh, tai lieu update html
+		if(typeof response.dungChungType !== 'undefined'){
+			if(response.dungChungType=='hinhAnh'){
+				$('#imgBlock').html(response.dungChungContent);
+			}
+		}
 
         // Close modal if response contains forceClose field
         if (response.forceClose !== undefined && response.forceClose) {
@@ -293,7 +318,8 @@ function ModalRemote(modalId) {
         if ($(this.content).find("form")[0] !== undefined) {
             this.setupFormSubmit(
                 $(this.content).find("form")[0],
-                $(this.footer).find('[type="submit"]')[0]
+                //$(this.footer).find('[type="submit"]')[0]
+                $(this.headerToolbar).find('[type="submit"]')[0]
             );
         }
     }
@@ -350,6 +376,8 @@ function ModalRemote(modalId) {
         if (title !== undefined) {
             this.setTitle(title);
         }
+        
+        $(this.headerToolbar).html('');
         // Add form for user input if required
         this.setContent('<form id="ModalRemoteConfirmForm">' + message);
 
@@ -430,8 +458,6 @@ function ModalRemote(modalId) {
                 bulkData
             )
         } else {
-			//set size modal
-			$(elm).hasAttr('data-modal-size') ? this.setSize($(elm).attr('data-modal-size')) : '',
             this.doRemote(
                 $(elm).hasAttr('href') ? $(elm).attr('href') : $(elm).attr('data-url'),
                 $(elm).hasAttr('data-request-method') ? $(elm).attr('data-request-method') : 'GET',

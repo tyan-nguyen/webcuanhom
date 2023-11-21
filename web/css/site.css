@@ -1,3 +1,111 @@
+/*custom*/
+
+#header nav{
+	background-color: #48728c !important;
+
+	padding-bottom: 0px !important;
+	padding-top: 0px !important;
+}
+
+#header nav .nav-item a, #header nav .nav-item .nav-link{
+	color: white !important;
+	text-transform: uppercase;
+	padding-right: 1.5rem;
+}
+
+#header nav .nav-item a:hover, #header nav .nav-item .nav-link:hover{
+	color: #044059 !important;
+	font-weight: bold;
+}
+
+
+.pageTitle{
+	color: #044059;
+}
+
+.card-link-custom{
+	text-decoration: none;
+	color: white;
+	font-size: 1.3em;
+	text-transform: uppercase;
+	font-weight: 500;
+	
+}
+.card-link-custom-2{
+	font-size: 1em;
+	
+}
+
+.card-link-custom:hover{
+	color: #044059;
+	
+}
+
+.indexPage .card-footer{
+	background-color: #48728c !important;
+}
+.indexPage .card{
+	border: 1px solid #48728c !important;
+}
+/*end custom*/
+#dToolbar{
+	margin:0.5rem 0px;
+}
+.btn-primary-custom{
+	background-color: #48728c;
+	border: 1px solid #48728c;
+	color: white;
+}
+.btn-primary-custom:hover{
+	background-color: #48728c;
+	border: 1px solid #48728c;
+	color: #ffc107;
+}
+.btn-warning-custom{
+	color:white;
+}
+.btn-warning-custom:hover{
+	color: #044059;
+}
+.table-danger{
+	--bs-table-color: #fff;
+    --bs-table-bg: #48728c;
+    --bs-table-border-color: #fff;
+    --bs-table-striped-bg: #48728c;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #48728c;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #48728c;
+    --bs-table-hover-color: #000;
+    color: var(--bs-table-color);
+    border-color: var(--bs-table-border-color);
+}
+.table-danger a{
+	color: white;
+}
+
+#ajaxCrudModal h5.modal-title{
+	text-transform: uppercase !important;
+}
+
+/*caroulse*/
+.carousel-caption h5, .carousel-caption p{
+	color: red;
+}
+.carousel-indicators [data-bs-target] {
+	background-color: #0d6efd;
+}
+.carousel-indicators {
+    margin-bottom: 0;
+}
+
+#imgBlock a{
+	text-decoration: none;
+}
+/*gird*/
+
+/*end grid*/
+
 main > .container {
     padding: 70px 15px 20px;
 }

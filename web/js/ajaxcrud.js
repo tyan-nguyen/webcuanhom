@@ -19,7 +19,7 @@ $(document).ready(function () {
     // Catch click event on all buttons that want to open a modal
     $(document).on('click', '[role="modal-remote"]', function (event) {
         event.preventDefault();
-        
+
         // Open modal
         modal.open(this, null);
     });
@@ -46,14 +46,31 @@ $(document).ready(function () {
         if (selectedIds.length == 0) {
             // If no selected ID's show warning
             modal.show();
-            modal.setTitle('No selection');
-            modal.setContent('You must select item(s) to use this action');
-            modal.addFooterButton("Close", 'btn btn-default', function (button, event) {
+            modal.setTitle('Chưa chọn dữ liệu nào!');
+            modal.setContent('<div class="alert alert-warning d-flex align-items-center" role="alert"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp; Bạn vui lòng check vào một dữ liệu cần thao tác</div>');
+            modal.addFooterButton("<i class='fa-regular fa-circle-xmark'></i>&nbsp;Đóng cửa sổ", '','btn btn-sm btn-primary-custom', function (button, event) {
                 this.hide();
             });
         } else {
             // Open modal
             modal.open(this, selectedIds);
         }
+    });
+    
+     // Create instance of Modal Remote 2
+    // This instance will be the controller of all business logic of modal
+    // Backwards compatible lookup of old ajaxCrubModal ID
+    if ($('#ajaxCrubModal2').length > 0 && $('#ajaxCrudModal2').length == 0) {
+        modal2 = new ModalRemote('#ajaxCrubModal2');
+    } else {
+        modal2 = new ModalRemote('#ajaxCrudModal2');
+    }
+
+    // Catch click event on all buttons that want to open a modal
+    $(document).on('click', '[role="modal-remote-2"]', function (event) {
+        event.preventDefault();
+
+        // Open modal
+        modal2.open(this, null);
     });
 });
