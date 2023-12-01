@@ -19,7 +19,7 @@ class MauCuaSearch extends MauCua
     {
         return [
             [['id', 'id_he_nhom', 'id_loai_cua', 'id_parent', 'user_created'], 'integer'],
-            [['code', 'ten_cua', 'kich_thuoc', 'date_created'], 'safe'],
+            [['code', 'ten_cua', 'kich_thuoc', 'date_created', 'ngang', 'cao'], 'safe'],
         ];
     }
 
@@ -62,6 +62,8 @@ class MauCuaSearch extends MauCua
             'id_parent' => $this->id_parent,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,
+            'ngang'=>$this->ngang,
+            'cao'=>$this->cao
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])

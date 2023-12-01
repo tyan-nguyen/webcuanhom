@@ -193,7 +193,6 @@ class MauCuaController extends Controller
                 }
             }
             
-            
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title' => "Thông tin Mẫu cửa",

@@ -11,6 +11,8 @@ use Yii;
  * @property string|null $code
  * @property string $ten_cua
  * @property string $kich_thuoc
+ * @property float|null $ngang
+ * @property float|null $cao
  * @property int|null $id_he_nhom
  * @property int $id_loai_cua
  * @property int|null $id_parent
@@ -22,6 +24,8 @@ use Yii;
  *
  * @property CuaDuAnChiTiet[] $cuaDuAnChiTiets
  * @property CuaMauCuaNhom[] $cuaMauCuaNhoms
+ * @property CuaMauCuaVach[] $cuaMauCuaVaches
+ * @property CuaToiUu[] $cuaToiUus
  * @property CuaDuAn $duAn
  * @property CuaHeNhom $heNhom
  * @property CuaLoaiCua $loaiCua
@@ -43,6 +47,7 @@ class CuaMauCua extends \yii\db\ActiveRecord
     {
         return [
             [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_du_an'], 'required'],
+            [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'so_luong', 'user_created'], 'integer'],
             [['date_created'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
@@ -64,6 +69,8 @@ class CuaMauCua extends \yii\db\ActiveRecord
             'code' => 'Code',
             'ten_cua' => 'Ten Cua',
             'kich_thuoc' => 'Kich Thuoc',
+            'ngang' => 'Ngang',
+            'cao' => 'Cao',
             'id_he_nhom' => 'Id He Nhom',
             'id_loai_cua' => 'Id Loai Cua',
             'id_parent' => 'Id Parent',
@@ -93,6 +100,26 @@ class CuaMauCua extends \yii\db\ActiveRecord
     public function getCuaMauCuaNhoms()
     {
         return $this->hasMany(CuaMauCuaNhom::class, ['id_mau_cua' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaMauCuaVaches]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaVaches()
+    {
+        return $this->hasMany(CuaMauCuaVach::class, ['id_mau_cua' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaToiUus]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaToiUus()
+    {
+        return $this->hasMany(CuaToiUu::class, ['id_mau_cua' => 'id']);
     }
 
     /**

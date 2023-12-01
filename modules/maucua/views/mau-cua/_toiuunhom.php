@@ -18,7 +18,7 @@
         	<td>{{ result.soLuong }}</td>
         	<td>{{ result.kieuCat }}</td>
         	<td>{{ result.khoiLuong }}</td>
-        	<td>{{ result.chieuDaiCayNhom }}</td>
+        	<td>{{ result.slTonKho }}</td>
         </tr>
     </table>
 </div>

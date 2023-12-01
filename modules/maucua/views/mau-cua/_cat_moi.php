@@ -1,7 +1,5 @@
 
 <div id="obj">
-		<input type="text" name="text-1" v-on:input="changeValue">
-		<p>{{ noidung }}</p>
 		
 		<div v-for="result in results" :key="result.id" >
 			<!-- <p>{{ result.width }}</p> -->
@@ -179,7 +177,6 @@ function random_color() {
 var vue1 = new Vue({
 	el: '#obj',
 	data: {
-		noidung: 'Noi dung o day',
 		results: [
 			{
     			id: 11,
@@ -212,9 +209,6 @@ var vue1 = new Vue({
 		]
 	},
 	methods: {
-		changeValue: function(event){
-			this.noidung = event.target.value;
-		}
 	},
 	computed: {
 		/* randomColor(){

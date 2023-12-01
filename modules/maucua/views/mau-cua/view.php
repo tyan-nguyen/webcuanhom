@@ -26,6 +26,9 @@ use app\modules\maucua\models\MauCua;
            <li class="nav-item" role="presentation">
             <button class="nav-link" id="cat-moi-tab" data-bs-toggle="tab" data-bs-target="#catmoi" type="button" role="tab" aria-controls="catmoi" aria-selected="false">Tối ưu cắt</button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="cat-moi-tab" data-bs-toggle="tab" data-bs-target="#vattu" type="button" role="tab" aria-controls="vattu" aria-selected="false">Phụ kiện - Vật tư</button>
+          </li>
         </ul>
         
         <div class="tab-content" id="myTabContent">
@@ -78,11 +81,16 @@ use app\modules\maucua\models\MauCua;
 			</div>
           
            <div class="tab-pane fade" id="catmoi" role="tabpanel" aria-labelledby="catmoi-tab">
-        <?= $this->render('_cat_moi', [
+        		<?= $this->render('_cat_moi', [
           		    'model'=>$model,
-          		]) ?>
-           
-     	</div>
+          		]) ?>           
+     		</div>
+     		
+     		<div class="tab-pane fade" id="vattu" role="tabpanel" aria-labelledby="vattu-tab">
+        		<?= $this->render('_vat_tu', [
+          		    'model'=>$model,
+          		]) ?>           
+     		</div>
            
            
         </div>
