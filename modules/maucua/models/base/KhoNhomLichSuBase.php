@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 
@@ -31,7 +31,7 @@ class KhoNhomLichSuBase extends \app\models\CuaKhoNhomLichSu
             [['chieuDai'], 'number'],
             [['noi_dung'], 'string'],
             [['date_created'], 'safe'],
-            [['id_kho_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => KhoNhom::class, 'targetAttribute' => ['id_kho_nhom' => 'id']],
+            [['id_kho_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => KhoNhomBase::class, 'targetAttribute' => ['id_kho_nhom' => 'id']],
         ];
     }
 
@@ -63,13 +63,4 @@ class KhoNhomLichSuBase extends \app\models\CuaKhoNhomLichSu
         return parent::beforeSave($insert);
     }
 
-    /**
-     * Gets query for [[KhoNhom]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getKhoNhom()
-    {
-        return $this->hasOne(KhoNhom::class, ['id' => 'id_kho_nhom']);
-    }
 }

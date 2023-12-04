@@ -4,7 +4,7 @@ namespace app\modules\maucua\controllers;
 
 use Yii;
 use app\modules\maucua\models\DuAn;
-use app\modules\maucua\models\DuAnSearch;
+use app\modules\maucua\models\search\DuAnSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

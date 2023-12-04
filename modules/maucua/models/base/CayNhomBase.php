@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
@@ -37,7 +37,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
-            [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => HeNhom::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
+            [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => HeNhomBase::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
         ];
     }
     
@@ -111,33 +111,4 @@ class CayNhomBase extends \app\models\CuaCayNhom
         return parent::beforeSave($insert);
     }
     
-    /**
-     * Gets query for [[CuaMauCuaNhoms]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCuaMauCuaNhoms()
-    {
-        return $this->hasMany(MauCuaNhom::class, ['id_cay_nhom' => 'id']);
-    }
-    
-    /**
-     * Gets query for [[HeNhom]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHeNhom()
-    {
-        return $this->hasOne(HeNhom::class, ['id' => 'id_he_nhom']);
-    }
-    
-    /**
-     * Gets query for [[CuaKhoNhoms]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTonKho()
-    {
-        return $this->hasMany(KhoNhom::class, ['id_cay_nhom' => 'id'])->orderBy(['chieu_dai' => SORT_DESC]);
-    }
 }

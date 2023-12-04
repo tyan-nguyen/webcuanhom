@@ -25,13 +25,46 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <head>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    
 </head>
 <body class="d-flex flex-column h-100" onload="startTime()">
+
+<style>
+        .main-nav-pills{
+            --bs-nav-pills-border-radius:0;
+            margin-bottom: 0 !important;
+        }
+        
+        .main-nav-pills li button{
+            text-transform: uppercase;
+        }
+        
+       .main-nav-link.active{
+            color: #0d6efd;
+            background-color: #f7f7f7f !important;
+            /* text-decoration: underline; */
+        }
+        .ul-ribbon{
+            padding-left:0px;
+        }
+       .ul-ribbon li{
+            display: inline;
+            padding-right:20px;
+       }
+        .ul-ribbon li a{
+            color: white;
+            text-decoration: none;
+       }
+        .ul-ribbon li a:hover{
+            color:yellow;
+       }
+    </style>
+    
 <?php $this->beginBody() ?>
 
-<header id="header">
+<header id="header" class="" style="margin:0 auto;background: #f7f7f7;width:100%;">
     <?php
-    NavBar::begin([
+    /*NavBar::begin([
         //'brandLabel' => Yii::$app->name,
         'brandLabel' => Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['width'=>50]),
         'brandUrl' => Yii::$app->homeUrl,
@@ -58,11 +91,108 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     . '</li>'
         ]
     ]);
-    NavBar::end();
+    NavBar::end(); */
     ?>
+<div class="container-fluid" style="background-color: #0d6efd">   
+	<div class="row" style="background-color: #f7f7f7">
+		<!-- <div class="col-md-2">
+			<?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'70px']) ?>
+		</div> -->
+		<div class="col-md-12">
+		
+			<div class="container">
+			<ul class="nav nav-pills main-nav-pills mb-3" id="pills-tab" role="tablist">
+				<li class="nav-item" role="homeicon" style="padding-right:30px">
+                	<?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?>
+                </li>
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="pills-home-tab--1" data-bs-toggle="pill" data-bs-target="#pills-home11" type="button" role="tab" aria-controls="pills-home11" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo - Thống kê</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Mẫu cửa</button>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="kho-tab" data-bs-toggle="pill" data-bs-target="#kho" type="button" role="tab" aria-controls="kho" aria-selected="false"><i class="fa-regular fa-folder"></i> Kho lưu trữ</button>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> Kế hoạch sản xuất</button>
+                </li>                
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="pills-contact-tab11" data-bs-toggle="pill" data-bs-target="#pills-contact11" type="button" role="tab" aria-controls="pills-contact11" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu cửa</button>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="taikhoan-tab" data-bs-toggle="pill" data-bs-target="#taikhoan" type="button" role="tab" aria-controls="taikhoan" aria-selected="false"><i class="fa-solid fa-users"></i> Tài khoản</button>
+                </li>
+                
+                
+            </ul>
+            </div>
+            
+            
+ 			
+		</div><!-- col-md-9 -->
+	
+	</div> <!-- row -->
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="container">
+            <div class="tab-content" id="pills-tabContent" style="background-color: #0d6efd;min-height:40px;padding-top:7px;color:white;">
+            
+              <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
+              <ul class="ul-ribbon">
+              	<li><a href="/maucua/loai-cua"><i class="fa-regular fa-file"></i> Loại cửa</a></li>
+              	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
+              	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+              	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+              	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
+              </ul>
+              </div>
+              <div class="tab-pane fade" id="kho" role="tabpanel" aria-labelledby="kho-tab">
+					
+					<ul class="ul-ribbon">
+                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
+                  	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
+                  	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+                  	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+                  	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
+                  </ul>
+              
+			</div>
+              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">... cc bb ggg</div>
+              
+              <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
+              	<ul class="ul-ribbon">
+              		<li><a href="/user-management/auth/login"><i class="fa-regular fa-file"></i> Đăng nhập</a></li>
+              		<li><a href="/user-management/auth/logout"><i class="fa-regular fa-file"></i> Đăng xuất</a></li>
+              	</ul>
+              </div>
+              
+            
+ 			</div>
+ 			
+ 			</div><!-- container -->
+		</div>
+	</div>
+	
+</div><!-- container -->   
+    
+    
+    
+
+
 </header>
 
+
+
 <main id="main" class="flex-shrink-0" role="main">
+
+
+
+
     <div class="container">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
@@ -92,12 +222,33 @@ function startTime() {
   document.getElementById('clock').innerHTML =  h + ":" + m + ":" + s;
   setTimeout(startTime, 1000);
 }
-
 function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-  return i;
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
 }
 </script>
+
+<?php 
+$moduleName = Yii::$app->controller->module->id;
+$script = <<< JS
+    
+    
+    function setActiveMenu(moduleName){
+    	if(moduleName == 'kho'){
+            $('#kho-tab').addClass('active');
+            $('#kho').addClass('show active');
+    	}else if(moduleName == 'maucua'){
+            $('#maucua-tab').addClass('active');
+            $('#maucua').addClass('show active');
+    	}
+    	
+    }
+    setActiveMenu('$moduleName');
+
+JS;
+$this->registerJs($script);
+?>
+
 
 <?php $this->endBody() ?>
 </body>

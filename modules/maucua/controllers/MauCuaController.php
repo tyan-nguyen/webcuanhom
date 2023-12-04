@@ -4,7 +4,7 @@ namespace app\modules\maucua\controllers;
 
 use Yii;
 use app\modules\maucua\models\MauCua;
-use app\modules\maucua\models\MauCuaSearch;
+use app\modules\maucua\models\search\MauCuaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

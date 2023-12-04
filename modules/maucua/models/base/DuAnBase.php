@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
@@ -146,23 +146,5 @@ class DuAnBase extends \app\models\CuaDuAn
         }
         return parent::beforeSave($insert);
     }
-    /**
-     * Gets query for [[DuAnChiTiet]].
-     * chuan bi deleete vi doi mo hinh
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDuAnChiTiet()
-    {
-        return $this->hasMany(DuAnChiTiet::class, ['id_du_an' => 'id']);
-    }
-    
-    /**
-     * Gets query for [[MauCua]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMauCuas()
-    {
-        return $this->hasMany(MauCua::class, ['id_du_an' => 'id']);
-    }
+
 }

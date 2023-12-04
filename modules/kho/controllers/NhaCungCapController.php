@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\maucua\controllers;
+namespace app\modules\kho\controllers;
 
 use Yii;
-use app\modules\maucua\models\HeNhom;
-use app\modules\maucua\models\search\HeNhomSearch;
+use app\modules\kho\models\NhaCungCap;
+use app\modules\kho\models\search\NhaCungCapSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,9 +13,9 @@ use yii\helpers\Html;
 use yii\filters\AccessControl;
 
 /**
- * HeNhomController implements the CRUD actions for HeNhom model.
+ * NhaCungCapController implements the CRUD actions for NhaCungCap model.
  */
-class HeNhomController extends Controller
+class NhaCungCapController extends Controller
 {
     /**
      * @inheritdoc
@@ -35,14 +35,13 @@ class HeNhomController extends Controller
 	}
 
     /**
-     * Lists all HeNhom models.
+     * Lists all NhaCungCap models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new HeNhomSearch();
+        $searchModel = new NhaCungCapSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$dataProvider->pagination->pageSize=1;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -52,7 +51,7 @@ class HeNhomController extends Controller
 
 
     /**
-     * Displays a single HeNhom model.
+     * Displays a single NhaCungCap model.
      * @param integer $id
      * @return mixed
      */
@@ -62,7 +61,7 @@ class HeNhomController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "HeNhom #".$id,
+                    'title'=> "NhaCungCap #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -77,7 +76,7 @@ class HeNhomController extends Controller
     }
 
     /**
-     * Creates a new HeNhom model.
+     * Creates a new NhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -85,7 +84,7 @@ class HeNhomController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new HeNhom();  
+        $model = new NhaCungCap();  
 
         if($request->isAjax){
             /*
@@ -94,31 +93,31 @@ class HeNhomController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new HeNhom",
+                    'title'=> "Create new NhaCungCap",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-sm btn-primary-custom pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new HeNhom",
-                    'content'=>'<span class="text-success">Create HeNhom success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> "Create new NhaCungCap",
+                    'content'=>'<span class="text-success">Create NhaCungCap success</span>',
+                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new HeNhom",
+                    'title'=> "Create new NhaCungCap",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }
@@ -138,7 +137,7 @@ class HeNhomController extends Controller
     }
 
     /**
-     * Updates an existing HeNhom model.
+     * Updates an existing NhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -156,7 +155,7 @@ class HeNhomController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update HeNhom #".$id,
+                    'title'=> "Update NhaCungCap #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -166,7 +165,7 @@ class HeNhomController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "HeNhom #".$id,
+                    'title'=> "NhaCungCap #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -175,7 +174,7 @@ class HeNhomController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update HeNhom #".$id,
+                    'title'=> "Update NhaCungCap #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -198,7 +197,7 @@ class HeNhomController extends Controller
     }
 
     /**
-     * Delete an existing HeNhom model.
+     * Delete an existing NhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -226,7 +225,7 @@ class HeNhomController extends Controller
     }
 
      /**
-     * Delete multiple existing HeNhom model.
+     * Delete multiple existing NhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -257,15 +256,15 @@ class HeNhomController extends Controller
     }
 
     /**
-     * Finds the HeNhom model based on its primary key value.
+     * Finds the NhaCungCap model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HeNhom the loaded model
+     * @return NhaCungCap the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HeNhom::findOne($id)) !== null) {
+        if (($model = NhaCungCap::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

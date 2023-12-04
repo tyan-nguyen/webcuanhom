@@ -1,9 +1,10 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
+use app\modules\maucua\models\ToiUu;
 
 /**
  * @property int $id
@@ -72,9 +73,9 @@ class MauCuaBase extends \app\models\CuaMauCua
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],
-            [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => HeNhom::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
-            [['id_loai_cua'], 'exist', 'skipOnError' => true, 'targetClass' => LoaiCua::class, 'targetAttribute' => ['id_loai_cua' => 'id']],
-            [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => DuAn::class, 'targetAttribute' => ['id_du_an' => 'id']],
+            [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => HeNhomBase::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
+            [['id_loai_cua'], 'exist', 'skipOnError' => true, 'targetClass' => LoaiCuaBase::class, 'targetAttribute' => ['id_loai_cua' => 'id']],
+            [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => DuAnBase::class, 'targetAttribute' => ['id_du_an' => 'id']],
         ];
     }
     
@@ -136,37 +137,6 @@ class MauCuaBase extends \app\models\CuaMauCua
     }
     
     /**
-     * Gets query for [[DuAn]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDuAn()
-    {
-        return $this->hasOne(DuAn::class, ['id' => 'id_du_an']);
-    }
-    
-    /**
-     * Gets query for [[MauCuaNhoms]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDsNhoms()
-    {
-        return $this->hasMany(MauCuaNhom::class, ['id_mau_cua' => 'id']);
-    }
-    
-    /**
-     * Gets query for [[ToiUu]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDsToiUu()
-    {
-        return $this->hasMany(ToiUu::class, ['id_mau_cua' => 'id']);
-    }
-    
-    
-    /**
      * xoa tat ca toi uu
      */
     public function deleteToiUu(){
@@ -200,45 +170,21 @@ class MauCuaBase extends \app\models\CuaMauCua
         }
     }
     
-    /*
-     * lay ds toi uu
+    /**
+     * chay thuat toan toi uu nhom tong hop
      */
-    public function dsToiUu(){
-        $result = array();
-        foreach ($this->dsToiUu as $iNhom=>$nhom){
-            /* $id = rand(1,5000);
-            $result[] = [
-                'id' => $id,
-                'idMauCua' => 112,
-                'idCuaNhom' => 222,
-                'idTonKhoNhom' => 332,
-                'maCayNhom' => 'ma0001-' . $id,
-                'tenCayNhom' => 'Cây nhôm abc - x',
-                'chieuDai' => 550,
-                'soLuong' => 1,
-                'kieuCat' => '==\\',
-                'khoiLuong' => 2000,
-                'chieuDaiCayNhom' => 5900
-            ]; */
-            
-            $result[] = [
-                'id'=>$nhom->id, //id toi uu
-                'idMauCua'=>$nhom->id_mau_cua, //id mau cua
-                'idCuaNhom'=>$nhom->id_mau_cua_nhom, // id mau cua - nhom
-                'idTonKhoNhom'=>$nhom->id_ton_kho_nhom, //id ton kho nhom
-                'maCayNhom'=>$nhom->mauCuaNhom->cayNhom->code, //code cua nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
-                'tenCayNhom'=>$nhom->mauCuaNhom->cayNhom->ten_cay_nhom, // ten cay nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
-                'chieuDai'=>$nhom->tonKhoNhom->chieu_dai, //chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
-                'soLuong'=>1, // boc tach ra tat nhien la 1, can thiet???
-                'kieuCat'=>$nhom->mauCuaNhom->kieu_cat, // lay tu MauCua-Nhom
-                'khoiLuong'=>$nhom->mauCuaNhom->khoi_luong, //lay tu MauCua-Nhom
-                'chieuDaiCayNhom'=>$nhom->tonKhoNhom->so_luong,
-                'slTonKho'=>$nhom->tonKhoNhom->so_luong
-                
-            ];
-        }
-        return $result;
+    public function chayToiUuNhomTongHop(){
+        //duyet ds toi uu nhom gan ton kho nhom cho thanh nhom
     }
+    
+    /**
+     * chay thuat toan toi uu tu nhom moi
+     */
+    public function chayToiUuNhomMoi(){
+        //set toan bo ds toi uu nhom cho thanh nhom moi
+    }
+    
+    
     
     /**
      * toi uu theo thanh nhom
@@ -269,9 +215,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             
             
         }
-        
-        
-        
+
         return $result;
         
         /*  return array(

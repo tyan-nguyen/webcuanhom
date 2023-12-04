@@ -29,8 +29,8 @@
 var vue2 = new Vue({
 	el: '#objToiUuNhom',
 	data: {
-		results: [
-			/* {
+		results: <?= json_encode($model->dsToiUu()) ?> /*[
+			{
     			id: 11,
     			idMauCua: 11,
     			idCuaNhom: 22,
@@ -55,8 +55,8 @@ var vue2 = new Vue({
     			kieuCat: '==\\',
     			khoiLuong: 2000,
     			chieuDaiCayNhom: 5900
-			}, */
-		]
+			}, 
+		]*/
 	},
 	methods: {
 		changeValue: function(event){

@@ -2,11 +2,42 @@
 
 namespace app\modules\maucua\models;
 
+use app\modules\maucua\models\base\CayNhomBase;
 use Yii;
 use yii\bootstrap5\Html;
 
 class CayNhom extends CayNhomBase
-{    
+{ 
+    /**
+     * Gets query for [[CuaMauCuaNhoms]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaNhoms()
+    {
+        return $this->hasMany(MauCuaNhom::class, ['id_cay_nhom' => 'id']);
+    }
+    
+    /**
+     * Gets query for [[HeNhom]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHeNhom()
+    {
+        return $this->hasOne(HeNhom::class, ['id' => 'id_he_nhom']);
+    }
+    
+    /**
+     * Gets query for [[CuaKhoNhoms]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTonKho()
+    {
+        return $this->hasMany(KhoNhom::class, ['id_cay_nhom' => 'id'])->orderBy(['chieu_dai' => SORT_DESC]);
+    }
+    
     /**
      * show action column for code attribute
      */
