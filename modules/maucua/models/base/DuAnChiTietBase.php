@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 
@@ -26,8 +26,8 @@ class DuAnChiTietBase extends \app\models\CuaDuAnChiTiet
             [['id_du_an', 'id_mau_cua', 'so_luong'], 'required'],
             [['id_du_an', 'id_mau_cua', 'so_luong', 'user_created'], 'integer'],
             [['date_created'], 'safe'],
-            [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => DuAn::class, 'targetAttribute' => ['id_du_an' => 'id']],
-            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCua::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
+            [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => DuAnBase::class, 'targetAttribute' => ['id_du_an' => 'id']],
+            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaBase::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
         ];
     }
     
@@ -57,23 +57,4 @@ class DuAnChiTietBase extends \app\models\CuaDuAnChiTiet
         return parent::beforeSave($insert);
     }
     
-    /**
-     * Gets query for [[DuAn]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDuAn()
-    {
-        return $this->hasOne(DuAn::class, ['id' => 'id_du_an']);
-    }
-    
-    /**
-     * Gets query for [[MauCua]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMauCua()
-    {
-        return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
-    }
 }

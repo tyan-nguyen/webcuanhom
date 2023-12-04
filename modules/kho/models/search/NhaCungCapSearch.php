@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\kho\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\maucua\models\LoaiCua;
+use app\modules\kho\models\NhaCungCap;
 
 /**
- * LoaiCuaSearch represents the model behind the search form about `app\modules\maucua\models\LoaiCua`.
+ * NhaCungCapSearch represents the model behind the search form about `app\modules\kho\models\NhaCungCap`.
  */
-class LoaiCuaSearch extends LoaiCua
+class NhaCungCapSearch extends NhaCungCap
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class LoaiCuaSearch extends LoaiCua
     {
         return [
             [['id', 'user_created'], 'integer'],
-            [['code', 'ten_loai_cua', 'ghi_chu', 'date_created'], 'safe'],
+            [['code', 'ten_nha_cung_cap', 'dia_chi', 'date_created'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class LoaiCuaSearch extends LoaiCua
      */
     public function search($params)
     {
-        $query = LoaiCua::find();
+        $query = NhaCungCap::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -62,8 +62,8 @@ class LoaiCuaSearch extends LoaiCua
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'ten_loai_cua', $this->ten_loai_cua])
-            ->andFilterWhere(['like', 'ghi_chu', $this->ghi_chu]);
+            ->andFilterWhere(['like', 'ten_nha_cung_cap', $this->ten_nha_cung_cap])
+            ->andFilterWhere(['like', 'dia_chi', $this->dia_chi]);
 
         return $dataProvider;
     }

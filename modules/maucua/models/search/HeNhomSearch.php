@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\maucua\models\DuAn;
+use app\modules\maucua\models\HeNhom;
 
 /**
- * DuAnSearch represents the model behind the search form about `app\modules\maucua\models\DuAn`.
+ * HeNhomSearch represents the model behind the search form about `app\modules\maucua\models\HeNhom`.
  */
-class DuAnSearch extends DuAn
+class HeNhomSearch extends HeNhom
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class DuAnSearch extends DuAn
     {
         return [
             [['id', 'user_created'], 'integer'],
-            [['code', 'ten_du_an', 'ten_khach_hang', 'dia_chi', 'so_dien_thoai', 'email', 'trang_thai', 'ngay_tao_du_an', 'ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'ghi_chu', 'date_created'], 'safe'],
+            [['code', 'ten_he_nhom', 'ghi_chu', 'date_created'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class DuAnSearch extends DuAn
      */
     public function search($params)
     {
-        $query = DuAn::find();
+        $query = HeNhom::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,20 +57,12 @@ class DuAnSearch extends DuAn
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'ngay_tao_du_an' => $this->ngay_tao_du_an,
-            'ngay_bat_dau_thuc_hien' => $this->ngay_bat_dau_thuc_hien,
-            'ngay_hoan_thanh_du_an' => $this->ngay_hoan_thanh_du_an,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'ten_du_an', $this->ten_du_an])
-            ->andFilterWhere(['like', 'ten_khach_hang', $this->ten_khach_hang])
-            ->andFilterWhere(['like', 'dia_chi', $this->dia_chi])
-            ->andFilterWhere(['like', 'so_dien_thoai', $this->so_dien_thoai])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'trang_thai', $this->trang_thai])
+            ->andFilterWhere(['like', 'ten_he_nhom', $this->ten_he_nhom])
             ->andFilterWhere(['like', 'ghi_chu', $this->ghi_chu]);
 
         return $dataProvider;

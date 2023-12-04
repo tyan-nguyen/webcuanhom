@@ -27,6 +27,9 @@ $config = [
         'dungchung' => [
             'class' => 'app\modules\dungchung\Module',
         ],
+        'kho' => [
+            'class' => 'app\modules\kho\KhoModule',
+        ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             

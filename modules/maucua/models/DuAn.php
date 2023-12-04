@@ -2,12 +2,34 @@
 
 namespace app\modules\maucua\models;
 
+use app\modules\maucua\models\base\DuAnBase;
 use Yii;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 
+
 class DuAn extends DuAnBase
 {  
+    /**
+     * Gets query for [[DuAnChiTiet]].
+     * chuan bi deleete vi doi mo hinh
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDuAnChiTiet()
+    {
+        return $this->hasMany(DuAnChiTiet::class, ['id_du_an' => 'id']);
+    }
+    
+    /**
+     * Gets query for [[MauCua]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMauCuas()
+    {
+        return $this->hasMany(MauCua::class, ['id_du_an' => 'id']);
+    }
+    
     /**
      * lay danh sach tat ca du an
      * @return array

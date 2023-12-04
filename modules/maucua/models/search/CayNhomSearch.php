@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\maucua\models\HeNhom;
+use app\modules\maucua\models\CayNhom;
 
 /**
- * HeNhomSearch represents the model behind the search form about `app\modules\maucua\models\HeNhom`.
+ * CayNhomSearch represents the model behind the search form about `app\modules\maucua\models\CayNhom`.
  */
-class HeNhomSearch extends HeNhom
+class CayNhomSearch extends CayNhom
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class HeNhomSearch extends HeNhom
     public function rules()
     {
         return [
-            [['id', 'user_created'], 'integer'],
-            [['code', 'ten_he_nhom', 'ghi_chu', 'date_created'], 'safe'],
+            [['id', 'id_he_nhom', 'so_luong', 'user_created'], 'integer'],
+            [['code', 'ten_cay_nhom', 'for_cua_so', 'for_cua_di', 'date_created'], 'safe'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut'], 'number'],
         ];
     }
 
@@ -41,7 +42,7 @@ class HeNhomSearch extends HeNhom
      */
     public function search($params)
     {
-        $query = HeNhom::find();
+        $query = CayNhom::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,13 +58,20 @@ class HeNhomSearch extends HeNhom
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'id_he_nhom' => $this->id_he_nhom,
+            'so_luong' => $this->so_luong,
+            'don_gia' => $this->don_gia,
+            'khoi_luong' => $this->khoi_luong,
+            'chieu_dai' => $this->chieu_dai,
+            'min_allow_cut' => $this->min_allow_cut,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'ten_he_nhom', $this->ten_he_nhom])
-            ->andFilterWhere(['like', 'ghi_chu', $this->ghi_chu]);
+            ->andFilterWhere(['like', 'ten_cay_nhom', $this->ten_cay_nhom])
+            ->andFilterWhere(['like', 'for_cua_so', $this->for_cua_so])
+            ->andFilterWhere(['like', 'for_cua_di', $this->for_cua_di]);
 
         return $dataProvider;
     }

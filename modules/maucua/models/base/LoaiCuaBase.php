@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
@@ -73,7 +73,7 @@ class LoaiCuaBase extends \app\models\CuaLoaiCua
     /**
      * {@inheritdoc}
      */
-    public function afterSave( $insert, $changedAttributes ){
+    /* public function afterSave( $insert, $changedAttributes ){
         parent::afterSave($insert, $changedAttributes);
-    }
+    } */
 }

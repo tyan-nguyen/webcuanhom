@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
@@ -45,17 +45,6 @@ class HeNhomBase extends \app\models\CuaHeNhom
         ];
     }
     
-    public function getRandomCode(){
-        $cus = new CustomFunc();
-        $code = rand(1,9) . $cus->generateRandomString();
-        $heNhomModel = HeNhomBase::findOne(['code'=>$code]);
-        if($heNhomModel == null){
-            return $code;
-        } else {
-            $this->getRandomCode();
-        }
-    }
-    
     /**
      * {@inheritdoc}
      */
@@ -69,6 +58,17 @@ class HeNhomBase extends \app\models\CuaHeNhom
             }
         }
         return parent::beforeSave($insert);
+    }
+    
+    public function getRandomCode(){
+        $cus = new CustomFunc();
+        $code = rand(1,9) . $cus->generateRandomString();
+        $heNhomModel = HeNhomBase::findOne(['code'=>$code]);
+        if($heNhomModel == null){
+            return $code;
+        } else {
+            $this->getRandomCode();
+        }
     }
     
 }

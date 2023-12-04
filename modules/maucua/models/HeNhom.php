@@ -2,6 +2,7 @@
 
 namespace app\modules\maucua\models;
 
+use app\modules\maucua\models\base\HeNhomBase;
 use Yii;
 use app\custom\CustomFunc;
 

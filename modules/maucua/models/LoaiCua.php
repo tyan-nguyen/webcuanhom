@@ -2,6 +2,7 @@
 
 namespace app\modules\maucua\models;
 
+use app\modules\maucua\models\base\LoaiCuaBase;
 use app\custom\CustomFunc;
 
 class LoaiCua extends LoaiCuaBase

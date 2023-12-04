@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 
@@ -32,8 +32,8 @@ class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
             [['chieu_dai', 'khoi_luong', 'don_gia'], 'number'],
             [['date_created'], 'safe'],
             [['kieu_cat'], 'string', 'max' => 11],
-            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCua::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
-            [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhom::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
+            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaBase::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
+            [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhomBase::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
         ];
     }
     
@@ -67,23 +67,5 @@ class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
         return parent::beforeSave($insert);
     }
     
-    /**
-     * Gets query for [[CayNhom]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCayNhom()
-    {
-        return $this->hasOne(CayNhom::class, ['id' => 'id_cay_nhom']);
-    }
     
-    /**
-     * Gets query for [[MauCua]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMauCua()
-    {
-        return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
-    }
 }

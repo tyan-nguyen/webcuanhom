@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\maucua\models;
+namespace app\modules\maucua\models\base;
 
 use Yii;
 
@@ -29,9 +29,9 @@ class ToiUuBase extends \app\models\CuaToiUu
             [['id_mau_cua', 'id_mau_cua_nhom', 'id_ton_kho_nhom'], 'required'],
             [['id_mau_cua', 'id_mau_cua_nhom', 'id_ton_kho_nhom', 'user_created'], 'integer'],
             [['date_created'], 'safe'],
-            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCua::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
-            [['id_mau_cua_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaNhom::class, 'targetAttribute' => ['id_mau_cua_nhom' => 'id']],
-            [['id_ton_kho_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => KhoNhom::class, 'targetAttribute' => ['id_ton_kho_nhom' => 'id']],
+            [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaBase::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
+            [['id_mau_cua_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaNhomBase::class, 'targetAttribute' => ['id_mau_cua_nhom' => 'id']],
+            [['id_ton_kho_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => KhoNhomBase::class, 'targetAttribute' => ['id_ton_kho_nhom' => 'id']],
         ];
     }
 
@@ -61,33 +61,4 @@ class ToiUuBase extends \app\models\CuaToiUu
         return parent::beforeSave($insert);
     }
 
-    /**
-     * Gets query for [[MauCua]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMauCua()
-    {
-        return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
-    }
-
-    /**
-     * Gets query for [[MauCuaNhom]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMauCuaNhom()
-    {
-        return $this->hasOne(MauCuaNhom::class, ['id' => 'id_mau_cua_nhom']);
-    }
-
-    /**
-     * Gets query for [[TonKhoNhom]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTonKhoNhom()
-    {
-        return $this->hasOne(KhoNhom::class, ['id' => 'id_ton_kho_nhom']);
-    }
 }
