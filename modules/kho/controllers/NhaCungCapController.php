@@ -61,7 +61,7 @@ class NhaCungCapController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "NhaCungCap #".$id,
+                    'title'=> "Thông tin nhà cung cấp",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -93,7 +93,7 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new NhaCungCap",
+                    'title'=> "Thêm mới nhà cung cấp",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -104,15 +104,15 @@ class NhaCungCapController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new NhaCungCap",
-                    'content'=>'<span class="text-success">Create NhaCungCap success</span>',
+                    'title'=> "Thêm mới nhà cung cấp",
+                    'content'=>'<span class="text-success">Thêm mới thành công</span>',
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new NhaCungCap",
+                    'title'=> "Thêm mới nhà cung cấp",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -155,7 +155,7 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update NhaCungCap #".$id,
+                    'title'=> "Cập nhật nhà cung cấp",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -165,7 +165,7 @@ class NhaCungCapController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "NhaCungCap #".$id,
+                    'title'=> "Thông tin nhà cung cấp",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -174,7 +174,7 @@ class NhaCungCapController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update NhaCungCap #".$id,
+                    'title'=> "Cập nhật nhà cung cấp",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

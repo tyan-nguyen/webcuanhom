@@ -43,7 +43,7 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
+            'code' => 'Mã hàng hóa',
             'ten_vat_tu' => 'Ten Vat Tu',
             'id_nhom_vat_tu' => 'Id Nhom Vat Tu',
             'la_phu_kien' => 'La Phu Kien',

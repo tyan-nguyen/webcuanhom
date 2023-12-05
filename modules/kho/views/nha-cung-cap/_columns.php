@@ -32,10 +32,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'date_created',
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'user_created',
-    ],
+    ], */
     /* [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

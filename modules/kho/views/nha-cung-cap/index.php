@@ -11,7 +11,7 @@ use app\widgets\CustomModal;
 /* @var $searchModel app\modules\kho\models\search\NhaCungCapSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Nha Cung Caps';
+$this->title = 'Nhà cung cấp';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -24,7 +24,7 @@ BulkButtonWidget::widget([
     Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i> Thêm mới NCC', ['create'],
         ['role'=>'modal-remote','title'=> 'Thêm mới dự án','class'=>'btn btn-primary btn-sm btn-primary-custom']).
         '&nbsp;' .
-    Html::a('<i class="fa-solid fa-triangle-exclamation"></i>&nbsp; Xóa NCC',
+    Html::a('<i class="fa-regular fa-trash-can"></i>&nbsp; Xóa NCC',
         ["bulkdelete"] ,
         [
             "class"=>"btn btn-warning btn-sm btn-warning-custom",
@@ -33,7 +33,8 @@ BulkButtonWidget::widget([
             'data-request-method'=>'post',
             'data-confirm-title'=>'Xác nhận xóa thông tin?',
             'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
-        ]),
+        ]) .  '&nbsp;' .
+    Html::a('<i class="fa-solid fa-magnifying-glass"></i>', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-default btn-sm btn-default-custom'])
 ]);
 ?>
 </div>
@@ -44,6 +45,7 @@ BulkButtonWidget::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'filterRowOptions' => ['class' => 'custom-filters'],
             'pjax'=>true,
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
@@ -90,3 +92,16 @@ BulkButtonWidget::widget([
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php CustomModal::end(); ?>
+
+<?php 
+$script1 = <<< JS
+    //$('#crud-datatable-filters').hide();
+    $('#btnEnableSearch').on('click', function(){
+        if($('#crud-datatable-filters').hasClass('custom-filters'))
+            $('#crud-datatable-filters').removeClass('custom-filters');
+        else 
+            $('#crud-datatable-filters').addClass('custom-filters')
+    });
+JS;
+$this->registerJs($script1);
+?>

@@ -38,11 +38,11 @@ class NhaCungCapBase extends \app\models\CuaKhoVatTuNhaCungCap
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'ten_nha_cung_cap' => 'Ten Nha Cung Cap',
-            'dia_chi' => 'Dia Chi',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'code' => 'Mã NCC',
+            'ten_nha_cung_cap' => 'Tên nhà cung cấp',
+            'dia_chi' => 'Địa chỉ',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     

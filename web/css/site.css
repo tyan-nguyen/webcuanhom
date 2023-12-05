@@ -67,6 +67,14 @@
 .btn-warning-custom:hover{
 	color: #044059;
 }
+.btn-default-custom{
+	background-color: white;
+	border: 1px solid #212121;
+	color: #48728c;
+}
+.custom-filters{
+	display: none;
+}
 .table-danger{
 	--bs-table-color: #fff;
     --bs-table-bg: #48728c;

@@ -10,7 +10,10 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
+use cangak\ajaxcrud\CrudAsset; 
+
 AppAsset::register($this);
+CrudAsset::register($this);
 
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
@@ -103,7 +106,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 			<div class="container">
 			<ul class="nav nav-pills main-nav-pills mb-3" id="pills-tab" role="tablist">
 				<li class="nav-item" role="homeicon" style="padding-right:30px">
-                	<?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?>
+                	<a href="/"><?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?></a>
                 </li>
                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="pills-home-tab--1" data-bs-toggle="pill" data-bs-target="#pills-home11" type="button" role="tab" aria-controls="pills-home11" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo - Thống kê</button>
@@ -162,7 +165,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                   </ul>
               
 			</div>
-              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">... cc bb ggg</div>
+              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              		Coming soon...
+              </div>
               
               <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
               	<ul class="ul-ribbon">
