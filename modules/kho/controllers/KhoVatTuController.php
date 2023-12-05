@@ -3,8 +3,8 @@
 namespace app\modules\kho\controllers;
 
 use Yii;
-use app\modules\kho\models\NhaCungCap;
-use app\modules\kho\models\search\NhaCungCapSearch;
+use app\modules\kho\models\KhoVatTu;
+use app\modules\kho\models\search\KhoVatTuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * NhaCungCapController implements the CRUD actions for NhaCungCap model.
+ * KhoVatTuController implements the CRUD actions for KhoVatTu model.
  */
-class NhaCungCapController extends Controller
+class KhoVatTuController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,12 +34,12 @@ class NhaCungCapController extends Controller
 	}
 
     /**
-     * Lists all NhaCungCap models.
+     * Lists all KhoVatTu models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new NhaCungCapSearch();
+        $searchModel = new KhoVatTuSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -50,7 +50,7 @@ class NhaCungCapController extends Controller
 
 
     /**
-     * Displays a single NhaCungCap model.
+     * Displays a single KhoVatTu model.
      * @param integer $id
      * @return mixed
      */
@@ -60,7 +60,7 @@ class NhaCungCapController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Thông tin nhà cung cấp",
+                    'title'=> "Thông tin vật tư",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -78,7 +78,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Creates a new NhaCungCap model.
+     * Creates a new KhoVatTu model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -86,7 +86,7 @@ class NhaCungCapController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new NhaCungCap();  
+        $model = new KhoVatTu();  
 
         if($request->isAjax){
             /*
@@ -95,7 +95,7 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm mới nhà cung cấp",
+                    'title'=> "Thêm mới vật tư",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -106,20 +106,19 @@ class NhaCungCapController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thêm mới nhà cung cấp",
-                    'content'=>'<span class="text-success">Thêm mới thành công!</span>',
+                    'title'=> "Thêm mới vật tư",
+                    'content'=>'<span class="text-success">Thêm mới thông tin thành công!</span>',
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
-        
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else{           
                 return [
-                    'title'=> "Thêm mới nhà cung cấp",
+                    'title'=> "Thêm mới vật tư",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }
@@ -139,7 +138,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Updates an existing NhaCungCap model.
+     * Updates an existing KhoVatTu model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -157,17 +156,17 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật nhà cung cấp",
+                    'title'=> "Cập nhật vật tư",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thông tin nhà cung cấp",
+                    'title'=> "Thông tin vật tư",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -176,12 +175,12 @@ class NhaCungCapController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Cập nhật nhà cung cấp",
+                    'title'=> "Cập nhật vật tư",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                      'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }
         }else{
@@ -199,7 +198,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Delete an existing NhaCungCap model.
+     * Delete an existing KhoVatTu model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -227,7 +226,7 @@ class NhaCungCapController extends Controller
     }
 
      /**
-     * Delete multiple existing NhaCungCap model.
+     * Delete multiple existing KhoVatTu model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -258,15 +257,15 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Finds the NhaCungCap model based on its primary key value.
+     * Finds the KhoVatTu model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return NhaCungCap the loaded model
+     * @return KhoVatTu the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = NhaCungCap::findOne($id)) !== null) {
+        if (($model = KhoVatTu::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -3,19 +3,17 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\kho\models\NhaCungCap */
+/* @var $model app\modules\kho\models\DonViTinh */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="nha-cung-cap-form">
+<div class="don-vi-tinh-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ten_nha_cung_cap')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'dia_chi')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'ten_dvt')->textInput(['maxlength' => true]) ?>
 
     <!--<?= $form->field($model, 'date_created')->textInput() ?>
 

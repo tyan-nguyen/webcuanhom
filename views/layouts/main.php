@@ -109,7 +109,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 	<a href="/"><?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?></a>
                 </li>
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="pills-home-tab--1" data-bs-toggle="pill" data-bs-target="#pills-home11" type="button" role="tab" aria-controls="pills-home11" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo - Thống kê</button>
+                	<button class="nav-link main-nav-link" id="bctk-tab" data-bs-toggle="pill" data-bs-target="#bctk" type="button" role="tab" aria-controls="bctk" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo - Thống kê</button>
                 </li>
                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Mẫu cửa</button>
@@ -120,10 +120,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </li>
                 
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> Kế hoạch sản xuất</button>
+                	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> Kế hoạch sản xuất</button>
                 </li>                
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="pills-contact-tab11" data-bs-toggle="pill" data-bs-target="#pills-contact11" type="button" role="tab" aria-controls="pills-contact11" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu cửa</button>
+                	<button class="nav-link main-nav-link" id="tkmc-tab" data-bs-toggle="pill" data-bs-target="#tkmc" type="button" role="tab" aria-controls="tkmc" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu cửa</button>
                 </li>
                 
                 <li class="nav-item" role="presentation">
@@ -134,8 +134,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             </ul>
             </div>
             
-            
- 			
 		</div><!-- col-md-9 -->
 	
 	</div> <!-- row -->
@@ -144,6 +142,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		<div class="col-md-12">
 			<div class="container">
             <div class="tab-content" id="pills-tabContent" style="background-color: #0d6efd;min-height:40px;padding-top:7px;color:white;">
+            
+            <div class="tab-pane fade" id="bctk" role="tabpanel" aria-labelledby="bctk-tab">
+              		Coming soon...
+              </div>
             
               <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
               <ul class="ul-ribbon">
@@ -158,16 +160,22 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 					
 					<ul class="ul-ribbon">
                   	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
-                  	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
+                  	<li><a href="/kho/kho-vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li>
                   	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
                   	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
                   	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
                   </ul>
               
 			</div>
-              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <div class="tab-pane fade" id="khsx" role="tabpanel" aria-labelledby="khsx-tab">
               		Coming soon...
               </div>
+              
+              <div class="tab-pane fade" id="tkmc" role="tabpanel" aria-labelledby="tkmc-tab">
+              		Coming soon...
+              </div>
+              
+              
               
               <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
               	<ul class="ul-ribbon">
@@ -184,19 +192,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 	</div>
 	
 </div><!-- container -->   
-    
-    
-    
-
 
 </header>
 
-
-
 <main id="main" class="flex-shrink-0" role="main">
-
-
-
 
     <div class="container">
         <?php if (!empty($this->params['breadcrumbs'])): ?>

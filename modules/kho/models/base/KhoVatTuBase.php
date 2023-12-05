@@ -43,15 +43,15 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             'id' => 'ID',
-            'code' => 'Mã hàng hóa',
-            'ten_vat_tu' => 'Ten Vat Tu',
-            'id_nhom_vat_tu' => 'Id Nhom Vat Tu',
-            'la_phu_kien' => 'La Phu Kien',
-            'so_luong' => 'So Luong',
-            'dvt' => 'Dvt',
-            'don_gia' => 'Don Gia',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'code' => 'Mã vật tư',
+            'ten_vat_tu' => 'Tên vật tư',
+            'id_nhom_vat_tu' => 'Nhóm vật tư',
+            'la_phu_kien' => 'Là phụ kiện',
+            'so_luong' => 'Số lượng',
+            'dvt' => 'DVT',
+            'don_gia' => 'Đơn giá',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     
@@ -66,6 +66,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             if($this->code == null){
                 $this->code = $this->getRandomCode();
             }
+            //set nhom vat tu
+            if($this->id_nhom_vat_tu == null){
+                $this->id_nhom_vat_tu = 0;
+            }
         }
         return parent::beforeSave($insert);
     }
@@ -79,6 +83,38 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
         } else {
             $this->getRandomCode();
         }
+    }
+    
+    /**
+     * Danh muc nhom vat tu
+     * @return string[]
+     */
+    public static function getDmNhomVatTu(){
+        return [
+            0=>'Chưa phân loại',
+            1=>'Phụ kiện',
+            2=>'Vật tư',
+            3=>'Thiết bị'
+        ];
+    }
+    
+    /**
+     * Danh muc Loai Kho luu tru label
+     * @param int $val
+     * @return string
+     */
+    public static function getDmNhomVatTuLabel($val){
+        $label = '';
+        if($val == 0){
+            $label = 'Chưa phân loại';
+        }else if($val == 1){
+            $label = 'Phụ kiện';
+        }else if($val == 2){
+            $label = 'Vật tư';
+        }else if($val == 3){
+            $label = 'Thiết bị';
+        }
+        return $label;
     }
 
 }

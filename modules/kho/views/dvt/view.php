@@ -3,19 +3,18 @@
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\kho\models\NhaCungCap */
+/* @var $model app\modules\kho\models\DonViTinh */
 ?>
-<div class="nha-cung-cap-view">
+<div class="don-vi-tinh-view">
  
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
+            'id',
             'code',
-            'ten_nha_cung_cap',
-            'dia_chi:ntext',
+            'ten_dvt',
             'date_created',
-            //'user_created',
+            'user_created',
         ],
     ]) ?>
 

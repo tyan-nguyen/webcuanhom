@@ -4,6 +4,7 @@ namespace app\modules\kho\models;
 
 use Yii;
 use app\modules\kho\models\base\KhoVatTuBase;
+use yii\helpers\Html;
 
 class KhoVatTu extends KhoVatTuBase
 {
@@ -21,5 +22,11 @@ class KhoVatTu extends KhoVatTuBase
     /***** custom function *****/
     /***** /custom function *****/
     /***** virtual attributes *****/
+    public function getShowAction(){
+        return Html::a($this->code,
+            [Yii::getAlias('@web/kho/kho-vat-tu/view'), 'id'=>$this->id],
+            ['role'=>'modal-remote']
+            );
+    }
     /***** /virtual attributes *****/
 }

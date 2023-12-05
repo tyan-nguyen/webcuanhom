@@ -92,6 +92,10 @@
 	color: white;
 }
 
+.kv-table-header a{
+	text-decoration: none;
+}
+
 #ajaxCrudModal h5.modal-title{
 	text-transform: uppercase !important;
 }

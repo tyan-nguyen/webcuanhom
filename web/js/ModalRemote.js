@@ -151,20 +151,17 @@ function ModalRemote(modalId) {
     this.setFooter = function (content) {
         //$(this.footer).html(content);
         
-        content = content.replace('>Close<', ' class="btn btn-sm btn-primary-custom pull-left"><i class="fa-regular fa-circle-xmark"></i>&nbsp; Đóng<');
-        content = content.replace('>Save<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i>&nbsp;Lưu lại<');
-        content = content.replace('>Create More<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-plus"></i>&nbsp;Tiếp tục thêm<');
+        content = content.replace('>Close<', ' class="btn btn-sm btn-primary-custom pull-left" accesskey="x"><i class="fa-regular fa-circle-xmark"></i>&nbsp; Đóng (X)<');
+        content = content.replace('>Save<', ' class="btn btn-sm btn-primary" accesskey="s"><i class="fa-solid fa-download"></i>&nbsp;Lưu lại (S)<');
+        content = content.replace('>Create More<', ' class="btn btn-sm btn-primary" accesskey="m"><i class="fa-solid fa-plus"></i>&nbsp;Tiếp tục thêm (M)<');
         content = content.replace('>Import1<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-file-excel"></i>&nbsp;Nhập cửa từ Excel<');
-        content = content.replace('>Edit<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Chỉnh sửa<');
+        content = content.replace('>Edit<', ' class="btn btn-sm btn-primary" accesskey="u"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Chỉnh sửa (U)<');
         content = content.replace('>Upload<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i>&nbsp;Upload<');
         content = content.replace('>Start Upload<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-upload"></i>&nbsp;Bắt đầu import dữ liệu<');
-        content = content.replace('>Back<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-arrow-left"></i>&nbsp;Quay lại<');
+        content = content.replace('>Back<', ' class="btn btn-sm btn-primary" accesskey="b"><i class="fa-solid fa-arrow-left"></i>&nbsp;Quay lại (B)<');
         content = content.replace('>addTonKho<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-warehouse"></i>&nbsp;Thêm vào kho<');
         
         
-        
-        
-		
         $(this.headerToolbar).html(content);
     };
 
@@ -298,6 +295,9 @@ function ModalRemote(modalId) {
         // Close modal if response contains forceClose field
         if (response.forceClose !== undefined && response.forceClose) {
             this.hide();
+            if(response.runFunc == true){
+				runFunc();
+			}
             return;
         }
 

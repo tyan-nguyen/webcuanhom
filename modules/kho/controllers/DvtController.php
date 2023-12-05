@@ -3,18 +3,19 @@
 namespace app\modules\kho\controllers;
 
 use Yii;
-use app\modules\kho\models\NhaCungCap;
-use app\modules\kho\models\search\NhaCungCapSearch;
+use app\modules\kho\models\DonViTinh;
+use app\modules\kho\models\search\DonViTinhSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
- * NhaCungCapController implements the CRUD actions for NhaCungCap model.
+ * DvtController implements the CRUD actions for DonViTinh model.
  */
-class NhaCungCapController extends Controller
+class DvtController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,12 +35,12 @@ class NhaCungCapController extends Controller
 	}
 
     /**
-     * Lists all NhaCungCap models.
+     * Lists all DonViTinh models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new NhaCungCapSearch();
+        $searchModel = new DonViTinhSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,10 +48,29 @@ class NhaCungCapController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    /**
+     * refresh data
+     */
+    public function actionRefreshData($getLastItem=null){
+        $response = '<option value="">----</option>';
+        $model = new DonViTinh();
+        $sum = count($model->getList());
+        $countIndex = 0;
+        $selected = '';
+        foreach ($model->getList() as $indexDvt => $dvt){
+            if($getLastItem!=null && $sum==$countIndex){
+                $selected = 'selected';
+            }
+            $countIndex++;
+            $response .= '<option value="'.$indexDvt.'" '. $selected .'>'.$dvt.'</option>';
+        }
+        return $response;
+    }
 
 
     /**
-     * Displays a single NhaCungCap model.
+     * Displays a single DonViTinh model.
      * @param integer $id
      * @return mixed
      */
@@ -60,15 +80,12 @@ class NhaCungCapController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Thông tin nhà cung cấp",
+                    'title'=> "DonViTinh #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                'footer'=> Html::a('Edit',
-                            ['update','id'=>$id],
-                            ['role'=>'modal-remote']
-                            ). '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -78,7 +95,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Creates a new NhaCungCap model.
+     * Creates a new DonViTinh model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -86,7 +103,7 @@ class NhaCungCapController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new NhaCungCap();  
+        $model = new DonViTinh();  
 
         if($request->isAjax){
             /*
@@ -95,31 +112,33 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm mới nhà cung cấp",
+                    'title'=> "Create new DonViTinh",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>'modal'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thêm mới nhà cung cấp",
-                    'content'=>'<span class="text-success">Thêm mới thành công!</span>',
-                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                   // 'forceReload'=>'#crud-datatable-pjax',
+                    'forceClose'=>true,
+                    'runFunc'=>true,
+                    /* 'title'=> "Create new DonViTinh",
+                    'content'=>'<span class="text-success">Create DonViTinh success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote']) */
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Thêm mới nhà cung cấp",
+                    'title'=> "Create new DonViTinh",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -139,7 +158,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Updates an existing NhaCungCap model.
+     * Updates an existing DonViTinh model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -157,31 +176,31 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật nhà cung cấp",
+                    'title'=> "Update DonViTinh #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thông tin nhà cung cấp",
+                    'title'=> "DonViTinh #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Cập nhật nhà cung cấp",
+                    'title'=> "Update DonViTinh #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -199,7 +218,7 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Delete an existing NhaCungCap model.
+     * Delete an existing DonViTinh model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -227,7 +246,7 @@ class NhaCungCapController extends Controller
     }
 
      /**
-     * Delete multiple existing NhaCungCap model.
+     * Delete multiple existing DonViTinh model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -258,15 +277,15 @@ class NhaCungCapController extends Controller
     }
 
     /**
-     * Finds the NhaCungCap model based on its primary key value.
+     * Finds the DonViTinh model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return NhaCungCap the loaded model
+     * @return DonViTinh the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = NhaCungCap::findOne($id)) !== null) {
+        if (($model = DonViTinh::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
