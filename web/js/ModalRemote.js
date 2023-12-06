@@ -161,6 +161,9 @@ function ModalRemote(modalId) {
         content = content.replace('>Back<', ' class="btn btn-sm btn-primary" accesskey="b"><i class="fa-solid fa-arrow-left"></i>&nbsp;Quay lại (B)<');
         content = content.replace('>addTonKho<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-warehouse"></i>&nbsp;Thêm vào kho<');
         
+        content = content.replace('>Close-Popup<', ' class="btn btn-sm btn-primary-custom pull-left" accesskey="o"><i class="fa-regular fa-circle-xmark"></i>&nbsp; Đóng (O)<');
+        content = content.replace('>Save-Popup<', ' class="btn btn-sm btn-primary" accesskey="l"><i class="fa-solid fa-download"></i>&nbsp;Lưu lại (L)<');
+        
         
         $(this.headerToolbar).html(content);
     };

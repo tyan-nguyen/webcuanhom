@@ -5,6 +5,7 @@ use app\widgets\CustomModal;
 use kartik\grid\GridView;
 use cangak\ajaxcrud\CrudAsset; 
 use cangak\ajaxcrud\BulkButtonWidget;
+use app\modules\kho\models\KhoVatTu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\kho\models\search\KhoVatTuSearch */
@@ -36,8 +37,9 @@ BulkButtonWidget::widget([
             'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
         ]) .  '&nbsp;' .
     Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k']) . '&nbsp;||&nbsp;'.
-    Html::a('<i class="fa-solid fa-upload"></i> Upload', '#', [ 'class'=>'btn btn-primary btn-sm btn-default-custom']) . '&nbsp;' .
-    Html::a('<i class="fa-solid fa-cloud-arrow-down"></i> Tải mẫu', '#', ['class'=>'btn btn-primary btn-sm btn-default-custom'])
+    Html::a('<i class="fa-solid fa-upload"></i> Upload', Yii::getAlias('@web/dungchung/import-all/upload?type=').KhoVatTu::MODEL_ID, [ 'class'=>'btn btn-primary btn-sm btn-default-custom', 'role'=>'modal-remote']) . '&nbsp;' .
+    
+    Html::a('<i class="fa-solid fa-cloud-arrow-down"></i> Tải mẫu', Yii::getAlias('@web/files/excel/import-vat-tu.xlsx'), ['class'=>'btn btn-primary btn-sm btn-default-custom'])
 ]);
 ?>
 </div>
@@ -91,7 +93,7 @@ BulkButtonWidget::widget([
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-   'dialogOptions'=>['class'=>'modal-lg modal-fullscreen'],
+   'dialogOptions'=>['class'=>'modal-xl modal-dialog-centered'],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>
@@ -102,7 +104,7 @@ BulkButtonWidget::widget([
         'id'=>'ajaxCrudModal2',
         'tabindex' => false // important for Select2 to work properly
    ],
-   'dialogOptions'=>['class'=>'modal-lg modal-dialog-centered'],
+   'dialogOptions'=>['class'=>'modal-xs modal-dialog-centered'],
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal2',
    'footer'=>'',// always need it for jquery plugin

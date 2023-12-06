@@ -38,10 +38,10 @@ class DonViTinh extends \app\models\CuaDonViTinh
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'ten_dvt' => 'Ten Dvt',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'code' => 'Mã đơn vị tính',
+            'ten_dvt' => 'Tên đơn vị tính',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     

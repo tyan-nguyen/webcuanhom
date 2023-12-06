@@ -14,6 +14,7 @@ use app\custom\CustomFunc;
  * @property float|null $so_luong
  * @property string $dvt
  * @property float|null $don_gia
+ * @property string|null $ghi_chu
  * @property string|null $date_created
  * @property int|null $user_created
  *
@@ -21,15 +22,17 @@ use app\custom\CustomFunc;
  */
 class KhoVatTuBase extends \app\models\CuaKhoVatTu
 {
+    const MODEL_ID = 'kho-vat-tu';
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['ten_vat_tu', 'dvt'], 'required'],
+            [['ten_vat_tu'], 'required'],
             [['id_nhom_vat_tu', 'la_phu_kien', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
+            [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code', 'dvt'], 'string', 'max' => 20],
             [['ten_vat_tu'], 'string', 'max' => 255],
@@ -48,8 +51,9 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             'id_nhom_vat_tu' => 'Nhóm vật tư',
             'la_phu_kien' => 'Là phụ kiện',
             'so_luong' => 'Số lượng',
-            'dvt' => 'DVT',
+            'dvt' => 'Đơn vị tính',
             'don_gia' => 'Đơn giá',
+            'ghi_chu' => 'Ghi chú',
             'date_created' => 'Ngày tạo',
             'user_created' => 'Tài khoản',
         ];
@@ -73,6 +77,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             //set la phu kien
             if($this->la_phu_kien == null){
                 $this->la_phu_kien = 0;
+            }
+            //set dvt
+            if($this->dvt == null){
+                $this->dvt = 1;
             }
         }
         return parent::beforeSave($insert);

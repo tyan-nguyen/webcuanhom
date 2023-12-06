@@ -23,7 +23,7 @@ use app\modules\kho\models\DonViTinh;
     <?= $form->field($model, 'so_luong')->textInput() ?>
 	
 	<?php 
-	   $dvtLabel = $model->getAttributeLabel('dvt') . ' <a href="/kho/dvt/create" role="modal-remote-2" style="padding-left:10px;"><i class="fa-solid fa-square-plus"></i></a> <a href="#" onclick="runFunc(0)" style="padding-left:10px;"><i class="fa-solid fa-retweet"></i> </a>';
+	   $dvtLabel = $model->getAttributeLabel('dvt') . ' <a href="/kho/dvt/create-popup" role="modal-remote-2" style="padding-left:10px;" title="Thêm đơn vị tính"><i class="fa-solid fa-square-plus"></i></a> <a href="#" onclick="runFunc(0)" style="padding-left:10px;" title="Thêm đơn vị tính"><i class="fa-solid fa-retweet"></i></a>';
 	?>
     <?= $form->field($model, 'dvt')->dropDownList((new DonViTinh())->getList(), ['prompt'=>'-Chọn-', 'id'=>'ddl_dvt'])->label($dvtLabel) ?>
 

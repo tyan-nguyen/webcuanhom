@@ -80,12 +80,15 @@ class DvtController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "DonViTinh #".$id,
+                    'title'=> "Đơn vị tính",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                'footer'=> Html::a('Edit',
+                        ['update','id'=>$id],
+                        ['role'=>'modal-remote']
+                        ). '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
@@ -112,13 +115,12 @@ class DvtController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new DonViTinh",
+                    'title'=> "Thêm mới đơn vị tính",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
+                    'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>'modal'])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -127,19 +129,18 @@ class DvtController extends Controller
                     'runFunc'=>true,
                     /* 'title'=> "Create new DonViTinh",
                     'content'=>'<span class="text-success">Create DonViTinh success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote']) */
+                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])*/
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new DonViTinh",
+                    'title'=> "Thêm mới đơn vị tính",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }
         }else{
@@ -155,6 +156,67 @@ class DvtController extends Controller
             }
         }
        
+    }
+    
+    /**
+     * Creates a new DonViTinh model.
+     * For ajax request will return json object
+     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatePopup()
+    {
+        $request = Yii::$app->request;
+        $model = new DonViTinh();
+        
+        if($request->isAjax){
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Thêm mới đơn vị tính",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>'submit']) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                ];
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    // 'forceReload'=>'#crud-datatable-pjax',
+                    'forceClose'=>true,
+                    'runFunc'=>true,
+                    /* 'title'=> "Create new DonViTinh",
+                     'content'=>'<span class="text-success">Create DonViTinh success</span>',
+                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                     Html::button('Close',['data-bs-dismiss'=>"modal"])*/
+                    
+                ];
+            }else{
+                return [
+                    'title'=> "Thêm mới đơn vị tính",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        }else{
+            /*
+             *   Process for non-ajax request
+             */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }
+        
     }
 
     /**
@@ -176,31 +238,31 @@ class DvtController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update DonViTinh #".$id,
+                    'title'=> "Cập nhật đơn vị tính",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "DonViTinh #".$id,
+                    'title'=> "Đơn vị tính",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
             }else{
                  return [
-                    'title'=> "Update DonViTinh #".$id,
+                    'title'=> "Cập nhật đơn vị tính",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }
         }else{

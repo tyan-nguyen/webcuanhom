@@ -15,10 +15,12 @@ use Yii;
  * @property float|null $so_luong
  * @property string $dvt
  * @property float|null $don_gia
+ * @property string|null $ghi_chu
  * @property string|null $date_created
  * @property int|null $user_created
  *
  * @property CuaKhoVatTuLichSu[] $cuaKhoVatTuLichSus
+ * @property CuaMauCuaVatTu[] $cuaMauCuaVatTus
  */
 class CuaKhoVatTu extends \yii\db\ActiveRecord
 {
@@ -39,6 +41,7 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
             [['ten_vat_tu', 'dvt'], 'required'],
             [['id_nhom_vat_tu', 'la_phu_kien', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
+            [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code', 'dvt'], 'string', 'max' => 20],
             [['ten_vat_tu'], 'string', 'max' => 255],
@@ -59,6 +62,7 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
             'so_luong' => 'So Luong',
             'dvt' => 'Dvt',
             'don_gia' => 'Don Gia',
+            'ghi_chu' => 'Ghi Chu',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
         ];
@@ -72,5 +76,15 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     public function getCuaKhoVatTuLichSus()
     {
         return $this->hasMany(CuaKhoVatTuLichSu::class, ['id_kho_vat_tu' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaMauCuaVatTus]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaVatTus()
+    {
+        return $this->hasMany(CuaMauCuaVatTu::class, ['id_kho_vat_tu' => 'id']);
     }
 }
