@@ -90,7 +90,7 @@ BulkButtonWidget::widget([
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-    'dialogOptions'=>['class'=>'modal-xl'],
+    'dialogOptions'=>['class'=>'modal-xl modal-fullscreen'],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>

@@ -52,17 +52,17 @@ class DvtController extends Controller
     /**
      * refresh data
      */
-    public function actionRefreshData($getLastItem=null){
-        $response = '<option value="">----</option>';
+    public function actionRefreshData($getLastItem=NULL){
+        $response = '<option value>-Chọn-</option>';
         $model = new DonViTinh();
         $sum = count($model->getList());
         $countIndex = 0;
         $selected = '';
         foreach ($model->getList() as $indexDvt => $dvt){
-            if($getLastItem!=null && $sum==$countIndex){
-                $selected = 'selected';
-            }
             $countIndex++;
+            if($getLastItem!=NULL && $sum==$countIndex){
+                $selected = 'selected';
+            }            
             $response .= '<option value="'.$indexDvt.'" '. $selected .'>'.$dvt.'</option>';
         }
         return $response;

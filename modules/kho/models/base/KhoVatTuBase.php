@@ -70,6 +70,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             if($this->id_nhom_vat_tu == null){
                 $this->id_nhom_vat_tu = 0;
             }
+            //set la phu kien
+            if($this->la_phu_kien == null){
+                $this->la_phu_kien = 0;
+            }
         }
         return parent::beforeSave($insert);
     }

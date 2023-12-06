@@ -27,6 +27,9 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_nhom_vat_tu',
+        'value'=>function($model){
+            return $model->getDmNhomVatTuLabel($model->id_nhom_vat_tu);
+        }
     ],
 /*     [
         'class'=>'\kartik\grid\DataColumn',
@@ -35,14 +38,29 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_luong',
+        'value'=>function($model){
+            //if we already know $number is numeric
+            if ((int) $model->so_luong == $model->so_luong) {
+                //is an integer
+                return number_format($model->so_luong);
+            } else {
+                return number_format($model->so_luong, 2);
+            }
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'dvt',
+        'value'=>function($model){
+            return $model->donViTinh->ten_dvt;
+        }
     ],
     [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'don_gia',
+         'value'=>function($model){
+            return number_format($model->don_gia);
+         }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

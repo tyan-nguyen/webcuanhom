@@ -18,6 +18,15 @@ class KhoVatTu extends KhoVatTuBase
     {
         return $this->hasMany(KhoVatTuLichSu::class, ['id_kho_vat_tu' => 'id']);
     }
+    /**
+     * Gets query for [[KhoVatTu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDonViTinh()
+    {
+        return $this->hasOne(DonViTinh::class, ['id' => 'dvt']);
+    }
     /***** /relation *****/    
     /***** custom function *****/
     /***** /custom function *****/

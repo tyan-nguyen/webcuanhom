@@ -69,7 +69,8 @@
 }
 .btn-default-custom{
 	background-color: white;
-	border: 1px solid #212121;
+	/* border: 1px solid #212121; */
+	border: 0px solid #212121;
 	color: #48728c;
 }
 .custom-filters{

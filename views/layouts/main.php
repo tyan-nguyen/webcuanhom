@@ -52,7 +52,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         }
        .ul-ribbon li{
             display: inline;
-            padding-right:20px;
+            padding-right:10px;
        }
         .ul-ribbon li a{
             color: white;
@@ -160,9 +160,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 					
 					<ul class="ul-ribbon">
                   	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
+                  	<li>|</li>
                   	<li><a href="/kho/kho-vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li>
+                  	<li>|</li>
                   	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+                  	<li>|</li>
                   	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+                  	<li>|</li>
                   	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
                   </ul>
               

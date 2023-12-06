@@ -8,7 +8,7 @@ use app\modules\kho\models\DonViTinh;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="kho-vat-tu-form">
+<div class="kho-vat-tu-form container">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -22,10 +22,10 @@ use app\modules\kho\models\DonViTinh;
 
     <?= $form->field($model, 'so_luong')->textInput() ?>
 	
-	<a href="/kho/dvt/create" role="modal-remote-2">Thêm DVT</a>
-	<a href="#" onclick="runFunc()">refresh</a>
-
-    <?= $form->field($model, 'dvt')->dropDownList((new DonViTinh())->getList(), ['prompt'=>'-Chọn-', 'id'=>'ddl_dvt']) ?>
+	<?php 
+	   $dvtLabel = $model->getAttributeLabel('dvt') . ' <a href="/kho/dvt/create" role="modal-remote-2" style="padding-left:10px;"><i class="fa-solid fa-square-plus"></i></a> <a href="#" onclick="runFunc(0)" style="padding-left:10px;"><i class="fa-solid fa-retweet"></i> </a>';
+	?>
+    <?= $form->field($model, 'dvt')->dropDownList((new DonViTinh())->getList(), ['prompt'=>'-Chọn-', 'id'=>'ddl_dvt'])->label($dvtLabel) ?>
 
     <?= $form->field($model, 'don_gia')->textInput() ?>
 
@@ -45,9 +45,13 @@ use app\modules\kho\models\DonViTinh;
 </div>
 
 <script>
-function runFunc(){
+function runFunc(sendVal){
+	var url = '/kho/dvt/refresh-data';
+	if(sendVal==null){
+		url = url + '?getLastItem=true';
+	}
 	$.ajax({
-        url: '/kho/dvt/refresh-data?getLastItem=true',
+        url: url,
         method: 'GET',
         //data: data,
         /* beforeSend: function () {
