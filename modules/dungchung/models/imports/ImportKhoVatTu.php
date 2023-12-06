@@ -118,7 +118,7 @@ class ImportKhoVatTu
                 } else {
                     $errorCount++;
                     $errorByRow[$index] = 'Dòng '. $index . ' bị lỗi!';
-                    $errors[] = $model->errors();
+                    $errors[] = $model->errors;
                 }
             }
         }

@@ -13,7 +13,7 @@ use Yii;
  * @property int|null $id_nhom_vat_tu
  * @property int|null $la_phu_kien
  * @property float|null $so_luong
- * @property string $dvt
+ * @property int $dvt
  * @property float|null $don_gia
  * @property string|null $ghi_chu
  * @property string|null $date_created
@@ -39,11 +39,11 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     {
         return [
             [['ten_vat_tu', 'dvt'], 'required'],
-            [['id_nhom_vat_tu', 'la_phu_kien', 'user_created'], 'integer'],
+            [['id_nhom_vat_tu', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
-            [['code', 'dvt'], 'string', 'max' => 20],
+            [['code'], 'string', 'max' => 20],
             [['ten_vat_tu'], 'string', 'max' => 255],
         ];
     }
