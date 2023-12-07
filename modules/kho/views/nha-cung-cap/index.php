@@ -21,10 +21,10 @@ CrudAsset::register($this);
 <?= 
 BulkButtonWidget::widget([
     'buttons'=>
-    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i> Thêm mới (A)', ['create'],
+    Html::a('<i class="fa-solid fa-square-plus"></i> Thêm mới (A)', ['create'],
         ['role'=>'modal-remote','title'=> 'Thêm mới dự án','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
         '&nbsp;' .
-    Html::a('<i class="fa-regular fa-trash-can"></i>&nbsp; Xóa (T)',
+    Html::a('<i class="fa-solid fa-trash"></i> Xóa (T)',
         ["bulkdelete"] ,
         [
             'accesskey'=>'t',
@@ -35,7 +35,7 @@ BulkButtonWidget::widget([
             'data-confirm-title'=>'Xác nhận xóa thông tin?',
             'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
         ]) .  '&nbsp;' .
-    Html::a('<i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k'])
+    Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k'])
 ]);
 ?>
 </div>
@@ -89,7 +89,7 @@ BulkButtonWidget::widget([
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-   'dialogOptions'=>['class'=>'modal-lg'],
+   'dialogOptions'=>['class'=>'modal-lg modal-dialog-centered'],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>

@@ -37,11 +37,11 @@ class HeNhomBase extends \app\models\CuaHeNhom
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'ten_he_nhom' => 'Ten He Nhom',
-            'ghi_chu' => 'Ghi Chu',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'code' => 'Mã hệ nhôm',
+            'ten_he_nhom' => 'Tên hệ nhôm',
+            'ghi_chu' => 'Ghi chú',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     

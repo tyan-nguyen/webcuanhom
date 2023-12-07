@@ -31,7 +31,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
     public function rules()
     {
         return [
-            [['id_he_nhom', 'code', 'ten_cay_nhom'], 'required'],
+            [['id_he_nhom', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'so_luong', 'for_cua_so', 'for_cua_di', 'user_created'], 'integer'],
             [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut'], 'number'],
             [['date_created'], 'safe'],
@@ -48,18 +48,18 @@ class CayNhomBase extends \app\models\CuaCayNhom
     {
         return [
             'id' => 'ID',
-            'id_he_nhom' => 'Id He Nhom',
-            'code' => 'Code',
-            'ten_cay_nhom' => 'Ten Cay Nhom',
-            'so_luong' => 'So Luong',
-            'don_gia' => 'Don Gia',
-            'khoi_luong' => 'Khoi Luong',
-            'chieu_dai' => 'Chieu Dai',
-            'for_cua_so' => 'For Cua So',
-            'for_cua_di' => 'For Cua Di',
-            'min_allow_cut' => 'Min Allow Cut',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'id_he_nhom' => 'Hệ nhôm',
+            'code' => 'Mã cây nhôm',
+            'ten_cay_nhom' => 'Tên cây nhôm',
+            'so_luong' => 'Số lượng',
+            'don_gia' => 'Đơn giá',
+            'khoi_luong' => 'Khối lượng',
+            'chieu_dai' => 'Chiều dài',
+            'for_cua_so' => 'Sử dụng cho hệ cửa sổ',
+            'for_cua_di' => 'Sử dụng cho hệ cửa đi',
+            'min_allow_cut' => 'Chiều dài tối thiểu cho cắt từ tồn kho',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     

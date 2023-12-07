@@ -61,12 +61,15 @@ class LoaiCuaController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "LoaiCua #".$id,
+                    'title'=> "Thông tin loại cửa",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                'footer'=> Html::a('Edit',
+                    ['update','id'=>$id],
+                    ['role'=>'modal-remote']
+                    ). '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
@@ -93,31 +96,31 @@ class LoaiCuaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new LoaiCua",
+                    'title'=> "Thêm mới loại cửa",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>'modal'])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new LoaiCua",
-                    'content'=>'<span class="text-success">Create LoaiCua success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> "Thêm mới loại cửa",
+                    'content'=>'<span class="text-success">Thêm dữ liệu thành công!</span>',
+                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new LoaiCua",
+                    'title'=> "Thêm mới loại cửa",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }
@@ -155,31 +158,31 @@ class LoaiCuaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update LoaiCua #".$id,
+                    'title'=> "Cập nhật loại cửa",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "LoaiCua #".$id,
+                    'title'=> "Thông tin loại cửa",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
             }else{
                  return [
-                    'title'=> "Update LoaiCua #".$id,
+                    'title'=> "Cập nhật loại cửa",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }
         }else{

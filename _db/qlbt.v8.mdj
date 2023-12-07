@@ -5080,8 +5080,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1241,
-									"top": 462,
+									"left": 1336,
+									"top": 467,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -5101,8 +5101,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 1226,
-									"top": 462,
+									"left": 1327,
+									"top": 455,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -5122,8 +5122,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1270,
-									"top": 463,
+									"left": 1355,
+									"top": 490,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -5143,8 +5143,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1241,
-									"top": 471,
+									"left": 1328,
+									"top": 474,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -5164,8 +5164,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1228,
-									"top": 469,
+									"left": 1322,
+									"top": 462,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -5185,8 +5185,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1269,
-									"top": 475,
+									"left": 1341,
+									"top": 498,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -5206,8 +5206,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1241,
-									"top": 455,
+									"left": 1345,
+									"top": 461,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -5226,8 +5226,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1228,
-									"top": 457,
+									"left": 1335,
+									"top": 451,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -5246,8 +5246,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1268,
-									"top": 450,
+									"left": 1365,
+									"top": 480,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -5290,13 +5290,13 @@
 							],
 							"font": "Arial;13;0",
 							"head": {
-								"$ref": "AAAAAAGKy4ekqODvoX8="
+								"$ref": "AAAAAAGMMqr8g3t6+G4="
 							},
 							"tail": {
 								"$ref": "AAAAAAGKy4cVUbE/5mY="
 							},
 							"lineStyle": 1,
-							"points": "1257:503;1256:435",
+							"points": "1317:508;1375:463",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGKy4hvxwBq+DA="
@@ -14142,7 +14142,7 @@
 									"$ref": "AAAAAAGKy4hvxwBlDjI="
 								},
 								"reference": {
-									"$ref": "AAAAAAGKy4ekp+DtVEs="
+									"$ref": "AAAAAAGMMqr8g3t4igI="
 								},
 								"navigable": "navigable"
 							}
@@ -15102,7 +15102,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "ID"
+							"name": "ID",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15110,7 +15111,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "IDKhoVatTu"
+							"name": "IDKhoVatTu",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15118,7 +15120,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "IDNhaCungCap"
+							"name": "IDNhaCungCap",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15126,7 +15129,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "GhiChu"
+							"name": "GhiChu",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15134,7 +15138,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "SoLuong"
+							"name": "SoLuong",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15142,7 +15147,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGMMqr8g3t4igI="
 							},
-							"name": "IDMauCua"
+							"name": "IDMauCua",
+							"type": ""
 						}
 					]
 				}

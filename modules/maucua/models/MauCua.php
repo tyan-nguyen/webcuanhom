@@ -6,6 +6,7 @@ use app\modules\maucua\models\base\MauCuaBase;
 use app\modules\dungchung\models\HinhAnh;
 use Yii;
 use yii\bootstrap5\Html;
+use yii\helpers\ArrayHelper;
 
 class MauCua extends MauCuaBase
 {
@@ -41,6 +42,13 @@ class MauCua extends MauCuaBase
     }
     /***** end relation *****/
     /***** custom function *****/
+    /**
+     * lay danh sach don vi tinh de fill vao dropdownlist
+     */
+    public static function getList(){
+        $list = MauCua::find()->all();
+        return ArrayHelper::map($list, 'id', 'ten_cua');
+    }
     /*
      * lay ds toi uu
      */

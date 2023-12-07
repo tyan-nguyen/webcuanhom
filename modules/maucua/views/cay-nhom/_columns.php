@@ -35,15 +35,23 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_luong',
+        'value'=>function($model){
+            return number_format($model->so_luong);
+        },
+        'contentOptions'=>['style'=>'text-align:center']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'chieu_dai',
+        'contentOptions'=>['style'=>'text-align:center']
     ],
-    [
+   /*  [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'don_gia',
-    ],
+        'value'=>function($model){
+            return number_format($model->don_gia);
+        }
+    ], */
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'khoi_luong',
@@ -52,18 +60,30 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'chieu_dai',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'for_cua_so',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'for_cua_di',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'min_allow_cut',
-    // ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'for_cua_so',
+         'label'=>'Cửa sổ',
+         'value'=>function($model){
+            return $model->for_cua_so==true ? 'YES' : '';
+         },
+         'contentOptions'=>['style'=>'text-align:center']
+     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'for_cua_di',
+         'label'=>'Cửa đi',
+         'value'=>function($model){
+            return $model->for_cua_di==true ? 'YES' : '';
+         },
+         'contentOptions'=>['style'=>'text-align:center']
+     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'min_allow_cut',
+         'label'=>'Cắt tối thiểu',
+         'contentOptions'=>['style'=>'text-align:center']
+     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'date_created',

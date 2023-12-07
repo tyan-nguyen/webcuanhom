@@ -4,6 +4,8 @@ use yii\widgets\ActiveForm;
 use app\widgets\forms\ImageWidget;
 use app\modules\maucua\models\MauCua;
 use app\modules\maucua\models\DuAn;
+use app\modules\maucua\models\HeNhom;
+use app\modules\maucua\models\LoaiCua;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\MauCua */
@@ -22,11 +24,11 @@ use app\modules\maucua\models\DuAn;
         
             <?= $form->field($model, 'kich_thuoc')->textInput(['maxlength' => true]) ?>
         
-            <?= $form->field($model, 'id_he_nhom')->textInput() ?>
+            <?= $form->field($model, 'id_he_nhom')->dropDownList((new HeNhom())->getList(), ['prompt'=>'--Chọn--']) ?>
             
-            <?= $form->field($model, 'id_loai_cua')->textInput() ?>
+            <?= $form->field($model, 'id_loai_cua')->dropDownList((new LoaiCua())->getList(), ['prompt'=>'--Chọn--']) ?>
         
-            <?= $form->field($model, 'id_parent')->textInput() ?>
+            <?= $form->field($model, 'id_parent')->dropDownList($model->getList(), ['prompt'=>'--Chọn--']) ?>
             
             <?= $form->field($model, 'id_du_an')->dropDownList((new DuAn())->getList(), ['prompt'=>'--Select--']) ?>
             

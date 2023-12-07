@@ -37,11 +37,11 @@ class LoaiCuaBase extends \app\models\CuaLoaiCua
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'ten_loai_cua' => 'Ten Loai Cua',
-            'ghi_chu' => 'Ghi Chu',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'code' => 'Mã loại cửa',
+            'ten_loai_cua' => 'Tên loại cửa',
+            'ghi_chu' => 'Ghi chú',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
         ];
     }
     

@@ -17,6 +17,8 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
+        'format'=>'raw',
+        'value'=>'showAction'
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -32,7 +34,7 @@ return [
         'attribute'=>'user_created',
         'value'=>'nguoiLuu'
     ],
-    [
+    /* [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
@@ -47,6 +49,6 @@ return [
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Comfirm Delete?',
                           'data-confirm-message'=>'Are you sure to delete this data?'], 
-    ],
+    ], */
 
 ];   

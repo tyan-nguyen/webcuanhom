@@ -62,12 +62,15 @@ class HeNhomController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "HeNhom #".$id,
+                    'title'=> "Hệ nhôm",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                'footer'=> Html::a('Edit',
+                        ['update','id'=>$id],
+                        ['role'=>'modal-remote']
+                        ). '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
@@ -94,31 +97,30 @@ class HeNhomController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new HeNhom",
+                    'title'=> "Thêm mới hệ nhôm",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-sm btn-primary-custom pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
+                    'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>'modal'])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new HeNhom",
-                    'content'=>'<span class="text-success">Create HeNhom success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> "Thêm mới hệ nhôm",
+                    'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
+                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new HeNhom",
+                    'title'=> "Thêm mới hệ nhôm",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }
@@ -156,31 +158,31 @@ class HeNhomController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update HeNhom #".$id,
+                    'title'=> "Cập nhật hệ nhôm",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "HeNhom #".$id,
+                    'title'=> "Thông tin hệ nhôm",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
             }else{
                  return [
-                    'title'=> "Update HeNhom #".$id,
+                    'title'=> "Cập nhật hệ nhôm",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }
         }else{

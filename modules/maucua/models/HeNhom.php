@@ -5,6 +5,8 @@ namespace app\modules\maucua\models;
 use app\modules\maucua\models\base\HeNhomBase;
 use Yii;
 use app\custom\CustomFunc;
+use yii\bootstrap5\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property int $id
@@ -16,6 +18,13 @@ use app\custom\CustomFunc;
  */
 class HeNhom extends HeNhomBase
 {
+    /**
+     * lay danh sach don vi tinh de fill vao dropdownlist
+     */
+    public static function getList(){
+        $list = HeNhom::find()->all();
+        return ArrayHelper::map($list, 'id', 'ten_he_nhom');
+    }
     /**
      * virtual attribute
      * hien thi thoi gian luu
@@ -31,5 +40,15 @@ class HeNhom extends HeNhomBase
     public function getNguoiLuu(){
         $cus = new CustomFunc();
         return $cus->getTenTaiKhoan($this->user_created);
+    }
+    
+    /**
+     * show action column for code attribute
+     */
+    public function getShowAction(){
+        return Html::a($this->code,
+            [Yii::getAlias('@web/maucua/he-nhom/view'), 'id'=>$this->id],
+            ['role'=>'modal-remote'
+            ]);
     }
 }

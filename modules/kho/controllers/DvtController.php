@@ -124,13 +124,11 @@ class DvtController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                   // 'forceReload'=>'#crud-datatable-pjax',
-                    'forceClose'=>true,
-                    'runFunc'=>true,
-                    /* 'title'=> "Create new DonViTinh",
-                    'content'=>'<span class="text-success">Create DonViTinh success</span>',
+                    'forceReload'=>'#crud-datatable-pjax',
+                     'title'=> "Thêm mới đơn vị tính",
+                    'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])*/
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
         
                 ];         
             }else{           
@@ -181,7 +179,7 @@ class DvtController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save-Popup',['type'=>'submit']) . '&nbsp;' .
-                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                        Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
                 ];
             }else if($model->load($request->post()) && $model->save()){
                 return [

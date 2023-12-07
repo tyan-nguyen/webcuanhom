@@ -11,19 +11,25 @@ use yii\widgets\DetailView;
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                'id',
-                'id_he_nhom',
+                //'id',
+                'heNhom.ten_he_nhom',
                 'code',
                 'ten_cay_nhom',
                 'so_luong',
                 'don_gia',
                 'khoi_luong',
                 'chieu_dai',
-                'for_cua_so',
-                'for_cua_di',
+                'for_cua_so'=>[
+                    'attribute'=>'for_cua_so',
+                    'value'=>$model->for_cua_so==true ? 'YES' : ''
+                ],
+                'for_cua_di'=>[
+                    'attribute'=>'for_cua_di',
+                    'value'=>$model->for_cua_di==true ? 'YES' : ''
+                ],
                 'min_allow_cut',
                 'date_created',
-                'user_created',
+                //'user_created',
             ],
         ]) ?>
     	</div>

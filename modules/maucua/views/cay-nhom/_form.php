@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
+use app\modules\maucua\models\HeNhom;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\CayNhom */
@@ -11,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_he_nhom')->textInput() ?>
+    <?= $form->field($model, 'id_he_nhom')->dropDownList((new HeNhom())->getList(), ['prompt'=>'--Chọn--']) ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
@@ -25,15 +26,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'chieu_dai')->textInput() ?>
 
-    <?= $form->field($model, 'for_cua_so')->textInput() ?>
+    <?= $form->field($model, 'for_cua_so')->checkbox() ?>
 
-    <?= $form->field($model, 'for_cua_di')->textInput() ?>
+    <?= $form->field($model, 'for_cua_di')->checkbox() ?>
 
     <?= $form->field($model, 'min_allow_cut')->textInput() ?>
 
-    <?= $form->field($model, 'date_created')->textInput() ?>
+    <!--<?= $form->field($model, 'date_created')->textInput() ?>
 
-    <?= $form->field($model, 'user_created')->textInput() ?>
+    <?= $form->field($model, 'user_created')->textInput() ?>-->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

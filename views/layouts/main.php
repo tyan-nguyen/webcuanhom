@@ -130,7 +130,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 	<button class="nav-link main-nav-link" id="taikhoan-tab" data-bs-toggle="pill" data-bs-target="#taikhoan" type="button" role="tab" aria-controls="taikhoan" aria-selected="false"><i class="fa-solid fa-users"></i> Tài khoản</button>
                 </li>
                 
-                
             </ul>
             </div>
             
@@ -149,25 +148,28 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             
               <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
               <ul class="ul-ribbon">
-              	<li><a href="/maucua/loai-cua"><i class="fa-regular fa-file"></i> Loại cửa</a></li>
-              	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
-              	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
-              	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
               	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
+              	<li>|</li>
+              	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+              	<li>|</li>
+              	<li><a href="/maucua/loai-cua"><i class="fa-regular fa-file"></i> Loại cửa</a></li>
+              	<li>|</li>
+              	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+              	<li>|</li>
+              	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
               </ul>
               </div>
               <div class="tab-pane fade" id="kho" role="tabpanel" aria-labelledby="kho-tab">
 					
-					<ul class="ul-ribbon">
-                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
-                  	<li>|</li>
+					<ul class="ul-ribbon">                  	
                   	<li><a href="/kho/kho-vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li>
                   	<li>|</li>
-                  	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+                  	<li><a href="/kho/kho-nhom"><i class="fa-regular fa-file"></i> Kho nhôm</a></li>
                   	<li>|</li>
-                  	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Hệ vách</a></li>
                   	<li>|</li>
-                  	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
+                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
+                  	
                   </ul>
               
 			</div>
@@ -183,8 +185,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               
               <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
               	<ul class="ul-ribbon">
+              		<li><a href="/user-management/user"><i class="fa-regular fa-file"></i> Tài khoản</a></li>
+              		<li>|</li>
+              		<?php if(Yii::$app->user->isGuest){ ?>
               		<li><a href="/user-management/auth/login"><i class="fa-regular fa-file"></i> Đăng nhập</a></li>
+              		<?php } else {?>
               		<li><a href="/user-management/auth/logout"><i class="fa-regular fa-file"></i> Đăng xuất</a></li>
+              		<?php } ?>
               	</ul>
               </div>
               
@@ -248,6 +255,9 @@ $script = <<< JS
     	}else if(moduleName == 'maucua'){
             $('#maucua-tab').addClass('active');
             $('#maucua').addClass('show active');
+    	}else if(moduleName == 'user-management'){
+            $('#taikhoan-tab').addClass('active');
+            $('#taikhoan').addClass('show active');
     	}
     	
     }

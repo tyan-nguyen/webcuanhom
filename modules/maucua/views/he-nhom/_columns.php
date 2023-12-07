@@ -17,15 +17,17 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
+        'format'=>'raw',
+        'value'=>'showAction'
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_he_nhom',
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ghi_chu',
-    ],
+    ], */
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'date_created',
@@ -36,7 +38,7 @@ return [
         'attribute'=>'user_created',
         'value'=>'nguoiLuu'
     ],
-    [
+    /* [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
@@ -51,6 +53,6 @@ return [
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Comfirm Delete?',
                           'data-confirm-message'=>'Are you sure to delete this data?'], 
-    ],
+    ], */
 
 ];   

@@ -9,7 +9,7 @@ use app\modules\dungchung\models\Import;
 use app\widgets\CustomModal;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\maucua\models\DuAnSearch */
+/* @var $searchModel app\modules\maucua\models\search\DuAnSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Quản lý dự án';
@@ -25,19 +25,21 @@ CrudAsset::register($this);
 <?= 
 BulkButtonWidget::widget([
     'buttons'=>
-    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i> Thêm mới dự án', ['create'],
-        ['role'=>'modal-remote','title'=> 'Thêm mới dự án','class'=>'btn btn-primary btn-sm btn-primary-custom']).
+    Html::a('<i class="fa-solid fa-square-plus"></i> Thêm mới (A)', ['create'],
+        ['role'=>'modal-remote','title'=> 'Thêm mới dự án','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
         '&nbsp;' .
-    Html::a('<i class="fa-solid fa-triangle-exclamation"></i>&nbsp; Xóa dự án',
+    Html::a('<i class="fa-solid fa-trash"></i> Xóa (T)',
         ["bulkdelete"] ,
         [
-            "class"=>"btn btn-warning btn-sm btn-warning-custom",
+            'accesskey'=>'t',
+            "class"=>"btn btn-warning btn-sm btn-default-custom",
             'role'=>'modal-remote-bulk',
             'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
             'data-request-method'=>'post',
             'data-confirm-title'=>'Xác nhận xóa thông tin?',
             'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
-        ]),
+        ]) .  '&nbsp;' .
+    Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k'])
 ]);
 ?>
 </div>
@@ -48,6 +50,7 @@ BulkButtonWidget::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'filterRowOptions' => ['class' => 'custom-filters'],
             'pjax'=>true,
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
@@ -92,7 +95,7 @@ BulkButtonWidget::widget([
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-   'dialogOptions'=>['class'=>'modal-xl  modal-fullscreen'],
+   'dialogOptions'=>['class'=>'modal-xl'],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>
@@ -125,6 +128,19 @@ $imp = new Import();
 $imp->extractAndSaveImages($excelFilePath, $outputImagePath);
  */
 
+?>
+
+<?php 
+$script1 = <<< JS
+    //$('#crud-datatable-filters').hide();
+    $('#btnEnableSearch').on('click', function(){
+        if($('#crud-datatable-filters').hasClass('custom-filters'))
+            $('#crud-datatable-filters').removeClass('custom-filters');
+        else 
+            $('#crud-datatable-filters').addClass('custom-filters')
+    });
+JS;
+$this->registerJs($script1);
 ?>
 
 
