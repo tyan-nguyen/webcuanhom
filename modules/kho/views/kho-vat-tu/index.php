@@ -53,37 +53,13 @@ BulkButtonWidget::widget([
             'filterRowOptions' => ['class' => 'custom-filters'],
             'pjax'=>true,
             'columns' => require(__DIR__.'/_columns.php'),
-            'toolbar'=> [
-                /* ['content'=>
-                    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create Kho Vat Tus','class'=>'btn btn-default']).
-                    Html::a('<i class="fas fa fa-sync" aria-hidden="true"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
-                ], */
-            ],          
+            'toolbar'=> [],          
             'striped' => true,
             'condensed' => true,
             'responsive' => true,  
             'summary'=>'<i class="fa-solid fa-chart-simple"></i>&nbsp; TS: <strong>{totalCount}</strong> dữ liệu',
             'panel' => [
-                //'type' => 'primary', 
-                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách kho vật tư',
-                //'before'=>'<em>* Danh sách.</em>',
-                'after'=>/* BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Delete',
-                                ["bulkdelete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Confirm Delete?',
-                                    'data-confirm-message'=>'Are you sure delete this data?'
-                                ]),
-                        ]).            */             
-                        '<div class="clearfix"></div>',
+                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách kho vật tư'
             ]
         ])?>
     </div>
@@ -93,7 +69,7 @@ BulkButtonWidget::widget([
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-   'dialogOptions'=>['class'=>'modal-xl modal-dialog-centered'],
+   "dialogOptions"=>["class"=>"modal-xl modal-dialog-centered"],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>

@@ -4,6 +4,7 @@ namespace app\modules\maucua\models;
 
 use app\modules\maucua\models\base\KhoNhomBase;
 use Yii;
+use yii\helpers\Html;
 
 class KhoNhom extends KhoNhomBase
 {
@@ -25,5 +26,16 @@ class KhoNhom extends KhoNhomBase
     public function getCuaKhoNhomLichSus()
     {
         return $this->hasMany(KhoNhomLichSu::class, ['id_kho_nhom' => 'id']);
+    }
+    
+    public function getShowAction(){
+        return Html::a($this->scode,
+                [Yii::getAlias('@web/kho/kho-nhom/view'), 'id'=>$this->id],
+                ['role'=>'modal-remote']
+            );
+    }
+    /***** virtual attribute *****/
+    public function getScode(){
+        return $this->cayNhom->code;
     }
 }

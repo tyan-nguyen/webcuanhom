@@ -19,6 +19,7 @@ use Yii;
  */
 class KhoNhomBase extends \app\models\CuaKhoNhom
 {
+    public $code;
 
     /**
      * {@inheritdoc}
@@ -29,8 +30,8 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
             [['id_cay_nhom', 'chieu_dai'], 'required'],
             [['id_cay_nhom', 'so_luong', 'user_created'], 'integer'],
             [['chieu_dai'], 'number'],
-            [['date_created'], 'safe'],
-            [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhom::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
+            [['date_created', 'code'], 'safe'],
+            [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhomBase::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
         ];
     }
 
@@ -41,11 +42,13 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
     {
         return [
             'id' => 'ID',
-            'id_cay_nhom' => 'Id Cay Nhom',
-            'chieu_dai' => 'Chieu Dai',
-            'so_luong' => 'So Luong',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
+            'id_cay_nhom' => 'Cây nhôm',
+            'chieu_dai' => 'Chiều dài',
+            'so_luong' => 'Số lượng',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
+            
+            'code'=>'Mã cây nhôm',
         ];
     }
     

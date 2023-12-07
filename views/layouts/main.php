@@ -109,7 +109,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 	<a href="/"><?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?></a>
                 </li>
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="bctk-tab" data-bs-toggle="pill" data-bs-target="#bctk" type="button" role="tab" aria-controls="bctk" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo - Thống kê</button>
+                	<button class="nav-link main-nav-link" id="bctk-tab" data-bs-toggle="pill" data-bs-target="#bctk" type="button" role="tab" aria-controls="bctk" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo</button>
                 </li>
                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Mẫu cửa</button>
@@ -120,10 +120,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </li>
                 
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> Kế hoạch sản xuất</button>
+                	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> KH sản xuất</button>
                 </li>                
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="tkmc-tab" data-bs-toggle="pill" data-bs-target="#tkmc" type="button" role="tab" aria-controls="tkmc" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu cửa</button>
+                	<button class="nav-link main-nav-link" id="tkmc-tab" data-bs-toggle="pill" data-bs-target="#tkmc" type="button" role="tab" aria-controls="tkmc" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu</button>
                 </li>
                 
                 <li class="nav-item" role="presentation">
