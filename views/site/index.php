@@ -58,5 +58,49 @@ $this->title = 'Phần mềm Quản lý cửa';
             </div>
         </div>
         
+        <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
+            <div class="card" style="max-width: 100%;">
+              <div class="card-body p-0">
+                <?= Html::img(Yii::getAlias('@web/uploads/images/door-icon.png'), ['width'=>'100%']) ?>
+              </div>
+              <div class="card-footer bg-transparent text-center">
+              	<?= Html::a('<i class="fa-solid fa-bars"></i> Quản lý Kho vật tư', Yii::getAlias('@web/kho/kho-vat-tu'), ['class'=>'card-link-custom']) ?>
+              </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
+            <div class="card" style="max-width: 100%;">
+              <div class="card-body p-0">
+                <?= Html::img(Yii::getAlias('@web/uploads/images/door-icon.png'), ['width'=>'100%']) ?>
+              </div>
+              <div class="card-footer bg-transparent text-center">
+              	<?= Html::a('<i class="fa-solid fa-bars"></i> Quản lý Kho nhôm', Yii::getAlias('@web/kho/kho-nhom'), ['class'=>'card-link-custom']) ?>
+              </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
+            <div class="card" style="max-width: 100%;">
+              <div class="card-body p-0">
+                <?= Html::img(Yii::getAlias('@web/uploads/images/door-icon.png'), ['width'=>'100%']) ?>
+              </div>
+              <div class="card-footer bg-transparent text-center">
+              	<?= Html::a('<i class="fa-solid fa-bars"></i> Quản lý Cây nhôm', Yii::getAlias('@web/mau-cua/cay-nhom'), ['class'=>'card-link-custom']) ?>
+              </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
+            <div class="card" style="max-width: 100%;">
+              <div class="card-body p-0">
+                <?= Html::img(Yii::getAlias('@web/uploads/images/door-icon.png'), ['width'=>'100%']) ?>
+              </div>
+              <div class="card-footer bg-transparent text-center">
+              	<?= Html::a('<i class="fa-solid fa-bars"></i> Quản lý Hệ nhôm', Yii::getAlias('@web/kho/he-nhom'), ['class'=>'card-link-custom']) ?>
+              </div>
+            </div>
+        </div>
+        
     </div>
 </div>
