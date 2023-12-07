@@ -7,10 +7,10 @@ use cangak\ajaxcrud\CrudAsset;
 use cangak\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\maucua\models\search\KhoNhomSearch */
+/* @var $searchModel app\modules\kho\models\search\HeVachSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Kho nhôm';
+$this->title = 'Hệ vách';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -19,10 +19,10 @@ CrudAsset::register($this);
 <div id="dToolbar">
 	<?=		BulkButtonWidget::widget([
             'buttons'=>
-           /*  Html::a('<i class="fa-solid fa-square-plus"></i> Thêm mới (A)', ['create'],
-                ['role'=>'modal-remote','title'=> 'Thêm mới kho nhôm','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
-                '&nbsp;' . */
-            /* Html::a('<i class="fa-solid fa-trash"></i> Xóa (T)',
+            Html::a('<i class="fa-solid fa-square-plus"></i> Thêm mới (A)', ['create'],
+                ['role'=>'modal-remote','title'=> 'Thêm mới hệ vách','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
+                '&nbsp;' .
+            Html::a('<i class="fa-solid fa-trash"></i> Xóa (T)',
                 ["bulkdelete"] ,
                 [
                     'accesskey'=>'t',
@@ -32,13 +32,13 @@ CrudAsset::register($this);
                     'data-request-method'=>'post',
                     'data-confirm-title'=>'Xác nhận xóa thông tin?',
                     'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
-                ]) .  '&nbsp;' . */
+                ]) .  '&nbsp;' .
             Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k'])
         ]);
 	?>
 </div>
 
-<div class="kho-nhom-index">
+<div class="he-vach-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -53,7 +53,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'summary'=>'<i class="fa-solid fa-chart-simple"></i>&nbsp; TS: <strong>{totalCount}</strong> dữ liệu',
             'panel' => [
-                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách kho nhôm'
+                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách hệ vách'
             ]
         ])?>
     </div>
@@ -63,7 +63,7 @@ CrudAsset::register($this);
         "id"=>"ajaxCrudModal",
         "tabindex" => false // important for Select2 to work properly
     ],
-   "dialogOptions"=>["class"=>"modal-xl modal-dialog-centered"],
+   "dialogOptions"=>["class"=>"modal-xl"],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>

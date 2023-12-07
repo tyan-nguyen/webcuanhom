@@ -14,8 +14,6 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'id',
     // ],
-    
-    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
@@ -24,39 +22,21 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'ten_cua',
+        'attribute'=>'ten_he_vach',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'kich_thuoc',
+        'attribute'=>'ghi_chu',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_he_nhom',
-        'value'=>function($model){
-            return $model->heNhom->ten_he_nhom;
-        }
+        'attribute'=>'date_created',
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_loai_cua',
-        'value'=>function($model){
-            return $model->loaiCua->ten_loai_cua;
-        }
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id_parent',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'date_created',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'user_created',
-    // ],
-   /*  [
+        'attribute'=>'user_created',
+    ], */
+    /*[
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
@@ -71,6 +51,6 @@ return [
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Comfirm Delete?',
                           'data-confirm-message'=>'Are you sure to delete this data?'], 
-    ], */
+    ],*/
 
 ];   

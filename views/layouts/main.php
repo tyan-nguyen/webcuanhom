@@ -166,7 +166,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                   	<li>|</li>
                   	<li><a href="/kho/kho-nhom"><i class="fa-regular fa-file"></i> Kho nhôm</a></li>
                   	<li>|</li>
-                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Hệ vách</a></li>
+                  	<li><a href="/kho/he-vach"><i class="fa-regular fa-file"></i> Hệ vách</a></li>
                   	<li>|</li>
                   	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
                   	
