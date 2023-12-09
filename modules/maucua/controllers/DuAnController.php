@@ -70,7 +70,7 @@ class DuAnController extends Controller
                                     ['role'=>'modal-remote']
                                 ). '&nbsp;' .
                             Html::a('Import1',
-                                Yii::getAlias('@web/dungchung/import/upload?id='.$id.'&type=').DuAn::MODEL_ID ,
+                                Yii::getAlias('@web/maucua/import/upload?id='.$id.'&type=').DuAn::MODEL_ID ,
                                 ['role'=>'modal-remote']
                             ). '&nbsp;' .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])

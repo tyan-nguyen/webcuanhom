@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\dungchung\controllers;
+namespace app\modules\maucua\controllers;
 
 use Yii;
 use yii\helpers\Html;
@@ -9,12 +9,12 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\ImportDuAn1;
-use app\modules\dungchung\models\Import;
+use app\modules\maucua\models\Import;
 
 /**
  * Default controller for the `dungchung` module
  */
-class ImportControllerxx extends Controller
+class ImportController extends Controller
 {
      /**
      * Upload file to import

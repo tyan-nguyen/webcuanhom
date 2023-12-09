@@ -40,6 +40,7 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                     </div> -->
                     
                     <div class="col-md-12">
+                    <label>Ngày bắt đầu thực hiện - Ngày hoàn thành</label>
                     <?php 
                     	/* echo DatePicker::widget([
                             'model' => $model, 
@@ -57,6 +58,7 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                     	    'type' => DatePicker::TYPE_RANGE,
                     	    'name2' => 'DuAn[ngay_hoan_thanh_du_an]',
                     	    'value2' => $model->ngay_hoan_thanh_du_an,
+                    	    'separator' => 'đến',
                     	    'pluginOptions' => [
                     	        'autoclose' => true,
                     	        'format' => 'dd/mm/yyyy'

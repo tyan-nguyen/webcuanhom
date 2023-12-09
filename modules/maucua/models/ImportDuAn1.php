@@ -3,7 +3,6 @@
 namespace app\modules\maucua\models;
 
 use app\modules\dungchung\models\CheckFile;
-use app\modules\dungchung\models\Import;
 use app\modules\dungchung\models\HinhAnh;
 
 class ImportDuAn1

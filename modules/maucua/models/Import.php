@@ -1,12 +1,12 @@
 <?php
-namespace app\modules\dungchung\models;
+namespace app\modules\maucua\models;
 
 use Yii;
 use yii\base\Model;
 use app\custom\CustomFunc;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class Importxx extends Model
+class Import extends Model
 {
     CONST FOLDER_EXCEL_UP = '/uploads/excel/up/';
     public $file;
@@ -35,7 +35,7 @@ class Importxx extends Model
      * @return boolean
      */
     public static function checkFileExist($file){
-        $fxls = Yii::getAlias('@webroot') . Importxx::FOLDER_EXCEL_UP . $file;
+        $fxls = Yii::getAlias('@webroot') . Import::FOLDER_EXCEL_UP . $file;
         if(file_exists($fxls)){
             return true;
         } else {
@@ -48,7 +48,7 @@ class Importxx extends Model
      * @param string $file
      */
     public static function deleteFileTemp($file){
-        $fxls = Yii::getAlias('@webroot') . Importxx::FOLDER_EXCEL_UP . $file;
+        $fxls = Yii::getAlias('@webroot') . Import::FOLDER_EXCEL_UP . $file;
         if(file_exists($fxls)){
             unlink($fxls);
         }
@@ -60,7 +60,7 @@ class Importxx extends Model
      * @return \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     public static function readExcel($file){
-        $fxls = Yii::getAlias('@webroot') . Importxx::FOLDER_EXCEL_UP . $file;
+        $fxls = Yii::getAlias('@webroot') . Import::FOLDER_EXCEL_UP . $file;
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($fxls);
         //read excel data and store it into an array and return
         return $spreadsheet;
@@ -72,7 +72,7 @@ class Importxx extends Model
      * @return array|mixed|string
      */
     public static function readExcelToArr($file){
-        $spreadsheet = Importxx::readExcel($file);
+        $spreadsheet = Import::readExcel($file);
         return $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
     }
     
@@ -130,7 +130,7 @@ class Importxx extends Model
      * @return array|mixed|string
      */
     public static function readImageArr($file){
-        $spreadsheet = Importxx::readExcel($file);
+        $spreadsheet = Import::readExcel($file);
         $outputDirectory = Yii::getAlias('@webroot') . '/uploads/images';
         $cus = new CustomFunc();
         $rtImages = [];
@@ -163,7 +163,7 @@ class Importxx extends Model
      * @return array|mixed|string
      */
     public static function readExcelColsToArr($file, $range){
-        $spreadsheet = Importxx::readExcel($file);
+        $spreadsheet = Import::readExcel($file);
         return $spreadsheet->getActiveSheet()->rangeToArray($range);
     }
     
