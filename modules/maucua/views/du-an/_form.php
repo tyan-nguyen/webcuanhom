@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\DuAn */
@@ -20,21 +21,44 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="row">
                 	<div class="col-md-6">
-                		<?= $form->field($model, 'trang_thai')->textInput(['maxlength' => true]) ?>
+                		<?= $form->field($model, 'trang_thai')->dropDownList($model->getDmTrangThai(), ['prompt' => '--Chọn--']) ?>
                     </div>
                     <div class="col-md-6">
                 		<?= $form->field($model, 'code_mau_thiet_ke')->dropDownList($model->getDmThieKe()) ?>
                     </div>
                 </div>
                 <div class="row">
-                	<div class="col-md-6">
-                		<?= $form->field($model, 'ngay_tao_du_an')->textInput() ?>
-                    </div>
                     <div class="col-md-6">
                 		<?= $form->field($model, 'ngay_bat_dau_thuc_hien')->textInput() ?>
                     </div>
                     <div class="col-md-6">
                 		<?= $form->field($model, 'ngay_hoan_thanh_du_an')->textInput() ?>
+                    </div>
+                    
+                    <div class="col-md-12">
+                    <?php 
+                    	/* echo DatePicker::widget([
+                            'model' => $model, 
+                            'attribute' => 'date_1',
+                            'options' => ['placeholder' => 'Enter birth date ...'],
+                            'pluginOptions' => [
+                                'autoclose' => true
+                            ]
+                        ]); */
+                    	
+                    	echo DatePicker::widget([
+                    	    'model' => $model, 
+                    	    'name' => 'ngay_bat_dau_thuc_hien',
+                    	    'value' => '01-Feb-1996',
+                    	    'type' => DatePicker::TYPE_RANGE,
+                    	    'name2' => 'ngay_hoan_thanh_du_an',
+                    	    'value2' => '27-Feb-1996',
+                    	    'pluginOptions' => [
+                    	        'autoclose' => true,
+                    	        'format' => 'yyyy-mm-dd'
+                    	    ]
+                    	]);
+                    ?>
                     </div>
                 </div>
         	</div>

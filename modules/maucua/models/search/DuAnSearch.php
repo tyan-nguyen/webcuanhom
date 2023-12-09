@@ -19,7 +19,7 @@ class DuAnSearch extends DuAn
     {
         return [
             [['id', 'user_created'], 'integer'],
-            [['code', 'ten_du_an', 'ten_khach_hang', 'dia_chi', 'so_dien_thoai', 'email', 'trang_thai', 'ngay_tao_du_an', 'ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'ghi_chu', 'date_created'], 'safe'],
+            [['code', 'ten_du_an', 'ten_khach_hang', 'dia_chi', 'so_dien_thoai', 'email', 'trang_thai', 'ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'ghi_chu', 'date_created'], 'safe'],
         ];
     }
 
@@ -57,7 +57,6 @@ class DuAnSearch extends DuAn
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'ngay_tao_du_an' => $this->ngay_tao_du_an,
             'ngay_bat_dau_thuc_hien' => $this->ngay_bat_dau_thuc_hien,
             'ngay_hoan_thanh_du_an' => $this->ngay_hoan_thanh_du_an,
             'date_created' => $this->date_created,

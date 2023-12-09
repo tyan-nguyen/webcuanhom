@@ -68,10 +68,6 @@ return [
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ngay_tao_du_an',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ngay_bat_dau_thuc_hien',
     // ],
     // [

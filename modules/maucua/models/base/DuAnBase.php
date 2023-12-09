@@ -14,7 +14,6 @@ use app\custom\CustomFunc;
  * @property string|null $so_dien_thoai
  * @property string|null $email
  * @property string|null $trang_thai
- * @property string|null $ngay_tao_du_an
  * @property string|null $ngay_bat_dau_thuc_hien
  * @property string|null $ngay_hoan_thanh_du_an
  * @property string|null $ghi_chu
@@ -54,8 +53,8 @@ class DuAnBase extends \app\models\CuaDuAn
     public static function getDmTrangThai(){
         return [
             'KHOI_TAO'=>'Khởi tạo',
-            'DANG_THUC_HIEN'=>'Đang thực hiện',
-            'DA_HOAN_THANH'=>'Đã hoàn thành'
+            'THUC_HIEN'=>'Đang thực hiện',
+            'HOAN_THANH'=>'Đã hoàn thành'
         ];
     }
     
@@ -68,9 +67,9 @@ class DuAnBase extends \app\models\CuaDuAn
         $label = '';
         if($val == 'KHOI_TAO'){
             $label = 'Khởi tạo';
-        }else if($val == 'DANG_THUC_HIEN'){
+        }else if($val == 'THUC_HIEN'){
             $label = 'Đang thực hiện';
-        }else if($val == 'DA_HOAN_THANH'){
+        }else if($val == 'HOAN_THANH'){
             $label = 'Đã hoàn thành';
         }
         return $label;
@@ -83,7 +82,7 @@ class DuAnBase extends \app\models\CuaDuAn
         return [
             [['ten_du_an'], 'required'],
             [['dia_chi', 'ghi_chu'], 'string'],
-            [['ngay_tao_du_an', 'ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created'], 'safe'],
+            [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created'], 'safe'],
             [['user_created'], 'integer'],
             [['ten_du_an', 'email'], 'string', 'max' => 255],
             [['ten_khach_hang'], 'string', 'max' => 100],
@@ -107,7 +106,6 @@ class DuAnBase extends \app\models\CuaDuAn
             'so_dien_thoai' => 'SĐT',
             'email' => 'Email',
             'trang_thai' => 'Trạng thái',
-            'ngay_tao_du_an' => 'Ngày tạo Dự án',
             'ngay_bat_dau_thuc_hien' => 'Ngày bắt đầu thực hiện Dự án',
             'ngay_hoan_thanh_du_an' => 'Ngày hoàn thành Dự án',
             'ghi_chu' => 'Ghi chú',

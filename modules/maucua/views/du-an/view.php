@@ -18,7 +18,6 @@ use yii\widgets\DetailView;
                 'so_dien_thoai',
                 'email:email',
                 'trang_thai',
-                'ngay_tao_du_an',
                 'ngay_bat_dau_thuc_hien',
                 'ngay_hoan_thanh_du_an',
                 'code_mau_thiet_ke',
