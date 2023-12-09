@@ -142,6 +142,15 @@ class DuAnBase extends \app\models\CuaDuAn
                 $this->code = $this->getRandomCode();
             }
         }
+        //set date
+        $custom = new CustomFunc();
+        if($this->ngay_bat_dau_thuc_hien !=null){
+            $this->ngay_bat_dau_thuc_hien = $custom->convertDMYToYMD($this->ngay_bat_dau_thuc_hien);
+        }
+        if($this->ngay_hoan_thanh_du_an !=null){
+            $this->ngay_hoan_thanh_du_an = $custom->convertDMYToYMD($this->ngay_hoan_thanh_du_an);
+        }
+        
         return parent::beforeSave($insert);
     }
 

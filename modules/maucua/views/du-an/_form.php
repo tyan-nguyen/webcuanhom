@@ -2,10 +2,14 @@
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use app\custom\CustomFunc;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\DuAn */
 /* @var $form yii\widgets\ActiveForm */
+$custom = new CustomFunc();
+$model->ngay_bat_dau_thuc_hien = $custom->convertYMDToDMY($model->ngay_bat_dau_thuc_hien);
+$model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh_du_an);
 ?>
 
 <div class="du-an-form">
@@ -28,12 +32,12 @@ use kartik\date\DatePicker;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                 		<?= $form->field($model, 'ngay_bat_dau_thuc_hien')->textInput() ?>
                     </div>
                     <div class="col-md-6">
                 		<?= $form->field($model, 'ngay_hoan_thanh_du_an')->textInput() ?>
-                    </div>
+                    </div> -->
                     
                     <div class="col-md-12">
                     <?php 
@@ -48,14 +52,14 @@ use kartik\date\DatePicker;
                     	
                     	echo DatePicker::widget([
                     	    'model' => $model, 
-                    	    'name' => 'ngay_bat_dau_thuc_hien',
-                    	    'value' => '01-Feb-1996',
+                    	    'name' => 'DuAn[ngay_bat_dau_thuc_hien]',
+                    	    'value' => $model->ngay_bat_dau_thuc_hien,
                     	    'type' => DatePicker::TYPE_RANGE,
-                    	    'name2' => 'ngay_hoan_thanh_du_an',
-                    	    'value2' => '27-Feb-1996',
+                    	    'name2' => 'DuAn[ngay_hoan_thanh_du_an]',
+                    	    'value2' => $model->ngay_hoan_thanh_du_an,
                     	    'pluginOptions' => [
                     	        'autoclose' => true,
-                    	        'format' => 'yyyy-mm-dd'
+                    	        'format' => 'dd/mm/yyyy'
                     	    ]
                     	]);
                     ?>

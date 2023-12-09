@@ -1,6 +1,11 @@
 <?php
 
 use yii\widgets\DetailView;
+use app\custom\CustomFunc;
+
+$custom = new CustomFunc();
+$model->ngay_bat_dau_thuc_hien = $custom->convertYMDToDMY($model->ngay_bat_dau_thuc_hien);
+$model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh_du_an);
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\DuAn */

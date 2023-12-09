@@ -29,14 +29,14 @@ background: #c9ccd1;
 	border:0;
 	height:50px;
 	border-radius:0;
-border-bottom:1px solid #02587b;	
+border-bottom:1px solid #3f4599;	
 color: #02587b;
 }
 .form-style input:focus{
-border-bottom:1px solid #007bff;	
+border-bottom:3px solid #3f4599;	
 box-shadow:none;
 outline:0;
-background-color:#02587b;	
+background-color:#d0d2e5;	
 color:white;
 }
 .sideline {
@@ -116,7 +116,7 @@ height:50px;
         </div>
         <div class="col-md-6 bg-white p-5 text-center"  style="border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
             <img src="<?= Yii::getAlias('@web/images/logo.png') ?>" width="200px" />
-            <h3 class="pb-3" style="color: #02587b; font-weight: bold;">PHẦN MỀM <br/> QUẢN LÝ CỬA NHÔM-KÍNH</h3>
+            <h3 class="pb-3" style="/* color: #02587b; */ color: red; font-weight: bold;">PHẦN MỀM <br/> QUẢN LÝ CỬA NHÔM</h3>
             <div class="form-style">
             
             	<?= $content ?>
