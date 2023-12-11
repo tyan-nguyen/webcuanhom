@@ -41,6 +41,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
           background:rgba(0,0,0,0.5);
           transition: 1s 0.4s;
         }
+        #loading{
+          font-size:1em;
+          letter-spacing: 3px;
+          position:absolute;
+          top:35%;
+          margin-top:0px;
+          width:100%;
+          text-align:center;
+          color:green;
+        }
         #progress{
           height:3px;
           background:#fff;
@@ -134,6 +144,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 
 <div id="overlay">
+	<div id="loading"><img src="/images/loading.gif" width="100" alt="loading..." /></div>
     <div id="progstat"></div>
     <div id="progress"></div>
 </div>
