@@ -4,6 +4,9 @@ namespace app\modules\maucua\models;
 
 use app\modules\dungchung\models\CheckFile;
 use app\modules\dungchung\models\HinhAnh;
+use app\modules\kho\models\HeVach;
+use app\modules\kho\models\KhoVatTu;
+use app\modules\kho\models\DonViTinh;
 
 class ImportDuAn1
 {    
@@ -45,6 +48,21 @@ class ImportDuAn1
         $errorByRow = array();
         $successCount = 0;
         $errorCount = 0;
+        
+        $arrr = array();//luu dong co chu STT
+        foreach ($xls_data as $index=>$row){
+            if($row['A'] == 'STT'){
+                array_push($arrr, $index);
+            }
+        }
+        if(count($arrr) != 4){
+            $errorByRow['maucua'] = 'Định dạng file không đúng!';
+            return [
+                'success'=>0,
+                'error'=>1,
+                'errorArr'=>$errorByRow,
+            ];
+        }
         
         /*************/
         /* thêm mẫu cửa */
@@ -111,12 +129,14 @@ class ImportDuAn1
             $hinhAnhModel->save();
         }
         
-        
+        /*save data*/
         foreach ($xls_data as $index=>$row){
             /**
              * them cua-nhom
              */
-            if($index>=18 && $index<=28){
+            $startRow = $arrr[0] + 1;
+            $endRow = $arrr[1] - 3;
+            if($index>=$startRow && $index<=$endRow){
                 $nhomCua = new MauCuaNhom();
                 $nhomCua->id_mau_cua = $model->id;
                 
@@ -139,7 +159,156 @@ class ImportDuAn1
                 $nhomCua->don_gia = 0;
                 $nhomCua->save();
             }
-        }
+            /**
+             * them cua-vach
+             */
+            $startRow = $arrr[1] + 1;
+            $endRow = $arrr[2] - 3;
+            if($index>=$startRow && $index<=$endRow){
+                $kinhCua = new MauCuaVach();
+                $kinhCua->id_mau_cua = $model->id;
+                
+                //check kinh
+                $kinhModel = HeVach::findOne(['code'=>$row['B']]);
+                if($kinhModel==null){
+                    $kinhModel = new HeVach();
+                    $kinhModel->code = $row['B'];//**
+                    $kinhModel->ten_he_vach = $row['C'];
+                    $kinhModel->ghi_chu = 'Thêm từ import file #mau ' . $model->code;
+                    $kinhModel->save();//**
+                }
+                
+                $kinhCua->id_vach = $kinhModel->id;
+                $kinhCua->rong = $row['F'];
+                $kinhCua->cao = $row['G'];
+                $kinhCua->so_luong = $row['H'];
+                $kinhCua->dien_tich = $row['I'];
+                $kinhCua->don_gia = 0;
+                $kinhCua->so_luong_xuat = 0;
+                $kinhCua->ghi_chu_xuat = '';
+                $kinhCua->so_luong_nhap_lai = 0;
+                $kinhCua->ghi_chu_nhap_lai = '';
+                $kinhCua->save();//**
+                
+            }
+            /**
+             * them cua-phukien
+             */
+            $startRow = $arrr[2] + 1;
+            $endRow = $arrr[3] - 2;
+            if($index>=$startRow && $index<=$endRow){
+                $phuKienCua = new MauCuaVatTu();
+                $phuKienCua->id_mau_cua = $model->id;
+                
+                //check vat tu
+                if($row['H']==null){
+                    $dvtModel = DonViTinh::findOne(['ten_dvt'=>$row['G']]);
+                    if($dvtModel==null){
+                        $dvtModel = new DonViTinh();
+                        $dvtModel->ten_dvt = $row['G'];
+                        $dvtModel->save();//**
+                    }
+                    $phuKienModel = KhoVatTu::findOne([
+                        'ten_vat_tu'=>$row['C'],
+                        'dvt'=>$dvtModel->id
+                    ]);
+                    if($phuKienModel==null){
+                        $phuKienModel = new KhoVatTu();
+                        $phuKienModel->ten_vat_tu = $row['C'];
+                        $phuKienModel->id_nhom_vat_tu = 1;//1 la phu kien, xem KhoVatBase.
+                        $phuKienModel->la_phu_kien = 1;
+                        //$phuKienModel->so_luong = $row['I'];
+                        $phuKienModel->so_luong = 0;
+                        $phuKienModel->dvt = $dvtModel->id;
+                        $phuKienModel->don_gia = 0;
+                        $phuKienModel->save(); //**
+                    }
+                } else {
+                    $phuKienModel = KhoVatTu::findOne(['code'=>$row['H']]);
+                    if($phuKienModel==null){
+                        $phuKienModel = new KhoVatTu();
+                        $phuKienModel->code = $row['H'];//****this line different from below condition.
+                        $phuKienModel->ten_vat_tu = $row['C'];
+                        $phuKienModel->id_nhom_vat_tu = 1;//1 la phu kien, xem KhoVatBase.
+                        $phuKienModel->la_phu_kien = 1;
+                        //$phuKienModel->so_luong = $row['I'];
+                        $phuKienModel->so_luong = 0;
+                        $phuKienModel->dvt = $dvtModel->id;
+                        $phuKienModel->don_gia = 0;
+                        $phuKienModel->save(); //**
+                    }
+                }
+                //continue code for $phuKienCua
+                $phuKienCua->id_kho_vat_tu = $phuKienModel->id;
+                $phuKienCua->so_luong = $row['I'];
+                $phuKienCua->dvt = $row['G'];
+                $phuKienCua->don_gia = 0;//**
+                $phuKienCua->la_phu_kien = 1;
+                $phuKienCua->so_luong_xuat = 0;
+                $phuKienCua->ghi_chu_xuat = '';
+                $phuKienCua->so_luong_nhap_lai = 0;
+                $phuKienCua->ghi_chu_nhap_lai = '';
+                $phuKienCua->save();//**
+            }
+            /**
+             * them cua-vat tu
+             */
+            $startRow = $arrr[3] + 1;
+            if($index>=$startRow){
+                $phuKienCua = new MauCuaVatTu();
+                $phuKienCua->id_mau_cua = $model->id;
+                
+                //check vat tu
+                if($row['H']==null){
+                    $dvtModel = DonViTinh::findOne(['ten_dvt'=>$row['G']]);
+                    if($dvtModel==null){
+                        $dvtModel = new DonViTinh();
+                        $dvtModel->ten_dvt = $row['G'];
+                        $dvtModel->save();//**
+                    }
+                    $phuKienModel = KhoVatTu::findOne([
+                        'ten_vat_tu'=>$row['C'],
+                        'dvt'=>$dvtModel->id
+                    ]);
+                    if($phuKienModel==null){
+                        $phuKienModel = new KhoVatTu();
+                        $phuKienModel->ten_vat_tu = $row['C'];
+                        $phuKienModel->id_nhom_vat_tu = 2;//2 la vat tu, xem KhoVatBase.
+                        $phuKienModel->la_phu_kien = 0;
+                        //$phuKienModel->so_luong = $row['I'];
+                        $phuKienModel->so_luong = 0;
+                        $phuKienModel->dvt = $dvtModel->id;
+                        $phuKienModel->don_gia = 0;
+                        $phuKienModel->save(); //**
+                    }
+                } else {
+                    $phuKienModel = KhoVatTu::findOne(['code'=>$row['H']]);
+                    if($phuKienModel==null){
+                        $phuKienModel = new KhoVatTu();
+                        $phuKienModel->code = $row['H'];//****this line different from below condition.
+                        $phuKienModel->ten_vat_tu = $row['C'];
+                        $phuKienModel->id_nhom_vat_tu = 2;//2 la vat tu, xem KhoVatBase.
+                        $phuKienModel->la_phu_kien = 0;
+                        //$phuKienModel->so_luong = $row['I'];
+                        $phuKienModel->so_luong = 0;
+                        $phuKienModel->dvt = $dvtModel->id;
+                        $phuKienModel->don_gia = 0;
+                        $phuKienModel->save(); //**
+                    }
+                }
+                //continue code for $phuKienCua
+                $phuKienCua->id_kho_vat_tu = $phuKienModel->id;
+                $phuKienCua->so_luong = $row['I'];
+                $phuKienCua->dvt = $row['G'];
+                $phuKienCua->don_gia = 0;//**
+                $phuKienCua->la_phu_kien = 0;//** this is important diffrent for phuKien
+                $phuKienCua->so_luong_xuat = 0;
+                $phuKienCua->ghi_chu_xuat = '';
+                $phuKienCua->so_luong_nhap_lai = 0;
+                $phuKienCua->ghi_chu_nhap_lai = '';
+                $phuKienCua->save();//**
+            }
+        }//end foreach $xls_data
         
         
         /* foreach ($xls_data as $index=>$row){

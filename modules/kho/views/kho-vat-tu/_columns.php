@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 return [
     [
@@ -27,6 +28,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_nhom_vat_tu',
+        'filter'=>Html::activeDropDownList($searchModel, 'id_nhom_vat_tu', $searchModel->getDmNhomVatTu(), ['prompt'=>'--Chọn--', 'class'=>'form-control']),
         'value'=>function($model){
             return $model->getDmNhomVatTuLabel($model->id_nhom_vat_tu);
         }

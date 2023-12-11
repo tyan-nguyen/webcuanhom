@@ -113,7 +113,7 @@ class MauCuaController extends Controller
      * @return array
      * 
      */
-    public function actionGetData2($id){
+    public function actionGetData2($id, $type=NULL){
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         $kqTest = '';
@@ -136,7 +136,11 @@ class MauCuaController extends Controller
             }
             //them moi lai toan bo toi uu
             //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
-            $mauCuaModel->taoToiUu();
+            if($type==NULL){//toi uu tu kho
+                $mauCuaModel->taoToiUu();
+            } else if($type == 'catmoi'){
+                $mauCuaModel->taoToiUuCatMoi();
+            }
         }
         
         

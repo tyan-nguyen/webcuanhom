@@ -23,7 +23,8 @@
     </table>
 </div>
 
-<a href="#" onclick="getData2()">Random</a>
+<a href="#" onclick="getData2()">Tối ưu</a>
+<a href="#" onclick="getData3()">Cắt mới</a>
 
 <script type="text/javascript">
 var vue2 = new Vue({
@@ -72,6 +73,17 @@ function getData2(){
       type: 'GET',
         dataType:"json",
       url: '/maucua/mau-cua/get-data2?id=<?= $model->id ?>',
+      success: function (data, status, xhr) {
+        	vue2.results = data.result;
+      }
+    });
+}
+
+function getData3(){
+    $.ajax({
+      type: 'GET',
+        dataType:"json",
+      url: '/maucua/mau-cua/get-data2?id=<?= $model->id ?>&type=catmoi',
       success: function (data, status, xhr) {
         	vue2.results = data.result;
       }

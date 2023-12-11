@@ -170,6 +170,32 @@ class MauCuaBase extends \app\models\CuaMauCua
         }
     }
     
+    /*
+     * tao toi uu cat moi
+     */
+    public function taoToiUuCatMoi(){
+        foreach ($this->dsNhoms as $iNhom=>$nhom){
+            if($nhom->so_luong <= 0){
+                //continue;
+            } else if($nhom->so_luong == 1){
+                $toiUuModel = new ToiUu();
+                $toiUuModel->id_mau_cua = $this->id;
+                $toiUuModel->id_mau_cua_nhom = $nhom->id;
+                $toiUuModel->id_ton_kho_nhom = 2;//**********tam
+                $toiUuModel->save();
+            } else {
+                for($iTam=1;$iTam<=$nhom->so_luong;$iTam++){
+                    $toiUuModel = new ToiUu();
+                    $toiUuModel->id_mau_cua = $this->id;
+                    $toiUuModel->id_mau_cua_nhom = $nhom->id;
+                    $toiUuModel->id_ton_kho_nhom = 2;//*********tam
+                    $toiUuModel->save();
+                }
+            }
+        }
+    }
+    
+    
     /**
      * chay thuat toan toi uu nhom tong hop
      */

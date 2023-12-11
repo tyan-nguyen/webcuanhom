@@ -42,13 +42,14 @@ class KhoNhomLichSuBase extends \app\models\CuaKhoNhomLichSu
     {
         return [
             'id' => 'ID',
-            'id_kho_nhom' => 'Id Kho Nhom',
-            'so_luong' => 'So Luong',
-            'noi_dung' => 'Noi Dung',
-            'id_mau_cua' => 'Id Mau Cua',
-            'date_created' => 'Date Created',
-            'user_created' => 'User Created',
-            'chieuDai' => 'Chieu dai'
+            'id_kho_nhom' => 'Kho nhôm',
+            'so_luong' => 'Số lượng',
+            'noi_dung' => 'Nội dung',
+            'id_mau_cua' => 'Mẫu cửa',
+            'date_created' => 'Ngày tạo',
+            'user_created' => 'Tài khoản',
+            
+            'chieuDai' => 'Chiều dài'
         ];
     }
     

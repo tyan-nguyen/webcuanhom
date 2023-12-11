@@ -22,6 +22,36 @@ class MauCua extends MauCuaBase
     }
     
     /**
+     * Gets query for [[MauCuaVach]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDsVach()
+    {
+        return $this->hasMany(MauCuaVach::class, ['id_mau_cua' => 'id']);
+    }
+    
+    /**
+     * Gets query for [[MauCuaPhuKien]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDsPhuKien()
+    {
+        return $this->hasMany(MauCuaVatTu::class, ['id_mau_cua' => 'id'])->andOnCondition(['la_phu_kien' => 1]);
+    }
+    
+    /**
+     * Gets query for [[MauCuaVatTu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDsVatTu()
+    {
+        return $this->hasMany(MauCuaVatTu::class, ['id_mau_cua' => 'id'])->andOnCondition(['la_phu_kien' => 0]);
+    }
+    
+    /**
      * Gets query for [[MauCuaNhoms]].
      *
      * @return \yii\db\ActiveQuery

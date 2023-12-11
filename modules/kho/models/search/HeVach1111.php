@@ -5,12 +5,12 @@ namespace app\modules\kho\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\kho\models\HeVach as HeVachModel;
+use app\modules\kho\models\HeVach1111 as HeVachModel;
 
 /**
  * HeVach represents the model behind the search form about `app\modules\kho\models\HeVach`.
  */
-class HeVach extends HeVachModel
+class HeVach1111 extends HeVachModel
 {
     /**
      * @inheritdoc
