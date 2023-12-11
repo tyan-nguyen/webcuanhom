@@ -137,10 +137,12 @@ class MauCuaController extends Controller
             //them moi lai toan bo toi uu
             //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
             if($type==NULL){//toi uu tu kho
-                $mauCuaModel->taoToiUu();
+                $kqToiUu = $mauCuaModel->taoToiUu();
+                $kqTest .= print_r($kqToiUu);
             } else if($type == 'catmoi'){
                 $mauCuaModel->taoToiUuCatMoi();
             }
+            
         }
         
         

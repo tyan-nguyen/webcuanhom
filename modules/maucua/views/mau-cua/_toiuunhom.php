@@ -23,8 +23,8 @@
     </table>
 </div>
 
-<a href="#" onclick="getData2()">Tối ưu</a>
-<a href="#" onclick="getData3()">Cắt mới</a>
+<a href="#" onclick="getData2()" class="btn btn-primary btn-sm">Tối ưu kho</a>
+<a href="#" onclick="getData3()" class="btn btn-primary btn-sm">Tối ưu nhôm mới</a>
 
 <script type="text/javascript">
 var vue2 = new Vue({
