@@ -29,6 +29,72 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     
+    <style>
+        /*for loading*/
+        #overlay{
+          position:fixed;
+          z-index:99999;
+          top:0;
+          left:0;
+          bottom:0;
+          right:0;
+          background:rgba(0,0,0,0.5);
+          transition: 1s 0.4s;
+        }
+        #progress{
+          height:3px;
+          background:#fff;
+          position:absolute;
+          width:0;
+          top:50%;
+        }
+        #progstat{
+          font-size:1em;
+          letter-spacing: 3px;
+          position:absolute;
+          top:50%;
+          margin-top:-40px;
+          width:100%;
+          text-align:center;
+          color:#fff;
+        }
+    </style>
+    
+    <script>
+    ;(function(){
+      function id(v){return document.getElementById(v); }
+      function loadbar() {
+        var ovrl = id("overlay"),
+            prog = id("progress"),
+            stat = id("progstat"),
+            img = document.images,
+            c = 0;
+            tot = img.length;
+    
+        function imgLoaded(){
+          c += 1;
+          var perc = ((100/tot*c) << 0) +"%";
+          prog.style.width = perc;
+          stat.innerHTML = "Loading "+ perc;
+          if(c===tot) return doneLoading();
+        }
+        function doneLoading(){
+          ovrl.style.opacity = 0;
+          setTimeout(function(){ 
+            ovrl.style.display = "none";
+          }, 1200);
+        }
+        for(var i=0; i<tot; i++) {
+          var tImg     = new Image();
+          tImg.onload  = imgLoaded;
+          tImg.onerror = imgLoaded;
+          tImg.src     = img[i].src;
+        }    
+      }
+      document.addEventListener('DOMContentLoaded', loadbar, false);
+    }());
+    </script>
+    
 </head>
 <body class="d-flex flex-column h-100" onload="startTime()">
 
@@ -61,10 +127,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         .ul-ribbon li a:hover{
             color:yellow;
        }
+       
     </style>
     
 <?php $this->beginBody() ?>
 
+
+<div id="overlay">
+    <div id="progstat"></div>
+    <div id="progress"></div>
+</div>
+      
 <header id="header" class="" style="margin:0 auto;background: #f7f7f7;width:100%;">
     <?php
     /*NavBar::begin([
