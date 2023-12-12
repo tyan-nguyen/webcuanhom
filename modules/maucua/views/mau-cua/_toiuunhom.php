@@ -60,9 +60,9 @@ var vue2 = new Vue({
 		]*/
 	},
 	methods: {
-		changeValue: function(event){
+		/* changeValue: function(event){
 			this.noidung = event.target.value;
-		}
+		} */
 	},
 	computed: {
 	}
@@ -70,11 +70,14 @@ var vue2 = new Vue({
 
 function getData2(){
     $.ajax({
+        /* beforeSend: function() {
+         alert('inside ajax');
+       }, */
       type: 'GET',
-        dataType:"json",
+        dataType:'json',
       url: '/maucua/mau-cua/get-data2?id=<?= $model->id ?>',
       success: function (data, status, xhr) {
-        	vue2.results = data.result;
+      	vue2.results = data.result;
       }
     });
 }

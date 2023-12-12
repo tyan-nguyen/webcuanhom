@@ -218,26 +218,29 @@ class MauCuaBase extends \app\models\CuaMauCua
        
         //neu thanh nhom cat co trong kho thi lay (dieu kien so luong phai du de lay
         //neu khong co thanh nhom cat thi lay cay nhom dai (khong can kiem tra kho có hay khong)
-        $thanhNhom = KhoNhom::find()->where([
-            'id_cay_nhom'=>$idCayNhom,
-        ])->andWhere('so_luong>0')->orderBy('chieu_dai ASC')->one();
-        if($thanhNhom != null){
-            return $thanhNhom->id;
-        } else {
-            $cayNhom = CayNhom::findOne($idCayNhom);
-            if($cayNhom != null){
+        $cayNhom = CayNhom::findOne($idCayNhom);
+        if($cayNhom != null){
+            $thanhNhom = KhoNhom::find()->where([
+                'id_cay_nhom'=>$idCayNhom,
+            ])->andWhere('so_luong>0')
+            ->andWhere('chieu_dai>='.($chieuDai+$cayNhom->min_allow_cut))
+            ->orderBy('chieu_dai ASC')->one();
+            
+            if($thanhNhom != null){
+                return $thanhNhom->id;
+            } else {               
                 $thanhNhom = KhoNhom::find()->where([
-                    'id_cay_nhom' => $cayNhom->id,
+                    'id_cay_nhom' => $idCayNhom,
                     'chieu_dai'=>$cayNhom->chieu_dai
                 ])->one();
                 if($thanhNhom != null){
                     return $thanhNhom->id;
                 } else {
                     //xu ly ney thanh nhom khong ton tai trong kho
-                }
-            } else {
-                //xu ly loi neu cay nhom khong ton tai
+                }                
             }
+        } else {
+            //xu ly loi neu cay nhom khong ton tai
         }
     }
     
