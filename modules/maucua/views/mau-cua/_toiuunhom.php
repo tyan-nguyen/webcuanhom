@@ -25,6 +25,8 @@
 
 <a href="#" onclick="getData2()" class="btn btn-primary btn-sm">Tối ưu kho</a>
 <a href="#" onclick="getData3()" class="btn btn-primary btn-sm">Tối ưu nhôm mới</a>
+<span class="loadingAjax" style="display:none"><img src="/images/loading.gif" width="50" alt="loading..." /></span>
+<span class="completeAjax text-primary" style="display:none"> <i class="fa-solid fa-thumbs-up"></i> Đã xử lý thành công!</span>
 
 <script type="text/javascript">
 var vue2 = new Vue({

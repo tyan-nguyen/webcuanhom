@@ -125,30 +125,31 @@ class MauCuaController extends Controller
         $mauCuaModel = MauCua::findOne($id);
         
         $slToiUu = $toiUu->count();
-        $slNhom = $nhom->sum('so_luong');
-        if( $slToiUu == $slNhom ){
-            $kqTest = 'số lượng ok';
-        } else {
-            $kqTest = 'Số lượng k khớp!';
+        //$slNhom = $nhom->sum('so_luong');
+       // if( $slToiUu == $slNhom ){
+        //    $kqTest = 'số lượng ok';
+       // } else {
+        //    $kqTest = 'Số lượng k khớp!';
             //kt nếu tối ưu > 0 thì xóa hết.
-            if($slToiUu > 0){
-                $mauCuaModel->deleteToiUu();
-            }
-            //them moi lai toan bo toi uu
-            //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
-            if($type==NULL){//toi uu tu kho
-               /*  $kqToiUu = $mauCuaModel->taoToiUu();
-                $kqTest .= print_r($kqToiUu); */
-                $mauCuaModel->taoToiUu();
-            } else if($type == 'catmoi'){
-                $mauCuaModel->taoToiUuCatMoi();
-            }
-            
+        if($slToiUu > 0){
+            $mauCuaModel->deleteToiUu();
         }
-        
+        //them moi lai toan bo toi uu
+        //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
+        if($type==NULL){//toi uu tu kho
+           /*  $kqToiUu = $mauCuaModel->taoToiUu();
+            $kqTest .= print_r($kqToiUu); */
+            $mauCuaModel->taoToiUu();
+        } else if($type == 'catmoi'){
+            $mauCuaModel->taoToiUuCatMoi();
+        }
+            
+       // }
+       //search lai de load model moi
+        $mauCuaModel1 = MauCua::findOne($id);
         return [
             'kqTest' => $kqTest,
-            'result'=> $mauCuaModel->dsToiUu() /* [
+            'result'=> $mauCuaModel1->dsToiUu() /* [
                 [
                     'id' => 112,
                     'idMauCua' => 112,

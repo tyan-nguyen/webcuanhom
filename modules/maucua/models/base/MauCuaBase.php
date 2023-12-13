@@ -197,14 +197,14 @@ class MauCuaBase extends \app\models\CuaMauCua
                 $toiUuModel = new ToiUu();
                 $toiUuModel->id_mau_cua = $this->id;
                 $toiUuModel->id_mau_cua_nhom = $nhom->id;
-                $toiUuModel->id_ton_kho_nhom = 2;//**********tam
+                $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomCayNhomMoi($nhom->id_cay_nhom);
                 $toiUuModel->save();
             } else {
                 for($iTam=1;$iTam<=$nhom->so_luong;$iTam++){
                     $toiUuModel = new ToiUu();
                     $toiUuModel->id_mau_cua = $this->id;
                     $toiUuModel->id_mau_cua_nhom = $nhom->id;
-                    $toiUuModel->id_ton_kho_nhom = 2;//*********tam
+                    $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomCayNhomMoi($nhom->id_cay_nhom);
                     $toiUuModel->save();
                 }
             }
@@ -241,6 +241,26 @@ class MauCuaBase extends \app\models\CuaMauCua
             }
         } else {
             //xu ly loi neu cay nhom khong ton tai
+        }
+    }
+    
+    /**
+     * ham lay id kho nhom cua cay nhom chinh
+     */
+    public function getKhoNhomCayNhomMoi($idCayNhom){
+        $cayNhom = CayNhom::findOne($idCayNhom);
+        if($cayNhom !=null){
+            $thanhNhom = KhoNhom::find()->where([
+                'id_cay_nhom'=>$idCayNhom,
+                'chieu_dai'=>$cayNhom->chieu_dai
+            ])->one();
+            if($thanhNhom!=null){
+                return $thanhNhom->id;
+            } else {
+                //
+            }
+        }else{
+            //
         }
     }
     

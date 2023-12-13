@@ -347,9 +347,23 @@ $script = <<< JS
     }
     setActiveMenu('$moduleName');
 
+    $(document).ajaxStart(function() {
+      $(".loadingAjax").show();
+      $(".completeAjax").hide();
+    });
+    
+    $(document).ajaxStop(function() {
+      $(".loadingAjax").hide();
+      $(".completeAjax").show();
+      setTimeout(function(){
+        $(".completeAjax").hide();
+      },2000); 
+    });
+
 JS;
 $this->registerJs($script);
 ?>
+
 
 
 <?php $this->endBody() ?>
