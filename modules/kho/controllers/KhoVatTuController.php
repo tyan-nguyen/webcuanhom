@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use app\modules\kho\models\KhoVatTuLichSu;
 
 /**
  * KhoVatTuController implements the CRUD actions for KhoVatTu model.
@@ -74,6 +75,110 @@ class KhoVatTuController extends Controller
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
+        }
+    }
+    
+    /**
+     * add lich su ton kho nhom
+     * @param unknown $id
+     * @throws NotFoundHttpException
+     * @return string[]
+     * **************************************** dang xu ly *************************
+     */
+    public function actionAddLichSu($id){
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        $history = new KhoVatTuLichSu();
+        
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Thêm tồn kho vật tư " . $model->code ,
+                    'content'=>$this->renderAjax('form-ton-kho', [
+                        'model' => $model,
+                        'history' => $history
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }else if($history->load($request->post())){
+                $historySaved = false;
+                
+                if($history->validate() == true){
+                    //check ton kho cay nhom co chua
+                    $nhomTonKho = KhoVatTuLichSu::findOne([
+                        'id_cay_nhom' => $model->id,
+                        'chieu_dai' => $history->chieuDai
+                    ]);
+                    
+                    //them moi ton kho neu chua co, neu co roi thi tang so luong
+                    if($nhomTonKho == null){
+                        $nhomTonKho = new KhoNhom();
+                        $nhomTonKho->id_cay_nhom = $model->id;
+                        $nhomTonKho->chieu_dai = $history->chieuDai;
+                        $nhomTonKho->so_luong = $history->so_luong;
+                        if($nhomTonKho->save()){
+                            $history->id_kho_nhom = $nhomTonKho->id;
+                            if($history->save()){
+                                $historySaved = true;
+                            }else{
+                                $nhomTonKho->delete();
+                            }
+                        }
+                    } else {
+                        $nhomTonKho->so_luong = $nhomTonKho->so_luong + $history->so_luong;
+                        if($nhomTonKho->save()){
+                            $history->id_kho_nhom = $nhomTonKho->id;
+                            if($history->save()){
+                                $historySaved = true;
+                            } else {
+                                $nhomTonKho->so_luong = $nhomTonKho->so_luong - $history->so_luong;
+                                $nhomTonKho->save();
+                            }
+                        }
+                    }
+                }
+                
+                if($historySaved){
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "CayNhom #".$id,
+                        'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::a('Edit',
+                            ['update','id'=>$id],
+                            ['role'=>'modal-remote']
+                            ). '&nbsp;' .
+                        Html::a('addTonKho',['add-ton-kho','id'=>$id],['role'=>'modal-remote'])
+                        . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                } else {
+                    return [
+                        'title'=> "Thêm tồn kho cây nhôm " . $model->code ,
+                        'content'=>$this->renderAjax('form-ton-kho', [
+                            'model' => $model,
+                            'history' => $history
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                        .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                }
+            }else{
+                return [
+                    'title'=> "Thêm tồn kho cây nhôm " . $model->code ,
+                    'content'=>$this->renderAjax('form-ton-kho', [
+                        'model' => $model,
+                        'history' => $history
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 

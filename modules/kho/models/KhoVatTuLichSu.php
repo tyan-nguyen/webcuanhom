@@ -10,12 +10,13 @@ class KhoVatTuLichSu extends KhoVatTuLichSuBase
     /***** relation *****/
     
     /**
-     * Gets query for [[CuaKhoVatTuLichSus]]
+     * Gets query for [[KhoVatTu]].
+     *
      * @return \yii\db\ActiveQuery
      */
-    public function getCuaKhoVatTuLichSus()
+    public function getKhoVatTu()
     {
-        return $this->hasMany(KhoVatTuLichSu::class, ['id_kho_vat_tu' => 'id']);
+        return $this->hasOne(KhoVatTu::class, ['id' => 'id_kho_vat_tu']);
     }
     /***** /relation *****/
     /***** custom function *****/

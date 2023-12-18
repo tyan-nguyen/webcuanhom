@@ -30,7 +30,7 @@ class KhoVatTuLichSuBase extends \app\models\CuaKhoNhomLichSu
             [['ghi_chu'], 'string'],
             [['so_luong'], 'number'],
             [['date_created'], 'safe'],
-            [['id_kho_vat_tu'], 'exist', 'skipOnError' => true, 'targetClass' => KhoVatTu::class, 'targetAttribute' => ['id_kho_vat_tu' => 'id']],
+            [['id_kho_vat_tu'], 'exist', 'skipOnError' => true, 'targetClass' => KhoVatTuBase::class, 'targetAttribute' => ['id_kho_vat_tu' => 'id']],
         ];
     }
 
@@ -49,16 +49,6 @@ class KhoVatTuLichSuBase extends \app\models\CuaKhoNhomLichSu
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
         ];
-    }
-
-    /**
-     * Gets query for [[KhoVatTu]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getKhoVatTu()
-    {
-        return $this->hasOne(KhoVatTu::class, ['id' => 'id_kho_vat_tu']);
     }
     
     /**

@@ -4,6 +4,7 @@ namespace app\modules\kho\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
+use app\modules\kho\models\KhoVatTuLichSu;
 
 /**
  * @property int $id
@@ -96,6 +97,24 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             $this->getRandomCode();
         }
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->isNewRecord) {
+            $lichSuTonKho = new KhoVatTuLichSu();
+            $lichSuTonKho->id_kho_vat_tu = $this->id;
+            $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+            $lichSuTonKho->ghi_chu = 'Số lượng nhập mới';
+            $lichSuTonKho->so_luong = $this->so_luong;
+            $lichSuTonKho->id_mau_cua = '';//*********
+            $lichSuTonKho->save();
+        }
+        
+        return parent::afterSave($insert, $changedAttributes);
+    } 
     
     /**
      * Danh muc nhom vat tu
