@@ -4,3 +4,7 @@
 - tach chuc nang quan ly phu kien, vat tu, thiet bi
 - toi uu -> tinh ra duoc cay nhom xuat kho va nhap kho
 - in hoa don xuat hang - nhap hang
+
+
+
+--> nhap ton kho cho phu kien vat lieu
