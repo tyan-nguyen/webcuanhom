@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use app\modules\kho\models\KhoVatTuLichSu;
+use app\modules\dungchung\models\Setting;
 
 /**
  * KhoVatTuController implements the CRUD actions for KhoVatTu model.
@@ -68,13 +69,113 @@ class KhoVatTuController extends Controller
                 'footer'=> Html::a('Edit',
                             ['update','id'=>$id],
                             ['role'=>'modal-remote']
-                            ). '&nbsp;' .
+                    ). '&nbsp;' .
+                    Html::a('addTonKho',['add-ton-kho','id'=>$id],['role'=>'modal-remote'])
+                    . '&nbsp;' .
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
+        }
+    }
+    /**
+     * them ton kho vat tu
+     * sua so luong ton kho va luu vao lich su thay doi ton kho
+     * @param unknown $id
+     * @throws NotFoundHttpException
+     * @return string[]
+     */
+    public function actionAddTonKho($id){
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        $history = new KhoVatTuLichSu();
+        $setting = Setting::find()->one();
+        
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Thêm tồn kho " . $model->code ,
+                    'content'=>$this->renderAjax('_form-ton-kho', [
+                        'model' => $model,
+                        'history' => $history
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }else if($history->load($request->post())){
+                $history->id_kho_vat_tu = $model->id;
+                $history->so_luong_cu = $model->so_luong;
+                $soLuongConLai = $model->so_luong + ($history->so_luong == null ? 0 : $history->so_luong);
+                if($history->so_luong < 0 && $soLuongConLai < 0){                    
+                    if($setting->cho_phep_nhap_kho_am != true){
+                        $history->addError('so_luong', 'Cấu hình phần mềm không cho phép thêm tồn kho âm. Bạn vui lòng thay đổi cấu hình. Nếu bạn không có quyền thay đổi vui lòng liên hệ người quản trị!');
+                        return [
+                            'title'=> "Thêm tồn kho" . $model->code ,
+                            'content'=>$this->renderAjax('_form-ton-kho', [
+                                'model' => $model,
+                                'history' => $history
+                            ]),
+                            'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                            .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        ];
+                    }
+                }
+                $history->so_luong_moi = $soLuongConLai;
+                $history->id_mau_cua = null;//***
+                if($history->save()){
+                    //sửa tồn kho
+                    $model->so_luong = $model->so_luong + $history->so_luong;
+                    if($model->save()){
+                        return [
+                            'forceReload'=>'#crud-datatable-pjax',
+                            'title'=> "Thông tin vật tư",
+                            'content'=>$this->renderAjax('view', [
+                                'model' => $model,
+                            ]),
+                            'footer'=> Html::a('Edit',
+                                ['update','id'=>$id],
+                                ['role'=>'modal-remote']
+                                ). '&nbsp;' .
+                            Html::a('addTonKho',['add-ton-kho','id'=>$id],['role'=>'modal-remote'])
+                            . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        ];
+                    } else {
+                        $history->delete();
+                        return [
+                            'title'=> "Thêm tồn kho " . $model->code ,
+                            'content'=>'Có lỗi xảy - mã lỗi: #E0001',
+                            'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                            .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        ];
+                    }
+                } else {
+                    return [
+                        'title'=> "Thêm tồn kho" . $model->code ,
+                        'content'=>$this->renderAjax('_form-ton-kho', [
+                            'model' => $model,
+                            'history' => $history
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                        .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                }
+            }else{
+                return [
+                    'title'=> "Thêm tồn kho " . $model->code ,
+                    'content'=>$this->renderAjax('_form-ton-kho', [
+                        'model' => $model,
+                        'history' => $history
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
     
@@ -252,7 +353,8 @@ class KhoVatTuController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        $oldModel = $this->findModel($id);
 
         if($request->isAjax){
             /*
@@ -269,6 +371,20 @@ class KhoVatTuController extends Controller
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                //them lich su ton kho neu thay so luong co thay doi
+                if($model->so_luong != $oldModel->so_luong){
+                    $lichSuTonKho = new KhoVatTuLichSu();
+                    $lichSuTonKho->id_kho_vat_tu = $model->id;
+                    $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+                    $lichSuTonKho->ghi_chu = 'Sửa số lượng tồn kho';
+                    $lichSuTonKho->so_luong = $model->so_luong - $oldModel->so_luong;
+                    $lichSuTonKho->so_luong_cu = $oldModel->so_luong;
+                    $lichSuTonKho->so_luong_moi = $model->so_luong;
+                    $lichSuTonKho->id_mau_cua = null;//*********
+                    $lichSuTonKho->save();
+                }
+                
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thông tin vật tư",

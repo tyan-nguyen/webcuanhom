@@ -81,7 +81,12 @@ class CayNhomController extends Controller
             ]);
         }
     }
-    
+    /**
+     * them ton kho nhom
+     * @param unknown $id
+     * @throws NotFoundHttpException
+     * @return string[]
+     */
     public function actionAddTonKho($id){
         $request = Yii::$app->request;
         $model = $this->findModel($id);

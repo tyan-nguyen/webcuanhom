@@ -102,25 +102,17 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
      * {@inheritdoc}
      */
     public function afterSave($insert, $changedAttributes)
-    {
-        if ($this->isNewRecord) {
+    {        
+        if ($insert) {
             $lichSuTonKho = new KhoVatTuLichSu();
             $lichSuTonKho->id_kho_vat_tu = $this->id;
             $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
-            $lichSuTonKho->ghi_chu = 'Số lượng nhập mới';
+            $lichSuTonKho->ghi_chu = 'Nhập số lượng khi thêm mới vào kho';
             $lichSuTonKho->so_luong = $this->so_luong;
-            $lichSuTonKho->id_mau_cua = '1';//*********
+            $lichSuTonKho->so_luong_cu = 0;
+            $lichSuTonKho->so_luong_moi = $this->so_luong;
+            $lichSuTonKho->id_mau_cua = null;//*********
             $lichSuTonKho->save();
-        } else {
-            if($this->isAttributeChanged('so_luong')){
-                $lichSuTonKho = new KhoVatTuLichSu();
-                $lichSuTonKho->id_kho_vat_tu = $this->id;
-                $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
-                $lichSuTonKho->ghi_chu = 'Sửa số lượng tồn kho - so cu:' . $this->getOldAttribute('so_luong') . ' - so moi:'. $this->so_luong;
-                $lichSuTonKho->so_luong = $this->so_luong;
-                $lichSuTonKho->id_mau_cua = '';//*********
-                $lichSuTonKho->save();
-            }
         }
         
         return parent::afterSave($insert, $changedAttributes);

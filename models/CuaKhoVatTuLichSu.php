@@ -12,6 +12,8 @@ use Yii;
  * @property int|null $id_nha_cung_cap
  * @property string|null $ghi_chu
  * @property float|null $so_luong
+ * @property float|null $so_luong_cu
+ * @property float|null $so_luong_moi
  * @property int|null $id_mau_cua
  * @property string|null $date_created
  * @property int|null $user_created
@@ -37,7 +39,7 @@ class CuaKhoVatTuLichSu extends \yii\db\ActiveRecord
             [['id_kho_vat_tu'], 'required'],
             [['id_kho_vat_tu', 'id_nha_cung_cap', 'id_mau_cua', 'user_created'], 'integer'],
             [['ghi_chu'], 'string'],
-            [['so_luong'], 'number'],
+            [['so_luong', 'so_luong_cu', 'so_luong_moi'], 'number'],
             [['date_created'], 'safe'],
             [['id_kho_vat_tu'], 'exist', 'skipOnError' => true, 'targetClass' => CuaKhoVatTu::class, 'targetAttribute' => ['id_kho_vat_tu' => 'id']],
         ];
@@ -54,6 +56,8 @@ class CuaKhoVatTuLichSu extends \yii\db\ActiveRecord
             'id_nha_cung_cap' => 'Id Nha Cung Cap',
             'ghi_chu' => 'Ghi Chu',
             'so_luong' => 'So Luong',
+            'so_luong_cu' => 'So Luong Cu',
+            'so_luong_moi' => 'So Luong Moi',
             'id_mau_cua' => 'Id Mau Cua',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',

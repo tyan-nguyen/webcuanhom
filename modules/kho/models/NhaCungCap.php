@@ -5,6 +5,7 @@ namespace app\modules\kho\models;
 use Yii;
 use app\modules\kho\models\base\NhaCungCapBase;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 class NhaCungCap extends NhaCungCapBase
 {
@@ -17,6 +18,14 @@ class NhaCungCap extends NhaCungCapBase
     public function getCuaKhoVatTuLichSus()
     {
         return $this->hasMany(KhoVatTuLichSu::class, ['id_kho_vat_tu' => 'id']);
+    }
+    
+    /**
+     * lay danh sach don vi tinh de fill vao dropdownlist
+     */
+    public static function getList(){
+        $list = NhaCungCap::find()->all();
+        return ArrayHelper::map($list, 'id', 'ten_nha_cung_cap');
     }
     
     /***** /relation *****/
