@@ -23,6 +23,12 @@ use yii\widgets\DetailView;
                         'attribute'=>'la_phu_kien',
                         'value'=>$model->la_phu_kien==1 ? 'Là phụ kiện' : 'Không'
                     ],
+                    'thuong_hieu',
+                    'model',
+                    'xuat_xu'=>[
+                        'attribute'=>'xuat_xu',
+                        'value'=>$model->xuatXu->ten_xuat_xu
+                    ],
                     'so_luong'=>[
                         'attribute'=>'so_luong',
                         'value'=>function($model){

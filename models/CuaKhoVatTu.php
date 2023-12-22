@@ -11,6 +11,9 @@ use Yii;
  * @property string|null $code
  * @property string $ten_vat_tu
  * @property int|null $id_nhom_vat_tu
+ * @property string|null $thuong_hieu
+ * @property string|null $model
+ * @property int|null $xuat_xu
  * @property int|null $la_phu_kien
  * @property float|null $so_luong
  * @property int $dvt
@@ -21,6 +24,7 @@ use Yii;
  *
  * @property CuaKhoVatTuLichSu[] $cuaKhoVatTuLichSus
  * @property CuaMauCuaVatTu[] $cuaMauCuaVatTus
+ * @property CuaXuatXu $xuatXu
  */
 class CuaKhoVatTu extends \yii\db\ActiveRecord
 {
@@ -39,12 +43,13 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     {
         return [
             [['ten_vat_tu', 'dvt'], 'required'],
-            [['id_nhom_vat_tu', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
+            [['id_nhom_vat_tu', 'xuat_xu', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
-            [['ten_vat_tu'], 'string', 'max' => 255],
+            [['ten_vat_tu', 'thuong_hieu', 'model'], 'string', 'max' => 255],
+            [['xuat_xu'], 'exist', 'skipOnError' => true, 'targetClass' => CuaXuatXu::class, 'targetAttribute' => ['xuat_xu' => 'id']],
         ];
     }
 
@@ -58,6 +63,9 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
             'code' => 'Code',
             'ten_vat_tu' => 'Ten Vat Tu',
             'id_nhom_vat_tu' => 'Id Nhom Vat Tu',
+            'thuong_hieu' => 'Thuong Hieu',
+            'model' => 'Model',
+            'xuat_xu' => 'Xuat Xu',
             'la_phu_kien' => 'La Phu Kien',
             'so_luong' => 'So Luong',
             'dvt' => 'Dvt',
@@ -86,5 +94,15 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     public function getCuaMauCuaVatTus()
     {
         return $this->hasMany(CuaMauCuaVatTu::class, ['id_kho_vat_tu' => 'id']);
+    }
+
+    /**
+     * Gets query for [[XuatXu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXuatXu()
+    {
+        return $this->hasOne(CuaXuatXu::class, ['id' => 'xuat_xu']);
     }
 }

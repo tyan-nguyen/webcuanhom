@@ -38,6 +38,21 @@ class KhoVatTu extends KhoVatTuBase
     {
         return $this->hasOne(DonViTinh::class, ['id' => 'dvt']);
     }
+    /**
+     * Gets query for [[XuatXu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXuatXu()
+    {
+        if($this->xuat_xu == null){
+            $this->xuat_xu = 1;//1 is chua-phan-loai
+            if($this->save()){
+                $this->refresh();
+            }
+        }
+        return $this->hasOne(XuatXu::class, ['id' => 'xuat_xu']);
+    }
     /***** /relation *****/    
     /***** custom function *****/
     /***** /custom function *****/

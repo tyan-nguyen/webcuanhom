@@ -11,6 +11,9 @@ use app\modules\kho\models\KhoVatTuLichSu;
  * @property string|null $code
  * @property string $ten_vat_tu
  * @property int|null $id_nhom_vat_tu
+ * @property string|null $thuong_hieu
+ * @property string|null $model
+ * @property int|null $xuat_xu
  * @property int|null $la_phu_kien
  * @property float|null $so_luong
  * @property int $dvt
@@ -31,12 +34,12 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             [['ten_vat_tu'], 'required'],
-            [['id_nhom_vat_tu', 'la_phu_kien', 'user_created', 'dvt'], 'integer'],
+            [['id_nhom_vat_tu', 'xuat_xu', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
-            [['ten_vat_tu'], 'string', 'max' => 255],
+            [['ten_vat_tu', 'thuong_hieu', 'model'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,6 +53,9 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             'code' => 'Mã vật tư',
             'ten_vat_tu' => 'Tên vật tư',
             'id_nhom_vat_tu' => 'Nhóm vật tư',
+            'thuong_hieu' => 'Thương hiệu',
+            'model' => 'Model',
+            'xuat_xu' => 'Xuất xứ',
             'la_phu_kien' => 'Là phụ kiện',
             'so_luong' => 'Số lượng',
             'dvt' => 'Đơn vị tính',
@@ -82,6 +88,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             //set dvt
             if($this->dvt == null){
                 $this->dvt = 1;
+            }
+            //set xuat xu
+            if($this->xuat_xu == null){
+                $this->xuat_xu = 1;
             }
         }
         return parent::beforeSave($insert);

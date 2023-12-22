@@ -2,6 +2,7 @@
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use app\modules\kho\models\DonViTinh;
+use app\modules\kho\models\XuatXu;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\kho\models\KhoVatTu */
@@ -19,6 +20,14 @@ use app\modules\kho\models\DonViTinh;
     <?= $form->field($model, 'id_nhom_vat_tu')->dropDownList($model->getDmNhomVatTu(), ['prompt'=>'-Chọn-']) ?>
 
     <?= $form->field($model, 'la_phu_kien')->checkbox() ?>
+    
+ 	<?= $form->field($model, 'thuong_hieu')->textInput() ?>
+ 
+  	<?= $form->field($model, 'model')->textInput() ?>
+  
+   	<?= $form->field($model, 'xuat_xu')->dropDownList( (new XuatXu())->getList(), [
+   	    'prompt'=>'-Chọn-'
+   	] ) ?>
 
     <?= $form->field($model, 'so_luong')->textInput() ?>
 	
