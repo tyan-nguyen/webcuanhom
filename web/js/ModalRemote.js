@@ -299,7 +299,11 @@ function ModalRemote(modalId) {
         if (response.forceClose !== undefined && response.forceClose) {
             this.hide();
             if(response.runFunc == true){
-				runFunc();
+				if(response.runFuncVal1 != undefined && response.runFuncVal2 != undefined){
+					runFunc(response.runFuncVal1, response.runFuncVal2);
+				} else {
+					runFunc();
+				}
 			}
             return;
         }

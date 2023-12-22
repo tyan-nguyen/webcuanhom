@@ -15,6 +15,7 @@ use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\DuAnChiTiet;
 use app\modules\maucua\models\ToiUu;
 use app\modules\maucua\models\MauCuaNhom;
+use app\modules\maucua\models\MauCuaVatTu;
 
 /**
  * MauCuaController implements the CRUD actions for MauCua model.
@@ -222,6 +223,68 @@ class MauCuaController extends Controller
                 'model' => $this->findModel($id),
             ]);
         }
+    }
+    
+    /**
+     * sua so luong vat tu cua cua
+     */
+    public function actionSuaVatTuPopup($id)
+    {
+        $request = Yii::$app->request;
+        $model = MauCuaVatTu::findOne($id);
+        
+        if($request->isAjax){
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Chỉnh sửa số lượng",
+                    'content'=>$this->renderAjax('_update_so_luong_vat_tu', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>'submit']) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                ];
+            }else if($model->load($request->post())){
+                if($model->so_luong < 0){
+                    $model->addError('so_luong', 'Bạn không thể nhập số lượng < 0!');
+                    return [
+                        'title'=> "Chỉnh sửa số lượng",
+                        'content'=>$this->renderAjax('_update_so_luong_vat_tu', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
+                    ];
+                } else {
+                    $model->save();
+                    return [
+                        // 'forceReload'=>'#crud-datatable-pjax',
+                        'forceClose'=>true,
+                        'runFunc'=>true,
+                        'runFuncVal1'=>$model->id,
+                        'runFuncVal2'=>$model->so_luong
+                        /* 'title'=> "Create new DonViTinh",
+                         'content'=>'<span class="text-success">Create DonViTinh success</span>',
+                         'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                         Html::button('Close',['data-bs-dismiss'=>"modal"])*/
+                        
+                    ];
+                }
+            }else{
+                return [
+                    'title'=> "Chỉnh sửa số lượng",
+                    'content'=>$this->renderAjax('_update_so_luong_vat_tu', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        }
+        
     }
 
     /**

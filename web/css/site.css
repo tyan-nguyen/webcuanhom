@@ -213,3 +213,14 @@ a.desc:after {
 	padding:3px 5px;
 	border-radius: 5px;
 }
+
+.a-edit-wrap{
+	text-decoration: none;
+	color: black;
+}
+.a-edit-wrap:hover{
+	text-decoration: underline;
+	cursor: pointer;
+	color:red;
+	font-weight: bold;
+}
