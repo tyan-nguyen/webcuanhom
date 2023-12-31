@@ -38,5 +38,15 @@ class ToiUuNhom {
         return $chosen;
 
     }
+    
+    public static function getKey($arr, $field, $value)
+    {
+        foreach($arr as $key => $ar)
+        {
+            if ( $ar[$field] === $value )
+                return $key;
+        }
+        return false;
+    }
 
 }

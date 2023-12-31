@@ -38,7 +38,7 @@ class NhaCungCap extends NhaCungCapBase
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/kho/nha-cung-cap/view'), 'id'=>$this->id],
-            ['role'=>'modal-remote']
+            ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
     }
     /***** /virtual attributes *****/

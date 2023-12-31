@@ -10,6 +10,8 @@ use Yii;
  * @property int $id
  * @property int $id_kho_nhom
  * @property int $so_luong
+ * @property int|null $so_luong_cu
+ * @property int|null $so_luong_moi
  * @property string $noi_dung
  * @property int|null $id_mau_cua
  * @property string|null $date_created
@@ -34,7 +36,7 @@ class CuaKhoNhomLichSu extends \yii\db\ActiveRecord
     {
         return [
             [['id_kho_nhom', 'so_luong', 'noi_dung'], 'required'],
-            [['id_kho_nhom', 'so_luong', 'id_mau_cua', 'user_created'], 'integer'],
+            [['id_kho_nhom', 'so_luong', 'so_luong_cu', 'so_luong_moi', 'id_mau_cua', 'user_created'], 'integer'],
             [['noi_dung'], 'string'],
             [['date_created'], 'safe'],
             [['id_kho_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CuaKhoNhom::class, 'targetAttribute' => ['id_kho_nhom' => 'id']],
@@ -50,6 +52,8 @@ class CuaKhoNhomLichSu extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_kho_nhom' => 'Id Kho Nhom',
             'so_luong' => 'So Luong',
+            'so_luong_cu' => 'So Luong Cu',
+            'so_luong_moi' => 'So Luong Moi',
             'noi_dung' => 'Noi Dung',
             'id_mau_cua' => 'Id Mau Cua',
             'date_created' => 'Date Created',

@@ -1,4 +1,10 @@
 /*custom*/
+.aInGrid{
+	text-decoration: none;
+}
+.aInGrid:hover{
+	text-decoration: underline;
+}
 
 #header nav{
 	background-color: #48728c !important;

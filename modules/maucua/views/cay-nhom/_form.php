@@ -17,9 +17,15 @@ use app\modules\maucua\models\HeNhom;
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ten_cay_nhom')->textInput(['maxlength' => true]) ?>
+    
+   	<?php 
+   	    if($model->isNewRecord) {
+   	?>
 
     <?= $form->field($model, 'so_luong')->textInput() ?>
-
+	
+	<?php } ?>
+	
     <?= $form->field($model, 'don_gia')->textInput() ?>
 
     <?= $form->field($model, 'khoi_luong')->textInput() ?>

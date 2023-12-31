@@ -16,4 +16,25 @@ class KhoNhomLichSu extends KhoNhomLichSuBase
     {
         return $this->hasOne(KhoNhom::class, ['id' => 'id_kho_nhom']);
     }
+    
+    /**
+     * Gets query for [[MauCua]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMauCua()
+    {
+        return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
+    }
+    
+    /**
+     * get ten mau cua (neu co)
+     */
+    public function getTenMauCua(){
+        if($this->mauCua != null){
+            return $this->mauCua->code;
+        } else {
+            return null;
+        }
+    }
 }

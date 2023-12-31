@@ -44,8 +44,7 @@ class CayNhom extends CayNhomBase
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/maucua/cay-nhom/view'), 'id'=>$this->id],
-            ['role'=>'modal-remote'
-            ]);
+            ['role'=>'modal-remote', 'class'=>'aInGrid']);
     }
     
     /**

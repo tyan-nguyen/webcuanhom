@@ -20,7 +20,7 @@ class HeVach extends HeVachBase
     public function getShowAction(){
         return Html::a($this->code,
                 [Yii::getAlias('@web/kho/he-vach/view'), 'id'=>$this->id],
-                ['role'=>'modal-remote']
+            ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
     }
 }

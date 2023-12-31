@@ -60,7 +60,7 @@ class KhoVatTu extends KhoVatTuBase
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/kho/kho-vat-tu/view'), 'id'=>$this->id],
-            ['role'=>'modal-remote']
+            ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
     }
     //Tinh toan so luong ton kho dang bi ket trong du an dang bat dau

@@ -1,3 +1,4 @@
+<div style="width:100%,height:500px;overflow-y:auto">
 <h3>Kết quả nhập dữ liệu</h3>
 
 <?php if($error == 0): ?>
@@ -33,3 +34,4 @@
 </div>
 
 <?php endif; ?>
+</div>

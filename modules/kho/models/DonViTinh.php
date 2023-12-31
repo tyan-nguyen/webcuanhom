@@ -4,6 +4,7 @@ namespace app\modules\kho\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "cua_don_vi_tinh".
@@ -51,5 +52,16 @@ class DonViTinh extends \app\models\CuaDonViTinh
     public static function getList(){
         $list = DonViTinh::find()->all();
         return ArrayHelper::map($list, 'id', 'ten_dvt');
+    }
+    
+    public function getShowAction(){
+        if($this->id != 1){
+            return Html::a($this->ten_dvt,
+                [Yii::getAlias('@web/kho/dvt/view'), 'id'=>$this->id],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']
+            );
+        } else {
+            return $this->ten_dvt;
+        }
     }
 }

@@ -10,6 +10,7 @@ class Import extends Model
 {
     CONST FOLDER_EXCEL_UP = '/uploads/excel/up/';
     public $file;
+    public $isOverwrite;
     
     /**
      * @inheritdoc
@@ -19,6 +20,7 @@ class Import extends Model
         return [
             [['file'], 'required'],
             [['file'], 'file'],
+            [['isOverwrite'], 'integer']
         ];
     }
     
@@ -26,6 +28,7 @@ class Import extends Model
     {
         return [
             'file' => 'File import',
+            'isOverwrite' => 'Ghi đè tồn kho'
         ];
     }
     

@@ -246,13 +246,22 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               <div class="tab-pane fade" id="kho" role="tabpanel" aria-labelledby="kho-tab">
 					
 					<ul class="ul-ribbon">                  	
-                  	<li><a href="/kho/kho-vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li>
+                  	<!-- <li><a href="/kho/kho-vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li> -->
+                  	<li><a href="/kho/phu-kien"><i class="fa-regular fa-file"></i> Kho phụ kiện</a></li>
+                  	<li>|</li>
+                  	<li><a href="/kho/vat-tu"><i class="fa-regular fa-file"></i> Kho vật tư</a></li>
+                  	<li>|</li>
+                  	<li><a href="/kho/thiet-bi"><i class="fa-regular fa-file"></i> Kho thiết bị</a></li>
                   	<li>|</li>
                   	<li><a href="/kho/kho-nhom"><i class="fa-regular fa-file"></i> Kho nhôm</a></li>
                   	<li>|</li>
                   	<li><a href="/kho/he-vach"><i class="fa-regular fa-file"></i> Hệ vách</a></li>
                   	<li>|</li>
                   	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
+                  	<li>|</li>
+                  	<li><a href="/kho/dvt"><i class="fa-regular fa-file"></i> Đơn vị tính</a></li>
+                  	<li>|</li>
+                  	<li><a href="/kho/xuat-xu"><i class="fa-regular fa-file"></i> Xuất xứ</a></li>
                   	
                   </ul>
               
@@ -270,6 +279,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
               	<ul class="ul-ribbon">
               		<li><a href="/user-management/user"><i class="fa-regular fa-file"></i> Tài khoản</a></li>
+              		<li>|</li>
+              		<li><a role="modal-remote" href="/site/setting"><i class="fa-regular fa-file"></i> Cấu hình</a></li>
               		<li>|</li>
               		<?php if(Yii::$app->user->isGuest){ ?>
               		<li><a href="/user-management/auth/login"><i class="fa-regular fa-file"></i> Đăng nhập</a></li>

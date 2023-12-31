@@ -2,9 +2,11 @@
 
 use yii\bootstrap5\Html;
 use app\modules\maucua\models\Import;
+use app\widgets\CustomModal;
+use cangak\ajaxcrud\CrudAsset;
 
 /** @var yii\web\View $this */
-
+CrudAsset::register($this);
 $this->title = 'Phần mềm Quản lý cửa';
 ?>
 
@@ -106,3 +108,14 @@ $this->title = 'Phần mềm Quản lý cửa';
         
     </div>
 </div>
+
+<?php CustomModal::begin([
+   "options" => [
+        "id"=>"ajaxCrudModal",
+        "tabindex" => false // important for Select2 to work properly
+    ],
+   'dialogOptions'=>['class'=>'modal-xl modal-dialog-centered'],
+   "id"=>"ajaxCrudModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php CustomModal::end(); ?>

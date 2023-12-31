@@ -44,7 +44,7 @@ class DuAn extends DuAnBase
     public function getShowAction(){
         return Html::a($this->code, 
             [Yii::getAlias('@web/maucua/du-an/view'), 'id'=>$this->id],
-            [ 'role'=>'modal-remote' /* 'target'=>'_blank', 'data-pjax'=>0 */
+            [ 'role'=>'modal-remote', 'class'=>'aInGrid' /* 'target'=>'_blank', 'data-pjax'=>0 */
         ]);
     }
     /**

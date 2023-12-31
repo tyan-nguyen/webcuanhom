@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use app\modules\maucua\models\KhoNhomLichSu;
 
 /**
  * KhoNhomController implements the CRUD actions for KhoNhom model.
@@ -142,7 +143,9 @@ class KhoNhomController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        $model->scenario = 'addTonKhoNhom';
+        $oldModel = $this->findModel($id);
 
         if($request->isAjax){
             /*
@@ -159,6 +162,16 @@ class KhoNhomController extends Controller
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                
+                if($model->so_luong != $oldModel->so_luong){
+                    $history = new KhoNhomLichSu();
+                    $history->id_kho_nhom = $model->id;
+                    $history->so_luong = $model->so_luong - $oldModel->so_luong;
+                    $history->so_luong_cu = $oldModel->so_luong;
+                    $history->so_luong_moi = $model->so_luong;
+                    $history->noi_dung = 'Cập nhật tồn kho do sửa dữ liệu kho nhôm #'.$model->cayNhom->code . ' (' . $model->chieu_dai . ') <br/>' . $model->noiDung;
+                    $history->save();
+                }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thông tin kho nhôm",

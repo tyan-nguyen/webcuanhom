@@ -5,6 +5,7 @@
         	<th>Mã cây nhôm</th>
         	<th>Tên cây nhôm</th>
         	<th>Chiều dài</th>
+        	<th>Chiều dài tồn kho</th>
         	<th>Số lượng</th>
         	<th>Kiểu cắt</th>
         	<th>Khối lượng</th>
@@ -15,6 +16,7 @@
         	<td>{{ result.maCayNhom }}</td>
         	<td>{{ result.tenCayNhom }}</td>
         	<td>{{ result.chieuDai }}</td>
+        	<td>{{ result.chieuDaiTonKhoNhom }}</td>
         	<td>{{ result.soLuong }}</td>
         	<td>{{ result.kieuCat }}</td>
         	<td>{{ result.khoiLuong }}</td>
@@ -23,11 +25,15 @@
     </table>
 </div>
 
+<?php 
+if($model->status == 'KHOI_TAO'){ 
+?>
 <a href="#" onclick="getData2()" class="btn btn-primary btn-sm">Tối ưu kho</a>
 <a href="#" onclick="getData3()" class="btn btn-primary btn-sm">Tối ưu nhôm mới</a>
 <span class="loadingAjax" style="display:none"><img src="/images/loading.gif" width="50" alt="loading..." /></span>
 <span class="completeAjax text-primary" style="display:none"> <i class="fa-solid fa-thumbs-up"></i> Đã xử lý thành công!</span>
 
+<?php } ?>
 <script type="text/javascript">
 var vue2 = new Vue({
 	el: '#objToiUuNhom',

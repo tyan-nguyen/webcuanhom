@@ -8,6 +8,7 @@ use yii\helpers\Html;
 
 class KhoNhom extends KhoNhomBase
 {
+    const MODEL_ID = 'kho-nhom';
     /**
      * Gets query for [[CayNhom]].
      *
@@ -23,15 +24,22 @@ class KhoNhom extends KhoNhomBase
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCuaKhoNhomLichSus()
+    public function getHistory()
     {
         return $this->hasMany(KhoNhomLichSu::class, ['id_kho_nhom' => 'id']);
     }
     
     public function getShowAction(){
         return Html::a($this->scode,
-                [Yii::getAlias('@web/kho/kho-nhom/view'), 'id'=>$this->id],
-                ['role'=>'modal-remote']
+                [Yii::getAlias('@web/maucua/cay-nhom/view'), 'id'=>$this->id_cay_nhom],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']
+            );
+    }
+    
+    public function getShowChieuDaiAction(){
+        return Html::a($this->chieu_dai,
+            [Yii::getAlias('@web/kho/kho-nhom/view'), 'id'=>$this->id],
+            ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
     }
     /***** virtual attribute *****/

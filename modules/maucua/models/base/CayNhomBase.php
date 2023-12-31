@@ -118,23 +118,22 @@ class CayNhomBase extends \app\models\CuaCayNhom
      */
     public function afterSave($insert, $changedAttributes)
     {
-        if ($this->isNewRecord) {
-        }
-        
-        $tonKho = new KhoNhom();
-        $tonKho->id_cay_nhom = $this->id;
-        $tonKho->so_luong = $this->so_luong;
-        $tonKho->chieu_dai = $this->chieu_dai;
-        $tonKho->save();
-        
-        $lichSuTonKho = new KhoNhomLichSu();
-        $lichSuTonKho->id_kho_nhom = $tonKho->id;
-        $lichSuTonKho->so_luong = $tonKho->so_luong;
-        $lichSuTonKho->noi_dung = 'Nhập số lượng khi thêm mới cây nhôm #'.$this->code;
-        $lichSuTonKho->id_mau_cua = null;
-        $lichSuTonKho->chieuDai = $tonKho->chieu_dai;
-        $lichSuTonKho->save();
+        if ($insert) {        
+            $tonKho = new KhoNhom();
+            $tonKho->id_cay_nhom = $this->id;
+            $tonKho->so_luong = $this->so_luong;
+            $tonKho->chieu_dai = $this->chieu_dai;
+            $tonKho->noiDung = '- Thêm cây nhôm mới';
+            $tonKho->save();
             
+            /*sau khi them kho nhom thi aftersave se tu them ton kho*/
+           /*  $lichSuTonKho = new KhoNhomLichSu();
+            $lichSuTonKho->id_kho_nhom = $tonKho->id;
+            $lichSuTonKho->so_luong = $tonKho->so_luong;
+            $lichSuTonKho->noi_dung = 'Nhập số lượng khi thêm mới cây nhôm #'.$this->code;
+            $lichSuTonKho->id_mau_cua = null;
+            $lichSuTonKho->save(); */
+        }
        return parent::afterSave($insert, $changedAttributes);
     } 
     

@@ -21,6 +21,8 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_dvt',
+        'format'=>'raw',
+        'value'=>'showAction'
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -30,7 +32,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'user_created',
     ],
-    [
+    /*[
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
@@ -45,6 +47,6 @@ return [
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Comfirm Delete?',
                           'data-confirm-message'=>'Are you sure to delete this data?'], 
-    ],
+    ],*/
 
 ];   

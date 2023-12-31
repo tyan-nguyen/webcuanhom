@@ -12,13 +12,13 @@ use webvimark\modules\UserManagement\models\User;
 
     <?php $form = ActiveForm::begin(); ?>
     
-    <?= $form->errorSummary($history) ?>
+    <?= $form->errorSummary($khoNhom) ?>
 
-    <?= $form->field($history, 'so_luong')->textInput() ?>
+    <?= $form->field($khoNhom, 'so_luong')->textInput() ?>
 
-    <?= $form->field($history, 'chieuDai')->textInput() ?>
+    <?= $form->field($khoNhom, 'chieu_dai')->textInput() ?>
     
-    <?= $form->field($history, 'noi_dung')->textarea(['id'=>'txtNoiDung', 'rows' => 6]) ?>
+    <?= $form->field($khoNhom, 'noiDung')->textarea(['id'=>'txtNoiDung', 'rows' => 6]) ?>
 
 
   

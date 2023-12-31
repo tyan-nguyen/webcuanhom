@@ -33,7 +33,7 @@ class LoaiCua extends LoaiCuaBase
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/maucua/loai-cua/view'), 'id'=>$this->id],
-            ['role'=>'modal-remote'
+            ['role'=>'modal-remote', 'class'=>'aInGrid'
             ]);
     }
     /**

@@ -5,6 +5,7 @@ use app\widgets\CustomModal;
 use kartik\grid\GridView;
 use cangak\ajaxcrud\CrudAsset; 
 use cangak\ajaxcrud\BulkButtonWidget;
+use app\modules\maucua\models\KhoNhom;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\maucua\models\search\KhoNhomSearch */
@@ -16,6 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 ?>
+
+<style>
+/*table group*/
+td.kv-grid-group {
+    background-color: white !important;
+}
+</style>
 <div id="dToolbar">
 	<?=		BulkButtonWidget::widget([
             'buttons'=>
@@ -33,8 +41,15 @@ CrudAsset::register($this);
                     'data-confirm-title'=>'Xác nhận xóa thông tin?',
                     'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
                 ]) .  '&nbsp;' . */
-            Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k'])
-        ]);
+	Html::a('<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Tìm kiếm (K)', '#', ['id'=>'btnEnableSearch', 'class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'k']) . '&nbsp;' .
+	
+	Html::a('<i class="fas fa fa-sync"></i> Refresh', [''],
+	    ['title'=> 'Tải lại danh sách','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
+	    '&nbsp;' .Html::a('<i class="fa-solid fa-upload"></i> Upload', Yii::getAlias('@web/dungchung/import-all/upload?type=').KhoNhom::MODEL_ID . '&showOverwrite=1', [ 'class'=>'btn btn-primary btn-sm btn-default-custom', 'role'=>'modal-remote']) . '&nbsp;' .
+	
+	Html::a('<i class="fa-solid fa-cloud-arrow-down"></i> Tải mẫu', Yii::getAlias('@web/files/excel/import-kho-nhom.xlsx'), ['class'=>'btn btn-primary btn-sm btn-default-custom'])
+	
+       ]) 
 	?>
 </div>
 
@@ -48,7 +63,7 @@ CrudAsset::register($this);
             'pjax'=>true,
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [],          
-            'striped' => true,
+            'striped' => false,
             'condensed' => true,
             'responsive' => true,          
             'summary'=>'<i class="fa-solid fa-chart-simple"></i>&nbsp; TS: <strong>{totalCount}</strong> dữ liệu',

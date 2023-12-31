@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\modules\dungchung\models\Setting;
+use yii\helpers\Html;
 
 class SiteController extends Controller
 {
@@ -54,6 +56,52 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+    
+    public function actionTest(){
+        return $this->render('test');
+    }
+    
+    /**
+     * Displays setting page.
+     *
+     * @return string
+     */
+    public function actionSetting()
+    {
+        $request = Yii::$app->request;
+        $model = Setting::find()->one();
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if($request->isGet){
+            return [
+                'title'=> "Cập nhật Cấu hình",
+                'content'=>$this->renderAjax('setting', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                Html::button('Close',['data-bs-dismiss'=>'modal'])
+            ];
+        }else if($model->load($request->post()) && $model->save()){
+            return [
+                'title'=> "Cập nhật Cấu hình",
+                'content'=>$this->renderAjax('setting', [
+                    'model' => $model,
+                    'message'=>'Cập nhật thông tin cấu hình thành công!',
+                ]),
+                'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                Html::button('Close',['data-bs-dismiss'=>'modal'])
+            ];
+        }else{
+            return [
+                'title'=> "Cập nhật Cấu hình",
+                'content'=>$this->renderAjax('setting', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
+                Html::button('Close',['data-bs-dismiss'=>'modal'])
+            ];
+        }
     }
 
     /**

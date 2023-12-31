@@ -3,6 +3,7 @@
 namespace app\modules\maucua\models\base;
 
 use Yii;
+use app\modules\maucua\models\KhoNhomLichSu;
 
 /**
  * This is the model class for table "cua_kho_nhom".
@@ -20,6 +21,7 @@ use Yii;
 class KhoNhomBase extends \app\models\CuaKhoNhom
 {
     public $code;
+    public $noiDung;//su dung de luu lich su khi them tai view caynhom
 
     /**
      * {@inheritdoc}
@@ -28,9 +30,10 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
     {
         return [
             [['id_cay_nhom', 'chieu_dai'], 'required'],
+            [['noiDung'], 'required', 'on' => ['addTonKhoNhom', 'updateTonKhoNhom']],
             [['id_cay_nhom', 'so_luong', 'user_created'], 'integer'],
             [['chieu_dai'], 'number'],
-            [['date_created', 'code'], 'safe'],
+            [['date_created', 'code', 'noiDung'], 'safe'],
             [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhomBase::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
         ];
     }
@@ -49,6 +52,7 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
             'user_created' => 'Tài khoản',
             
             'code'=>'Mã cây nhôm',
+            'noiDung'=>'Nội dung'
         ];
     }
     
@@ -62,5 +66,25 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
         }
         return parent::beforeSave($insert);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            $history = new KhoNhomLichSu();
+            $history->id_kho_nhom = $this->id;
+            $history->so_luong = $this->so_luong;
+            $history->so_luong_cu = 0;
+            $history->so_luong_moi = $this->so_luong;
+            $history->noi_dung = 'Cập nhật tồn kho do thêm mới dữ liệu kho nhôm ' . $this->noiDung;
+            $history->save();
+        } else {
+            
+        }
+        
+        return parent::afterSave($insert, $changedAttributes);
+    } 
 
 }

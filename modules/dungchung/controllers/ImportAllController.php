@@ -2,29 +2,31 @@
 
 namespace app\modules\dungchung\controllers;
 
-use app\modules\bophan\models\BoPhan;
-use app\modules\bophan\models\NhanVien;
+
 use app\modules\dungchung\models\Import;
 use app\modules\dungchung\models\imports\ImportBoPhan;
 use app\modules\dungchung\models\imports\ImportNhanVien;
 use app\modules\dungchung\models\imports\ImportThietBi;
-use app\modules\taisan\models\ThietBi;
+
 
 use Yii;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use app\modules\bophan\models\DoiTac;
 use app\modules\dungchung\models\imports\ImportDoiTac;
-use app\modules\taisan\models\LoaiThietBi;
 use app\modules\dungchung\models\imports\ImportLoaiThietBi;
-use app\modules\taisan\models\HeThong;
 use app\modules\dungchung\models\imports\ImportHeThong;
 use app\modules\dungchung\models\imports\ImportViTri;
-use app\modules\taisan\models\ViTri;
 use app\modules\kho\models\KhoVatTu;
 use app\modules\dungchung\models\imports\ImportKhoVatTu;
+use app\modules\kho\models\PhuKien;
+use app\modules\dungchung\models\imports\ImportPhuKien;
+use app\modules\kho\models\VatTu;
+use app\modules\dungchung\models\imports\ImportVatTu;
+use app\modules\kho\models\ThietBi;
+use app\modules\maucua\models\KhoNhom;
+use app\modules\dungchung\models\imports\ImportKhoNhom;
 
 /**
  * Default controller for the `dungchung` module
@@ -36,7 +38,7 @@ class ImportAllController extends Controller
      * @param string $type
      * @return mixed
      */
-    public function actionUpload($type)
+    public function actionUpload($type,$showOverwrite=false)
     {   
         $model = new Import();
         $request = Yii::$app->request;
@@ -47,7 +49,7 @@ class ImportAllController extends Controller
                 
                 return [
                     'title'=> "Upload file",
-                    'content'=>$this->renderAjax('upload', compact('model')),
+                    'content'=>$this->renderAjax('upload', compact('model', 'showOverwrite')),
                     'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
                     Html::button('Tải lên',['class'=>'btn btn-primary','type'=>"submit"])
                     
@@ -61,7 +63,16 @@ class ImportAllController extends Controller
                     //checkfile
                     if($type==KhoVatTu::MODEL_ID){
                         $rt = ImportKhoVatTu::checkFile($type, $fileName);
-                    } else if($type==ThietBi::MODEL_ID){
+                    } else if($type==PhuKien::MODEL_ID){
+                        $rt = ImportPhuKien::checkFile($type, $fileName, $model->isOverwrite);                           
+                    } else if($type==VatTu::MODEL_ID){
+                        $rt = ImportVatTu::checkFile($type, $fileName, $model->isOverwrite);  
+                    }else if($type==ThietBi::MODEL_ID){
+                        $rt = ImportThietBi::checkFile($type, $fileName, $model->isOverwrite);
+                    }else if($type==KhoNhom::MODEL_ID){
+                        $rt = ImportKhoNhom::checkFile($type, $fileName);
+                    }
+                    /* else if($type==ThietBi::MODEL_ID){
                         $rt = ImportThietBi::checkFile($type, $fileName);
                     } else if($type==BoPhan::MODEL_ID){
                         $rt = ImportBoPhan::checkFile($type, $fileName);
@@ -75,7 +86,7 @@ class ImportAllController extends Controller
                         $rt = ImportHeThong::checkFile($type, $fileName);
                     } else if ($type == ViTri::MODEL_ID){
                         $rt = ImportViTri::checkFile($type, $fileName);
-                    }
+                    } */
                     
                     $status = false;
                     if(empty($rt)){
@@ -86,7 +97,7 @@ class ImportAllController extends Controller
                             'title'=> "Kiểm tra file dữ liệu",
                             'content'=>$this->renderAjax('checkSuccess'),
                             'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Tiến hành upload',['import?type='.$type.'&file=' . $fileName],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Tiến hành upload',['import?type='.$type.'&file=' . $fileName . '&isOverwrite='.$model->isOverwrite],['class'=>'btn btn-primary','role'=>'modal-remote'])
                             
                         ];
                     } else {
@@ -112,7 +123,7 @@ class ImportAllController extends Controller
      * @param string $file
      * @return string[]
      */
-    public function actionImport($type, $file){
+    public function actionImport($type, $file, $isOverwrite=NULL){
         $request = Yii::$app->request;
         
         if($request->isAjax){
@@ -122,7 +133,15 @@ class ImportAllController extends Controller
                     
                     if($type==KhoVatTu::MODEL_ID){
                         $result = ImportKhoVatTu::importFile($file);
-                    } else if($type==ThietBi::MODEL_ID){
+                    } else if($type==PhuKien::MODEL_ID){
+                        $result = ImportPhuKien::importFile($file, $isOverwrite);                    
+                    }else if($type==VatTu::MODEL_ID){
+                        $result = ImportVatTu::importFile($file, $isOverwrite);
+                    }else if($type==ThietBi::MODEL_ID){
+                        $result = ImportThietBi::importFile($file, $isOverwrite);
+                    }else if($type==KhoNhom::MODEL_ID){
+                        $result = ImportKhoNhom::importFile($file, $isOverwrite);
+                    }/* else if($type==ThietBi::MODEL_ID){
                         $result = ImportThietBi::importFile($file);
                     } else if($type==BoPhan::MODEL_ID){
                         $result = ImportBoPhan::importFile($file);
@@ -136,7 +155,7 @@ class ImportAllController extends Controller
                         $result = ImportHeThong::importFile($file);
                     } else if ($type == ViTri::MODEL_ID){
                         $result = ImportViTri::importFile($file);
-                    }
+                    } */
                     
                     Import::deleteFileTemp($file);
                     return [

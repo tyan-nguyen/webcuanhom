@@ -4,6 +4,7 @@ namespace app\modules\kho\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "cua_xuat_xu".
@@ -37,9 +38,9 @@ class XuatXu extends \app\models\CuaXuatXu
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'ten_xuat_xu' => 'Ten Xuat Xu',
-            'ghi_chu' => 'Ghi Chu',
+            'code' => 'Mã xuất xứ',
+            'ten_xuat_xu' => 'Tên xuất xứ',
+            'ghi_chu' => 'Ghi chú',
         ];
     }
     
@@ -59,5 +60,16 @@ class XuatXu extends \app\models\CuaXuatXu
     public static function getList(){
         $list = XuatXu::find()->all();
         return ArrayHelper::map($list, 'id', 'ten_xuat_xu');
+    }
+    
+    public function getShowAction(){
+        if($this->id != 1){
+            return Html::a($this->ten_xuat_xu,
+                [Yii::getAlias('@web/kho/xuat-xu/view'), 'id'=>$this->id],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']
+            );
+        } else {
+            return $this->ten_xuat_xu;
+        }
     }
 }

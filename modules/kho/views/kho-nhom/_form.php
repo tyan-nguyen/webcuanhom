@@ -10,12 +10,16 @@ use yii\widgets\ActiveForm;
 <div class="kho-nhom-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+     <?= $form->errorSummary($model) ?>
 
     <?php // $form->field($model, 'id_cay_nhom')->textInput() ?>
 
     <?= $form->field($model, 'chieu_dai')->textInput() ?>
 
     <?= $form->field($model, 'so_luong')->textInput() ?>
+    
+    <?= $form->field($model, 'noiDung')->textInput() ?>
 
     <!--<?= $form->field($model, 'date_created')->textInput() ?>
 

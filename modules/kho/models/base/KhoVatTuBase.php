@@ -14,6 +14,7 @@ use app\modules\kho\models\KhoVatTuLichSu;
  * @property string|null $thuong_hieu
  * @property string|null $model
  * @property int|null $xuat_xu
+ * @property int|null $nha_cung_cap
  * @property int|null $la_phu_kien
  * @property float|null $so_luong
  * @property int $dvt
@@ -34,7 +35,7 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             [['ten_vat_tu'], 'required'],
-            [['id_nhom_vat_tu', 'xuat_xu', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
+            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
@@ -56,6 +57,7 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             'thuong_hieu' => 'Thương hiệu',
             'model' => 'Model',
             'xuat_xu' => 'Xuất xứ',
+            'nha_cung_cap' => 'Nhà cung cấp',
             'la_phu_kien' => 'Là phụ kiện',
             'so_luong' => 'Số lượng',
             'dvt' => 'Đơn vị tính',
@@ -116,7 +118,11 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
         if ($insert) {
             $lichSuTonKho = new KhoVatTuLichSu();
             $lichSuTonKho->id_kho_vat_tu = $this->id;
-            $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+            if($this->nha_cung_cap != null){
+                $lichSuTonKho->id_nha_cung_cap = $this->nha_cung_cap;
+            } else {
+                $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+            }
             $lichSuTonKho->ghi_chu = 'Nhập số lượng khi thêm mới vào kho';
             $lichSuTonKho->so_luong = $this->so_luong;
             $lichSuTonKho->so_luong_cu = 0;

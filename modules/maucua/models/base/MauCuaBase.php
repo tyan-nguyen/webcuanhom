@@ -147,6 +147,15 @@ class MauCuaBase extends \app\models\CuaMauCua
         }
     }
     
+    /**
+     * xoa tat ca nhom su dung
+     */
+    public function deleteNhomSuDung(){
+        foreach ($this->dsNhomSuDung as $mod){
+            $mod->delete();
+        }
+    }
+    
     /*
      * tao toi uu
      */

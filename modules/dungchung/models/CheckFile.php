@@ -16,6 +16,7 @@ class CheckFile
     public $modelDuplicate;//2
     public $isExist;//3
     public $modelExist;//3
+    public $isGreaterThan;
     
     public function checkVal($custom, $value=NULL){
        
@@ -37,6 +38,14 @@ class CheckFile
                 }else {
                     $this->error = $custom . ' phải là số!';
                 }
+            }
+        }
+        
+        //kiem tra gia tri lớn hơn 1 số
+        if($this->isGreaterThan != null){
+            
+            if(!is_numeric($value) || $value < $this->isGreaterThan){
+                $this->error = $custom . ' phải là số hợp lệ!';
             }
         }
         

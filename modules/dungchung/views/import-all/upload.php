@@ -16,13 +16,18 @@ use yii\bootstrap5\ActiveForm;
             //'data-pjax' => 1
         ],
         'fieldConfig' => [
-            'template' => '<div class="col-sm-4">{label}</div><div class="col-sm-8">{input}{error}</div>',
+            'template' => '<div class="col-sm-2">{label}</div><div class="col-sm-10">{input}{error}</div>',
             'labelOptions' => ['class' => 'col-md-12 control-label'],
         ],
     ]); ?>
     
     <?= $form->field($model, 'file')->fileInput() ?>
-
+	
+	<?php 
+	if($showOverwrite == true){
+	    echo $form->field($model, 'isOverwrite')->checkbox();
+	}
+	?>
 
     <?php ActiveForm::end(); ?>
     

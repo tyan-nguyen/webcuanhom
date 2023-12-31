@@ -16,6 +16,10 @@ use app\modules\maucua\models\DuAnChiTiet;
 use app\modules\maucua\models\ToiUu;
 use app\modules\maucua\models\MauCuaNhom;
 use app\modules\maucua\models\MauCuaVatTu;
+use app\modules\kho\models\KhoVatTu;
+use app\modules\kho\models\KhoVatTuLichSu;
+use app\modules\maucua\models\KhoNhom;
+use app\modules\maucua\models\KhoNhomLichSu;
 
 /**
  * MauCuaController implements the CRUD actions for MauCua model.
@@ -133,7 +137,10 @@ class MauCuaController extends Controller
         //    $kqTest = 'Số lượng k khớp!';
             //kt nếu tối ưu > 0 thì xóa hết.
         if($slToiUu > 0){
+            
+            $mauCuaModel->deleteNhomSuDung();
             $mauCuaModel->deleteToiUu();
+            
         }
         //them moi lai toan bo toi uu
         //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
@@ -148,6 +155,14 @@ class MauCuaController extends Controller
        // }
        //search lai de load model moi
         $mauCuaModel1 = MauCua::findOne($id);
+        
+        /**
+         * toi uu cat hien thi tren cay nhom
+         */
+        $mauCuaModel1->taoNhomSuDung();
+        
+        
+        
         return [
             'kqTest' => $kqTest,
             'result'=> $mauCuaModel1->dsToiUu() /* [
@@ -202,19 +217,23 @@ class MauCuaController extends Controller
             }
             
             Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = $this->findModel($id);
             return [
                     'title' => "Thông tin Mẫu cửa",
                     'content' => $this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
                         //'dactModel'=>$dactModel
                     ]),
                     'footer' =>                        
                         ($backLink != null ? Html::a('Back',
                             $backLink,
                             ['role'=>'modal-remote']) : '') . '&nbsp' .                                                
-                        Html::a('Edit',['update','id'=>$id],[
+                ($model->status == 'KHOI_TAO' ? Html::a('Edit',['update','id'=>$id],[
                             'role'=>'modal-remote'
-                        ]) . '&nbsp;' .
+                        ]) : '') . '&nbsp;' .
+                        ($model->status == 'KHOI_TAO' ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
+                            'role'=>'modal-remote'
+                        ]) : '') . '&nbsp;' .
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
                 
                 ];    
@@ -222,6 +241,100 @@ class MauCuaController extends Controller
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
+        }
+    }
+    
+    /**
+     * xuat kho
+     * For ajax request will return json object
+     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionXuatKho($id)
+    {
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            
+            //xuat kho tung cai sau do chuyen trang thai da xuat kho
+            //sauu do chinh sua trang thai du an
+            foreach ($model->dsTatCaVatTu as $vt){
+                $vatTuModel = KhoVatTu::findOne($vt->id_kho_vat_tu);
+                $vatTuModelOld = KhoVatTu::findOne($vt->id_kho_vat_tu);
+                $vatTuModel->so_luong = $vatTuModel->so_luong - $vt->so_luong;
+                if($vatTuModel->save()){
+                    if($vatTuModel->so_luong != $vatTuModelOld->so_luong){
+                        $lichSuTonKho = new KhoVatTuLichSu();
+                        $lichSuTonKho->id_kho_vat_tu = $vatTuModel->id;
+                        $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+                        $lichSuTonKho->ghi_chu = 'Xuất kho mẫu cửa #' . $model->code;
+                        $lichSuTonKho->so_luong = $vt->so_luong;
+                        $lichSuTonKho->so_luong_cu = $vatTuModelOld->so_luong;
+                        $lichSuTonKho->so_luong_moi = $vatTuModel->so_luong;
+                        $lichSuTonKho->id_mau_cua = $model->id;
+                        $lichSuTonKho->save();
+                    }
+                }
+            }
+            foreach ($model->dsNhomSuDung as $nhomsd){
+                $tonKhoNhom = KhoNhom::findOne($nhomsd->id_kho_nhom);
+                $tonKhoNhomOld = KhoNhom::findOne($nhomsd->id_kho_nhom);
+                $tonKhoNhom->so_luong = $tonKhoNhom->so_luong - 1;//1 is 1 dong trong nhom sd
+                if($tonKhoNhom->save()){
+                    if($tonKhoNhom->so_luong != $tonKhoNhomOld->so_luong){
+                        $history = new KhoNhomLichSu();
+                        $history->id_kho_nhom = $tonKhoNhom->id;
+                        $history->so_luong = 1;//1 is 1 dong trong nhom sd
+                        $history->so_luong_cu = $tonKhoNhomOld->so_luong;
+                        $history->so_luong_moi = $tonKhoNhom->so_luong;
+                        $history->id_mau_cua = $model->id;
+                        $history->noi_dung = 'Xuất kho mẫu cửa #'. $model->code;
+                        $history->save();
+                    }
+                }
+                
+            }
+            
+            $model->status = 'DA_XUAT_KHO';
+            if($model->save()){
+                //thay doi trang thai du an
+                $duAn = DuAn::findOne($model->id_du_an);
+
+                $hoanThanh=true;
+                foreach ($duAn->mauCuas as $j=>$cua){
+                    if($cua->status == 'KHOI_TAO'){
+                        $hoanThanh = false;
+                    }
+                }
+                if($hoanThanh==true){
+                    $duAn->trang_thai = 'HOAN_THANH';
+                    $duAn->save();
+                } else {
+                    $duAn->trang_thai = 'THUC_HIEN';
+                    $duAn->save();
+                }
+                
+            }
+            
+            return [
+                'forceReload'=>'#crud-datatable-pjax',
+                'title'=> "Thông tin mẫu cửa",
+                'content'=>$this->renderAjax('view', [
+                    'model' => $model,
+                ]),
+                'footer' =>
+                    Html::a('Edit',['update','id'=>$id],[
+                        'role'=>'modal-remote'
+                    ]) . '&nbsp;' .
+                    ($model->status == 'KHOI_TAO' ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
+                        'role'=>'modal-remote'
+                    ]) : '') . '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+
         }
     }
     

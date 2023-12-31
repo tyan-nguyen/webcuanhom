@@ -15,9 +15,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ten_dvt')->textInput(['maxlength' => true]) ?>
 
-    <!--<?= $form->field($model, 'date_created')->textInput() ?>
+    <?= $form->field($model, 'date_created')->textInput() ?>
 
-    <?= $form->field($model, 'user_created')->textInput() ?>-->
+    <?= $form->field($model, 'user_created')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

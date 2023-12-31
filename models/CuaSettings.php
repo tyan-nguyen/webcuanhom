@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $cho_phep_nhap_kho_am
+ * @property int|null $an_kho_nhom_bang_khong
  */
 class CuaSettings extends \yii\db\ActiveRecord
 {
@@ -27,7 +28,8 @@ class CuaSettings extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'cho_phep_nhap_kho_am'], 'integer'],
+            [['id', 'cho_phep_nhap_kho_am', 'an_kho_nhom_bang_khong'], 'integer'],
+            [['id'], 'unique'],
         ];
     }
 
@@ -39,6 +41,7 @@ class CuaSettings extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'cho_phep_nhap_kho_am' => 'Cho Phep Nhap Kho Am',
+            'an_kho_nhom_bang_khong' => 'An Kho Nhom Bang Khong',
         ];
     }
 }

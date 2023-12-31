@@ -90,7 +90,10 @@ class CayNhomController extends Controller
     public function actionAddTonKho($id){
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $history = new KhoNhomLichSu();
+        $khoNhom = new KhoNhom();
+        $khoNhom->scenario = 'addTonKhoNhom';
+        //$history = new KhoNhomLichSu();
+        //$history->scenario = 'addTonKhoNhom';
         
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -99,45 +102,56 @@ class CayNhomController extends Controller
                     'title'=> "Thêm tồn kho cây nhôm " . $model->code ,
                     'content'=>$this->renderAjax('form-ton-kho', [
                         'model' => $model,
-                        'history' => $history
+                        'khoNhom'=>$khoNhom
+                        //'history' => $history
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
                             .Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];
-            }else if($history->load($request->post())){
+            }else if($khoNhom->load($request->post())){
                 $historySaved = false;
-                
-                if($history->validate() == true){
+                $khoNhom->id_cay_nhom = $model->id;
+                if($khoNhom->validate() == true){
                     //check ton kho cay nhom co chua
                     $nhomTonKho = KhoNhom::findOne([
                         'id_cay_nhom' => $model->id,
-                        'chieu_dai' => $history->chieuDai
+                        'chieu_dai' => $khoNhom->chieu_dai
+                    ]);
+                    $nhomTonKhoOld = KhoNhom::findOne([
+                        'id_cay_nhom' => $model->id,
+                        'chieu_dai' => $khoNhom->chieu_dai
                     ]);
                     
                     //them moi ton kho neu chua co, neu co roi thi tang so luong
                     if($nhomTonKho == null){
                         $nhomTonKho = new KhoNhom();
                         $nhomTonKho->id_cay_nhom = $model->id;
-                        $nhomTonKho->chieu_dai = $history->chieuDai;
-                        $nhomTonKho->so_luong = $history->so_luong;
+                        $nhomTonKho->chieu_dai = $khoNhom->chieu_dai;
+                        $nhomTonKho->so_luong = $khoNhom->so_luong;
                         if($nhomTonKho->save()){
-                            $history->id_kho_nhom = $nhomTonKho->id;
-                            if($history->save()){
-                                $historySaved = true;
-                            }else{
-                                $nhomTonKho->delete();
-                            }
+                            $historySaved = true;
                         }
                     } else {
-                        $nhomTonKho->so_luong = $nhomTonKho->so_luong + $history->so_luong;
+                        $nhomTonKho->so_luong = $nhomTonKho->so_luong + $khoNhom->so_luong;
                         if($nhomTonKho->save()){
-                            $history->id_kho_nhom = $nhomTonKho->id;
+                            $historySaved = true;
+                            if($nhomTonKho->so_luong != $nhomTonKhoOld->so_luong){
+                                $history = new KhoNhomLichSu();
+                                $history->id_kho_nhom = $nhomTonKho->id;
+                                $history->so_luong = $khoNhom->so_luong;
+                                $history->so_luong_cu = $nhomTonKhoOld->so_luong;
+                                $history->so_luong_moi = $nhomTonKho->so_luong;
+                                $history->noi_dung = 'Cập nhật tồn kho do thêm mới dữ liệu kho nhôm <br/>'.$khoNhom->noiDung;
+                                $history->save();
+                            }
+                            
+                            /* $history->id_kho_nhom = $nhomTonKho->id;
                             if($history->save()){
                                 $historySaved = true;
                             } else {
                                 $nhomTonKho->so_luong = $nhomTonKho->so_luong - $history->so_luong;
                                 $nhomTonKho->save();
-                            }
+                            } */
                         }
                     }
                 }
@@ -162,7 +176,8 @@ class CayNhomController extends Controller
                         'title'=> "Thêm tồn kho cây nhôm " . $model->code ,
                         'content'=>$this->renderAjax('form-ton-kho', [
                             'model' => $model,
-                            'history' => $history
+                            'khoNhom'=>$khoNhom
+                            //'history' => $history
                         ]),
                         'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;'
                         .Html::button('Close',['data-bs-dismiss'=>"modal"])
@@ -173,7 +188,8 @@ class CayNhomController extends Controller
                     'title'=> "Thêm tồn kho cây nhôm " . $model->code ,
                     'content'=>$this->renderAjax('form-ton-kho', [
                         'model' => $model,
-                        'history' => $history
+                        'khoNhom'=>$khoNhom
+                        //'history' => $history
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' 
                     .Html::button('Close',['data-bs-dismiss'=>"modal"])

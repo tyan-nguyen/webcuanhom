@@ -32,6 +32,21 @@ use app\modules\maucua\models\MauCua;
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="vach-tab" data-bs-toggle="tab" data-bs-target="#vach" type="button" role="tab" aria-controls="vach" aria-selected="false">Vách</button>
           </li>
+          <!-- 
+          
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="test-tab" data-bs-toggle="tab" data-bs-target="#test" type="button" role="tab" aria-controls="vach" aria-selected="false">Test</button>
+          </li>
+          
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="test2-tab" data-bs-toggle="tab" data-bs-target="#test2" type="button" role="tab" aria-controls="vach" aria-selected="false">Test 2 edit</button>
+          </li>
+          
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="test3-tab" data-bs-toggle="tab" data-bs-target="#test3" type="button" role="tab" aria-controls="vach" aria-selected="false">Test 3 edit</button>
+          </li>
+           -->
+          
         </ul>
         
         <div class="tab-content" id="myTabContent">
@@ -100,7 +115,26 @@ use app\modules\maucua\models\MauCua;
           		    'model'=>$model,
           		]) ?>           
      		</div>
-           
+     		
+     		<!-- 
+     		<div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
+        		<?php /* $this->render('_test', [
+          		    'model'=>$model,
+          		])*/ ?>           
+     		</div>
+     		
+     		<div class="tab-pane fade" id="test2" role="tabpanel" aria-labelledby="test2-tab">
+        		<?php /* $this->render('_test2', [
+          		    'model'=>$model,
+          		])*/ ?>           
+     		</div>
+     		
+     		<div class="tab-pane fade" id="test3" role="tabpanel" aria-labelledby="test3-tab">
+        		<?= $this->render('_test3', [
+          		    'model'=>$model,
+          		]) ?>           
+     		</div>
+            -->
            
         </div>
 

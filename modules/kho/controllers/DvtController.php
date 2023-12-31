@@ -10,7 +10,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use yii\filters\AccessControl;
 
 /**
  * DvtController implements the CRUD actions for DonViTinh model.
@@ -22,7 +21,7 @@ class DvtController extends Controller
      */
     public function behaviors() {
 		return [
-		    'ghost-access'=> [
+			'ghost-access'=> [
 		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
 		    ],
 			'verbs' => [
@@ -48,25 +47,6 @@ class DvtController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
-    /**
-     * refresh data
-     */
-    public function actionRefreshData($getLastItem=NULL){
-        $response = '<option value>-Chọn-</option>';
-        $model = new DonViTinh();
-        $sum = count($model->getList());
-        $countIndex = 0;
-        $selected = '';
-        foreach ($model->getList() as $indexDvt => $dvt){
-            $countIndex++;
-            if($getLastItem!=NULL && $sum==$countIndex){
-                $selected = 'selected';
-            }            
-            $response .= '<option value="'.$indexDvt.'" '. $selected .'>'.$dvt.'</option>';
-        }
-        return $response;
-    }
 
 
     /**
@@ -80,14 +60,11 @@ class DvtController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Đơn vị tính",
+                    'title'=> "Thông tin đơn vị tính",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                'footer'=> Html::a('Edit',
-                        ['update','id'=>$id],
-                        ['role'=>'modal-remote']
-                        ). '&nbsp;' .
+                    'footer'=> Html::a('Edit', ['update','id'=>$id], ['role'=>'modal-remote']). '&nbsp;' .
                     Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
         }else{
@@ -120,16 +97,15 @@ class DvtController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>'submit']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>'modal'])
+                            Html::button('Close',['data-bs-dismiss'=>'modal'])        
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                     'title'=> "Thêm mới đơn vị tính",
-                    'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
+                    'title'=> "Thêm mới đơn vị tính",
+                    'content'=>'<span class="text-success">Thêm dữ liệu thành công!</span>',
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
-        
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])        
                 ];         
             }else{           
                 return [
@@ -138,7 +114,7 @@ class DvtController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])        
                 ];         
             }
         }else{
@@ -154,67 +130,6 @@ class DvtController extends Controller
             }
         }
        
-    }
-    
-    /**
-     * Creates a new DonViTinh model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreatePopup()
-    {
-        $request = Yii::$app->request;
-        $model = new DonViTinh();
-        
-        if($request->isAjax){
-            /*
-             *   Process for ajax request
-             */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Thêm mới đơn vị tính",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Save-Popup',['type'=>'submit']) . '&nbsp;' .
-                        Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
-                ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    // 'forceReload'=>'#crud-datatable-pjax',
-                    'forceClose'=>true,
-                    'runFunc'=>true,
-                    /* 'title'=> "Create new DonViTinh",
-                     'content'=>'<span class="text-success">Create DonViTinh success</span>',
-                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                     Html::button('Close',['data-bs-dismiss'=>"modal"])*/
-                    
-                ];
-            }else{
-                return [
-                    'title'=> "Thêm mới đơn vị tính",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .
-                    Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
-                ];
-            }
-        }else{
-            /*
-             *   Process for non-ajax request
-             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
-        }
-        
     }
 
     /**
@@ -246,7 +161,7 @@ class DvtController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Đơn vị tính",
+                    'title'=> "Thông tin đơn vị tính",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -259,7 +174,7 @@ class DvtController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }

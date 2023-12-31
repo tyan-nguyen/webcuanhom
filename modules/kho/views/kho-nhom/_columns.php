@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
-
+use app\modules\maucua\models\KhoNhom;
+$mod = new KhoNhom();
 return [
     [
         'class' => 'kartik\grid\CheckboxColumn',
@@ -17,8 +18,11 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
+        'format' => 'raw',
+        //'header'=>$mod->getAttributeLabel('code') . ' <i class="fa-regular fa-pen-to-square"></i>',
         'format'=>'raw',
-        'value'=>'showAction'
+        'value'=>'showAction',
+        'group'=>true
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -26,10 +30,14 @@ return [
         'value'=>function($model){
             return $model->cayNhom->ten_cay_nhom;
         },
+        //'group'=>true
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'chieu_dai',
+        'format'=>'raw',
+        //'header'=>$mod->getAttributeLabel('chieu_dai') . ' <i class="fa-regular fa-pen-to-square"></i>',
+        'value'=>'showChieuDaiAction',
         'contentOptions'=>['class'=>'text-center']
     ],
     [
