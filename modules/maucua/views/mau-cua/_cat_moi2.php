@@ -30,7 +30,7 @@
 
 <br/>
 
-<a href="#" onclick="getDataa()" class="btn btn-primary btn-sm">Tạo tối ưu cắt</a>
+<!--  <a href="#" onclick="getDataa()" class="btn btn-primary btn-sm">Tạo tối ưu cắt</a> -->
 	
 <script type="text/javascript">
 var vue10 = new Vue({
