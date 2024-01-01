@@ -165,6 +165,7 @@ class MauCuaController extends Controller
         
         return [
             'kqTest' => $kqTest,
+            'nhomSuDung' => $mauCuaModel1->dsSuDung(),
             'result'=> $mauCuaModel1->dsToiUu() /* [
                 [
                     'id' => 112,

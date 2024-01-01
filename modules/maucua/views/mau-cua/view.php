@@ -23,17 +23,19 @@ use app\modules\maucua\models\MauCua;
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="toi-uu-tab" data-bs-toggle="tab" data-bs-target="#toiuu" type="button" role="tab" aria-controls="contact" aria-selected="false">Tối ưu nhôm</button>
           </li>
+          <!-- 
            <li class="nav-item" role="presentation">
             <button class="nav-link" id="cat-moi-tab" data-bs-toggle="tab" data-bs-target="#catmoi" type="button" role="tab" aria-controls="catmoi" aria-selected="false">Tối ưu cắt</button>
           </li>
+           -->
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="cat-moi-tab" data-bs-toggle="tab" data-bs-target="#vattu" type="button" role="tab" aria-controls="vattu" aria-selected="false">Phụ kiện - Vật tư</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="vach-tab" data-bs-toggle="tab" data-bs-target="#vach" type="button" role="tab" aria-controls="vach" aria-selected="false">Vách</button>
           </li>
-          <!-- 
           
+          <!-- 
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="test-tab" data-bs-toggle="tab" data-bs-target="#test" type="button" role="tab" aria-controls="vach" aria-selected="false">Test</button>
           </li>
@@ -42,10 +44,12 @@ use app\modules\maucua\models\MauCua;
             <button class="nav-link" id="test2-tab" data-bs-toggle="tab" data-bs-target="#test2" type="button" role="tab" aria-controls="vach" aria-selected="false">Test 2 edit</button>
           </li>
           
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="test3-tab" data-bs-toggle="tab" data-bs-target="#test3" type="button" role="tab" aria-controls="vach" aria-selected="false">Test 3 edit</button>
-          </li>
            -->
+          
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="test3-tab" data-bs-toggle="tab" data-bs-target="#test3" type="button" role="tab" aria-controls="vach" aria-selected="false">Tối ưu cắt</button>
+          </li>
+           
           
         </ul>
         
@@ -98,12 +102,14 @@ use app\modules\maucua\models\MauCua;
 	
 			</div>
           
+          <!-- 
            <div class="tab-pane fade" id="catmoi" role="tabpanel" aria-labelledby="catmoi-tab">
-        		<?= $this->render('_cat_moi', [
+        		<?php /* $this->render('_cat_moi', [
           		    'model'=>$model,
-          		]) ?>           
+          		]) */ ?>           
      		</div>
-     		
+     		 -->
+     		 
      		<div class="tab-pane fade" id="vattu" role="tabpanel" aria-labelledby="vattu-tab">
         		<?= $this->render('_vat_tu', [
           		    'model'=>$model,
@@ -116,7 +122,7 @@ use app\modules\maucua\models\MauCua;
           		]) ?>           
      		</div>
      		
-     		<!-- 
+     		<!--
      		<div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
         		<?php /* $this->render('_test', [
           		    'model'=>$model,
@@ -128,13 +134,17 @@ use app\modules\maucua\models\MauCua;
           		    'model'=>$model,
           		])*/ ?>           
      		</div>
-     		
+     		 -->
+     		 
      		<div class="tab-pane fade" id="test3" role="tabpanel" aria-labelledby="test3-tab">
-        		<?= $this->render('_test3', [
+        		<?php /* $this->render('_test3', [
           		    'model'=>$model,
-          		]) ?>           
+          		]) */ ?>
+          		<?= $this->render('_cat_moi2', [
+          		    'model'=>$model,
+          		]) ?>            
      		</div>
-            -->
+            
            
         </div>
 

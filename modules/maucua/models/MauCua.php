@@ -140,6 +140,44 @@ class MauCua extends MauCuaBase
         return $result;
     }
     
+    /*
+     * lay ds toi uu
+     */
+    public function dsSuDung(){
+        $result = array();
+        foreach ($this->dsNhomSuDung as $iNhom=>$nhom){
+            
+            $soLuongArr = array();
+            foreach ($nhom->chiTiet as $ict=>$ct){
+                $soLuongArr[] = [
+                    'id'=>$ct->id,
+                    'width'=>$ct->nhomToiUu->mauCuaNhom->chieu_dai
+                ];
+            }
+            
+            $result[] = [
+                'id'=>$nhom->id, //id toi uu
+                'soluong'=>$soLuongArr,
+                'chieudai'=>$nhom->chieu_dai_ban_dau
+                
+               /*  'idMauCua'=>$nhom->id_mau_cua, //id mau cua
+                'idCuaNhom'=>$nhom->id_mau_cua_nhom, // id mau cua - nhom
+                'idTonKhoNhom'=>$nhom->id_ton_kho_nhom, //id ton kho nhom
+                'maCayNhom'=>$nhom->mauCuaNhom->cayNhom->code, //code cua nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
+                'tenCayNhom'=>$nhom->mauCuaNhom->cayNhom->ten_cay_nhom, // ten cay nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
+                'chieuDai'=>$nhom->mauCuaNhom->chieu_dai, //chieu dai cay nhom cat ra lay tu bang maucua-nhom
+                'soLuong'=>1, // boc tach ra tat nhien la 1, can thiet???
+                'kieuCat'=>$nhom->mauCuaNhom->kieu_cat, // lay tu MauCua-Nhom
+                'khoiLuong'=>$nhom->mauCuaNhom->khoi_luong, //lay tu MauCua-Nhom
+                'chieuDaiTonKhoNhom'=>$nhom->tonKhoNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
+                'chieuDaiCayNhom'=>$nhom->tonKhoNhom->cayNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
+                'slTonKho'=>$nhom->tonKhoNhom->so_luong */
+                
+            ];
+        }
+        return $result;
+    }
+    
     /**
      * toi uu cat tren cay nhom
      * tao tinh gon tu view _test2.php

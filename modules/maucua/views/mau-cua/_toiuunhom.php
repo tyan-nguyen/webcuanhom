@@ -86,6 +86,7 @@ function getData2(){
       url: '/maucua/mau-cua/get-data2?id=<?= $model->id ?>',
       success: function (data, status, xhr) {
       	vue2.results = data.result;
+      	vue10.results = data.nhomSuDung;
       }
     });
 }
@@ -97,6 +98,7 @@ function getData3(){
       url: '/maucua/mau-cua/get-data2?id=<?= $model->id ?>&type=catmoi',
       success: function (data, status, xhr) {
         	vue2.results = data.result;
+        	vue10.results = data.nhomSuDung;
       }
     });
 }
