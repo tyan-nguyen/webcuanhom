@@ -20,6 +20,7 @@ use Yii;
  * @property string|null $ghi_chu_nhap_lai
  * @property string|null $date_created
  * @property int|null $user_created
+ * @property int|null $code_bao_gia
  *
  * @property CuaKhoVatTu $khoVatTu
  * @property CuaMauCua $mauCua
@@ -41,7 +42,7 @@ class CuaMauCuaVatTu extends \yii\db\ActiveRecord
     {
         return [
             [['id_mau_cua', 'id_kho_vat_tu', 'so_luong'], 'required'],
-            [['id_mau_cua', 'id_kho_vat_tu', 'la_phu_kien', 'user_created'], 'integer'],
+            [['id_mau_cua', 'id_kho_vat_tu', 'la_phu_kien', 'user_created', 'code_bao_gia'], 'integer'],
             [['so_luong', 'don_gia', 'so_luong_xuat', 'so_luong_nhap_lai'], 'number'],
             [['ghi_chu_xuat', 'ghi_chu_nhap_lai'], 'string'],
             [['date_created'], 'safe'],
@@ -70,6 +71,7 @@ class CuaMauCuaVatTu extends \yii\db\ActiveRecord
             'ghi_chu_nhap_lai' => 'Ghi Chu Nhap Lai',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
+            'code_bao_gia' => 'Code Bao Gia',
         ];
     }
 

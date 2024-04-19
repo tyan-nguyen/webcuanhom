@@ -22,7 +22,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'ten_xuat_xu'
+        'attribute'=>'ten_thuong_hieu',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

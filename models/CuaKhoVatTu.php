@@ -11,7 +11,7 @@ use Yii;
  * @property string|null $code
  * @property string $ten_vat_tu
  * @property int|null $id_nhom_vat_tu
- * @property string|null $thuong_hieu
+ * @property int|null $thuong_hieu
  * @property string|null $model
  * @property int|null $xuat_xu
  * @property int|null $nha_cung_cap
@@ -44,12 +44,12 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     {
         return [
             [['ten_vat_tu', 'dvt'], 'required'],
-            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
+            [['id_nhom_vat_tu', 'thuong_hieu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
-            [['ten_vat_tu', 'thuong_hieu', 'model'], 'string', 'max' => 255],
+            [['ten_vat_tu', 'model'], 'string', 'max' => 255],
             [['xuat_xu'], 'exist', 'skipOnError' => true, 'targetClass' => CuaXuatXu::class, 'targetAttribute' => ['xuat_xu' => 'id']],
         ];
     }

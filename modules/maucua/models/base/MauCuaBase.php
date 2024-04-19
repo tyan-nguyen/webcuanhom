@@ -7,6 +7,8 @@ use app\custom\CustomFunc;
 use app\modules\maucua\models\ToiUu;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\CayNhom;
+use app\modules\maucua\models\MauCuaSettings;
+use app\modules\dungchung\models\Setting;
 
 /**
  * @property int $id
@@ -136,6 +138,19 @@ class MauCuaBase extends \app\models\CuaMauCua
             }
         }
         return parent::beforeSave($insert);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave( $insert, $changedAttributes ){
+        parent::afterSave($insert, $changedAttributes);
+        //create mau cua - setting
+        $globalSetting = Setting::find()->one();
+        $setModel = new MauCuaSettings();
+        $setModel->id_mau_cua = $this->id;
+        $setModel->vet_cat = $globalSetting->vet_cat != null ? $globalSetting->vet_cat : 0;
+        $setModel->save();
     }
     
     /**

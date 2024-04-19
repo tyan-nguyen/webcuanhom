@@ -241,6 +241,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
               	<li>|</li>
               	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
+              	<li>|</li>
+                <li><a href="/maucua/bao-gia"><i class="fa-regular fa-file"></i> Báo giá</a></li>
+              	<li>|</li>
+                <li><a href="/maucua/loai-bao-gia"><i class="fa-regular fa-file"></i> Loại báo giá</a></li>
               </ul>
               </div>
               <div class="tab-pane fade" id="kho" role="tabpanel" aria-labelledby="kho-tab">
@@ -262,6 +266,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                   	<li><a href="/kho/dvt"><i class="fa-regular fa-file"></i> Đơn vị tính</a></li>
                   	<li>|</li>
                   	<li><a href="/kho/xuat-xu"><i class="fa-regular fa-file"></i> Xuất xứ</a></li>
+                  	<li>|</li>
+                  	<li><a href="/kho/thuong-hieu"><i class="fa-regular fa-file"></i> Thương hiệu</a></li>
                   	
                   </ul>
               

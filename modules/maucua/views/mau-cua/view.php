@@ -5,6 +5,8 @@
 use yii\widgets\DetailView;
 use app\widgets\views\ImageListWidget;
 use app\modules\maucua\models\MauCua;
+use app\modules\maucua\models\MauCuaSettings;
+use kartik\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\MauCua */
@@ -75,6 +77,23 @@ use app\modules\maucua\models\MauCua;
                             'status'=>[
                                 'attribute'=>'status',
                                 'value'=>$model->getDmTrangThaiLabel($model->status)
+                            ],
+                            [
+                                'label'=>'Cấu hình cửa',
+                                'format'=>'raw',
+                                'value'=>function($model){
+                                    $settingModel = new MauCuaSettings();
+                                    $rtHtml = '<h6>Cấu hình mẫu cửa</h6>';
+                                    $rtHtml .= '<div id="blockSetting"><ul>';
+                                    foreach ($model->setting as $iSetting=>$st){
+                                        $rtHtml .= '<li>' . $settingModel->getAttributeLabel($iSetting) . ': ' . $st . ' (mm)' . '</li>';
+                                    }
+                                    $rtHtml .= '</ul></div>';
+                                    $rtHtml .= Html::a('Thay đổi', Yii::getAlias('@web/maucua/mau-cua/sua-cau-hinh?id='.$model->id), [
+                                        'role'=>'modal-remote-2'
+                                    ]);
+                                    return $rtHtml;
+                                }
                             ]
                             //'date_created',
                             //'user_created',
@@ -140,9 +159,11 @@ use app\modules\maucua\models\MauCua;
         		<?php /* $this->render('_test3', [
           		    'model'=>$model,
           		]) */ ?>
+          		<div style="width:100%;overflow-x: scroll;">
           		<?= $this->render('_cat_moi2', [
           		    'model'=>$model,
-          		]) ?>            
+          		]) ?>         
+          		</div>   
      		</div>
             
            
@@ -185,3 +206,10 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
+
+<script>
+function runFunc2($html){
+	$('#blockSetting').html($html);
+	//xu ly tiep chay lai thong ke nhom
+}
+</script>

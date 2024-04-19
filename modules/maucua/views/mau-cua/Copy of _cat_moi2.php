@@ -1,70 +1,26 @@
-<style>
-.triangle{
-    min-width: 100px;
-}
-.triangle-none {
-    border-left: 0px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 50px solid green;
-    border-top: 50px solid transparent;
-    display: inline-block;
-}
-.triangle-both {
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 50px solid green;
-    border-top: 50px solid transparent;
-    display: inline-block;
-}
-.triangle-left {
-    border-left: 50px solid transparent;
-    border-right: 0 solid transparent;
-    border-bottom: 50px solid green;
-    border-top: 50px solid transparent;
-    display: inline-block;
-}
-.triangle-right {
-    border-left: 0px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 50px solid green;
-    border-top: 50px solid transparent;
-    display: inline-block;
-}
-
-#obj10{
-    font-size: 12px;
-}
-</style>
-
 <div id="obj10">
 		
-		<div v-for="(result, indexResult) in results" :key="result.id" >
+		<div v-for="result in results" :key="result.id" >
 			<!-- <p>{{ result.width }}</p> -->
-			<h6 style="margin-top:20px">Thanh nhôm {{ indexResult+1 }} ({{ result.chieudai }})</h6>
-			<div style="margin-top:20px 0px;">
+			<div style="margin-top:20px;">
 				<div v-for="result1 in result.soluong" :key="result1.id" :style="{
-					width: result1.width/6 + 'px',
-					//borderBottom: '10px solid black',
+					width: result1.width/10 + 'px',
+					borderBottom: '5px solid black',
 					float: 'left',
-					marginRight: '1px',
-					textAlign: 'center',
-					borderLeft: result1.left + 'px solid transparent',
-                    borderRight: result1.right + 'px solid transparent',
-                    borderBottom: '10px solid #0d6efd',
-                    //borderTop: '20px solid transparent',
-                    display: 'inline-block'
-				}">					
+					marginRight: '2px',
+					textAlign: 'center'
+				}">
+					
 					{{ result1.width }}
 				</div>
-				
 				<div :style="{
-					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat  ) )/6 + 'px',
-					borderBottom: '10px solid red',
+					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * 2  ) )/10 + 'px',
+					borderBottom: '5px solid red',
 					float: 'left',
 					textAlign: 'center'
 				}">
 					
-					{{ result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat) }}
+					{{ result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * 2) }}
 				</div>
 				<!-- <div style="width:{{}}px;border-bottom:5px solid #212121;float:left;"></div>; -->
 				<div style="clear:both"></div>

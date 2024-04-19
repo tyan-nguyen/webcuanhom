@@ -20,6 +20,8 @@ use app\modules\kho\models\KhoVatTu;
 use app\modules\kho\models\KhoVatTuLichSu;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
+use app\modules\maucua\models\MauCuaSettings;
+use app\modules\dungchung\models\Setting;
 
 /**
  * MauCuaController implements the CRUD actions for MauCua model.
@@ -194,6 +196,26 @@ class MauCuaController extends Controller
                     'chieuDaiCayNhom' => 5900
                 ],
             ] */
+        ];
+    }
+    
+    /**
+     * lay du lieu danh sach phu kien cua mau cua
+     * @param integer $id
+     * @return array
+     *
+     */
+    public function actionGetDsVatTu($id, $type=NULL){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = MauCua::findOne($id);
+        $result = null;
+        if($type == 'phukien'){
+            $result = $model->dsPhuKienJson();
+        } else if ($type == 'vattu'){
+            $result = $model->dsVatTuJson();
+        }
+        return [
+            'result'=> $result
         ];
     }
 
@@ -391,6 +413,61 @@ class MauCuaController extends Controller
                 return [
                     'title'=> "Chỉnh sửa số lượng",
                     'content'=>$this->renderAjax('_update_so_luong_vat_tu', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        }
+        
+    }
+    
+    /**
+     * sua cau hinh cua mau cua
+     */
+    public function actionSuaCauHinh($id)
+    {
+        $request = Yii::$app->request;
+        $model = MauCuaSettings::findOne(['id_mau_cua'=>$id]);
+        //create setting if not exist
+        if($model==null){
+            $globalSetting = Setting::find()->one();
+            $model = new MauCuaSettings();
+            $model->id_mau_cua = $id;
+            $model->vet_cat = $globalSetting->vet_cat != null ? $globalSetting->vet_cat : 0;
+            $model->save();
+        }
+        
+        if($request->isAjax){
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Chỉnh sửa cấu hình",
+                    'content'=>$this->renderAjax('_update_setting', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save-Popup',['type'=>'submit']) . '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                ];
+            }else if($model->load($request->post()) && $model->save()){
+                
+                    return [
+                        // 'forceReload'=>'#crud-datatable-pjax',
+                        'forceClose'=>true,
+                        'runFunc2'=>true,
+                        'runFunc2Val1'=>$this->renderAjax('_viewSetting', [
+                            'setting'=>$model->mauCua->setting
+                        ]),
+                        //'runFuncVal2'=>$model->so_luong                        
+                    ];
+            }else{
+                return [
+                    'title'=> "Chỉnh sửa số lượng",
+                    'content'=>$this->renderAjax('_update_setting', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save-Popup',['type'=>"submit"]) . '&nbsp;' .

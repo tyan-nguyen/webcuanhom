@@ -21,6 +21,7 @@ use Yii;
  * @property string|null $ghi_chu_xuat
  * @property float|null $so_luong_nhap_lai
  * @property string|null $ghi_chu_nhap_lai
+ * @property int|null $code_bao_gia
  *
  * @property CuaMauCua $mauCua
  * @property CuaHeVach $vach
@@ -42,7 +43,7 @@ class CuaMauCuaVach extends \yii\db\ActiveRecord
     {
         return [
             [['id_mau_cua', 'id_vach', 'don_gia', 'user_created'], 'required'],
-            [['id_mau_cua', 'id_vach', 'user_created'], 'integer'],
+            [['id_mau_cua', 'id_vach', 'user_created', 'code_bao_gia'], 'integer'],
             [['rong', 'cao', 'so_luong', 'dien_tich', 'don_gia', 'so_luong_xuat', 'so_luong_nhap_lai'], 'number'],
             [['date_created'], 'safe'],
             [['ghi_chu_xuat', 'ghi_chu_nhap_lai'], 'string'],
@@ -71,6 +72,7 @@ class CuaMauCuaVach extends \yii\db\ActiveRecord
             'ghi_chu_xuat' => 'Ghi Chu Xuat',
             'so_luong_nhap_lai' => 'So Luong Nhap Lai',
             'ghi_chu_nhap_lai' => 'Ghi Chu Nhap Lai',
+            'code_bao_gia' => 'Code Bao Gia',
         ];
     }
 

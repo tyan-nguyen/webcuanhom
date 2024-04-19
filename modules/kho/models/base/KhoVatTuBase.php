@@ -95,6 +95,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             if($this->xuat_xu == null){
                 $this->xuat_xu = 1;
             }
+            //set thuong hieu
+            if($this->thuong_hieu == null){
+                $this->thuong_hieu = 1;
+            }
         }
         return parent::beforeSave($insert);
     }

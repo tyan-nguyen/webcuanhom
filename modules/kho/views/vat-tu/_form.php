@@ -3,6 +3,7 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use app\modules\kho\models\DonViTinh;
 use app\modules\kho\models\XuatXu;
+use app\modules\kho\models\ThuongHieu;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\kho\models\KhoVatTu */
@@ -21,7 +22,7 @@ use app\modules\kho\models\XuatXu;
 
     <?= $form->field($model, 'la_phu_kien')->checkbox() ?>
     
- 	<?= $form->field($model, 'thuong_hieu')->textInput() ?>
+ 	<?= $form->field($model, 'thuong_hieu')->dropDownList((new ThuongHieu())->getList(), ['prompt'=>'-Chọn-']) ?>
  
   	<?= $form->field($model, 'model')->textInput() ?>
   

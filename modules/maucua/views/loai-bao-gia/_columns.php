@@ -18,11 +18,17 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
         'format'=>'raw',
-        'value'=>'showAction'
+        'value'=>'showAction',
+        'width'=> '200px',
+        'contentOptions'=>['style'=>'text-align:center;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'ten_xuat_xu'
+        'attribute'=>'ten_loai_bao_gia',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nhom_bao_gia',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

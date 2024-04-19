@@ -64,12 +64,12 @@ class XuatXu extends \app\models\CuaXuatXu
     
     public function getShowAction(){
         if($this->id != 1){
-            return Html::a($this->ten_xuat_xu,
+            return Html::a($this->code,
                 [Yii::getAlias('@web/kho/xuat-xu/view'), 'id'=>$this->id],
                 ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
         } else {
-            return $this->ten_xuat_xu;
+            return $this->code;
         }
     }
 }

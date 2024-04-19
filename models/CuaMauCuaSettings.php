@@ -5,21 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "cua_settings".
+ * This is the model class for table "cua_mau_cua_settings".
  *
  * @property int $id
- * @property int|null $cho_phep_nhap_kho_am
- * @property int|null $an_kho_nhom_bang_khong
+ * @property int|null $id_mau_cua
  * @property float|null $vet_cat
  */
-class CuaSettings extends \yii\db\ActiveRecord
+class CuaMauCuaSettings extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'cua_settings';
+        return 'cua_mau_cua_settings';
     }
 
     /**
@@ -28,10 +27,8 @@ class CuaSettings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'cho_phep_nhap_kho_am', 'an_kho_nhom_bang_khong'], 'integer'],
+            [['id_mau_cua'], 'integer'],
             [['vet_cat'], 'number'],
-            [['id'], 'unique'],
         ];
     }
 
@@ -42,8 +39,7 @@ class CuaSettings extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'cho_phep_nhap_kho_am' => 'Cho Phep Nhap Kho Am',
-            'an_kho_nhom_bang_khong' => 'An Kho Nhom Bang Khong',
+            'id_mau_cua' => 'Id Mau Cua',
             'vet_cat' => 'Vet Cat',
         ];
     }

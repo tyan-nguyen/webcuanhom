@@ -72,10 +72,11 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'user_created',
     // ],
-    /* [
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
+        'template'=>'{view}',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
@@ -87,6 +88,6 @@ return [
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Comfirm Delete?',
                           'data-confirm-message'=>'Are you sure to delete this data?'], 
-    ], */
+    ],
 
 ];   

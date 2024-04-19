@@ -19,6 +19,7 @@ use Yii;
  * @property int|null $user_created
  *
  * @property CuaCayNhom $cayNhom
+ * @property CuaToiUu[] $cuaToiUus
  * @property CuaMauCua $mauCua
  */
 class CuaMauCuaNhom extends \yii\db\ActiveRecord
@@ -74,6 +75,16 @@ class CuaMauCuaNhom extends \yii\db\ActiveRecord
     public function getCayNhom()
     {
         return $this->hasOne(CuaCayNhom::class, ['id' => 'id_cay_nhom']);
+    }
+
+    /**
+     * Gets query for [[CuaToiUus]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaToiUus()
+    {
+        return $this->hasMany(CuaToiUu::class, ['id_mau_cua_nhom' => 'id']);
     }
 
     /**

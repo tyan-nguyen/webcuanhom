@@ -7,6 +7,7 @@ use app\modules\dungchung\models\HinhAnh;
 use Yii;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
+use app\modules\dungchung\models\Setting;
 
 class MauCua extends MauCuaBase
 {
@@ -82,6 +83,16 @@ class MauCua extends MauCuaBase
     }
     
     /**
+     * Gets query for [[ToiUu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaSetting()
+    {
+        return MauCuaSettings::findOne(['id_mau_cua'=>$this->id]);
+    }
+    
+    /**
      * Gets query for [[NhomSuDung]].
      *
      * @return \yii\db\ActiveQuery
@@ -140,6 +151,55 @@ class MauCua extends MauCuaBase
         return $result;
     }
     
+    /**
+     * lay kieu cat 
+     */
+    public function getKieuCat($str){
+        if($str == '/===\\'){
+            return 'both';
+        } else if($str == '|===\\'){
+            return 'right';
+        } else if($str == '/===|'){
+            return 'left';
+        } else if($str == '|===|'){
+            return 'none';
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * lay left
+     */
+    public function getKieuCatLeft($str){
+        if($str == '/===\\' || $str == '/===|'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * lay right
+     */
+    public function getKieuCatRight($str){
+        if($str == '/===\\' || $str == '|===\\'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * cau hinh cho mau cua
+     */
+    public function getSetting(){
+        $settingDefault = Setting::find()->one();
+        return [
+            'vet_cat'=>$this->cuaSetting!=null?$this->cuaSetting->vet_cat:$settingDefault->vet_cat,//*************xu ly lay tu db
+        ];
+    }
+    
     /*
      * lay ds toi uu
      */
@@ -151,14 +211,18 @@ class MauCua extends MauCuaBase
             foreach ($nhom->chiTiet as $ict=>$ct){
                 $soLuongArr[] = [
                     'id'=>$ct->id,
-                    'width'=>$ct->nhomToiUu->mauCuaNhom->chieu_dai
+                    'width'=>$ct->nhomToiUu->mauCuaNhom->chieu_dai,
+                    'type'=>$this->getKieuCat($ct->nhomToiUu->mauCuaNhom->kieu_cat),
+                    'left'=>$this->getKieuCatLeft($ct->nhomToiUu->mauCuaNhom->kieu_cat)==true?10:0,
+                    'right'=>$this->getKieuCatRight($ct->nhomToiUu->mauCuaNhom->kieu_cat)==true?10:0
                 ];
             }
             
             $result[] = [
                 'id'=>$nhom->id, //id toi uu
                 'soluong'=>$soLuongArr,
-                'chieudai'=>$nhom->chieu_dai_ban_dau
+                'chieudai'=>$nhom->chieu_dai_ban_dau,
+                'vetcat'=>$this->setting['vet_cat']
                 
                /*  'idMauCua'=>$nhom->id_mau_cua, //id mau cua
                 'idCuaNhom'=>$nhom->id_mau_cua_nhom, // id mau cua - nhom
@@ -270,6 +334,43 @@ class MauCua extends MauCuaBase
          } else {
          ToiUu($numbers, $desiredSum, $result);
          } */
+    }
+    
+    
+    /**
+     * danh sach phu kien dinh dang array
+     */
+    public function dsPhuKienJson(){
+        $result = array();
+        foreach ($this->dsPhuKien as $indexPk=>$pk){
+            $result[] = [
+                'id'=>$pk->id,
+                'maPhuKien' => $pk->khoVatTu->code,
+                'tenPhuKien' => $pk->khoVatTu->ten_vat_tu,
+                'dvt' => $pk->dvt,
+                'soLuong' => $pk->so_luong,
+                'tonKho' => $pk->khoVatTu->so_luong
+            ];
+        }
+        return $result;
+    }
+    
+    /**
+     * danh sach vat tu dinh dang array
+     */
+    public function dsVatTuJson(){
+        $result = array();
+        foreach ($this->dsVatTu as $indexPk=>$pk){
+            $result[] = [
+                'id'=>$pk->id,
+                'maVatTu' => $pk->khoVatTu->code,
+                'tenVatTu' => $pk->khoVatTu->ten_vat_tu,
+                'dvt' => $pk->dvt,
+                'soLuong' => $pk->so_luong,
+                'tonKho' => $pk->khoVatTu->so_luong
+            ];
+        }
+        return $result;
     }
     
 

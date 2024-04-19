@@ -306,6 +306,23 @@ function ModalRemote(modalId) {
 					runFunc();
 				}
 			}
+			
+			if(response.runFunc2 == true){
+				if(response.runFunc2Val1 != undefined){
+					runFunc2(response.runFunc2Val1);
+				} else {
+					runFunc2();
+				}
+			}
+			
+			if(response.runFunc3 == true){
+				if(response.runFunc3Val1 != undefined && response.runFunc3Val2 != undefined){
+					runFunc3(response.runFunc3Val1, response.runFunc3Val2);
+				} else {
+					runFunc3();
+				}
+			}
+			
             return;
         }
 

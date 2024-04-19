@@ -53,6 +53,17 @@ class KhoVatTu extends KhoVatTuBase
         }
         return $this->hasOne(XuatXu::class, ['id' => 'xuat_xu']);
     }
+    
+    public function getThuongHieu()
+    {
+        if($this->thuong_hieu == null){
+            $this->thuong_hieu = 1;//1 is chua-phan-loai
+            if($this->save()){
+                $this->refresh();
+            }
+        }
+        return $this->hasOne(ThuongHieu::class, ['id' => 'thuong_hieu']);
+    }
     /***** /relation *****/    
     /***** custom function *****/
     /***** /custom function *****/
