@@ -34,16 +34,17 @@
 #obj10{
     font-size: 12px;
 }
+
 </style>
 
 <div id="obj10">
 		
 		<div v-for="(result, indexResult) in results" :key="result.id" >
 			<!-- <p>{{ result.width }}</p> -->
-			<h6 style="margin-top:20px">Thanh nhôm {{ indexResult+1 }} ({{ result.chieudai }})</h6>
+			<h6 style="margin-top:20px">Thanh nhôm {{ indexResult+1 }} {{ result.macaynhom }} ({{ result.chieudai }})</h6>
 			<div style="margin-top:20px 0px;">
 				<div v-for="result1 in result.soluong" :key="result1.id" :style="{
-					width: result1.width/6 + 'px',
+					width: (result1.width-result1.left-result1.right)/10 + 'px',
 					//borderBottom: '10px solid black',
 					float: 'left',
 					marginRight: '1px',
@@ -58,7 +59,7 @@
 				</div>
 				
 				<div :style="{
-					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat  ) )/6 + 'px',
+					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat  ) )/10 + 'px',
 					borderBottom: '10px solid red',
 					float: 'left',
 					textAlign: 'center'

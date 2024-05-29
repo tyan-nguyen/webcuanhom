@@ -196,6 +196,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 	<button class="nav-link main-nav-link" id="bctk-tab" data-bs-toggle="pill" data-bs-target="#bctk" type="button" role="tab" aria-controls="bctk" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo</button>
                 </li>
                 <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="banle-tab" data-bs-toggle="pill" data-bs-target="#banle" type="button" role="tab" aria-controls="banle" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Bán lẻ</button>
+                </li>
+                <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Mẫu cửa</button>
                 </li>
                 
@@ -206,9 +209,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> KH sản xuất</button>
                 </li>                
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="tkmc-tab" data-bs-toggle="pill" data-bs-target="#tkmc" type="button" role="tab" aria-controls="tkmc" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu</button>
-                </li>
+                </li> -->
                 
                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="taikhoan-tab" data-bs-toggle="pill" data-bs-target="#taikhoan" type="button" role="tab" aria-controls="taikhoan" aria-selected="false"><i class="fa-solid fa-users"></i> Tài khoản</button>
@@ -228,6 +231,14 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             
             <div class="tab-pane fade" id="bctk" role="tabpanel" aria-labelledby="bctk-tab">
               		Coming soon...
+              </div>
+              
+              <div class="tab-pane fade" id="banle" role="tabpanel" aria-labelledby="banle-tab">
+              		<ul class="ul-ribbon">
+                      	<li><a href="/banle/hoa-don"><i class="fa-regular fa-file"></i> Hóa đơn bán lẻ</a></li>
+                      	<li>|</li>
+                      	<li><a href="/banle/khach-hang"><i class="fa-regular fa-file"></i> Khách hàng</a></li>
+                      </ul>
               </div>
             
               <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
@@ -276,10 +287,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               		Coming soon...
               </div>
               
-              <div class="tab-pane fade" id="tkmc" role="tabpanel" aria-labelledby="tkmc-tab">
+              <!-- <div class="tab-pane fade" id="tkmc" role="tabpanel" aria-labelledby="tkmc-tab">
               		Coming soon...
               </div>
-              
+               -->
               
               
               <div class="tab-pane fade" id="taikhoan" role="tabpanel" aria-labelledby="taikhoan-tab">
@@ -350,7 +361,10 @@ $script = <<< JS
     
     
     function setActiveMenu(moduleName){
-    	if(moduleName == 'kho'){
+        if(moduleName == 'banle'){
+            $('#banle-tab').addClass('active');
+            $('#banle').addClass('show active');
+    	}else if(moduleName == 'kho'){
             $('#kho-tab').addClass('active');
             $('#kho').addClass('show active');
     	}else if(moduleName == 'maucua'){

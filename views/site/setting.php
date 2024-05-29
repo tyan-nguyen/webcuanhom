@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cho_phep_nhap_kho_am')->checkbox() ?>
     <?= $form->field($model, 'an_kho_nhom_bang_khong')->checkbox() ?>
+    
+    <?= $form->field($model, 'vet_cat')->textInput(['maxlength' => true]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

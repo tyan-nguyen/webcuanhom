@@ -271,7 +271,8 @@ class CayNhomController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        $chieuDaiCu = $model->chieu_dai;//xu ly ton kho neu chieu dai co thay doi
 
         if($request->isAjax){
             /*
@@ -288,6 +289,28 @@ class CayNhomController extends Controller
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                /**
+                 * kiem tra xem chieu dai co thay doi thi thay doi luon ton kho nhom cua cay nhom moi
+                 * -neu chieu dai khong thay doi thi thoi
+                 * -neu chieu dai co thay doi thi cap nhat chieu dai ben ton kho nhom tuong ung lai cho
+                 * cay nhom moi
+                 */
+                if($model->chieu_dai != $chieuDaiCu){
+                    $khoNhom = KhoNhom::find()->where([
+                        'chieu_dai'=>$chieuDaiCu,
+                        'id_cay_nhom'=>$model->id,
+                    ])->one();
+                    if($khoNhom == null){
+                        $khoNhom = new KhoNhom();
+                        $khoNhom->id_cay_nhom = $model->id;
+                        $khoNhom->chieu_dai = $model->chieu_dai;
+                        $khoNhom->so_luong = $model->so_luong!=null?$model->so_luong:0;
+                        $khoNhom->save(false);
+                    }
+                    $khoNhom->chieu_dai = $model->chieu_dai;
+                    $khoNhom->save(false);
+                }
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Cây nhôm",

@@ -21,6 +21,25 @@ class MauCua extends MauCuaBase
     {
         return $this->hasOne(DuAn::class, ['id' => 'id_du_an']);
     }
+    /**
+     * Gets query for [[HeNhom]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHeNhom()
+    {
+        return $this->hasOne(HeNhom::class, ['id' => 'id_he_nhom']);
+    }
+    
+    /**
+     * Gets query for [[LoaiCua]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLoaiCua()
+    {
+        return $this->hasOne(LoaiCua::class, ['id' => 'id_loai_cua']);
+    }
     
     /**
      * Gets query for [[MauCuaVach]].
@@ -151,6 +170,47 @@ class MauCua extends MauCuaBase
         return $result;
     }
     
+    /*
+     * lay ds toi uu (tinh luon vet cat)
+     */
+    public function dsToiUuCoVetCat(){
+        $result = array();
+        foreach ($this->dsToiUu as $iNhom=>$nhom){
+            /* $id = rand(1,5000);
+             $result[] = [
+             'id' => $id,
+             'idMauCua' => 112,
+             'idCuaNhom' => 222,
+             'idTonKhoNhom' => 332,
+             'maCayNhom' => 'ma0001-' . $id,
+             'tenCayNhom' => 'Cây nhôm abc - x',
+             'chieuDai' => 550,
+             'soLuong' => 1,
+             'kieuCat' => '==\\',
+             'khoiLuong' => 2000,
+             'chieuDaiCayNhom' => 5900
+             ]; */
+            
+            $result[] = [
+                'id'=>$nhom->id, //id toi uu
+                'idMauCua'=>$nhom->id_mau_cua, //id mau cua
+                'idCuaNhom'=>$nhom->id_mau_cua_nhom, // id mau cua - nhom
+                'idTonKhoNhom'=>$nhom->id_ton_kho_nhom, //id ton kho nhom
+                'maCayNhom'=>$nhom->mauCuaNhom->cayNhom->code, //code cua nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
+                'tenCayNhom'=>$nhom->mauCuaNhom->cayNhom->ten_cay_nhom, // ten cay nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
+                'chieuDai'=>$nhom->mauCuaNhom->chieu_dai + $this->cuaSetting->vet_cat, //chieu dai cay nhom cat ra lay tu bang maucua-nhom
+                'soLuong'=>1, // boc tach ra tat nhien la 1, can thiet???
+                'kieuCat'=>$nhom->mauCuaNhom->kieu_cat, // lay tu MauCua-Nhom
+                'khoiLuong'=>$nhom->mauCuaNhom->khoi_luong, //lay tu MauCua-Nhom
+                'chieuDaiTonKhoNhom'=>$nhom->tonKhoNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
+                'chieuDaiCayNhom'=>$nhom->tonKhoNhom->cayNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
+                'slTonKho'=>$nhom->tonKhoNhom->so_luong
+                
+            ];
+        }
+        return $result;
+    }
+    
     /**
      * lay kieu cat 
      */
@@ -220,6 +280,7 @@ class MauCua extends MauCuaBase
             
             $result[] = [
                 'id'=>$nhom->id, //id toi uu
+                'macaynhom'=>$nhom->khoNhom->cayNhom->code,
                 'soluong'=>$soLuongArr,
                 'chieudai'=>$nhom->chieu_dai_ban_dau,
                 'vetcat'=>$this->setting['vet_cat']
@@ -246,9 +307,10 @@ class MauCua extends MauCuaBase
      * toi uu cat tren cay nhom
      * tao tinh gon tu view _test2.php
      */
-    public function taoNhomSuDung(){
+   public function taoNhomSuDung(){
         $newarray = array();
-        foreach($this->dsToiUu() as $key => $value){
+        //foreach($this->dsToiUu() as $key => $value){
+        foreach($this->dsToiUuCoVetCat() as $key => $value){
             $newarray[$value['idTonKhoNhom']][$key] = $value;
         }
         foreach ($newarray as $vI => $v){
@@ -293,6 +355,62 @@ class MauCua extends MauCuaBase
         }
         
     }
+    
+    /*public function taoNhomSuDung(){
+        $newarray = array();
+        foreach($this->dsToiUu() as $key => $value){
+            $newarray[$value['idTonKhoNhom']][$key] = $value;
+        }
+
+        foreach ($newarray as $vI => $v){
+            $vCopy = $v;
+            $numberss = array_column($v, 'chieuDai');
+            $tonKhoNhom = KhoNhom::findOne($vI);
+            $desiredSum = $tonKhoNhom->chieu_dai;
+            //cắt array ra tối đa 20 item trên lần xử lý (tạm xử lý vì lớn hơn bị loading...)
+            $numberss = array_chunk($numberss, 15);
+            //
+            foreach ($numberss as $numbers){
+                $result = $this->ToiUu($numbers, $desiredSum, null);
+                
+                foreach ($result as $i7=>$v7){
+                    $nhomsdSaveSuccess = false;
+                    $nhomsd = new NhomSuDung();
+                    $nhomsd->id_mau_cua = $this->id;
+                    $nhomsd->id_kho_nhom = $tonKhoNhom->id;
+                    $nhomsd->chieu_dai_ban_dau = $tonKhoNhom->chieu_dai;
+                    $nhomsd->chieu_dai_con_lai = $tonKhoNhom->chieu_dai - array_sum($v7);
+                    if($nhomsd->save()){
+                        $nhomsdSaveSuccess = true;
+                    }else {
+                        var_dump($nhomsd->errors);
+                    }
+                    
+                    $i=0;
+                    foreach ($v7 as $v8){
+                        
+                        if($nhomsdSaveSuccess == true ){
+                            $nhomct = new NhomSuDungChiTiet();
+                            $nhomct->id_nhom_su_dung = $nhomsd->id;
+                            $tKey = ToiUuNhom::getKey($vCopy, 'chieuDai', $v8);
+                            $nhomct->id_nhom_toi_uu = $vCopy[$tKey]['id'];//khong lay $v de su dung loop
+                            if($nhomct->save()){
+                                //remove key
+                                unset($vCopy[$tKey]);
+                            } else {
+                                var_dump($nhomct->errors);
+                            }
+                        }
+                        $i++;
+                    }
+                }
+            }
+            //
+            
+        }
+
+        
+    }*/
     
     public function ToiUu($numbers, $desiredSum, $result){
         if($result == null){

@@ -59,6 +59,39 @@ class MauCuaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    /**
+     * load phieu xuat kho
+     * @return mixed
+     */
+    public function actionGetPhieuInAjax($idMauCua, $type)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = MauCua::findOne($idMauCua);
+        if($model !=null){
+            if($type == "phieuthongtin"){
+                return [
+                    'status'=>'success',
+                    'content' => $this->renderAjax('_print_phieu_thong_tin', [
+                        'model' => $model
+                    ])
+                ];
+            } else if ($type == "phieuxuatkho"){
+                return [
+                    'status'=>'success',
+                    'content' => $this->renderAjax('_print_phieu_xuat_kho', [
+                        'model' => $model
+                    ])
+                ];
+            }
+        } else {
+            return [
+                'status'=>'failed',
+                'content' => 'Phiếu xuất kho không tồn tại!'
+            ];
+        }
+    }
+    
     /**
      * get data by ajax
      */
@@ -153,6 +186,12 @@ class MauCuaController extends Controller
         } else if($type == 'catmoi'){
             $mauCuaModel->taoToiUuCatMoi();
         }
+        
+        if($mauCuaModel->status == "KHOI_TAO"){
+            $mauCuaModel->status = "TOI_UU";
+            $mauCuaModel->save(false);
+        }
+        
             
        // }
        //search lai de load model moi
@@ -251,10 +290,10 @@ class MauCuaController extends Controller
                         ($backLink != null ? Html::a('Back',
                             $backLink,
                             ['role'=>'modal-remote']) : '') . '&nbsp' .                                                
-                ($model->status == 'KHOI_TAO' ? Html::a('Edit',['update','id'=>$id],[
+                ( ($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU') ? Html::a('Edit',['update','id'=>$id],[
                             'role'=>'modal-remote'
                         ]) : '') . '&nbsp;' .
-                        ($model->status == 'KHOI_TAO' ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
+                (($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU') ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
                             'role'=>'modal-remote'
                         ]) : '') . '&nbsp;' .
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
@@ -328,7 +367,7 @@ class MauCuaController extends Controller
 
                 $hoanThanh=true;
                 foreach ($duAn->mauCuas as $j=>$cua){
-                    if($cua->status == 'KHOI_TAO'){
+                    if($cua->status == 'KHOI_TAO' || $cua->status == 'TOI_UU'){
                         $hoanThanh = false;
                     }
                 }
@@ -352,7 +391,7 @@ class MauCuaController extends Controller
                     Html::a('Edit',['update','id'=>$id],[
                         'role'=>'modal-remote'
                     ]) . '&nbsp;' .
-                    ($model->status == 'KHOI_TAO' ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
+                ( ($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU') ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
                         'role'=>'modal-remote'
                     ]) : '') . '&nbsp;' .
                     Html::button('Close',['data-bs-dismiss'=>"modal"])
@@ -419,8 +458,7 @@ class MauCuaController extends Controller
                     Html::button('Close-Popup',['data-bs-dismiss'=>"modal"])
                 ];
             }
-        }
-        
+        }  
     }
     
     /**

@@ -26,7 +26,7 @@
 </div>
 
 <?php 
-if($model->status == 'KHOI_TAO'){ 
+if($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU'){ 
 ?>
 <a href="#" onclick="getData2()" class="btn btn-primary btn-sm">Tối ưu kho</a>
 <a href="#" onclick="getData3()" class="btn btn-primary btn-sm">Tối ưu nhôm mới</a>

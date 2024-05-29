@@ -49,7 +49,7 @@ class ImportDuAn1
         $successCount = 0;
         $errorCount = 0;
         
-        $arrr = array();//luu dong co chu STT
+        $arrr = array();//luu dong co chu STT, se tra ve $arrr($rowNhom, $rowKinh, $rowPhuKien, $rowVatTu)
         foreach ($xls_data as $index=>$row){
             if($row['A'] == 'STT'){
                 array_push($arrr, $index);
@@ -202,6 +202,7 @@ class ImportDuAn1
                 
                 //check vat tu
                 if($row['H']==null){
+                    //neu khong co ma vat tu thi kiem tra theo don_vi_tinh va ten_vat_tu
                     $dvtModel = DonViTinh::findOne(['ten_dvt'=>$row['G']]);
                     if($dvtModel==null){
                         $dvtModel = new DonViTinh();
@@ -224,6 +225,7 @@ class ImportDuAn1
                         $phuKienModel->save(); //**
                     }
                 } else {
+                    //neu co ma vat tu thi kiem tra theo ma_vat_tu
                     $phuKienModel = KhoVatTu::findOne(['code'=>$row['H']]);
                     if($phuKienModel==null){
                         $phuKienModel = new KhoVatTu();
@@ -242,9 +244,9 @@ class ImportDuAn1
                 $phuKienCua->id_kho_vat_tu = $phuKienModel->id;
                 $phuKienCua->so_luong = $row['I'];
                 $phuKienCua->dvt = $row['G'];
-                $phuKienCua->don_gia = 0;//**
+                $phuKienCua->don_gia = $phuKienModel->don_gia;//**
                 $phuKienCua->la_phu_kien = 1;
-                $phuKienCua->so_luong_xuat = 0;
+                $phuKienCua->so_luong_xuat = $row['I'];//**
                 $phuKienCua->ghi_chu_xuat = '';
                 $phuKienCua->so_luong_nhap_lai = 0;
                 $phuKienCua->ghi_chu_nhap_lai = '';
@@ -300,9 +302,9 @@ class ImportDuAn1
                 $phuKienCua->id_kho_vat_tu = $phuKienModel->id;
                 $phuKienCua->so_luong = $row['I'];
                 $phuKienCua->dvt = $row['G'];
-                $phuKienCua->don_gia = 0;//**
+                $phuKienCua->don_gia = $phuKienModel->don_gia;//**
                 $phuKienCua->la_phu_kien = 0;//** this is important diffrent for phuKien
-                $phuKienCua->so_luong_xuat = 0;
+                $phuKienCua->so_luong_xuat = $row['I'];//**
                 $phuKienCua->ghi_chu_xuat = '';
                 $phuKienCua->so_luong_nhap_lai = 0;
                 $phuKienCua->ghi_chu_nhap_lai = '';

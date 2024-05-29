@@ -20,6 +20,12 @@ class KhoNhom extends KhoNhomBase
     }
     
     /**
+     * get khoi luong cua cay nhom
+     */
+    public function getKhoiLuong(){
+        return round( ($this->cayNhom->khoi_luong/$this->cayNhom->chieu_dai)*$this->chieu_dai , 2);
+    }
+    /**
      * Gets query for [[CuaKhoNhomLichSus]].
      *
      * @return \yii\db\ActiveQuery

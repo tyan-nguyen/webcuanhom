@@ -66,7 +66,7 @@
 	<th>Đơn vị tính</th>
 	<th>Số lượng <i class="fa-regular fa-pen-to-square"></i></th>
 	<th>Tồn kho</th>
-	<th></th>
+	<!-- <th></th> -->
 </tr>
 <tr v-for="(phuKien, index) in phuKiens" :key="phuKien.id">
 	<td>{{ index + 1 }}</td>
@@ -75,7 +75,7 @@
 	<td>{{ phuKien.dvt }}</td>
 	<td><a class="a-edit-wrap" :href="`/maucua/mau-cua-vat-tu/sua-vat-tu-popup?id=${phuKien.id}`" role="modal-remote-2"><span :id="`${phuKien.id}`">{{ phuKien.soLuong }}</span></a></td>
 	<td>{{ phuKien.tonKho }}</td>
-	<td><a :href="`/maucua/mau-cua-vat-tu/delete?id=${phuKien.id}`" role="modal-remote-2" data-confirm="false" data-method="false" data-confirm-title="Xác nhận xóa thông tin?" data-confirm-message="Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?"><i class="fa-solid fa-trash"></i></a></td>
+	<!-- <td><a :href="`/maucua/mau-cua-vat-tu/delete?id=${phuKien.id}`" role="modal-remote-2" data-confirm="false" data-method="false" data-confirm-title="Xác nhận xóa thông tin?" data-confirm-message="Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?"><i class="fa-solid fa-trash"></i></a></td> -->
 </tr>
 
 </table>
@@ -109,7 +109,7 @@
 <a href="#" onclick="getDsVatTu()" class="btn btn-primary btn-sm">Refresh Vật tư</a>
 
 
-
+<!-- 
 <a href="/maucua/mau-cua-vat-tu/delete?id=1" role="modal-remote-2" data-confirm="false" data-method="false" data-request-method="post" data-confirm-title="Xác nhận xóa thông tin?" data-confirm-message="Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?"><i class="fa-solid fa-trash"></i></a>
 
 <a class="btn btn-warning btn-sm btn-default-custom" href="/maucua/mau-cua/bulkdelete" accesskey="t" role="modal-remote-2" data-request-method="post" data-confirm-title="Xác nhận xóa thông tin?" data-confirm-message="Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?"><i class="fa-solid fa-trash"></i> Xóa (T)</a>
@@ -126,7 +126,8 @@
         'data-confirm-message'=>'Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?'
     ]) ?>
 
-
+ -->
+ 
 <script>
 function runFunc(id,val){
 	$('#' + id).text(val);

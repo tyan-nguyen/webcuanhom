@@ -62,6 +62,21 @@ class SiteController extends Controller
         return $this->render('test');
     }
     
+    public function actionTest2(){
+        return $this->render('test2');
+    }
+    
+    public function actionTest3(){
+        return $this->render('test3');
+    }
+    
+    /**
+     * tinh nhom su dung theo mang cay Nhom
+     */
+    public function actionTest4(){
+        return $this->render('test4');
+    }
+    
     /**
      * Displays setting page.
      *

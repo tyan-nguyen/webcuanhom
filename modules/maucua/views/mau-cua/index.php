@@ -18,6 +18,15 @@ CrudAsset::register($this);
 
 ?>
 
+<style>
+#ajaxCrudModal2{
+    margin-top:50px;
+}
+#ajaxCrudModal2 .modal-content{
+    border-top:2px solid blue;
+}
+</style>
+
 <!-- CSS -->
 <!-- <link rel="stylesheet" type="text/css" href="<?= Yii::getAlias('@web') ?>/js/fancybox-master/dist/jquery.fancybox.min.css">-->
 
@@ -85,6 +94,7 @@ BulkButtonWidget::widget([
         "tabindex" => false // important for Select2 to work properly
     ],
     'dialogOptions'=>['class'=>'modal-xl'],
+    'clientOptions' => ['backdrop' => 'static', 'keyboard' => false],
    "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>
@@ -96,6 +106,7 @@ BulkButtonWidget::widget([
         'tabindex' => false // important for Select2 to work properly
    ],
    'dialogOptions'=>['class'=>'modal-lg'],
+    'clientOptions' => ['backdrop' => 'static', 'keyboard' => false],
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal2',
    'footer'=>'',// always need it for jquery plugin

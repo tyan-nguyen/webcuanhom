@@ -20,6 +20,19 @@ class HinhAnh extends HinhAnhBase
     }
     
     /**
+     * get hinh anh thuoc id tham chieu (chi lay 1 hinh anh duy nhat)
+     * @param string $loai
+     * @param int $idthamchieu
+     * @return \yii\db\ActiveRecord[]
+     */
+    public static function getHinhAnhThamChieuOne($loai, $idthamchieu){
+        return HinhAnh::find()->where([
+            'loai' => $loai,
+            'id_tham_chieu' => $idthamchieu
+        ])->orderBy('ID DESC')->one();
+    }
+    
+    /**
      * xoa tat ca hinh anh thuoc id tham chieu(khi xoa tham chieu)
      * @param string $loai
      * @param int $idthamchieu

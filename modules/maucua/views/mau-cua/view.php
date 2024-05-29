@@ -99,13 +99,44 @@ use kartik\helpers\Html;
                             //'user_created',
                         ],
                     ]) ?>
+                    
+                    <br/>
+                   
+                   
+                   <!-- print phieu -->
+                   <div style="display:none">
+                        <div id="print">
+                        	<?= $this->render('_print_phieu_xuat_kho', compact('model')) ?>
+                        </div>
+                   </div>
+                   
                 </div>
+                
                 <div class="col-md-6">
                 	 <?= ImageListWidget::widget([
                 	    'loai' => MauCua::MODEL_ID,
                 	    'id_tham_chieu' => $model->id
                 	]) ?>
                 </div>
+                
+                <div class="col-md-12">
+                
+                	<?php //if($model->status == "DA_XUAT_KHO" || $model->status == "DA_NHAP_KHO" || $model->status == "DA_HOAN_THANH") { ?>                    
+                   <?= Html::a('<i class="fa-solid fa-file-import"></i> Nhập nhôm dư', Yii::getAlias('@web/maucua/nhap-nhom-du/nhap-kho?id='.$model->id), [
+                        'role'=>'modal-remote-2',
+                        'class'=>'btn btn-primary btn-sm'
+                    ]) ?>
+                   <?php //} ?>
+                   
+                	<a href="#" onClick="InPhieuThongTin()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In thông mẫu cửa</a>
+                   <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
+                   <!-- 
+                   <a href="#" onClick="InPhieuNhapKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu Nhập nhôm dư</a>
+                    -->
+                   
+                   
+                </div>
+                
               </div><!-- row -->
 			</div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -159,7 +190,7 @@ use kartik\helpers\Html;
         		<?php /* $this->render('_test3', [
           		    'model'=>$model,
           		]) */ ?>
-          		<div style="width:100%;overflow-x: scroll;">
+          		<div id="cutImage" style="width:100%;overflow-x: scroll;">
           		<?= $this->render('_cat_moi2', [
           		    'model'=>$model,
           		]) ?>         
@@ -211,5 +242,54 @@ $this->registerJs($script);
 function runFunc2($html){
 	$('#blockSetting').html($html);
 	//xu ly tiep chay lai thong ke nhom
+}
+
+//in phieu thong tin
+function InPhieuThongTin(){
+	//load lai phieu in (tranh bi loi khi chinh sua du lieu chua update noi dung in)
+	$.ajax({
+        type: 'post',
+        url: '/maucua/mau-cua/get-phieu-in-ajax?idMauCua=' + <?= $model->id ?> + '&type=phieuthongtin',
+        //data: frm.serialize(),
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#print').html(data.content);
+            	printPhieuXuat();//call from script.js
+            } else {
+            	alert('Vật tư không còn tồn tại trên hệ thống!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
+}
+
+//in phieu xuat kho
+function InPhieuXuatKho(){
+	//load lai phieu in (tranh bi loi khi chinh sua du lieu chua update noi dung in)
+	$.ajax({
+        type: 'post',
+        url: '/maucua/mau-cua/get-phieu-in-ajax?idMauCua=' + <?= $model->id ?> + '&type=phieuxuatkho',
+        //data: frm.serialize(),
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#print').html(data.content);
+            	$('#divCutImage').html($('#cutImage').html());
+            	printPhieuXuat();//call from script.js
+            } else {
+            	alert('Vật tư không còn tồn tại trên hệ thống!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
 }
 </script>

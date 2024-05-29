@@ -30,6 +30,8 @@ class MauCuaBase extends \app\models\CuaMauCua
 {
     const MODEL_ID = 'mau-cua';
     
+    public $nhomDu;//su dung trong form nhap nhom du
+    
     /**
      * Danh muc trang thai du an
      * @return string[]
@@ -73,7 +75,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_du_an'], 'required'],
             [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'so_luong', 'user_created'], 'integer'],
-            [['date_created'], 'safe'],
+            [['date_created', 'nhomDu'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],

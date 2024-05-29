@@ -35,12 +35,12 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             [['ten_vat_tu'], 'required'],
-            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
+            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created', 'thuong_hieu'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
-            [['ten_vat_tu', 'thuong_hieu', 'model'], 'string', 'max' => 255],
+            [['ten_vat_tu', 'model'], 'string', 'max' => 255],
         ];
     }
 

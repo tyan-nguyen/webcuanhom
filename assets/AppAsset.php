@@ -23,7 +23,8 @@ class AppAsset extends AssetBundle
         'css/site.css?v=1.0',
         //'css/ajaxcrud.css',
         'css/fontawesome-free-6.4.0-web/css/all.min.css',
-        'js/fancybox-master/dist/jquery.fancybox.min.css'
+        'js/fancybox-master/dist/jquery.fancybox.min.css',
+        //'js/select2/select2.min.css'
     ];
     public $js = [
         //'https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js',
@@ -33,7 +34,10 @@ class AppAsset extends AssetBundle
         'js/ajaxcrud.js?v=1',
         'js/fancybox-master/dist/jquery.fancybox.min.js',
         //'assets/9b731ec9/js/bootstrap-dialog.js'
-        //'filemanager/responsivefilemanager.com_fancybox_jquery.fancybox-1.3.4.js'
+        //'filemanager/responsivefilemanager.com_fancybox_jquery.fancybox-1.3.4.js',\
+        //'js/select2/select2.min.js',
+        'js/print-this/printThis.js',
+        'js/script.js?v=2'
     ];
     public $depends = [
         'yii\web\YiiAsset',

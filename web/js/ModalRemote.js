@@ -302,6 +302,8 @@ function ModalRemote(modalId) {
             if(response.runFunc == true){
 				if(response.runFuncVal1 != undefined && response.runFuncVal2 != undefined){
 					runFunc(response.runFuncVal1, response.runFuncVal2);
+				} else if(response.runFuncVal1 != undefined && response.runFuncVal2 == undefined){
+					runFunc(response.runFuncVal1);
 				} else {
 					runFunc();
 				}

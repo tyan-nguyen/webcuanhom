@@ -30,6 +30,9 @@ $config = [
         'kho' => [
             'class' => 'app\modules\kho\KhoModule',
         ],
+        'banle' => [
+            'class' => 'app\modules\banle\Module',
+        ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             

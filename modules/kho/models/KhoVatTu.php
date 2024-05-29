@@ -68,6 +68,10 @@ class KhoVatTu extends KhoVatTuBase
     /***** custom function *****/
     /***** /custom function *****/
     /***** virtual attributes *****/
+    //hien thi nhom vat tu text
+    public function getTenNhomVatTu(){
+        return $this->getDmNhomVatTuLabel($this->id_nhom_vat_tu);
+    }
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/kho/kho-vat-tu/view'), 'id'=>$this->id],
