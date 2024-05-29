@@ -1,3 +1,13 @@
+/* fix loi hien thi modal header khi update len bs5.3.3 */
+.modal-title{
+	min-width: 30%;
+}
+.header-toolbar{
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+/* end*/
 .wrap-status{
 	max-width: 150px;
 	border:2px solid red;

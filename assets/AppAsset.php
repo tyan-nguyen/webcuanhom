@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css?v=1.0',
+        'css/site.css?v=2.0',
         //'css/ajaxcrud.css',
         'css/fontawesome-free-6.4.0-web/css/all.min.css',
         'js/fancybox-master/dist/jquery.fancybox.min.css',
