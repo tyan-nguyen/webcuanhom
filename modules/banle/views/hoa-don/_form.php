@@ -232,7 +232,7 @@ function deleteVatTu(id){
 function AddVatTu(){
 	var formRow = '<tr id="idTr">';
 	formRow += '<td>STT</td>';
-	formRow += '<td><input type="text" name="loaiVatTu" id="lvtNew" value="VAT-TU" /><span id="loaiVatTuNew">Loại vật tư</span></td>';
+	formRow += '<td><div style="display:none"><input type="text" name="loaiVatTu" id="lvtNew" value="VAT-TU" /></div><span id="loaiVatTuNew">Loại vật tư</span></td>';
 	formRow += '<td><select id="idVatTuAdd" name="idVatTu" required></select></td>';
 	formRow += '<td><span id="donViTinhNew">Đơn vị tính</span></td>';
 	formRow += '<td><input type="text" name="soLuong" id="soLuongNew" required/></td>';	
@@ -278,7 +278,7 @@ function AddVatTu(){
 function AddNhom(){
 	var formRow = '<tr id="idTr">';
 	formRow += '<td>STT</td>';
-	formRow += '<td><input type="text" name="loaiVatTu" id="lvtNew" value="NHOM" /><span id="loaiVatTuNew">Loại vật tư</span></td>';
+	formRow += '<td><div style="display:none"><input type="text" name="loaiVatTu" id="lvtNew" value="NHOM" /></div><span id="loaiVatTuNew">Loại vật tư</span></td>';
 	formRow += '<td><select id="idVatTuAdd" name="idVatTu" required></select></td>';
 	formRow += '<td><span id="donViTinhNew">Đơn vị tính</span></td>';
 	formRow += '<td><input type="text" name="soLuong" id="soLuongNew" required/></td>';	

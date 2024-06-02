@@ -78,6 +78,13 @@ class SiteController extends Controller
     }
     
     /**
+     * jusst test
+     */
+    public function actionTest5(){
+        return $this->render('test5');
+    }
+    
+    /**
      * Displays setting page.
      *
      * @return string

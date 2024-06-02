@@ -388,7 +388,7 @@ $script = <<< JS
       $(".completeAjax").show();
       setTimeout(function(){
         $(".completeAjax").hide();
-      },2000); 
+      },5000); 
     });
 
 JS;

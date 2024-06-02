@@ -83,6 +83,11 @@ class CayNhomBase extends \app\models\CuaCayNhom
         if ($this->isNewRecord) {
             $this->date_created = date('Y-m-d H:i:s');
             $this->user_created = Yii::$app->user->id;
+            //set default chieu dai
+            if($this->chieu_dai == NULL || $this->chieu_dai == 0){
+                $this->chieu_dai = 5900;//set lai theo cau hinh bang setting
+            }
+            
             //set default trang thai
             if($this->so_luong == null){
                 $this->so_luong = 0;

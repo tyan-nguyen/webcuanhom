@@ -11,6 +11,9 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use app\modules\maucua\models\ToiUu;
+use app\modules\maucua\models\MauCuaNhom;
+use app\modules\maucua\models\MauCua;
 
 /**
  * DuAnController implements the CRUD actions for DuAn model.
@@ -33,6 +36,76 @@ class DuAnController extends Controller
 			],
 		];
 	}
+	
+	/**
+	 * tao toi uu cho tat ca bo cua trong giao dien xem du an (toi uu cho rieng tung bo cua rieng le)
+	 * @param integer $idDuAn
+	 * @return array
+	 *
+	 */
+	public function actionToiUuDuAnChoTungBoCua($idDuAn, $type=NULL){
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $duAn = DuAn::findOne($idDuAn);
+	    
+	    $soLuongMauCuaDuocToiUu = 0;
+	    
+	    foreach ($duAn->mauCuas as $indexMauCua=>$mauCuaModel){
+	        if($mauCuaModel->status == "KHOI_TAO" || $mauCuaModel->status == "TOI_UU"){
+	            $id = $mauCuaModel->id;
+	            //neu chua co toi uu thi tao moi
+	            $toiUu = ToiUu::find()->where(['id_mau_cua'=>$id]);
+	            $nhom = MauCuaNhom::find()->where(['id_mau_cua'=>$id]);
+	            
+	            // $mauCuaModel = MauCua::findOne($id);
+	            
+	            $slToiUu = $toiUu->count();
+	            //$slNhom = $nhom->sum('so_luong');
+	            // if( $slToiUu == $slNhom ){
+	            //    $kqTest = 'số lượng ok';
+	                // } else {
+	                //    $kqTest = 'Số lượng k khớp!';
+	                    //kt nếu tối ưu > 0 thì xóa hết.
+	                    if($slToiUu > 0){
+	                        
+	                        $mauCuaModel->deleteNhomSuDung();
+	                        $mauCuaModel->deleteToiUu();
+	                        
+	                    }
+	                    //them moi lai toan bo toi uu
+	                    //duyet qua tung thanh nhom, neu so luong bao nhiu thi tao them bay nhieu thanh
+	                    if($type==NULL){//toi uu tu kho
+	                        //$kqToiUu = $mauCuaModel->taoToiUu();
+	                        //$kqTest .= print_r($kqToiUu);
+	                        $mauCuaModel->taoToiUu();
+	                    } else if($type == 'catmoi'){
+	                        $mauCuaModel->taoToiUuCatMoi();
+	                    }
+	                    
+	                    if($mauCuaModel->status == "KHOI_TAO"){
+	                        $mauCuaModel->status = "TOI_UU";
+	                        $mauCuaModel->save(false);
+	                    }
+	                    
+	                    
+	                    // }
+	                    //search lai de load model moi
+	                    $mauCuaModel1 = MauCua::findOne($id);
+	                    
+	                    /**
+	                     * toi uu cat hien thi tren cay nhom
+	                     */
+	                    //$mauCuaModel1->taoNhomSuDung();
+	                    $mauCuaModel1->taoNhomSuDung2();
+	                    
+	                    $soLuongMauCuaDuocToiUu++;
+	                }
+	        }
+	        
+	        
+	        return [
+	            'result' => 'Đã tối ưu ' . $soLuongMauCuaDuocToiUu . '/' . count($duAn->mauCuas) . ' mẫu cửa',
+	        ];
+	    }
 
     /**
      * Lists all DuAn models.

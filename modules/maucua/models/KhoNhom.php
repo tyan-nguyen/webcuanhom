@@ -32,7 +32,9 @@ class KhoNhom extends KhoNhomBase
      */
     public function getHistory()
     {
-        return $this->hasMany(KhoNhomLichSu::class, ['id_kho_nhom' => 'id']);
+        return $this->hasMany(KhoNhomLichSu::class, ['id_kho_nhom' => 'id'])->orderBy([
+            'date_created' => SORT_DESC
+        ]);;
     }
     
     public function getShowAction(){
@@ -43,7 +45,7 @@ class KhoNhom extends KhoNhomBase
     }
     
     public function getShowChieuDaiAction(){
-        return Html::a($this->chieu_dai,
+        return Html::a(number_format($this->chieu_dai) . ' mm',
             [Yii::getAlias('@web/kho/kho-nhom/view'), 'id'=>$this->id],
             ['role'=>'modal-remote', 'class'=>'aInGrid']
             );

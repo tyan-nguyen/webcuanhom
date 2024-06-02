@@ -148,7 +148,7 @@ class MauCuaController extends Controller
     }
     
     /**
-     * lay du lieu theo du an
+     * lay du lieu theo mau cua thuoc du an
      * @param integer $id
      * @return array
      * 
@@ -200,7 +200,8 @@ class MauCuaController extends Controller
         /**
          * toi uu cat hien thi tren cay nhom
          */
-        $mauCuaModel1->taoNhomSuDung();
+        //$mauCuaModel1->taoNhomSuDung();
+        $mauCuaModel1->taoNhomSuDung2();
         
         
         

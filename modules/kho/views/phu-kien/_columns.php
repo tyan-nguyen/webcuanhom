@@ -25,14 +25,14 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_vat_tu',
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_nhom_vat_tu',
         'filter'=>Html::activeDropDownList($searchModel, 'id_nhom_vat_tu', $searchModel->getDmNhomVatTu(), ['prompt'=>'--Chọn--', 'class'=>'form-control']),
         'value'=>function($model){
             return $model->getDmNhomVatTuLabel($model->id_nhom_vat_tu);
         }
-    ],
+    ], */
 /*     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'la_phu_kien',

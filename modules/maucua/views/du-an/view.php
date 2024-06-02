@@ -10,6 +10,7 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\DuAn */
 ?>
+
 <div class="du-an-view container">
 <div class="row">
 	<div class="col-md-6">
@@ -32,6 +33,19 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                 ]
             ],
         ]) ?>
+        
+        <?php 
+        if($model->trang_thai == 'KHOI_TAO' || $model->trang_thai == 'THUC_HIEN'){ 
+            ?>
+            <a href="#" onclick="ToiUuDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a>
+            <a href="#" onclick="ToiUuDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a>
+            <div>
+                <span class="loadingAjax" style="display:none"><img src="/images/loading.gif" width="50" alt="loading..." /></span>
+                <span class="completeAjax text-primary" style="display:none"></span>
+        	</div>
+        <?php } ?>
+        
+        
     </div>
     <div class="col-md-6">
         <div class="container indexPage">
@@ -46,3 +60,32 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
     </div>
 </div>
 </div>
+
+<script>
+function ToiUuDuAnTonKho(){
+	$('.completeAjax').html('Đang xử lý...');
+	
+    $.ajax({
+        /* beforeSend: function() {
+         alert('inside ajax');
+       }, */
+      type: 'GET',
+      dataType:'json',
+      url: '/maucua/du-an/toi-uu-du-an-cho-tung-bo-cua?idDuAn=<?= $model->id ?>',
+      success: function (data, status, xhr) {
+      	$('.completeAjax').html('<i class="fa-solid fa-thumbs-up"></i> ' + data.result);
+      }
+    });
+}
+
+function ToiUuDuAnNhomMoi(){
+    $.ajax({
+      type: 'GET',
+        dataType:"json",
+      url: '/maucua/du-an/toi-uu-du-an-cho-tung-bo-cua?idDuAn=<?= $model->id ?>&type=catmoi',
+      success: function (data, status, xhr) {
+        	$('.completeAjax').html('<i class="fa-solid fa-thumbs-up"></i> ' + data.result);
+      }
+    });
+}
+</script>

@@ -1,12 +1,13 @@
+<h3>Lịch sử tồn kho</h3>
 <table class="table table-striped table-hover">
 <thead>
 	<tr>
-    	<th>STT</th>
-    	<th>Ngày thay đổi</th>
-    	<th>Số lượng cũ</th>
-    	<!-- <th>Số lượng mới</th> -->
-    	<th>Số lượng thay đổi</th>
-    	<th>Ghi chú</th>
+    	<th width="10%">STT</th>    	
+    	<th width="15%">Số lượng thay đổi</th>
+    	<th width="15%">Số lượng cũ</th>   	
+    	<th width="15%">Số lượng mới</th>
+    	<th width="30%">Ghi chú</th>
+    	<th width="15%">Ngày thay đổi</th>
 	</tr>
 </thead>
 <tbody>
@@ -15,11 +16,11 @@ foreach ($model as $index=>$history):
 ?>
 <tr>
 	<td><?= (++$index) ?></td>
-	<td><?= $history->date_created ?></td>
-	<td><?= $history->so_luong_cu ?></td>
-	<!-- <td><?= $history->so_luong_moi ?></td>-->
 	<td><?= showIconUpDown($history->so_luong) ?> <?= $history->so_luong ?></td>
+	<td><?= $history->so_luong_cu ?></td>
+	<td><?= $history->so_luong_moi ?></td>
 	<td><?= $history->ghi_chu ?></td>
+	<td><?= $history->date_created ?></td>
 </tr>
 
 <?php endforeach; ?>

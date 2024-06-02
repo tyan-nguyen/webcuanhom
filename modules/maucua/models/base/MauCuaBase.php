@@ -9,6 +9,7 @@ use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\CayNhom;
 use app\modules\maucua\models\MauCuaSettings;
 use app\modules\dungchung\models\Setting;
+use app\modules\maucua\models\NhomSuDung;
 
 /**
  * @property int $id
@@ -187,7 +188,7 @@ class MauCuaBase extends \app\models\CuaMauCua
                 $toiUuModel->id_mau_cua_nhom = $nhom->id;
                 //$toiUuModel->id_ton_kho_nhom = 1;//**********tam
                 //
-                $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomTheoChieuDai($nhom->id_cay_nhom, $nhom->chieu_dai);
+                $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomTheoChieuDai($nhom->id_cay_nhom, $nhom->chieu_dai, $this->id);
                 if($toiUuModel->save()){
                     
                 } else {
@@ -200,7 +201,7 @@ class MauCuaBase extends \app\models\CuaMauCua
                     $toiUuModel->id_mau_cua_nhom = $nhom->id;
                     //$toiUuModel->id_ton_kho_nhom = 1;//*********tam
                     //
-                    $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomTheoChieuDai($nhom->id_cay_nhom, $nhom->chieu_dai);
+                    $toiUuModel->id_ton_kho_nhom = $this->getKhoNhomTheoChieuDai($nhom->id_cay_nhom, $nhom->chieu_dai, $this->id);
                     if($toiUuModel->save()){
                         
                     } else {
@@ -240,7 +241,7 @@ class MauCuaBase extends \app\models\CuaMauCua
     /**
      * ham lay thanh nhom trong kho theo chieu dai
      */
-    public function getKhoNhomTheoChieuDai($idCayNhom, $chieuDai){
+    /*public function getKhoNhomTheoChieuDai($idCayNhom, $chieuDai){
        
         //neu thanh nhom cat co trong kho thi lay (dieu kien so luong phai du de lay
         //neu khong co thanh nhom cat thi lay cay nhom dai (khong can kiem tra kho có hay khong)
@@ -268,6 +269,94 @@ class MauCuaBase extends \app\models\CuaMauCua
         } else {
             //xu ly loi neu cay nhom khong ton tai
         }
+    }*/
+    public function getKhoNhomTheoChieuDai($idCayNhom, $chieuDai, $idMauCua=NULL){
+        
+        //neu thanh nhom cat co trong kho thi lay (dieu kien so luong phai du de lay
+        //neu khong co thanh nhom cat thi lay cay nhom dai (khong can kiem tra kho có hay khong)
+        $cayNhom = CayNhom::findOne($idCayNhom);
+        if($cayNhom != null){
+            
+            //kiem tra ton kho cay nhom co con hay khong
+            //so luong phai tru hao so luong dang bi ngam trong cac mau cua khac
+            $thanhNhom = KhoNhom::find()->where([
+                'id_cay_nhom'=>$idCayNhom,
+            ])->andWhere('so_luong>0')
+            ->andWhere('chieu_dai>='.($chieuDai+$cayNhom->min_allow_cut))
+            ->orderBy('chieu_dai ASC')->one();
+            
+            if($thanhNhom != null){
+                $soLuongDangNgam = NhomSuDung::find()->alias('t')->joinWith(['mauCua as mc'])->where([
+                    't.id_kho_nhom' => $thanhNhom->id,
+                ])->andWhere("mc.status IN ('KHOI_TAO', 'TOI_UU')")->count();
+                
+                $soLuongDangToiUu = 0;
+                if($idMauCua != NULL){
+                    $soLuongDangToiUu = ToiUu::find()->where([
+                        'id_mau_cua' => $idMauCua,
+                        'id_ton_kho_nhom' => $thanhNhom->id,
+                    ])->count();
+                }
+                if($thanhNhom->so_luong - $soLuongDangNgam - $soLuongDangToiUu > 0){
+                    return $thanhNhom->id;
+                } else {
+                    //lay lai thanh nhom ton kho phu hop dieu kien va > 0
+                    return $this->getTonKhoNhomHopLe($cayNhom, $chieuDai, $idMauCua, [$thanhNhom->id]);
+                }
+            } else {
+                $thanhNhom = KhoNhom::find()->where([
+                    'id_cay_nhom' => $idCayNhom,
+                    'chieu_dai'=>$cayNhom->chieu_dai
+                ])->one();
+                if($thanhNhom != null){
+                    return $thanhNhom->id;
+                } else {
+                    //xu ly ney thanh nhom khong ton tai trong kho
+                }
+            }
+        } else {
+            //xu ly loi neu cay nhom khong ton tai
+        }
+    }
+    //de quy delay cay nhom hop le
+    public function getTonKhoNhomHopLe($cayNhom, $chieuDai, $idMauCua, $arrayLoaiTru){
+        $thanhNhom = KhoNhom::find()->where([
+            'id_cay_nhom'=>$cayNhom->id,
+        ])->andWhere('so_luong>0')
+        ->andWhere('chieu_dai>='.($chieuDai+$cayNhom->min_allow_cut))
+        ->andWhere('id NOT IN (' . implode(',', $arrayLoaiTru) . ')')
+        ->orderBy('chieu_dai ASC')->one();
+        if($thanhNhom != null){
+            $soLuongDangNgam = NhomSuDung::find()->alias('t')->joinWith(['mauCua as mc'])->where([
+                't.id_kho_nhom' => $thanhNhom->id,
+            ])->andWhere("mc.status IN ('KHOI_TAO', 'TOI_UU')")->count();
+            
+            $soLuongDangToiUu = 0;
+            if($idMauCua != NULL){
+                $soLuongDangToiUu = ToiUu::find()->where([
+                    'id_mau_cua' => $idMauCua,
+                    'id_ton_kho_nhom' => $thanhNhom->id,
+                ])->count();
+            }
+            if($thanhNhom->so_luong - $soLuongDangNgam - $soLuongDangToiUu > 0){
+                return $thanhNhom->id;
+            } else {
+                //lay lai thanh nhom ton kho phu hop dieu kien va > 0
+                array_push($arrayLoaiTru, $thanhNhom->id);
+                return $this->getTonKhoNhomHopLe($cayNhom, $chieuDai, $idMauCua, $arrayLoaiTru);
+            }
+        } else {
+            $thanhNhom = KhoNhom::find()->where([
+                'id_cay_nhom' => $cayNhom->id,
+                'chieu_dai'=>$cayNhom->chieu_dai
+            ])->one();
+            if($thanhNhom != null){
+                return $thanhNhom->id;
+            } else {
+                //xu ly ney thanh nhom khong ton tai trong kho
+            }
+        }
+        
     }
     
     /**
