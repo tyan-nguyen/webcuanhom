@@ -129,12 +129,13 @@ class Import extends Model
      * @param string $file: ten file
      * @return array|mixed|string
      */
-    public static function readImageArr($file){
+    public static function readImageArr($file, $indexSheet){
         $spreadsheet = Import::readExcel($file);
         $outputDirectory = Yii::getAlias('@webroot') . '/uploads/images';
         $cus = new CustomFunc();
         $rtImages = [];
-        foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
+        //foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
+        foreach ($spreadsheet->getSheet($indexSheet)->getDrawingCollection() as $drawing) {
             $extension = $drawing->getExtension();
             $name = date('His-'). $cus->generateRandomString() . '.' . $extension;
             $outputImagePath = Yii::getAlias('@webroot/uploads/images/' . $name);

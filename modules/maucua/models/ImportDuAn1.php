@@ -124,7 +124,7 @@ class ImportDuAn1
             
             
             /*save image*/
-            $xls_images = Import::readImageArr($file);
+            $xls_images = Import::readImageArr($file, $i); //$i is index of sheet
             foreach ($xls_images as $index=>$img){
                 $hinhAnhModel = new HinhAnh();
                 $hinhAnhModel->id_tham_chieu = $model->id;
