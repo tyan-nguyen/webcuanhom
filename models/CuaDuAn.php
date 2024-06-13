@@ -15,6 +15,7 @@ use Yii;
  * @property string|null $so_dien_thoai
  * @property string|null $email
  * @property string|null $trang_thai
+ * @property int|null $toi_uu_tat_ca
  * @property string|null $ngay_bat_dau_thuc_hien
  * @property string|null $ngay_hoan_thanh_du_an
  * @property string|null $ghi_chu
@@ -43,8 +44,8 @@ class CuaDuAn extends \yii\db\ActiveRecord
         return [
             [['ten_du_an'], 'required'],
             [['dia_chi', 'ghi_chu'], 'string'],
+            [['toi_uu_tat_ca', 'user_created'], 'integer'],
             [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created'], 'safe'],
-            [['user_created'], 'integer'],
             [['code', 'code_mau_thiet_ke'], 'string', 'max' => 20],
             [['ten_du_an', 'email'], 'string', 'max' => 255],
             [['ten_khach_hang'], 'string', 'max' => 100],
@@ -67,6 +68,7 @@ class CuaDuAn extends \yii\db\ActiveRecord
             'so_dien_thoai' => 'So Dien Thoai',
             'email' => 'Email',
             'trang_thai' => 'Trang Thai',
+            'toi_uu_tat_ca' => 'Toi Uu Tat Ca',
             'ngay_bat_dau_thuc_hien' => 'Ngay Bat Dau Thuc Hien',
             'ngay_hoan_thanh_du_an' => 'Ngay Hoan Thanh Du An',
             'ghi_chu' => 'Ghi Chu',

@@ -150,10 +150,12 @@ class MauCuaBase extends \app\models\CuaMauCua
         parent::afterSave($insert, $changedAttributes);
         //create mau cua - setting
         $globalSetting = Setting::find()->one();
-        $setModel = new MauCuaSettings();
-        $setModel->id_mau_cua = $this->id;
-        $setModel->vet_cat = $globalSetting->vet_cat != null ? $globalSetting->vet_cat : 0;
-        $setModel->save();
+        if($this->cuaSetting == NULL){
+            $setModel = new MauCuaSettings();
+            $setModel->id_mau_cua = $this->id;
+            $setModel->vet_cat = $globalSetting->vet_cat != null ? $globalSetting->vet_cat : 0;
+            $setModel->save();
+        }
     }
     
     /**

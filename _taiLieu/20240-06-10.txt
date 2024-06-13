@@ -1,0 +1,27 @@
+working 10/6 - 11/6:
+
+tối ưu nhôm cho toàn kế hoạch
+-sửa tối ưu nhôm theo mã nhôm thay cho mã tồn kho
+
+
+table DuAn:
+- thêm cột toi_uu_tat_ca
+	+ toi_uu_tat_ca is NULL hoặc toi_uu_tat_ca =0 -> tối ưu theo mẫu cửa
+	+ toi_uu_tat_ca == 1 -> tối ưu theo kế hoạch/dự án
+- table NhomSuDung: id_mau_cua: check nếu du_an-->tou_uu_tat_ca == 1 thì id_mau_cua la id_du_an // nguoc lai thì id_mau_cua la id_mau_cua
+	thêm cột id_du_an vào table nhomSuDung, neu la toiuutatca thi id_mau_cua is null
+	
+- trừ kho thì cứ phang bảng nhôm sử dụng mà trừ thôi, chek theo trạng thái của từng mẫu cửa hoặc kế hoạch/dự án nếu là đã tối ưu thì trừ (xong chuyển qua đã xuất kho, khóa chức năng), nếu có cửa đã tối ưu đơn lẻ thì báo nếu ok thì xóa tối ưu cửa lẻ tạo tối ưu mới, còn có cửa lẻ xuất kho riêng thì ko cho tối ưu toàn bộ kế hoạch/dự án.
+
+- in ra bảng xuất kho cho toàn kế hoạch mẫu trước, vô gặp Duy bàn lại sau.
+- in ra bảng sản xuất cắt theo cây nhôm và có hiển thị mã mẫu cửa lên
+
+
+
+xuat kho: in mã mới tem cho nhôm dư
+nhap kho: luu nhom dư lưu thêm mã nhôm dư.
+
+toi uu nhom: lay nhom ton kho thi lay theo luon mã thanh nhôm nào.
+
+
+xuat kho thi kiem tra kho nhom nếu có nhôm âm thì báo, in ra danh sách nhôm tồn kho còn thiếu.

@@ -118,7 +118,11 @@ class MauCua extends MauCuaBase
      */
     public function getDsNhomSuDung()
     {
-        return $this->hasMany(NhomSuDung::class, ['id_mau_cua' => 'id']);
+        //if($this->duAn->toi_uu_tat_ca == 1){
+        //    return array();
+        //} else {
+            return $this->hasMany(NhomSuDung::class, ['id_mau_cua' => 'id']);
+        //}
     }
     /***** end relation *****/
     /***** custom function *****/

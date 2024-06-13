@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $id_mau_cua
+ * @property int $id_du_an
  * @property int $id_kho_nhom
  * @property float $chieu_dai_ban_dau
  * @property float $chieu_dai_con_lai
@@ -37,8 +38,8 @@ class CuaMauCuaNhomSuDung extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_mau_cua', 'id_kho_nhom', 'chieu_dai_ban_dau', 'chieu_dai_con_lai'], 'required'],
-            [['id_mau_cua', 'id_kho_nhom', 'user_created'], 'integer'],
+            [['id_mau_cua', 'id_du_an', 'id_kho_nhom', 'chieu_dai_ban_dau', 'chieu_dai_con_lai'], 'required'],
+            [['id_mau_cua', 'id_du_an', 'id_kho_nhom', 'user_created'], 'integer'],
             [['chieu_dai_ban_dau', 'chieu_dai_con_lai', 'chieu_dai_nhap_lai'], 'number'],
             [['ghi_chu_nhap_lai'], 'string'],
             [['date_created'], 'safe'],
@@ -55,6 +56,7 @@ class CuaMauCuaNhomSuDung extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_mau_cua' => 'Id Mau Cua',
+            'id_du_an' => 'Id Du An',
             'id_kho_nhom' => 'Id Kho Nhom',
             'chieu_dai_ban_dau' => 'Chieu Dai Ban Dau',
             'chieu_dai_con_lai' => 'Chieu Dai Con Lai',

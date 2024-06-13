@@ -85,6 +85,13 @@ class SiteController extends Controller
     }
     
     /**
+     * jusst test yii2 conditional
+     */
+    public function actionTest6(){
+        return $this->render('test6');
+    }
+    
+    /**
      * Displays setting page.
      *
      * @return string

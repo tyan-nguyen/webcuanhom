@@ -34,6 +34,24 @@ class NhomSuDung extends NhomSuDungBase
      */
     public function getMauCua()
     {
-        return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
+        //if($this->id_mau_cua != null){
+            return $this->hasOne(MauCua::class, ['id' => 'id_mau_cua']);
+       // } else {
+       //     return array();
+       // }
+    }
+    
+    /**
+     * Gets query for [[DuAn]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDuAn()
+    {
+        //if($this->id_du_an != null){
+        return $this->hasOne(DuAn::class, ['id' => 'id_du_an']);//id_mau_cua la id_du_an
+        //} else {
+       //     return array();
+       // }
     }
 }

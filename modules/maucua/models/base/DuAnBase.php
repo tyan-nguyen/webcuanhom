@@ -4,6 +4,8 @@ namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
+use app\modules\dungchung\models\Setting;
+use app\modules\maucua\models\DuAnSettings;
 
 /**
  * @property int $id
@@ -14,6 +16,7 @@ use app\custom\CustomFunc;
  * @property string|null $so_dien_thoai
  * @property string|null $email
  * @property string|null $trang_thai
+ * @property int|null $toi_uu_tat_ca
  * @property string|null $ngay_bat_dau_thuc_hien
  * @property string|null $ngay_hoan_thanh_du_an
  * @property string|null $ghi_chu
@@ -24,6 +27,7 @@ use app\custom\CustomFunc;
 class DuAnBase extends \app\models\CuaDuAn
 {  
     const MODEL_ID = 'du-an';
+    public $nhomDu;//su dung trong form nhap nhom du
     /**
      * Danh muc mau thiet ke (file excel)
      * @return string[]
@@ -53,7 +57,10 @@ class DuAnBase extends \app\models\CuaDuAn
     public static function getDmTrangThai(){
         return [
             'KHOI_TAO'=>'Khởi tạo',
-            'THUC_HIEN'=>'Đang thực hiện',
+            'THUC_HIEN'=>'Đang thực hiện',//for toi uu theo mau cua
+            'TOI_UU'=>'Đã tối ưu',
+            'DA_XUAT_KHO'=>'Đã hoàn thành',
+            'DA_NHAP_KHO'=>'Đã nhập kho',
             'HOAN_THANH'=>'Đã hoàn thành'
         ];
     }
@@ -69,6 +76,12 @@ class DuAnBase extends \app\models\CuaDuAn
             $label = 'Khởi tạo';
         }else if($val == 'THUC_HIEN'){
             $label = 'Đang thực hiện';
+        }else if($val == 'TOI_UU'){
+            $label = 'Đã tối ưu';
+        }else if($val == 'DA_XUAT_KHO'){
+            $label = 'Đã xuất kho';
+        }else if($val == 'DA_NHAP_KHO'){
+            $label = 'Đã nhập kho';
         }else if($val == 'HOAN_THANH'){
             $label = 'Đã hoàn thành';
         }
@@ -82,13 +95,12 @@ class DuAnBase extends \app\models\CuaDuAn
         return [
             [['ten_du_an'], 'required'],
             [['dia_chi', 'ghi_chu'], 'string'],
-            [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created'], 'safe'],
-            [['user_created'], 'integer'],
+            [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created', 'nhomDu'], 'safe'],
+            [['toi_uu_tat_ca', 'user_created'], 'integer'],
             [['ten_du_an', 'email'], 'string', 'max' => 255],
             [['ten_khach_hang'], 'string', 'max' => 100],
             [['so_dien_thoai'], 'string', 'max' => 11],
-            [['trang_thai'], 'string', 'max' => 10],
-            [['code', 'code_mau_thiet_ke'], 'string', 'max' => 20],
+            [['code', 'code_mau_thiet_ke', 'trang_thai'], 'string', 'max' => 20],
         ];
     }
     
@@ -106,6 +118,7 @@ class DuAnBase extends \app\models\CuaDuAn
             'so_dien_thoai' => 'SĐT',
             'email' => 'Email',
             'trang_thai' => 'Trạng thái',
+            'toi_uu_tat_ca' => 'Tối ưu toàn dự án',
             'ngay_bat_dau_thuc_hien' => 'Ngày bắt đầu thực hiện Dự án',
             'ngay_hoan_thanh_du_an' => 'Ngày hoàn thành Dự án',
             'ghi_chu' => 'Ghi chú',
@@ -141,6 +154,10 @@ class DuAnBase extends \app\models\CuaDuAn
             if($this->code == null){
                 $this->code = $this->getRandomCode();
             }
+            //set loai toi uu
+            if($this->toi_uu_tat_ca == null){
+                $this->toi_uu_tat_ca = 0;
+            }
         }
         //set date
         $custom = new CustomFunc();
@@ -152,6 +169,21 @@ class DuAnBase extends \app\models\CuaDuAn
         }
         
         return parent::beforeSave($insert);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave( $insert, $changedAttributes ){
+        parent::afterSave($insert, $changedAttributes);
+        //create mau cua - setting
+        $globalSetting = Setting::find()->one();
+        if($this->setting == NULL){
+            $setModel = new DuAnSettings();
+            $setModel->id_du_an = $this->id;
+            $setModel->vet_cat = $globalSetting->vet_cat != null ? $globalSetting->vet_cat : 0;
+            $setModel->save();
+        }
     }
 
 }

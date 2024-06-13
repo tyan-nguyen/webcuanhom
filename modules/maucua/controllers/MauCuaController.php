@@ -164,6 +164,10 @@ class MauCuaController extends Controller
         
         $mauCuaModel = MauCua::findOne($id);
         
+        //xoa nhom neu truoc do da toi uu cho tat ca cua thuoc du an
+        $duAn = DuAn::findOne($mauCuaModel->id_du_an);
+        $duAn->deleteNhomSuDung();
+        
         $slToiUu = $toiUu->count();
         //$slNhom = $nhom->sum('so_luong');
        // if( $slToiUu == $slNhom ){
@@ -201,6 +205,8 @@ class MauCuaController extends Controller
          * toi uu cat hien thi tren cay nhom
          */
         //$mauCuaModel1->taoNhomSuDung();
+        
+        //tao lai nhom su dun
         $mauCuaModel1->taoNhomSuDung2();
         
         
