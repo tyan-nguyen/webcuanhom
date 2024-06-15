@@ -45,21 +45,23 @@ return [
         'attribute'=>'chieu_dai',
         'contentOptions'=>['style'=>'text-align:center']
     ],
-   /*  [
+   [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'don_gia',
         'value'=>function($model){
             return number_format($model->don_gia);
         }
-    ], */
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'khoi_luong',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'chieu_dai',
-    // ],
+    ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'khoi_luong',
+     ],
+     
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'do_day',
+     ],
+
      [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'for_cua_so',

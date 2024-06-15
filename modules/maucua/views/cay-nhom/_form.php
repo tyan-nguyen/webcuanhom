@@ -31,6 +31,8 @@ use app\modules\maucua\models\HeNhom;
     <?= $form->field($model, 'khoi_luong')->textInput() ?>
 
     <?= $form->field($model, 'chieu_dai')->textInput() ?>
+    
+    <?= $form->field($model, 'do_day')->textInput() ?>
 
     <?= $form->field($model, 'for_cua_so')->checkbox() ?>
 

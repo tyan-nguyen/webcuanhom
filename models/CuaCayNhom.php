@@ -15,6 +15,7 @@ use Yii;
  * @property float|null $don_gia
  * @property float|null $khoi_luong
  * @property float|null $chieu_dai
+ * @property float|null $do_day
  * @property int|null $for_cua_so
  * @property int|null $for_cua_di
  * @property float|null $min_allow_cut
@@ -43,7 +44,7 @@ class CuaCayNhom extends \yii\db\ActiveRecord
         return [
             [['id_he_nhom', 'code', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'so_luong', 'for_cua_so', 'for_cua_di', 'user_created'], 'integer'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut'], 'number'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
@@ -65,6 +66,7 @@ class CuaCayNhom extends \yii\db\ActiveRecord
             'don_gia' => 'Don Gia',
             'khoi_luong' => 'Khoi Luong',
             'chieu_dai' => 'Chieu Dai',
+            'do_day' => 'Do Day',
             'for_cua_so' => 'For Cua So',
             'for_cua_di' => 'For Cua Di',
             'min_allow_cut' => 'Min Allow Cut',

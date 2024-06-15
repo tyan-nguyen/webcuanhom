@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ten_he_nhom')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'do_day_mac_dinh')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 6]) ?>
 

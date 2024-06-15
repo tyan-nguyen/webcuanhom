@@ -43,6 +43,38 @@ class DuAnController extends Controller
 	}
 	
 	/**
+	 * load phieu xuat kho
+	 * @return mixed
+	 */
+	public function actionGetPhieuInAjax($idDuAn, $type)
+	{
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $model = DuAn::findOne($idDuAn);
+	    if($model !=null){
+	        if($type == "phieuthongtin"){
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('_print_phieu_thong_tin', [
+	                    'model' => $model
+	                ])
+	            ];
+	        } else if ($type == "phieuxuatkho"){
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('_print_phieu_xuat_kho', [
+	                    'model' => $model
+	                ])
+	            ];
+	        }
+	    } else {
+	        return [
+	            'status'=>'failed',
+	            'content' => 'Phiếu xuất kho không tồn tại!'
+	        ];
+	    }
+	}
+	
+	/**
 	 * tao toi uu cho tat ca bo cua trong giao dien xem du an (toi uu cho rieng tung bo cua rieng le)
 	 * @param integer $idDuAn
 	 * @return array

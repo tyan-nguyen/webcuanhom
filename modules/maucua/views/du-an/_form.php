@@ -66,6 +66,14 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                     	]);
                     ?>
                     </div>
+                    <?php 
+                        if($model->isNewRecord){
+                            $model->toi_uu_tat_ca = 1;
+                    ?>
+                        <div class="col-md-12">
+                        	<?= $form->field($model, 'toi_uu_tat_ca')->checkbox() ?>
+                        </div>
+                    <?php } ?>
                 </div>
         	</div>
             

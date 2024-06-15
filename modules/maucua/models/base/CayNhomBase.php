@@ -6,6 +6,7 @@ use Yii;
 use app\custom\CustomFunc;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
+use app\modules\maucua\models\HeNhom;
 
 /**
  * @property int $id
@@ -35,7 +36,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
         return [
             [['id_he_nhom', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'so_luong', 'for_cua_so', 'for_cua_di', 'user_created'], 'integer'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut'], 'number'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
@@ -57,6 +58,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
             'don_gia' => 'Đơn giá',
             'khoi_luong' => 'Khối lượng',
             'chieu_dai' => 'Chiều dài',
+            'do_day' => 'Độ dày',
             'for_cua_so' => 'Sử dụng cho hệ cửa sổ',
             'for_cua_di' => 'Sử dụng cho hệ cửa đi',
             'min_allow_cut' => 'Chiều dài tối thiểu cho cắt từ tồn kho',
@@ -113,6 +115,11 @@ class CayNhomBase extends \app\models\CuaCayNhom
             //set code
             if($this->code == null){
                 $this->code = $this->getRandomCode();
+            }
+            //set do_day
+            if($this->do_day == null){
+                $heNhom = HeNhom::findOne($this->id_he_nhom);
+                $this->do_day = $heNhom->do_day_mac_dinh;
             }
         }
         return parent::beforeSave($insert);

@@ -19,7 +19,7 @@ class ImportDuAn1
      * @param string $file : filename
      * @return array[]
      */
-    public static function checkFile($model, $type, $file){
+    public static function checkFile_old($model, $type, $file){
         $xls_data = Import::readExcelToArr($file);
         
         $errors = array();
@@ -28,7 +28,9 @@ class ImportDuAn1
         foreach ($xls_data as $index=>$row){
             $errorByRow = array();
             if($index>=ImportDuAn1::START_ROW){
-                
+                //check mã nhôm ko được trống
+                //check mã nhôm bổ sung phải tồn tại
+                //check hệ nhôm có tồn tại và có độ dày mặc định chưa
             }
             if($errorByRow != null){
                 //array_push($errors, $errorByRow);
@@ -36,6 +38,86 @@ class ImportDuAn1
             }
         }        
         return $errors;
+    }
+    
+    /**
+     * kiem tra file upload
+     * @param string $type
+     * @param string $file : filename
+     * @return array[]
+     */
+    public static function checkFile($model, $type, $file){
+        //$xls_data = Import::readExcelToArr($file);
+        $spreadsheet = Import::readExcel($file);
+        $sheetCount = $spreadsheet->getSheetCount();
+        
+        $errors = array();
+        $errorByRow = array();
+        
+        $errCount = 0;
+        
+        for ($i = 0; $i < $sheetCount; $i++) {
+            $sheet = $spreadsheet->getSheet($i);
+            $xls_data = $sheet->toArray(null, true, true, true);
+            
+            $errors[$sheet->getTitle()] = array();///******************
+            $errorByRow = array();
+            
+            $arrr = array();//luu dong co chu STT, se tra ve $arrr($rowNhom, $rowKinh, $rowPhuKien, $rowVatTu)
+            foreach ($xls_data as $index=>$row){
+                if($row['A'] == 'STT'){
+                    array_push($arrr, $index);
+                }
+            }
+            //kiem ra dinh dang file
+            if(count($arrr) != 4){
+                $errCount++;//tang error len
+                
+                array_push($errorByRow, 'Định dạng file không đúng!');
+                
+                if($errorByRow != null){
+                    //array_push($errors, $errorByRow);
+                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                }
+                return $errors;
+            }
+            
+            $heNhomModel = HeNhom::findOne(['ten_he_nhom'=>$xls_data[13]['A']]);
+            if($heNhomModel == null){
+                $errCount++;//tang error len
+                array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' không tồn tại!');
+                $errors[$sheet->getTitle()][$index] = $errorByRow;
+            } else {
+                if($heNhomModel->code == null){
+                    $errCount++;//tang error len
+                    array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' chưa được nhập mã hệ nhôm!');
+                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                }
+                if($heNhomModel->do_day_mac_dinh == null || $heNhomModel->do_day_mac_dinh == 0){
+                    $errCount++;//tang error len
+                    array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' chưa được nhập độ dày mặc định!');
+                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                }
+            }
+            
+            /* foreach ($xls_data as $index=>$row){
+                $errorByRow[$i] = array();
+                if($index>=ImportDuAn1::START_ROW){
+                    //check mã nhôm ko được trống
+                    //check mã nhôm bổ sung phải tồn tại
+                    //check hệ nhôm có tồn tại và có độ dày mặc định chưa
+                }
+                if($errorByRow[$i] != null){
+                    //array_push($errors, $errorByRow);
+                    $errors[$i][$index] = $errorByRow[$i];
+                }
+            } */
+        }
+        if($errCount == 0){
+            return array();
+        } else {
+            return $errors;
+        }
     }
     
     /**
@@ -148,11 +230,63 @@ class ImportDuAn1
                     
                     //check cay nhom
                     $cayNhomModel = CayNhom::findOne(['code'=>$row['B']]);
+                    if(isset($row['K']) || isset($row['<'])){
+                        if($cayNhomModel != null && ($row['K']!= NULL || $row['M']!=NULL)){
+                            //xu ly cay nhom khac do day, ma nhom
+                            if($row['K']!= NULL && $row['M']!=NULL){
+                                /* if($cayNhomModel->do_day != $sheet->getCell('K'.$index)->getValue() && $cayNhomModel->heNhom->code != $sheet->getCell('M'.$index)->getValue()){
+                                    $cayNhomModel = null;
+                                } */
+                                $cayNhomModel = CayNhom::findOne([
+                                    'code' => $row['B'],
+                                    'do_day' => $sheet->getCell('K'.$index)->getValue(),
+                                    'id_he_nhom' => HeNhom::findOne(['code'=>$sheet->getCell('M'.$index)->getValue()])->id,
+                                ]);
+                            } else if($row['K']!= NULL && $row['M']==NULL){
+                                /* if($cayNhomModel->do_day != $sheet->getCell('K'.$index)->getValue()){
+                                    $cayNhomModel = null;
+                                } */
+                                $cayNhomModel = CayNhom::findOne([
+                                    'code' => $row['B'],
+                                    'do_day' => $sheet->getCell('K'.$index)->getValue(),
+                                ]);
+                            } else if($row['K']== NULL && $row['M']!=NULL){
+                                /* if($cayNhomModel->do_day != $sheet->getCell('M'.$index)->getValue()){
+                                    $cayNhomModel = null;
+                                } */
+                                $cayNhomModel = CayNhom::findOne([
+                                    'code' => $row['B'],
+                                    //'do_day' => $sheet->getCell('K'.$index)->getValue(),
+                                    'id_he_nhom' => HeNhom::findOne(['code'=>$sheet->getCell('M'.$index)->getValue()])->id,
+                                ]);
+                            }
+                        }
+                    }
                     if($cayNhomModel == null){
                         $cayNhomModel = new CayNhom();
-                        $cayNhomModel->id_he_nhom = $model->id_he_nhom;
+                        //set he nhom
+                        $heNhomCuaCayNhom = $model->id_he_nhom;
+                        $heNhomCuaCayNhomTuyChinh = $sheet->getCell('M'.$index)->getValue();
+                        if( $heNhomCuaCayNhomTuyChinh != NULL){
+                            $heNhomCuaCayNhomTuyChinhModel = HeNhom::findOne(['code'=>$heNhomCuaCayNhomTuyChinh]);
+                            if( $heNhomCuaCayNhomTuyChinhModel != null){
+                                $heNhomCuaCayNhom = $heNhomCuaCayNhomTuyChinhModel->id;
+                            }
+                        }                        
+                        $cayNhomModel->id_he_nhom = $heNhomCuaCayNhom;
                         $cayNhomModel->code = $row['B'];
                         $cayNhomModel->ten_cay_nhom = $row['C'];
+                        //tinh do day
+                        $doDay = $sheet->getCell('K'.$index)->getValue();
+                        if($doDay == NULL || $doDay == 0){
+                            $doDay = $heNhomModel->do_day_mac_dinh;
+                        }
+                        $cayNhomModel->do_day = $doDay;
+                        //set khoi luong
+                        $khoiLuongCuaCayNhom = $sheet->getCell('L'.$index)->getValue();
+                        if($khoiLuongCuaCayNhom > 0){
+                            $cayNhomModel->khoi_luong = $khoiLuongCuaCayNhom;
+                        }
                         //other***
                         $cayNhomModel->save();
                     }

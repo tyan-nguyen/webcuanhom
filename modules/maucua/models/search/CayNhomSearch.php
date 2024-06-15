@@ -20,7 +20,7 @@ class CayNhomSearch extends CayNhom
         return [
             [['id', 'id_he_nhom', 'so_luong', 'user_created'], 'integer'],
             [['code', 'ten_cay_nhom', 'for_cua_so', 'for_cua_di', 'date_created'], 'safe'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'min_allow_cut', 'do_day'], 'number'],
         ];
     }
 
@@ -63,6 +63,7 @@ class CayNhomSearch extends CayNhom
             'don_gia' => $this->don_gia,
             'khoi_luong' => $this->khoi_luong,
             'chieu_dai' => $this->chieu_dai,
+            'do_day' => $this->do_day,
             'min_allow_cut' => $this->min_allow_cut,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,

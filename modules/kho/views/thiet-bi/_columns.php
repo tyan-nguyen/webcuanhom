@@ -54,7 +54,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'dvt',
         'value'=>function($model){
-            return $model->donViTinh->ten_dvt;
+        return $model->donViTinh!=null ? $model->donViTinh->ten_dvt : '';
         }
     ],
     [

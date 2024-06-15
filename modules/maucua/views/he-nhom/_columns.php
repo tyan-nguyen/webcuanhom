@@ -24,6 +24,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_he_nhom',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'do_day_mac_dinh',
+    ],
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ghi_chu',

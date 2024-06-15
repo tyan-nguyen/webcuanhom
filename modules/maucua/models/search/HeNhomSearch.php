@@ -19,6 +19,7 @@ class HeNhomSearch extends HeNhom
     {
         return [
             [['id', 'user_created'], 'integer'],
+            [['do_day_mac_dinh'], 'number'],
             [['code', 'ten_he_nhom', 'ghi_chu', 'date_created'], 'safe'],
         ];
     }
@@ -57,6 +58,7 @@ class HeNhomSearch extends HeNhom
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'do_day_mac_dinh' => $this->do_day_mac_dinh,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,
         ]);
