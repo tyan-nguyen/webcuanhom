@@ -230,10 +230,10 @@ class ImportDuAn1
                     
                     //check cay nhom
                     $cayNhomModel = CayNhom::findOne(['code'=>$row['B']]);
-                    if(isset($row['K']) || isset($row['<'])){
+                    if(isset($row['K']) || isset($row['M'])){
                         if($cayNhomModel != null && ($row['K']!= NULL || $row['M']!=NULL)){
                             //xu ly cay nhom khac do day, ma nhom
-                            if($row['K']!= NULL && $row['M']!=NULL){
+                            if( isset($row['K']) && $row['K']!= NULL && isset($row['M']) && $row['M']!=NULL){
                                 /* if($cayNhomModel->do_day != $sheet->getCell('K'.$index)->getValue() && $cayNhomModel->heNhom->code != $sheet->getCell('M'.$index)->getValue()){
                                     $cayNhomModel = null;
                                 } */
@@ -242,7 +242,7 @@ class ImportDuAn1
                                     'do_day' => $sheet->getCell('K'.$index)->getValue(),
                                     'id_he_nhom' => HeNhom::findOne(['code'=>$sheet->getCell('M'.$index)->getValue()])->id,
                                 ]);
-                            } else if($row['K']!= NULL && $row['M']==NULL){
+                            } else if(isset($row['K']) && $row['K']!= NULL && (!isset($row['M']) || $row['M']==NULL)){
                                 /* if($cayNhomModel->do_day != $sheet->getCell('K'.$index)->getValue()){
                                     $cayNhomModel = null;
                                 } */
@@ -250,7 +250,7 @@ class ImportDuAn1
                                     'code' => $row['B'],
                                     'do_day' => $sheet->getCell('K'.$index)->getValue(),
                                 ]);
-                            } else if($row['K']== NULL && $row['M']!=NULL){
+                            } else if((!isset($row['K']) || $row['K']== NULL) && isset($row['M']) && $row['M']!=NULL){
                                 /* if($cayNhomModel->do_day != $sheet->getCell('M'.$index)->getValue()){
                                     $cayNhomModel = null;
                                 } */
