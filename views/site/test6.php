@@ -3,6 +3,7 @@ use app\modules\maucua\models\MauCua;
 use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\ToiUu;
 use app\modules\maucua\models\NhomSuDung;
+use app\modules\dungchung\models\Import;
 
 //$mauCua = MauCua::findOne(55);
 
@@ -28,6 +29,24 @@ $dsSuDung = NhomSuDung::find()->alias('t')->where([
 //var_dump($dsSuDung);
 
 //search lai de load model moi
-$duAn = DuAn::findOne(31);
+//$duAn = DuAn::findOne(31);
 //xoa nhom su dung neu co ton tai
-$duAn->deleteNhomSuDung();
+//$duAn->deleteNhomSuDung();
+
+$excel = Import::readExcel('import-kho-nhom.xlsx');
+$sheet = $excel->getActiveSheet();
+$xls_data = Import::readExcelToArr('import-kho-nhom.xlsx');
+
+//echo $sheet->getCell('F4')->getValue();
+
+$excel = Import::readExcel('import-kho-nhom.xlsx');
+$sheet = $excel->getActiveSheet();
+$xls_data = Import::readExcelToArr('import-kho-nhom.xlsx');
+
+$errors = array();
+$errorByRow = array();
+
+/* foreach ($xls_data as $index=>$row){
+    echo $index . ' - ' . $sheet->getCell('F'.$index)->getValue() . '<br/>';
+} */
+echo $sheet->getCell('F3')->getValue();

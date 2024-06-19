@@ -10,6 +10,7 @@ use Yii;
  * @property int|null $cho_phep_nhap_kho_am
  * @property int|null $an_kho_nhom_bang_khong
  * @property float|null $vet_cat
+ * @property float|null $chieu_dai_nhom_mac_dinh
  */
 
 class Setting extends \app\models\CuaSettings
@@ -23,7 +24,8 @@ class Setting extends \app\models\CuaSettings
             'id' => 'ID',
             'cho_phep_nhap_kho_am' => 'Cho phép nhập kho phụ kiện/vật tư số âm',
             'an_kho_nhom_bang_khong' => 'Ẩn tồn kho nhôm bằng 0',
-            'vet_cat' => 'Vet Cat',
+            'vet_cat' => 'Vết cắt mặc định',
+            'chieu_dai_nhom_mac_dinh' => 'Chiều dài nhôm mặc định',
         ];
     }
 }

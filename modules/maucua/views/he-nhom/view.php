@@ -13,6 +13,13 @@ use yii\widgets\DetailView;
            // 'id',
             'code',
             'ten_he_nhom',
+            [
+                'attribute' => 'xuat_xu',
+                'value' => $model->xuatXu->ten_xuat_xu
+            ],
+            'hang_san_xuat',
+            'nha_cung_cap',
+            'do_day_mac_dinh',
             'ghi_chu:ntext',
             'date_created',
             //'user_created',

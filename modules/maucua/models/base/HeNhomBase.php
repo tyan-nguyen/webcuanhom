@@ -9,6 +9,9 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property string|null $code
  * @property string $ten_he_nhom
+ * @property int|null $xuat_xu
+ * @property string|null $hang_san_xuat
+ * @property string|null $nha_cung_cap
  * @property float|null $do_day_mac_dinh
  * @property string|null $ghi_chu
  * @property string|null $date_created
@@ -26,9 +29,10 @@ class HeNhomBase extends \app\models\CuaHeNhom
             [['do_day_mac_dinh'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
-            [['user_created'], 'integer'],
+            [['user_created', 'xuat_xu'], 'integer'],
             [['code'], 'string', 'max' => 20],
             [['ten_he_nhom'], 'string', 'max' => 255],
+            [['hang_san_xuat', 'nha_cung_cap'], 'string', 'max' => 200],
             [['code'], 'unique'],
         ];
     }
@@ -42,6 +46,9 @@ class HeNhomBase extends \app\models\CuaHeNhom
             'id' => 'ID',
             'code' => 'Mã hệ nhôm',
             'ten_he_nhom' => 'Tên hệ nhôm',
+            'xuat_xu' => 'Xuất xứ',
+            'hang_san_xuat' => 'Hãng sản xuất',
+            'nha_cung_cap' => 'Nhà cung cấp',
             'do_day_mac_dinh' => 'Độ dày mặc định',
             'ghi_chu' => 'Ghi chú',
             'date_created' => 'Ngày tạo',

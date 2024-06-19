@@ -7,6 +7,7 @@ use app\custom\CustomFunc;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
 use app\modules\maucua\models\HeNhom;
+use app\modules\dungchung\models\Setting;
 
 /**
  * @property int $id
@@ -20,6 +21,7 @@ use app\modules\maucua\models\HeNhom;
  * @property int|null $for_cua_so
  * @property int|null $for_cua_di
  * @property float|null $min_allow_cut
+ * @property float|null $min_allow_cut_under
  * @property string|null $date_created
  * @property int|null $user_created
  *
@@ -36,7 +38,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
         return [
             [['id_he_nhom', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'so_luong', 'for_cua_so', 'for_cua_di', 'user_created'], 'integer'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut', 'min_allow_cut_under'], 'number'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
@@ -61,7 +63,8 @@ class CayNhomBase extends \app\models\CuaCayNhom
             'do_day' => 'Độ dày',
             'for_cua_so' => 'Sử dụng cho hệ cửa sổ',
             'for_cua_di' => 'Sử dụng cho hệ cửa đi',
-            'min_allow_cut' => 'Chiều dài tối thiểu cho cắt từ tồn kho',
+            'min_allow_cut' => 'Chặn trên',
+            'min_allow_cut_under' => 'Chặn dưới',
             'date_created' => 'Ngày tạo',
             'user_created' => 'Tài khoản',
         ];
@@ -83,11 +86,12 @@ class CayNhomBase extends \app\models\CuaCayNhom
      */
     public function beforeSave($insert) {
         if ($this->isNewRecord) {
+            $setting = Setting::find()->one();
             $this->date_created = date('Y-m-d H:i:s');
             $this->user_created = Yii::$app->user->id;
             //set default chieu dai
             if($this->chieu_dai == NULL || $this->chieu_dai == 0){
-                $this->chieu_dai = 5900;//set lai theo cau hinh bang setting
+                $this->chieu_dai = $setting->chieu_dai_nhom_mac_dinh!=null?$setting->chieu_dai_nhom_mac_dinh:0;//set lai theo cau hinh bang setting
             }
             
             //set default trang thai
@@ -111,6 +115,9 @@ class CayNhomBase extends \app\models\CuaCayNhom
             }
             if($this->min_allow_cut == null){
                 $this->min_allow_cut = 0;
+            }
+            if($this->min_allow_cut_under == null){
+                $this->min_allow_cut_under = 0;
             }
             //set code
             if($this->code == null){

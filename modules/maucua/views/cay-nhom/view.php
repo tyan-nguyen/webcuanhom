@@ -13,6 +13,9 @@ use yii\widgets\DetailView;
             'attributes' => [
                 //'id',
                 'heNhom.ten_he_nhom',
+                'heNhom.xuatXu.ten_xuat_xu',
+                'heNhom.hang_san_xuat',
+                'heNhom.nha_cung_cap',
                 'code',
                 'ten_cay_nhom',
                 //'so_luong',
@@ -28,6 +31,10 @@ use yii\widgets\DetailView;
                     'attribute'=>'chieu_dai',
                     'value'=> number_format($model->chieu_dai) . ' mm'
                 ],
+                'do_day'=>[
+                    'attribute'=>'do_day',
+                    'value'=> number_format($model->do_day) . ' mm'
+                ],
                 'for_cua_so'=>[
                     'attribute'=>'for_cua_so',
                     'value'=>$model->for_cua_so==true ? 'YES' : ''
@@ -36,7 +43,14 @@ use yii\widgets\DetailView;
                     'attribute'=>'for_cua_di',
                     'value'=>$model->for_cua_di==true ? 'YES' : ''
                 ],
-                'min_allow_cut',
+                'min_allow_cut'=>[
+                    'attribute'=>'min_allow_cut',
+                    'value'=> $model->min_allow_cut>0 ? (number_format($model->min_allow_cut) . ' mm') : 'Không giới hạn'
+                ],
+                'min_allow_cut_under'=>[
+                    'attribute'=>'min_allow_cut_under',
+                    'value'=> $model->min_allow_cut_under>0 ? (number_format($model->min_allow_cut_under) . ' mm') : 'Không giới hạn'
+                ],
                 'date_created',
                 //'user_created',
             ],

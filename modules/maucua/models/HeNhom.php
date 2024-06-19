@@ -7,17 +7,25 @@ use Yii;
 use app\custom\CustomFunc;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
+use app\modules\kho\models\XuatXu;
 
-/**
- * @property int $id
- * @property string|null $code
- * @property string $ten_he_nhom
- * @property string|null $ghi_chu
- * @property string|null $date_created
- * @property int|null $user_created
- */
 class HeNhom extends HeNhomBase
 {
+    /**
+     * Gets query for [[XuatXu]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXuatXu()
+    {
+        if($this->xuat_xu == null){
+            $this->xuat_xu = 1;//1 is chua-phan-loai
+            if($this->save()){
+                $this->refresh();
+            }
+        }
+        return $this->hasOne(XuatXu::class, ['id' => 'xuat_xu']);
+    }
     /**
      * lay danh sach don vi tinh de fill vao dropdownlist
      */

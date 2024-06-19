@@ -83,7 +83,13 @@ return [
      [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'min_allow_cut',
-         'label'=>'Cắt tối thiểu',
+         'label'=>'Chặn trên',
+         'contentOptions'=>['style'=>'text-align:center']
+     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'min_allow_cut_under',
+         'label'=>'Chặn dưới',
          'contentOptions'=>['style'=>'text-align:center']
      ],
     // [

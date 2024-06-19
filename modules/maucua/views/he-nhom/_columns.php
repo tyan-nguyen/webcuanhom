@@ -28,6 +28,21 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'do_day_mac_dinh',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'xuat_xu',
+        'value'=>function($model){
+            return $model->xuatXu->ten_xuat_xu;
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'hang_san_xuat',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nha_cung_cap',
+    ],
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ghi_chu',

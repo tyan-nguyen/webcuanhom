@@ -39,6 +39,8 @@ use app\modules\maucua\models\HeNhom;
     <?= $form->field($model, 'for_cua_di')->checkbox() ?>
 
     <?= $form->field($model, 'min_allow_cut')->textInput() ?>
+    
+     <?= $form->field($model, 'min_allow_cut_under')->textInput() ?>
 
     <!--<?= $form->field($model, 'date_created')->textInput() ?>
 

@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
+use app\modules\kho\models\XuatXu;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\HeNhom */
@@ -16,6 +17,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'ten_he_nhom')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'do_day_mac_dinh')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'xuat_xu')->dropDownList( (new XuatXu())->getList(), [
+   	    'prompt'=>'-Chọn-'
+   	] ) ?>
+   	
+   	<?= $form->field($model, 'hang_san_xuat')->textInput(['maxlength' => true]) ?>
+   	
+   	<?= $form->field($model, 'nha_cung_cap')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 6]) ?>
 

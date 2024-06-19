@@ -10,6 +10,9 @@ use Yii;
  * @property int $id
  * @property string|null $code
  * @property string $ten_he_nhom
+ * @property int|null $xuat_xu
+ * @property string|null $hang_san_xuat
+ * @property string|null $nha_cung_cap
  * @property float|null $do_day_mac_dinh
  * @property string|null $ghi_chu
  * @property string|null $date_created
@@ -35,12 +38,13 @@ class CuaHeNhom extends \yii\db\ActiveRecord
     {
         return [
             [['ten_he_nhom'], 'required'],
+            [['xuat_xu', 'user_created'], 'integer'],
             [['do_day_mac_dinh'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
-            [['user_created'], 'integer'],
             [['code'], 'string', 'max' => 20],
             [['ten_he_nhom'], 'string', 'max' => 255],
+            [['hang_san_xuat', 'nha_cung_cap'], 'string', 'max' => 200],
             [['code'], 'unique'],
         ];
     }
@@ -54,6 +58,9 @@ class CuaHeNhom extends \yii\db\ActiveRecord
             'id' => 'ID',
             'code' => 'Code',
             'ten_he_nhom' => 'Ten He Nhom',
+            'xuat_xu' => 'Xuat Xu',
+            'hang_san_xuat' => 'Hang San Xuat',
+            'nha_cung_cap' => 'Nha Cung Cap',
             'do_day_mac_dinh' => 'Do Day Mac Dinh',
             'ghi_chu' => 'Ghi Chu',
             'date_created' => 'Date Created',
