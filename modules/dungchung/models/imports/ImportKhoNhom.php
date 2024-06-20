@@ -37,7 +37,10 @@ class ImportKhoNhom
         foreach ($xls_data as $index=>$row){
             $errorByRow = array();            
             
-            if($index>=ImportPhuKien::START_ROW){                
+            if($index>=ImportPhuKien::START_ROW){    
+                $heNhom = HeNhom::findOne(['code'=>$row['C']]); //chac chan ko bang null vi da co buoc checkfile truoc do
+                $cayNhomDoDay = $sheet->getCell('H'.$index)->getValue();
+                
                 //check B <la cay nhom moi>, x or X or null
                 $mod = new CheckFile();
                 $mod->isCompare = true;
@@ -69,13 +72,19 @@ class ImportKhoNhom
                 //check D, <ma_cay_nhom> tồn kho phải có mã nhôm tồn tại
                 if($row['B'] == 'x' || $row['B'] == 'X'){
                     $currentCodeNhomMoi = $row['D'];
+                    $currentHeNhomMoi = $row['C'];
+                    $currentDoDayMoi = $row['H'];
                 }
-                if($row['B'] == null && $row['D'] != $currentCodeNhomMoi){
+                if($row['B'] == null && ($row['D'] != $currentCodeNhomMoi || $row['C'] != $currentHeNhomMoi || $row['H'] != $currentDoDayMoi ) && $heNhom != null){
                     $mod = new CheckFile();
                     $mod->isExist = true;
                     $mod->allowNull = false;
-                    $mod->modelExist = CayNhom::find()->where(['code'=>$row['D']]);
-                    $err = $mod->checkVal('C'.$index, $row['C']);
+                    $mod->modelExist = CayNhom::find()->where([
+                        'code'=>$row['D'],
+                        'id_he_nhom' => $heNhom->id,
+                        'do_day' => $cayNhomDoDay>0 ? $cayNhomDoDay : $heNhom->do_day_mac_dinh,
+                    ]);
+                    $err = $mod->checkVal('D'.$index, $row['D']);
                     if(!empty($err)){
                         array_push($errorByRow, $err);
                     }
@@ -122,13 +131,15 @@ class ImportKhoNhom
                    array_push($errorByRow, $err);
                }
                 
-                //check J <don_gia> is not null
-                $mod = new CheckFile();
-                $mod->allowNull = false;
-                $err = $mod->checkVal('J'.$index, $row['J']);
-                if(!empty($err)){
-                    array_push($errorByRow, $err);
-                }
+                //check J <don_gia> is not null (chỉ cho nhôm chính)
+               if($row['B'] == 'x' || $row['B'] == 'X'){
+                    $mod = new CheckFile();
+                    $mod->allowNull = false;
+                    $err = $mod->checkVal('J'.$index, $row['J']);
+                    if(!empty($err)){
+                        array_push($errorByRow, $err);
+                    }
+               }
                 
                 //check K <dung_cho_cua_so>, x or X or null
                 $mod = new CheckFile();
@@ -199,17 +210,21 @@ class ImportKhoNhom
                 //check cay nhom co chua
                 //co thi lay id cay nhom
                 //khong co thi them moi cay nhom va lay id
-                $cayNhom = CayNhom::findOne(['code'=>$row['D']]);
+                          
+                //kiem tra cay nhom co phai la cay nhom dang thao tac khong
+                $heNhom = HeNhom::findOne(['code'=>$row['C']]); //chac chan ko bang null vi da co buoc checkfile truoc do
+                $cayNhomDoDay = $sheet->getCell('H'.$index)->getValue();
+                
+                $cayNhom = CayNhom::findOne([
+                    'code' => $row['D'],
+                    'id_he_nhom' => $heNhom->id,
+                    'do_day' => $cayNhomDoDay>0 ? $cayNhomDoDay : $heNhom->do_day_mac_dinh,
+                ]);
                 if($cayNhom == null){
                     if($row['B'] == 'x' || $row['B']=='X'){
                         //xu ly khi la cay nhom chinh
                         $cayNhom = new CayNhom();
-                        $heNhom = HeNhom::findOne(['code'=>$row['C']]);
-                        if($heNhom !=null){
-                            $cayNhom->id_he_nhom = $heNhom->id;
-                        } else {
-                            //xu ly, đã bắt lỗi khi check file rồi
-                        }                        
+                        $cayNhom->id_he_nhom = $heNhom->id;                                            
                         $cayNhom->code = $row['D'];
                         $cayNhom->ten_cay_nhom = $row['E'];
                         $cayNhom->chieu_dai = $sheet->getCell('F'.$index)->getValue();

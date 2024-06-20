@@ -39,10 +39,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'hang_san_xuat',
     ],
-    [
+   /*  [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nha_cung_cap',
-    ],
+    ], */
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ghi_chu',

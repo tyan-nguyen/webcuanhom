@@ -18,7 +18,7 @@ use yii\widgets\DetailView;
                 'value' => $model->xuatXu->ten_xuat_xu
             ],
             'hang_san_xuat',
-            'nha_cung_cap',
+           // 'nha_cung_cap',
             'do_day_mac_dinh',
             'ghi_chu:ntext',
             'date_created',

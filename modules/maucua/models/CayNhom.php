@@ -59,4 +59,14 @@ class CayNhom extends CayNhomBase
         ])->one();
         return $tonKho == null ? 0 : $tonKho->so_luong;
     }
+    
+    /**
+     * get so luong ton kho cua cay nhom moi nguyen cay
+     *
+     */
+    public function getSoLuongNhomMoi()
+    {
+        $tonKho = $this->getTonKho()->where(['chieu_dai'=>$this->chieu_dai])->one();
+        return $tonKho != null ? $tonKho->so_luong : 0;
+    }
 }

@@ -24,7 +24,7 @@ use app\modules\kho\models\XuatXu;
    	
    	<?= $form->field($model, 'hang_san_xuat')->textInput(['maxlength' => true]) ?>
    	
-   	<?= $form->field($model, 'nha_cung_cap')->textInput(['maxlength' => true]) ?>
+   	<?php // $form->field($model, 'nha_cung_cap')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 6]) ?>
 

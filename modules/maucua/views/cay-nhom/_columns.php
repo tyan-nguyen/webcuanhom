@@ -25,18 +25,19 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_he_nhom',
-        'value'=>'heNhom.ten_he_nhom'
+        'value'=>'heNhom.code'
     ],
     
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_cay_nhom',
     ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_luong',
         'value'=>function($model){
-            return number_format($model->so_luong);
+            return number_format($model->soLuongNhomMoi);
         },
         'contentOptions'=>['style'=>'text-align:center']
     ],
@@ -92,6 +93,18 @@ return [
          'label'=>'Chặn dưới',
          'contentOptions'=>['style'=>'text-align:center']
      ],
+     
+     /* [
+      'class'=>'\kartik\grid\DataColumn',
+      'attribute'=>'heNhom.xuatXu.ten_xuat_xu',
+      'value'=>'heNhom.xuatXu.ten_xuat_xu'
+      ], */
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'heNhom.hang_san_xuat',
+         'value'=>'heNhom.hang_san_xuat'
+     ],
+         
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'date_created',

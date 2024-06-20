@@ -12,13 +12,17 @@ use yii\widgets\DetailView;
             'model' => $model,
             'attributes' => [
                 //'id',
+                'heNhom.code',
                 'heNhom.ten_he_nhom',
                 'heNhom.xuatXu.ten_xuat_xu',
                 'heNhom.hang_san_xuat',
-                'heNhom.nha_cung_cap',
+               // 'heNhom.nha_cung_cap',
                 'code',
                 'ten_cay_nhom',
-                //'so_luong',
+                'so_luong'=>[
+                    'attribute'=>'so_luong',
+                    'value'=>$model->soLuongNhomMoi
+                ],
                 'don_gia'=>[
                     'attribute'=>'don_gia',
                     'value'=> number_format($model->don_gia) . ' VND'
