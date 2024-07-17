@@ -206,9 +206,6 @@ use kartik\helpers\Html;
 	</div>
 </div>
 
-
-
-
 <?php
 $script = <<< JS
     $(document).ready(function() {
