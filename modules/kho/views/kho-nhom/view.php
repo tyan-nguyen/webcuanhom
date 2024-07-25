@@ -16,6 +16,7 @@ use yii\widgets\DetailView;
             'model' => $model,
             'attributes' => [
                 //'id',
+                'qr_code',
                 'code'=>[
                     'attribute'=>'code',
                     'value'=>$model->scode

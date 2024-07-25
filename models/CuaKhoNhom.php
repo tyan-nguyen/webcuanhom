@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "cua_kho_nhom".
  *
  * @property int $id
+ * @property string|null $qr_code
  * @property int $id_cay_nhom
  * @property float $chieu_dai
  * @property int|null $so_luong
@@ -16,6 +17,8 @@ use Yii;
  *
  * @property CuaCayNhom $cayNhom
  * @property CuaKhoNhomLichSu[] $cuaKhoNhomLichSus
+ * @property CuaMauCuaNhomSuDung[] $cuaMauCuaNhomSuDungs
+ * @property CuaToiUu[] $cuaToiUus
  */
 class CuaKhoNhom extends \yii\db\ActiveRecord
 {
@@ -37,6 +40,7 @@ class CuaKhoNhom extends \yii\db\ActiveRecord
             [['id_cay_nhom', 'so_luong', 'user_created'], 'integer'],
             [['chieu_dai'], 'number'],
             [['date_created'], 'safe'],
+            [['qr_code'], 'string', 'max' => 20],
             [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CuaCayNhom::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
         ];
     }
@@ -48,6 +52,7 @@ class CuaKhoNhom extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'qr_code' => 'Qr Code',
             'id_cay_nhom' => 'Id Cay Nhom',
             'chieu_dai' => 'Chieu Dai',
             'so_luong' => 'So Luong',
@@ -74,5 +79,25 @@ class CuaKhoNhom extends \yii\db\ActiveRecord
     public function getCuaKhoNhomLichSus()
     {
         return $this->hasMany(CuaKhoNhomLichSu::class, ['id_kho_nhom' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaMauCuaNhomSuDungs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaNhomSuDungs()
+    {
+        return $this->hasMany(CuaMauCuaNhomSuDung::class, ['id_kho_nhom' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaToiUus]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaToiUus()
+    {
+        return $this->hasMany(CuaToiUu::class, ['id_ton_kho_nhom' => 'id']);
     }
 }

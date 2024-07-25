@@ -15,6 +15,7 @@ use app\modules\maucua\models\NhomSuDung;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
 use app\modules\maucua\models\DuAn;
+use app\modules\kho\models\KhoNhomQr;
 
 /**
  * LoaiBaoGiaController implements the CRUD actions for LoaiBaoGia model.
@@ -56,33 +57,54 @@ class NhapNhomDuController extends Controller
                  ]; */
                 //xu ly nhap kho nhom
                 foreach ($model->nhomDu as $idNhomSd=>$cdNhom){
+                    //lay nhom dư > 0
                     if($cdNhom>0){
                         $nhomSd = NhomSuDung::findOne($idNhomSd);
                         $tonKhoNhom = KhoNhom::find()->where([
                             'id_cay_nhom'=>$nhomSd->khoNhom->id_cay_nhom,
                             'chieu_dai'=>$cdNhom
                         ])->one();
-                        
+                        $chanTren = $nhomSd->khoNhom->cayNhom->min_allow_cut;
                         if($tonKhoNhom != null){
-                            $slCu = $tonKhoNhom->so_luong;
-                            $tonKhoNhom->so_luong += 1;
-                            if($tonKhoNhom->save()){
-                                $history = new KhoNhomLichSu();
-                                $history->id_kho_nhom = $tonKhoNhom->id;
-                                $history->so_luong = 1;//1 la thêm 1 cay
-                                $history->so_luong_cu = $slCu;
-                                $history->so_luong_moi = $tonKhoNhom->so_luong;
-                                $history->id_mau_cua = $nhomSd->id_mau_cua;
-                                $history->noi_dung = 'Nhập kho nhôm dư từ dự án #'. $nhomSd->duAn->code;
-                                $history->save();
-                            }
+                            //chi nhap lai nhom nào >= chan tren
+                            if($cdNhom >= $chanTren){
+                                $slCu = $tonKhoNhom->so_luong;
+                                $tonKhoNhom->so_luong += 1;
+                                if($tonKhoNhom->save()){
+                                    //save lịch sử tồn kho
+                                    $history = new KhoNhomLichSu();
+                                    $history->id_kho_nhom = $tonKhoNhom->id;
+                                    $history->so_luong = 1;//1 la thêm 1 cay
+                                    $history->so_luong_cu = $slCu;
+                                    $history->so_luong_moi = $tonKhoNhom->so_luong;
+                                    $history->id_mau_cua = $nhomSd->id_mau_cua;
+                                    $history->noi_dung = 'Nhập kho nhôm dư từ dự án #'. $nhomSd->duAn->code;
+                                    $history->save();
+                                    //save kho_nhom_qr
+                                    $khoNhomQrNew = new KhoNhomQr();
+                                    $khoNhomQrNew->id_kho_nhom = $tonKhoNhom->id;
+                                    $khoNhomQrNew->id_nhom_su_dung = $nhomSd->id;
+                                    $khoNhomQrNew->qr_code = $idNhomSd;
+                                    $khoNhomQrNew->save();
+                                }
+                            }//end kiểm tra lớn hơn chặn trên
                         } else { //them moi
-                            $tonKhoNhom = new KhoNhom();
-                            $tonKhoNhom->id_cay_nhom = $nhomSd->khoNhom->id_cay_nhom;
-                            $tonKhoNhom->chieu_dai = $cdNhom;
-                            $tonKhoNhom->so_luong = 1;
-                            $tonKhoNhom->noiDung = ': Nhập kho nhôm dư từ dự án #'. $nhomSd->duAn->code;
-                            $tonKhoNhom->save();
+                            //chi nhap lai nhom du nào >= chan tren
+                            if($cdNhom >= $chanTren){
+                                //save cây nhôm mới
+                                $tonKhoNhom = new KhoNhom();
+                                $tonKhoNhom->id_cay_nhom = $nhomSd->khoNhom->id_cay_nhom;
+                                $tonKhoNhom->chieu_dai = $cdNhom;
+                                $tonKhoNhom->so_luong = 1;
+                                $tonKhoNhom->noiDung = ': Nhập kho nhôm dư từ dự án #'. $nhomSd->duAn->code;
+                                $tonKhoNhom->save();
+                                //save kho_nhom_qr
+                                $khoNhomQrNew = new KhoNhomQr();
+                                $khoNhomQrNew->id_kho_nhom = $tonKhoNhom->id;
+                                $khoNhomQrNew->id_nhom_su_dung = $nhomSd->id;
+                                $khoNhomQrNew->qr_code = $idNhomSd;
+                                $khoNhomQrNew->save();
+                            }
                         }
                     }
                 }
@@ -154,27 +176,48 @@ class NhapNhomDuController extends Controller
                             'id_cay_nhom'=>$nhomSd->khoNhom->id_cay_nhom,
                             'chieu_dai'=>$cdNhom
                         ])->one();
+                        $chanTren = $nhomSd->khoNhom->cayNhom->min_allow_cut;
                        
                         if($tonKhoNhom != null){
-                            $slCu = $tonKhoNhom->so_luong;
-                            $tonKhoNhom->so_luong += 1;
-                            if($tonKhoNhom->save()){
-                                $history = new KhoNhomLichSu();
-                                $history->id_kho_nhom = $tonKhoNhom->id;
-                                $history->so_luong = 1;//1 la thêm 1 cay
-                                $history->so_luong_cu = $slCu;
-                                $history->so_luong_moi = $tonKhoNhom->so_luong;
-                                $history->id_mau_cua = $nhomSd->id_mau_cua;
-                                $history->noi_dung = 'Nhập kho nhôm dư từ mẫu cửa #'. $nhomSd->mauCua->code;
-                                $history->save();
+                            //chi nhap lai nhom du nào >= chan tren
+                            if($cdNhom >= $chanTren){
+                                $slCu = $tonKhoNhom->so_luong;
+                                $tonKhoNhom->so_luong += 1;
+                                if($tonKhoNhom->save()){
+                                    //save to history
+                                    $history = new KhoNhomLichSu();
+                                    $history->id_kho_nhom = $tonKhoNhom->id;
+                                    $history->so_luong = 1;//1 la thêm 1 cay
+                                    $history->so_luong_cu = $slCu;
+                                    $history->so_luong_moi = $tonKhoNhom->so_luong;
+                                    $history->id_mau_cua = $nhomSd->id_mau_cua;
+                                    $history->noi_dung = 'Nhập kho nhôm dư từ mẫu cửa #'. $nhomSd->mauCua->code;
+                                    $history->save();                                    
+                                    //save to kho nhom qr
+                                    $khoNhomQrNew = new KhoNhomQr();
+                                    $khoNhomQrNew->id_kho_nhom = $tonKhoNhom->id;
+                                    $khoNhomQrNew->id_nhom_su_dung = $nhomSd->id;
+                                    $khoNhomQrNew->qr_code = $idNhomSd;
+                                    $khoNhomQrNew->save();
+                                }
                             }
                         } else { //them moi
-                            $tonKhoNhom = new KhoNhom();
-                            $tonKhoNhom->id_cay_nhom = $nhomSd->khoNhom->id_cay_nhom;
-                            $tonKhoNhom->chieu_dai = $cdNhom;
-                            $tonKhoNhom->so_luong = 1;
-                            $tonKhoNhom->noiDung = ': Nhập kho nhôm dư từ mẫu cửa #'. $nhomSd->mauCua->code;
-                            $tonKhoNhom->save();
+                            //chi nhap lai nhom du nào >= chan tren
+                            if($cdNhom >= $chanTren){
+                                //save cây nhôm mới
+                                $tonKhoNhom = new KhoNhom();
+                                $tonKhoNhom->id_cay_nhom = $nhomSd->khoNhom->id_cay_nhom;
+                                $tonKhoNhom->chieu_dai = $cdNhom;
+                                $tonKhoNhom->so_luong = 1;
+                                $tonKhoNhom->noiDung = ': Nhập kho nhôm dư từ mẫu cửa #'. $nhomSd->mauCua->code;
+                                $tonKhoNhom->save();
+                                //save kho_nhom_qr
+                                $khoNhomQrNew = new KhoNhomQr();
+                                $khoNhomQrNew->id_kho_nhom = $tonKhoNhom->id;
+                                $khoNhomQrNew->id_nhom_su_dung = $nhomSd->id;
+                                $khoNhomQrNew->qr_code = $idNhomSd;
+                                $khoNhomQrNew->save();
+                            }
                         }
                     } 
                 }

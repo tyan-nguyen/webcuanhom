@@ -4,11 +4,15 @@ namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\modules\maucua\models\KhoNhomLichSu;
+use app\custom\CustomFunc;
+use app\modules\kho\models\base\KhoNhomQrBase;
+use app\modules\kho\models\KhoNhomQr;
 
 /**
  * This is the model class for table "cua_kho_nhom".
  *
  * @property int $id
+ * @property string|null $qr_code
  * @property int $id_cay_nhom
  * @property float $chieu_dai
  * @property int|null $so_luong
@@ -33,6 +37,7 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
             [['noiDung'], 'required', 'on' => ['addTonKhoNhom', 'updateTonKhoNhom']],
             [['id_cay_nhom', 'so_luong', 'user_created'], 'integer'],
             [['chieu_dai'], 'number'],
+            [['qr_code'], 'string', 'max' => 20],
             [['date_created', 'code', 'noiDung'], 'safe'],
             [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhomBase::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
         ];
@@ -45,6 +50,7 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
     {
         return [
             'id' => 'ID',
+            'qr_code' => 'Code',
             'id_cay_nhom' => 'Cây nhôm',
             'chieu_dai' => 'Chiều dài',
             'so_luong' => 'Số lượng',
@@ -56,6 +62,18 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
         ];
     }
     
+    public function getRandomCode(){
+        $cus = new CustomFunc();
+        $code = rand(1,9) . $cus->generateRandomString();
+        $khoNhomModel = KhoNhomBase::findOne(['qr_code'=>$code]);
+        $khoNhomQrModel = KhoNhomQr::findOne(['qr_code'=>$code]);
+        if($khoNhomModel == null && $khoNhomQrModel == null){
+            return $code;
+        } else {
+            $this->getRandomCode();
+        }
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -63,6 +81,10 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
         if ($this->isNewRecord) {
             $this->date_created = date('Y-m-d H:i:s');
             $this->user_created = Yii::$app->user->id;
+        }
+        //set code
+        if($this->qr_code == null){
+            $this->qr_code = $this->getRandomCode();
         }
         return parent::beforeSave($insert);
     }
