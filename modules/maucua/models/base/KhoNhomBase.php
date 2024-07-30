@@ -7,6 +7,7 @@ use app\modules\maucua\models\KhoNhomLichSu;
 use app\custom\CustomFunc;
 use app\modules\kho\models\base\KhoNhomQrBase;
 use app\modules\kho\models\KhoNhomQr;
+use Da\QrCode\QrCode;
 
 /**
  * This is the model class for table "cua_kho_nhom".
@@ -105,8 +106,33 @@ class KhoNhomBase extends \app\models\CuaKhoNhom
         } else {
             
         }
+        //check qrcode
+        if($this->qr_code != null){
+            $qrPath = Yii::getAlias('@webroot/images/qr/') . $this->qr_code . '.png';
+            if(!file_exists($qrPath)){
+                $this->createQRcode($this->qr_code);
+            }
+        }
         
         return parent::afterSave($insert, $changedAttributes);
     } 
+    
+    /**
+     * tao QR code cho 1 chuoi ky tu
+     * @param string $folder // --> ex: /folder/abc/
+     * @param string $string
+     */
+    public function createQRcode($string){
+        $stringUrl = Yii::$app->params['webUrl'] . 'qr/view?code=' . $string;
+        $qrPath = Yii::getAlias('@webroot/images/qr/') .$string;
+        $qrCode = (new QrCode($stringUrl))
+        // ->useLogo(Yii::getAlias('@webroot/uploads/qrlibs/'). 'logo.png')
+        ->setSize(2000)
+        ->setMargin(5)
+        ->useForegroundColor(0, 0, 0);
+        //->useForegroundColor(51, 153, 255);
+        
+        $qrCode->writeFile($qrPath . '.png');
+    }
 
 }

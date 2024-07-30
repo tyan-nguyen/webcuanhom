@@ -35,10 +35,10 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                         'attributes' => [
                             //'id',
                             'ten_du_an',
-                            'ten_khach_hang',
+                            /* 'ten_khach_hang',
                             'dia_chi:ntext',
                             'so_dien_thoai',
-                            'email:email',
+                            'email:email', */
                             'trang_thai',
                             'ngay_bat_dau_thuc_hien',
                             'ngay_hoan_thanh_du_an',
@@ -55,7 +55,9 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                             ]
                         ],
                     ]) ?>
-        
+        			
+        			<?php if(count($model->mauCuas) > 0) {?>
+        			
                     <?php 
                     if($model->trang_thai == 'KHOI_TAO' || $model->trang_thai == 'THUC_HIEN' || $model->trang_thai == 'TOI_UU'){ 
                         ?>
@@ -63,13 +65,13 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                         <?php if($model->toi_uu_tat_ca == 0 || $model->toi_uu_tat_ca == NULL) { ?>
                         <strong>TỐI ƯU TỪNG MẪU CỬA RIÊNG</strong>
                         <br/>
-                        <a href="#" onclick="ToiUuLeDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a>
-                        <a href="#" onclick="ToiUuLeDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a>
+                        <a href="#" onclick="ToiUuLeDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a> &nbsp;
+                        <a href="#" onclick="ToiUuLeDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a> &nbsp;
                         
                         <?php } ?>
                         <?php if($model->toi_uu_tat_ca == 1) { ?>
                         
-                        <strong>TỐI ƯU CHO TOÀN KẾ HOẠCH/DỰ ÁN</strong>
+                        <strong>TỐI ƯU CHO TOÀN KẾ HOẠCH SẢN XUẤT</strong>
                         <br/>
                         <a href="#" onclick="ToiUuDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a>
                         <a href="#" onclick="ToiUuDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a>
@@ -87,12 +89,15 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                      <br/>
                      <?php 
                         if($model->trang_thai == 'TOI_UU'){                      
-                           echo Html::a('Xuất kho',['xuat-kho','id'=>$model->id],[
+                           echo Html::a('<i class="fa-solid fa-truck-fast"></i> Xuất kho',['xuat-kho','id'=>$model->id],[
                                'role'=>'modal-remote',
                                'class'=>'btn btn-primary btn-sm'
                             ]);
+                           
+                          
+                          
                       } ?>
-                      &nbsp;
+                     
                        <?php 
                        if($model->trang_thai == 'DA_XUAT_KHO' || $model->trang_thai == 'TOI_UU' || $model->trang_thai == 'DA_NHAP_KHO'){                      
                        ?>
@@ -100,15 +105,38 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                         'role'=>'modal-remote-2',
                         'class'=>'btn btn-primary btn-sm'
                     ]) ?>
+                    
+                    		
                        <?php } ?>
                        
-                      &nbsp;
+                      
                        <?php /* đang làm ?>
                        <a href="#" onClick="InPhieuThongTin()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In thông mẫu cửa</a>
                        <?php */ ?>
+                       
+                       <?php 
+                       if($model->trang_thai != 'KHOI_TAO'){
+                            //in qr code, dang thuc hien.....
+                           echo Html::a('<i class="fa-solid fa-qrcode"></i> In QR Code',['/kho/qr/in-qrs-du-an','idDuAn'=>$model->id],[
+                               'role'=>'modal-remote',
+                               'class'=>'btn btn-primary btn-sm'
+                           ]);
+                       }
+                       ?>
+                           
+                    <!-- tạm tắt bản in cũ -->   
+                    <!-- 
                    <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
+                    -->
+                   <p style="margin-top:10px">
+                   		<a href="#" onClick="InPhieuXuatKho2()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
+                   </p>
+                   
                    
                    <?php } //end giai doan xuat kho ?>
+                   
+                   
+                   <?php } //end if has mauCua?>
                    
                    <!-- print phieu -->
                    <div style="display:none">
@@ -236,6 +264,31 @@ function InPhieuXuatKho(){
             	$('#print').html(data.content);
             	$('#divCutImage').html($('#cutImage').html());
             	printPhieuXuat();//call from script.js
+            } else {
+            	alert('Vật tư không còn tồn tại trên hệ thống!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
+}
+
+//in phieu xuat kho
+function InPhieuXuatKho2(){
+	//load lai phieu in (tranh bi loi khi chinh sua du lieu chua update noi dung in)
+	$.ajax({
+        type: 'post',
+        url: '/maucua/du-an/get-phieu-in-ajax2?idDuAn=' + <?= $model->id ?> + '&type=phieuxuatkho',
+        //data: frm.serialize(),
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#print').html(data.content);
+            	$('#divCutImage').html($('#cutImage').html());
+            	printPhieuXuat2();//call from script.js
             } else {
             	alert('Vật tư không còn tồn tại trên hệ thống!');
             }

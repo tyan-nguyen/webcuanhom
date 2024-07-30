@@ -29,7 +29,8 @@
         "kartik-v/yii2-widget-select2": "dev-master",
         "kartik-v/dependent-dropdown": "dev-master",
         "kartik-v/yii2-widget-depdrop": "dev-master",
-        "phpoffice/phpspreadsheet": "^1.29"
+        "phpoffice/phpspreadsheet": "^1.29",
+        "2amigos/qrcode-library": "~1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

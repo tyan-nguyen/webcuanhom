@@ -17,14 +17,19 @@ use Yii;
  * @property int $id_loai_cua
  * @property int|null $id_parent
  * @property int $id_du_an
+ * @property int|null $id_cong_trinh
  * @property int|null $so_luong
  * @property string|null $status
  * @property string|null $date_created
  * @property int|null $user_created
  *
+ * @property CuaCongTrinh $congTrinh
  * @property CuaDuAnChiTiet[] $cuaDuAnChiTiets
+ * @property CuaMauCuaNhomSuDung[] $cuaMauCuaNhomSuDungs
  * @property CuaMauCuaNhom[] $cuaMauCuaNhoms
+ * @property CuaMauCuaSettings[] $cuaMauCuaSettings
  * @property CuaMauCuaVach[] $cuaMauCuaVaches
+ * @property CuaMauCuaVatTu[] $cuaMauCuaVatTus
  * @property CuaToiUu[] $cuaToiUus
  * @property CuaDuAn $duAn
  * @property CuaHeNhom $heNhom
@@ -46,9 +51,9 @@ class CuaMauCua extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_du_an'], 'required'],
+            [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_cong_trinh'], 'required'],
             [['ngang', 'cao'], 'number'],
-            [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'so_luong', 'user_created'], 'integer'],
+            [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
             [['date_created'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
@@ -56,6 +61,7 @@ class CuaMauCua extends \yii\db\ActiveRecord
             [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CuaHeNhom::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
             [['id_loai_cua'], 'exist', 'skipOnError' => true, 'targetClass' => CuaLoaiCua::class, 'targetAttribute' => ['id_loai_cua' => 'id']],
             [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => CuaDuAn::class, 'targetAttribute' => ['id_du_an' => 'id']],
+            [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CuaCongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
 
@@ -75,11 +81,22 @@ class CuaMauCua extends \yii\db\ActiveRecord
             'id_loai_cua' => 'Id Loai Cua',
             'id_parent' => 'Id Parent',
             'id_du_an' => 'Id Du An',
+            'id_cong_trinh' => 'Id Cong Trinh',
             'so_luong' => 'So Luong',
             'status' => 'Status',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
         ];
+    }
+
+    /**
+     * Gets query for [[CongTrinh]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCongTrinh()
+    {
+        return $this->hasOne(CuaCongTrinh::class, ['id' => 'id_cong_trinh']);
     }
 
     /**
@@ -93,6 +110,16 @@ class CuaMauCua extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[CuaMauCuaNhomSuDungs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaNhomSuDungs()
+    {
+        return $this->hasMany(CuaMauCuaNhomSuDung::class, ['id_mau_cua' => 'id']);
+    }
+
+    /**
      * Gets query for [[CuaMauCuaNhoms]].
      *
      * @return \yii\db\ActiveQuery
@@ -103,6 +130,16 @@ class CuaMauCua extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[CuaMauCuaSettings]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaSettings()
+    {
+        return $this->hasMany(CuaMauCuaSettings::class, ['id_mau_cua' => 'id']);
+    }
+
+    /**
      * Gets query for [[CuaMauCuaVaches]].
      *
      * @return \yii\db\ActiveQuery
@@ -110,6 +147,16 @@ class CuaMauCua extends \yii\db\ActiveRecord
     public function getCuaMauCuaVaches()
     {
         return $this->hasMany(CuaMauCuaVach::class, ['id_mau_cua' => 'id']);
+    }
+
+    /**
+     * Gets query for [[CuaMauCuaVatTus]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCuaMauCuaVatTus()
+    {
+        return $this->hasMany(CuaMauCuaVatTu::class, ['id_mau_cua' => 'id']);
     }
 
     /**

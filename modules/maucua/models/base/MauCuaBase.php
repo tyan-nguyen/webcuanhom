@@ -10,8 +10,11 @@ use app\modules\maucua\models\CayNhom;
 use app\modules\maucua\models\MauCuaSettings;
 use app\modules\dungchung\models\Setting;
 use app\modules\maucua\models\NhomSuDung;
+use app\modules\maucua\models\CongTrinh;
 
 /**
+ * This is the model class for table "cua_mau_cua".
+ *
  * @property int $id
  * @property string|null $code
  * @property string $ten_cua
@@ -22,11 +25,25 @@ use app\modules\maucua\models\NhomSuDung;
  * @property int $id_loai_cua
  * @property int|null $id_parent
  * @property int $id_du_an
+ * @property int|null $id_cong_trinh
  * @property int|null $so_luong
  * @property string|null $status
  * @property string|null $date_created
  * @property int|null $user_created
+ *
+ * @property CuaCongTrinh $congTrinh
+ * @property CuaDuAnChiTiet[] $cuaDuAnChiTiets
+ * @property CuaMauCuaNhomSuDung[] $cuaMauCuaNhomSuDungs
+ * @property CuaMauCuaNhom[] $cuaMauCuaNhoms
+ * @property CuaMauCuaSettings[] $cuaMauCuaSettings
+ * @property CuaMauCuaVach[] $cuaMauCuaVaches
+ * @property CuaMauCuaVatTu[] $cuaMauCuaVatTus
+ * @property CuaToiUu[] $cuaToiUus
+ * @property CuaDuAn $duAn
+ * @property CuaHeNhom $heNhom
+ * @property CuaLoaiCua $loaiCua
  */
+
 class MauCuaBase extends \app\models\CuaMauCua
 {
     const MODEL_ID = 'mau-cua';
@@ -73,9 +90,9 @@ class MauCuaBase extends \app\models\CuaMauCua
     public function rules()
     {
         return [
-            [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_du_an'], 'required'],
+            [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_cong_trinh'], 'required'],
             [['ngang', 'cao'], 'number'],
-            [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'so_luong', 'user_created'], 'integer'],
+            [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
             [['date_created', 'nhomDu'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
@@ -83,6 +100,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             [['id_he_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => HeNhomBase::class, 'targetAttribute' => ['id_he_nhom' => 'id']],
             [['id_loai_cua'], 'exist', 'skipOnError' => true, 'targetClass' => LoaiCuaBase::class, 'targetAttribute' => ['id_loai_cua' => 'id']],
             [['id_du_an'], 'exist', 'skipOnError' => true, 'targetClass' => DuAnBase::class, 'targetAttribute' => ['id_du_an' => 'id']],
+            [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
     
@@ -101,7 +119,8 @@ class MauCuaBase extends \app\models\CuaMauCua
             'id_he_nhom' => 'Hệ nhôm',
             'id_loai_cua' => 'Loại cửa',
             'id_parent' => 'Mẫu kế thừa',
-            'id_du_an' => 'Thuộc dự án',
+            'id_du_an' => 'Thuộc Kế hoạch SX',
+            'id_cong_trinh' => 'Thuộc công trình',
             'so_luong' => 'Số lượng',
             'status' => 'Trạng thái',
             'date_created' => 'Ngày tạo dữ liệu',

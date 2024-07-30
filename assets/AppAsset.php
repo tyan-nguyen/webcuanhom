@@ -37,7 +37,7 @@ class AppAsset extends AssetBundle
         //'filemanager/responsivefilemanager.com_fancybox_jquery.fancybox-1.3.4.js',\
         //'js/select2/select2.min.js',
         'js/print-this/printThis.js',
-        'js/script.js?v=2'
+        'js/script.js?v=3'
     ];
     public $depends = [
         'yii\web\YiiAsset',

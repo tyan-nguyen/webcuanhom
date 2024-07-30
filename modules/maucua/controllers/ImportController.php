@@ -7,9 +7,9 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use app\modules\maucua\models\DuAn;
-use app\modules\maucua\models\ImportDuAn1;
 use app\modules\maucua\models\Import;
+use app\modules\maucua\models\CongTrinh;
+use app\modules\maucua\models\ImportCongTrinh;
 
 /**
  * Default controller for the `dungchung` module
@@ -24,7 +24,7 @@ class ImportController extends Controller
     public function actionUpload($id, $type)
     {   
         $model = new Import();
-        $duAn = DuAn::findOne($id);
+        $congTrinh = CongTrinh::findOne($id);
         $request = Yii::$app->request;
         
         if($request->isAjax){
@@ -46,8 +46,8 @@ class ImportController extends Controller
                     
                     //checkfile
                     /********/
-                    if($type==DuAn::MODEL_ID && $duAn->code_mau_thiet_ke == 'VER.230928'){
-                        $rt = ImportDuAn1::checkFile($duAn, $type, $fileName);
+                    if($type==CongTrinh::MODEL_ID && $congTrinh->code_mau_thiet_ke == 'VER.230928'){
+                        $rt = ImportCongTrinh::checkFile($congTrinh, $type, $fileName);
                     }
                     
                     $status = false;
@@ -89,7 +89,7 @@ class ImportController extends Controller
      */
     public function actionImport($id, $type, $file){
         $request = Yii::$app->request;
-        $duAn = DuAn::findOne($id);
+        $duAn = CongTrinh::findOne($id);
         
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -97,8 +97,8 @@ class ImportController extends Controller
                 if(Import::checkFileExist($file)){
                     //import file
                     /********/
-                    if($type==DuAn::MODEL_ID && $duAn->code_mau_thiet_ke == 'VER.230928'){
-                        $result = ImportDuAn1::importFile($duAn, $file);
+                    if($type==CongTrinh::MODEL_ID && $duAn->code_mau_thiet_ke == 'VER.230928'){
+                        $result = ImportCongTrinh::importFile($duAn, $file);
                     }
                     
                     Import::deleteFileTemp($file);

@@ -41,21 +41,24 @@ $custom = new CustomFunc();
     		</tr>
     </table>
     
-    <table style="width: 100%">
+     <table style="width: 100%">
     		<tr>
-    			<td style="text-align: left">Tên dự án: <?= $model->duAn->ten_du_an ?><td>
+    			<td style="text-align: left">Tên công trình: <?= $model->congTrinh!=null?$model->congTrinh->ten_cong_trinh:'' ?><td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Tên khách hàng: <?= $model->duAn->ten_khach_hang ?></td>
+    			<td style="text-align: left">Địa điểm thực hiện: <?= $model->congTrinh!=null?$model->congTrinh->dia_diem:'' ?><td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Địa chỉ: <?= $model->duAn->dia_chi ?></td>
+    			<td style="text-align: left">Tên khách hàng: <?= $model->congTrinh->khachHang->ten_khach_hang ?></td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Số điện thoại: <?= $model->duAn->so_dien_thoai ?></td>
+    			<td style="text-align: left">Địa chỉ: <?= $model->congTrinh->khachHang->dia_chi ?></td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Email: <?= $model->duAn->email ?></td>
+    			<td style="text-align: left">Số điện thoại: <?= $model->congTrinh->khachHang->so_dien_thoai ?></td>
+    		</tr>
+    		<tr>
+    			<td style="text-align: left">Email: <?= $model->congTrinh->khachHang->email ?></td>
     		</tr>
     </table>
     

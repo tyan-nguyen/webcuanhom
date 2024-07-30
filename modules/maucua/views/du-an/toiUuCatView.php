@@ -41,10 +41,10 @@
 		
 		<div v-for="(result, indexResult) in results" :key="result.id" >
 			<!-- <p>{{ result.width }}</p> -->
-			<h6 style="margin-top:20px">Thanh nhôm {{ indexResult+1 }} {{ result.macaynhom }} ({{ result.chieudai }})</h6>
+			<h6 style="margin-top:20px"> [{{ result.stt }}] Thanh nhôm {{ indexResult+1 }} {{ result.macaynhom }} ({{ result.chieudai }})</h6>
 			<div style="margin-top:20px 0px;">
 				<div v-for="result1 in result.soluong" :key="result1.id" :style="{
-					width: (result1.width-result1.left-result1.right)/10 + 'px',
+					width: (result1.width-result1.left-result1.right)/7 + 'px',
 					//borderBottom: '10px solid black',
 					float: 'left',
 					marginRight: '1px',
@@ -59,7 +59,7 @@
 				</div>
 				
 				<div :style="{
-					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat  ) )/10 + 'px',
+					width: ( result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat  ) )/7 + 'px',
 					borderBottom: '10px solid red',
 					float: 'left',
 					textAlign: 'center'
@@ -67,8 +67,29 @@
 					
 					{{ result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat) }}
 				</div>
+				
+				
+				
 				<!-- <div style="width:{{}}px;border-bottom:5px solid #212121;float:left;"></div>; -->
 				<div style="clear:both"></div>
+				
+				<!-- for label -->
+				<div v-for="result1 in result.soluong" :key="result1.id" :style="{
+					width: (result1.width-result1.left-result1.right)/7 + 'px',
+					//borderBottom: '10px solid black',
+					float: 'left',
+					marginRight: '1px',
+					textAlign: 'center',
+					//borderLeft: result1.left + 'px solid transparent',
+                    //borderRight: result1.right + 'px solid transparent',
+                   // borderBottom: '10px solid #0d6efd',
+                    //borderTop: '20px solid transparent',
+                    display: 'inline-block'
+				}">					
+					[{{ result1.mauCuaCode }}]
+				</div>
+				<div style="clear:both"></div>
+				
 			</div>
 		</div>
 </div>

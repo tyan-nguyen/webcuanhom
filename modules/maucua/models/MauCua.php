@@ -11,6 +11,20 @@ use app\modules\dungchung\models\Setting;
 
 class MauCua extends MauCuaBase
 {
+    //get trang thai mau cua
+    public function getTrangThaiCua(){
+        $trangThaiText = '';
+        if($this->id_du_an == NULL){
+            $trangThaiText = 'Mới tạo';
+        } else {
+            if($this->status == 'KHOI_TAO'){
+                $trangThaiText = 'Đã thêm KHSX';
+            } else {
+                $trangThaiText = $this->getDmTrangThaiLabel($this->status);
+            }
+        }
+        return $trangThaiText;
+    }
     /***** relation *****/
     /**
      * Gets query for [[DuAn]].
@@ -20,6 +34,15 @@ class MauCua extends MauCuaBase
     public function getDuAn()
     {
         return $this->hasOne(DuAn::class, ['id' => 'id_du_an']);
+    }
+    /**
+     * Gets query for [[CongTrinh]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCongTrinh()
+    {
+        return $this->hasOne(CongTrinh::class, ['id' => 'id_cong_trinh']);
     }
     /**
      * Gets query for [[HeNhom]].

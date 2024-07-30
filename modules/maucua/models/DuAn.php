@@ -211,6 +211,8 @@ class DuAn extends DuAnBase
                     'left'=>$this->getKieuCatLeft($ct->nhomToiUu->mauCuaNhom->kieu_cat)==true?10:0,
                     'right'=>$this->getKieuCatRight($ct->nhomToiUu->mauCuaNhom->kieu_cat)==true?10:0,
                     //'vetcat'=>$ct->nhomToiUu->mauCua->setting['vet_cat']
+                    'mauCuaCode' => $ct->nhomToiUu->mauCua->code,
+                    'mauCuaTen' => $ct->nhomToiUu->mauCua->ten_cua,
                 ];
             }
             
@@ -219,7 +221,8 @@ class DuAn extends DuAnBase
                 'macaynhom'=>$nhom->khoNhom->cayNhom->code,
                 'soluong'=>$soLuongArr,
                 'chieudai'=>$nhom->chieu_dai_ban_dau,
-                'vetcat'=> $nhom->duAn->setting['vet_cat']
+                'vetcat'=> $nhom->duAn->setting['vet_cat'],
+                'stt'=> ($iNhom+1),
                 
                 /*  'idMauCua'=>$nhom->id_mau_cua, //id mau cua
                  'idCuaNhom'=>$nhom->id_mau_cua_nhom, // id mau cua - nhom

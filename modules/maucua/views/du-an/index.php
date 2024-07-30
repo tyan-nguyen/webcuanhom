@@ -12,7 +12,7 @@ use app\widgets\CustomModal;
 /* @var $searchModel app\modules\maucua\models\search\DuAnSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Quản lý dự án';
+$this->title = 'Quản lý Kế hoạch sản xuất';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -35,7 +35,7 @@ CrudAsset::register($this);
 BulkButtonWidget::widget([
     'buttons'=>
     Html::a('<i class="fa-solid fa-square-plus"></i> Thêm mới (A)', ['create'],
-        ['role'=>'modal-remote','title'=> 'Thêm mới dự án','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
+        ['role'=>'modal-remote','title'=> 'Thêm mới kế hoạch sản xuất','class'=>'btn btn-primary btn-sm btn-default-custom', 'accesskey'=>'a']).
         '&nbsp;' .
     Html::a('<i class="fa-solid fa-trash"></i> Xóa (T)',
         ["bulkdelete"] ,
@@ -80,7 +80,7 @@ BulkButtonWidget::widget([
             'summary'=>'<i class="fa-solid fa-chart-simple"></i>&nbsp; TS: <strong>{totalCount}</strong> dữ liệu',
             'panel' => [
                 //'type' => 'primary', 
-                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách dự án',
+                'heading' => '<i class="fa-brands fa-windows"></i> Danh sách Kế hoạch sản xuất',
                 //'before'=>'<em>* Danh sách.</em>',
                 'after'=>/* BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Delete',

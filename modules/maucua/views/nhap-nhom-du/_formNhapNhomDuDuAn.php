@@ -13,14 +13,22 @@ use yii\widgets\ActiveForm;
         	<td>Tên cây nhôm</td>
         	<td>Chiều dài</td>
         	<td>Số thanh cắt</td>
+        	<td>Mã QR</td>
         	<td>Còn lại</td>
         	<td>Còn lại thực tế</td>
         </tr>
     </thead>
     <tbody>
         <?php
+        $stt = 0;
         foreach ($model->dsNhomSuDung as $indexNsd=>$nsd){
-            if($nsd->chieu_dai_con_lai > 0){
+           // if($nsd->chieu_dai_con_lai > 0){
+            $maQR = '';
+            if($nsd->chieu_dai_con_lai >= $nsd->khoNhom->cayNhom->min_allow_cut_under){
+                $stt++;
+                //$maQR = '#' . $nhom->duAn->code . '-'. $stt;
+                $maQR = '#'.$stt;
+            
         ?>
         <tr>
         	<td style="text-align:center;vertical-align:middle"><?= $indexNsd+1 ?></td>
@@ -28,6 +36,7 @@ use yii\widgets\ActiveForm;
         	<td style="vertical-align:middle"><?= $nsd->khoNhom->cayNhom->ten_cay_nhom ?></td>
         	<td style="text-align:right;vertical-align:middle"><?= number_format($nsd->chieu_dai_ban_dau) ?></td>
         	<td style="text-align:right;vertical-align:middle"><?= count($nsd->chiTiet) ?></td>
+        	<td style="text-align:center;vertical-align:middle"><?= $maQR ?></td>
         	<td style="text-align:right;vertical-align:middle"><?= $nsd->chieu_dai_con_lai ?></td>
         	<td style="vertical-align:middle"><?= $form->field($model, 'nhomDu['.$nsd->id.']')->textInput(['value'=>$nsd->chieu_dai_con_lai, 'disabled'=>($model->trang_thai=="DA_XUAT_KHO"?false:true), 'style'=>'width:80px'])->label(false) ?></td>
         </tr>

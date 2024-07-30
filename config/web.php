@@ -107,6 +107,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'qr/view' => '/kho/qr/view',
             ],
         ],
         'formatter' => [

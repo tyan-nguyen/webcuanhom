@@ -54,4 +54,14 @@ class KhoNhom extends KhoNhomBase
     public function getScode(){
         return $this->cayNhom->code;
     }
+    //get qrcode
+    public function getQrImage(){
+        $qrPath = Yii::getAlias('@web/images/qr/') .$this->qr_code . '.png';
+        return $qrPath;
+    }
+    //check qr image exist
+    public function getCheckHasQr(){
+        $qrPath = Yii::getAlias('@webroot/images/qr/') .$this->qr_code . '.png';
+        return file_exists($qrPath);
+    }
 }

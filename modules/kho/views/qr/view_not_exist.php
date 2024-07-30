@@ -1,0 +1,1 @@
+<span style="color:blue;font-size:28px;">Thông tin QR không tồn tại!</span>

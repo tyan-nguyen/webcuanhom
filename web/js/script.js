@@ -1,3 +1,15 @@
+/**
+ * in html tu 1 div
+ * [them id #print cho div parent]
+ */
+function printQr(){
+	$('#print').printThis({
+		 //debug: false,               // show the iframe for debugging
+		 importCSS: false,            // import parent page css
+		 loadCSS: ['/css/print-single.css?v=25'],
+		 //printDelay: 333,
+    });
+}
 
 /**
  * in html tu 1 div
@@ -36,6 +48,20 @@ function printPhieuXuat(){
 		 //debug: false,               // show the iframe for debugging
 		 importCSS: false,            // import parent page css
 		 loadCSS: ['/css/print-phieu-xuat-kho.css?v=3'],
+		 //printDelay: 333,
+    });
+}
+
+/**
+ * use this
+ * in html tu 1 div
+ * [them id #print cho div parent]
+ */
+function printPhieuXuat2(){
+	$('#print').printThis({
+		 //debug: false,               // show the iframe for debugging
+		 importCSS: false,            // import parent page css
+		 loadCSS: ['/css/print-phieu-xuat-kho-2.css?v=1'],
 		 //printDelay: 333,
     });
 }

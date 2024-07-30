@@ -43,19 +43,19 @@ $custom = new CustomFunc();
     
     <table style="width: 100%">
     		<tr>
-    			<td style="text-align: left">Tên dự án: <?= $model->duAn->ten_du_an ?><td>
+    			<td style="text-align: left">Tên công trình: <?= $model->congTrinh!=null?$model->congTrinh->ten_cong_trinh:'' ?><td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Tên khách hàng: <?= $model->duAn->ten_khach_hang ?></td>
+    			<td style="text-align: left">Tên khách hàng: <?= $model->congTrinh->khachHang->ten_khach_hang ?></td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Địa chỉ: <?= $model->duAn->dia_chi ?></td>
+    			<td style="text-align: left">Địa chỉ: <?= $model->congTrinh->dia_diem ?></td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Số điện thoại: <?= $model->duAn->so_dien_thoai ?></td>
+    			<td style="text-align: left">Số điện thoại: <?= $model->congTrinh->khachHang->so_dien_thoai ?></td>
     		</tr>
     		<tr>
-    			<td style="text-align: left">Email: <?= $model->duAn->email ?></td>
+    			<td style="text-align: left">Email: <?= $model->congTrinh->khachHang->email ?></td>
     		</tr>
     </table>
     
@@ -100,12 +100,21 @@ $custom = new CustomFunc();
         			<td>Chiều dài (mm)</td>
         			<td>Số lượng cây</td>
         			<td>Chiều dài còn lại</td>
+        			<td>Mã QR</td>
+        			<td>Chiều dài thực tế</td>
         		</tr>   
     		</thead> 
     		<tbody>
     		<?php // duyet so luong cay  nhom su dung ?>
     		<?php 
+    		    $stt = 0;
         		foreach ($model->dsNhomSuDung as $indexNhom => $nhom){
+        		    $maQR = '';
+        		    if($nhom->chieu_dai_con_lai >= $nhom->khoNhom->cayNhom->min_allow_cut_under){
+        		        $stt++;
+        		        //$maQR = '#' . $nhom->duAn->code . '-'. $stt;
+        		        $maQR = '#'.$stt;
+        		    }
             ?>
             <tr>
             	<td style="text-align:center"><?= ($indexNhom+1) ?></td>
@@ -114,6 +123,8 @@ $custom = new CustomFunc();
             	<td style="text-align:right"><?= number_format($nhom->chieu_dai_ban_dau) ?></td>
             	<td style="text-align:right"><?= count($nhom->chiTiet) ?></td>
             	<td style="text-align:right"><?= $nhom->chieu_dai_con_lai ?></td>
+            	<td style="text-align:center"><?= $maQR ?></td>
+            	<td style="text-align:right"></td>
             </tr>
             <?php } ?>	
             </tbody>

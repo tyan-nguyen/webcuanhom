@@ -79,6 +79,7 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
             
         </div>
         
+        <!-- 
         <div class="col-md-6">
         	<div class="container p-0">
             	<div class="row">
@@ -101,9 +102,9 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
         		</div>
            	</div>
         
-        </div>
+        </div>-->
         
-        <div class="col-md-12">
+        <div class="col-md-6">
         	<?= $form->field($model, 'ghi_chu')->textarea(['id'=>'txtGhiChu', 'rows' => 6]) ?>
         </div>
     </div>
@@ -123,7 +124,7 @@ tinyMCE.remove();
 tinymce.init({
 	branding: false,
   selector: 'textarea#txtGhiChu',
-  height: 200,
+  height: 250,
   menubar: false,
   plugins: [
     'advlist autolink lists link image charmap print preview anchor',

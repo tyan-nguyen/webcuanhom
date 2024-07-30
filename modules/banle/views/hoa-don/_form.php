@@ -49,13 +49,13 @@ use app\modules\banle\models\KhachHang;
     		<?= $form->field($model, 'id_khach_hang')->dropDownList(KhachHang::getList(), ['prompt'=>'-Chọn-', 'id'=>'ddlKhachHang'])->label($khLabel) ?>
     	</div>
     	<div class="col-md-6">
-    		 <?= $form->field($model, 'diaChiKhachHang')->textInput(['id'=>'txtDiaChiKhachHang'])->label('Địa chỉ') ?>
+    		 <?= $form->field($model, 'diaChiKhachHang')->textInput(['id'=>'txtDiaChiKhachHang', 'disabled'=>'disabled'])->label('Địa chỉ') ?>
     	</div>
     	<div class="col-md-6">
-    		 <?= $form->field($model, 'sdtKhachHang')->textInput(['id'=>'txtSdtKhachHang'])->label('Số điện thoại') ?>
+    		 <?= $form->field($model, 'sdtKhachHang')->textInput(['id'=>'txtSdtKhachHang', 'disabled'=>'disabled'])->label('Số điện thoại') ?>
     	</div>
     	<div class="col-md-6">
-    		 <?= $form->field($model, 'emailKhachHang')->textInput(['id'=>'txtEmailKhachHang'])->label('Email') ?>
+    		 <?= $form->field($model, 'emailKhachHang')->textInput(['id'=>'txtEmailKhachHang', 'disabled'=>'disabled'])->label('Email') ?>
     	</div>
     </div>
     

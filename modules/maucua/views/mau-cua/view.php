@@ -71,7 +71,7 @@ use kartik\helpers\Html;
                             'id_parent',
                             'id_du_an'=>[
                                 'attribute'=>'status',
-                                'value'=>$model->duAn->ten_du_an
+                                'value'=>$model->duAn!=null?$model->duAn->ten_du_an:''
                             ],
                             'so_luong',
                             'status'=>[
@@ -122,14 +122,22 @@ use kartik\helpers\Html;
                 <div class="col-md-12">
                 
                 	<?php //if($model->status == "DA_XUAT_KHO" || $model->status == "DA_NHAP_KHO" || $model->status == "DA_HOAN_THANH") { ?>                    
-                   <?= Html::a('<i class="fa-solid fa-file-import"></i> Nhập nhôm dư', Yii::getAlias('@web/maucua/nhap-nhom-du/nhap-kho?id='.$model->id), [
+                   <?php /* Html::a('<i class="fa-solid fa-file-import"></i> Nhập nhôm dư', Yii::getAlias('@web/maucua/nhap-nhom-du/nhap-kho?id='.$model->id), [
                         'role'=>'modal-remote-2',
                         'class'=>'btn btn-primary btn-sm'
-                    ]) ?>
+                    ]) */ ?>
                    <?php //} ?>
                    
+                   <?php 
+                        //in qr code, dang thuc hien.....
+                       /*echo Html::a('<i class="fa-solid fa-qrcode"></i> In QR Code',['/kho/qr/in-qrs-mau-cua','idMauCua'=>$model->id],[
+                           'role'=>'modal-remote',
+                           'class'=>'btn btn-primary btn-sm'
+                       ]);*/
+                    ?>
+                   
                 	<a href="#" onClick="InPhieuThongTin()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In thông mẫu cửa</a>
-                   <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
+                   <!-- <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a> -->
                    <!-- 
                    <a href="#" onClick="InPhieuNhapKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu Nhập nhôm dư</a>
                     -->

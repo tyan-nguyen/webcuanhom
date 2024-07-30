@@ -30,4 +30,10 @@ class KhoNhomQr extends KhoNhomQrBase
     {
         return $this->hasOne(NhomSuDung::class, ['id' => 'id_nhom_su_dung']);
     }
+    
+    //get qrcode
+    public function getQrImage(){
+        $qrPath = Yii::getAlias('@web/images/qr/') .$this->qr_code . '.png';
+        return $qrPath;
+    }
 }

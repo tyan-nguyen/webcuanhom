@@ -192,29 +192,39 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 				<li class="nav-item" role="homeicon" style="padding-right:30px">
                 	<a href="/"><?= Html::img(Yii::getAlias('@web/uploads/images/logo_white.png'), ['height'=>'40px']) ?></a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="bctk-tab" data-bs-toggle="pill" data-bs-target="#bctk" type="button" role="tab" aria-controls="bctk" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Báo cáo</button>
-                </li>
+                </li> -->
+                 <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> KHSX</button>
+               </li>
+
                 <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Dự án</button>
+                </li>
+                
+                 <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="banle-tab" data-bs-toggle="pill" data-bs-target="#banle" type="button" role="tab" aria-controls="banle" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Bán lẻ</button>
                 </li>
-                <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="maucua-tab" data-bs-toggle="pill" data-bs-target="#maucua" type="button" role="tab" aria-controls="maucua" aria-selected="true"><i class="fa-brands fa-windows"></i> Mẫu cửa</button>
+                
+                 <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="khonhom-tab" data-bs-toggle="pill" data-bs-target="#khonhom" type="button" role="tab" aria-controls="khonhom" aria-selected="false"><i class="fa-regular fa-folder"></i> Kho Nhôm</button>
                 </li>
                 
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="kho-tab" data-bs-toggle="pill" data-bs-target="#kho" type="button" role="tab" aria-controls="kho" aria-selected="false"><i class="fa-regular fa-folder"></i> Kho lưu trữ</button>
+                	<button class="nav-link main-nav-link" id="kho-tab" data-bs-toggle="pill" data-bs-target="#kho" type="button" role="tab" aria-controls="kho" aria-selected="false"><i class="fa-regular fa-folder"></i> Kho Vật tư</button>
                 </li>
                 
-                <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="khsx-tab" data-bs-toggle="pill" data-bs-target="#khsx" type="button" role="tab" aria-controls="khsx" aria-selected="false"><i class="fa-regular fa-calendar-plus"></i> KH sản xuất</button>
-                </li>                
+                 <li class="nav-item" role="presentation">
+                	<button class="nav-link main-nav-link" id="dm-tab" data-bs-toggle="pill" data-bs-target="#dm" type="button" role="tab" aria-controls="dm" aria-selected="false"><i class="fa-regular fa-folder"></i> Danh mục</button>
+                </li>
+                               
                 <!-- <li class="nav-item" role="presentation">
                 	<button class="nav-link main-nav-link" id="tkmc-tab" data-bs-toggle="pill" data-bs-target="#tkmc" type="button" role="tab" aria-controls="tkmc" aria-selected="false"><i class="fa-solid fa-object-ungroup"></i> Thiết kế mẫu</button>
                 </li> -->
                 
                 <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="taikhoan-tab" data-bs-toggle="pill" data-bs-target="#taikhoan" type="button" role="tab" aria-controls="taikhoan" aria-selected="false"><i class="fa-solid fa-users"></i> Tài khoản</button>
+                	<button class="nav-link main-nav-link" id="taikhoan-tab" data-bs-toggle="pill" data-bs-target="#taikhoan" type="button" role="tab" aria-controls="taikhoan" aria-selected="false"><i class="fa-solid fa-users"></i> USER</button>
                 </li>
                 
             </ul>
@@ -229,35 +239,51 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 			<div class="container">
             <div class="tab-content" id="pills-tabContent" style="background-color: #0d6efd;min-height:40px;padding-top:7px;color:white;">
             
-            <div class="tab-pane fade" id="bctk" role="tabpanel" aria-labelledby="bctk-tab">
+            <!-- <div class="tab-pane fade" id="bctk" role="tabpanel" aria-labelledby="bctk-tab">
               		Coming soon...
+              </div> -->
+              <div class="tab-pane fade" id="khsx" role="tabpanel" aria-labelledby="khsx-tab">
+              		 <ul class="ul-ribbon">
+                      	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Lập kế hoạch sản xuất</a></li>
+              		</ul>
               </div>
+              
+               <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
+                  <ul class="ul-ribbon">
+                  	<li><a href="/maucua/cong-trinh"><i class="fa-regular fa-file"></i> Dự án - Công trình</a></li>
+                  	<li>|</li>
+                  	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
+                  	<li>|</li>
+                  	<li><a href="/maucua/loai-cua"><i class="fa-regular fa-file"></i> Loại cửa</a></li>
+                  	
+                  	<!-- <li>|</li>
+                    <li><a href="/maucua/bao-gia"><i class="fa-regular fa-file"></i> Báo giá</a></li>
+                  	<li>|</li>
+                    <li><a href="/maucua/loai-bao-gia"><i class="fa-regular fa-file"></i> Loại báo giá</a></li> -->
+                  </ul>
+              </div>
+              
               
               <div class="tab-pane fade" id="banle" role="tabpanel" aria-labelledby="banle-tab">
               		<ul class="ul-ribbon">
                       	<li><a href="/banle/hoa-don"><i class="fa-regular fa-file"></i> Hóa đơn bán lẻ</a></li>
-                      	<li>|</li>
-                      	<li><a href="/banle/khach-hang"><i class="fa-regular fa-file"></i> Khách hàng</a></li>
                       </ul>
               </div>
+              
+              <div class="tab-pane fade" id="khonhom" role="tabpanel" aria-labelledby="khonhom-tab">
+					
+					<ul class="ul-ribbon"> 
+					<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
+                  	<li>|</li>
+                  	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>  
+                  	<li>|</li>               	
+                  	<li><a href="/kho/kho-nhom"><i class="fa-regular fa-file"></i> Kho nhôm</a></li>                 	
+                  	
+                  </ul>
+              
+			</div>
             
-              <div class="tab-pane fade" id="maucua" role="tabpanel" aria-labelledby="maucua-tab">
-              <ul class="ul-ribbon">
-              	<li><a href="/maucua/du-an"><i class="fa-regular fa-file"></i> Dự án</a></li>
-              	<li>|</li>
-              	<li><a href="/maucua/mau-cua"><i class="fa-regular fa-file"></i> Mẫu cửa</a></li>
-              	<li>|</li>
-              	<li><a href="/maucua/loai-cua"><i class="fa-regular fa-file"></i> Loại cửa</a></li>
-              	<li>|</li>
-              	<li><a href="/maucua/cay-nhom"><i class="fa-regular fa-file"></i> Cây nhôm</a></li>
-              	<li>|</li>
-              	<li><a href="/maucua/he-nhom"><i class="fa-regular fa-file"></i> Hệ nhôm</a></li>
-              	<li>|</li>
-                <li><a href="/maucua/bao-gia"><i class="fa-regular fa-file"></i> Báo giá</a></li>
-              	<li>|</li>
-                <li><a href="/maucua/loai-bao-gia"><i class="fa-regular fa-file"></i> Loại báo giá</a></li>
-              </ul>
-              </div>
+             
               <div class="tab-pane fade" id="kho" role="tabpanel" aria-labelledby="kho-tab">
 					
 					<ul class="ul-ribbon">                  	
@@ -268,24 +294,28 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                   	<li>|</li>
                   	<li><a href="/kho/thiet-bi"><i class="fa-regular fa-file"></i> Kho thiết bị</a></li>
                   	<li>|</li>
-                  	<li><a href="/kho/kho-nhom"><i class="fa-regular fa-file"></i> Kho nhôm</a></li>
-                  	<li>|</li>
-                  	<li><a href="/kho/he-vach"><i class="fa-regular fa-file"></i> Hệ vách</a></li>
-                  	<li>|</li>
-                  	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
-                  	<li>|</li>
-                  	<li><a href="/kho/dvt"><i class="fa-regular fa-file"></i> Đơn vị tính</a></li>
-                  	<li>|</li>
-                  	<li><a href="/kho/xuat-xu"><i class="fa-regular fa-file"></i> Xuất xứ</a></li>
-                  	<li>|</li>
-                  	<li><a href="/kho/thuong-hieu"><i class="fa-regular fa-file"></i> Thương hiệu</a></li>
+                  	<li><a href="/kho/he-vach"><i class="fa-regular fa-file"></i> Hệ vách</a></li>                  	
+                  </ul>
+              
+			</div>
+			
+			 <div class="tab-pane fade" id="dm" role="tabpanel" aria-labelledby="dm-tab">
+					
+					<ul class="ul-ribbon">
+                      	<li><a href="/banle/khach-hang"><i class="fa-regular fa-file"></i> Khách hàng</a></li> 
+                      	<li>|</li>                 
+                      	<li><a href="/kho/nha-cung-cap"><i class="fa-regular fa-file"></i> Nhà cung cấp</a></li>
+                      	<li>|</li>
+                      	<li><a href="/kho/dvt"><i class="fa-regular fa-file"></i> Đơn vị tính</a></li>
+                      	<li>|</li>
+                      	<li><a href="/kho/xuat-xu"><i class="fa-regular fa-file"></i> Xuất xứ</a></li>
+                      	<li>|</li>
+                      	<li><a href="/kho/thuong-hieu"><i class="fa-regular fa-file"></i> Thương hiệu</a></li>
                   	
                   </ul>
               
 			</div>
-              <div class="tab-pane fade" id="khsx" role="tabpanel" aria-labelledby="khsx-tab">
-              		Coming soon...
-              </div>
+              
               
               <!-- <div class="tab-pane fade" id="tkmc" role="tabpanel" aria-labelledby="tkmc-tab">
               		Coming soon...
@@ -357,10 +387,11 @@ function checkTime(i) {
 
 <?php 
 $moduleName = Yii::$app->controller->module->id;
+$controllerName = Yii::$app->controller->id;
 $script = <<< JS
     
     
-    function setActiveMenu(moduleName){
+    /*function setActiveMenu(moduleName){
         if(moduleName == 'banle'){
             $('#banle-tab').addClass('active');
             $('#banle').addClass('show active');
@@ -376,7 +407,36 @@ $script = <<< JS
     	}
     	
     }
-    setActiveMenu('$moduleName');
+    setActiveMenu('$moduleName');*/
+
+    function setActiveMenuByController(controllerName){
+            if(controllerName == 'du-an'){
+                $('#khsx-tab').addClass('active');
+                $('#khsx').addClass('show active');
+        	}else if(controllerName == 'cong-trinh' || controllerName == 'mau-cua' || controllerName == 'loai-cua'){
+                $('#maucua-tab').addClass('active');
+                $('#maucua').addClass('show active');
+        	}else if(controllerName == 'hoa-don'){
+                $('#banle-tab').addClass('active');
+                $('#banle').addClass('show active');
+        	}else if(controllerName == 'cay-nhom' || controllerName == 'he-nhom' || controllerName == 'kho-nhom'){
+                $('#khonhom-tab').addClass('active');
+                $('#khonhom').addClass('show active');
+        	}else if(controllerName == 'phu-kien' || controllerName == 'vat-tu' || controllerName == 'thiet-bi' || controllerName == 'he-vach'){
+                $('#kho-tab').addClass('active');
+                $('#kho').addClass('show active');
+        	}else if(controllerName == 'khach-hang' || controllerName == 'nha-cung-cap' || controllerName == 'dvt' || controllerName == 'xuat-xu' || controllerName == 'thuong-hieu'){
+                $('#dm-tab').addClass('active');
+                $('#dm').addClass('show active');
+        	}else if(controllerName == 'user' || controllerName == 'setting'){
+                $('#taikhoan-tab').addClass('active');
+                $('#taikhoan').addClass('show active');
+        	}
+        	
+    }
+    setActiveMenuByController('$controllerName');
+
+
 
     $(document).ajaxStart(function() {
       $(".loadingAjax").show();

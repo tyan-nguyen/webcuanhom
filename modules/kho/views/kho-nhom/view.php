@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\DetailView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\KhoNhom */
@@ -16,14 +17,20 @@ use yii\widgets\DetailView;
             'model' => $model,
             'attributes' => [
                 //'id',
-                'qr_code',
+                'qr_code'=>[
+                    'attribute'=>'qr_code',
+                    'format'=>'raw',
+                    'value'=>($model->qr_code . '<br/>' . Html::img($model->qrImage, ['width'=>50]) . ($model->checkHasQr?'<div style="margin-top:10px">
+                        	<button type="button" onClick="printQr()" class="btn ripple btn-primary btn-sm btn-block">In Mã QR</button></div>':''))
+                ],
                 'code'=>[
                     'attribute'=>'code',
                     'value'=>$model->scode
                 ],
                 'id_cay_nhom'=>[
                     'attribute'=>'id_cay_nhom',
-                    'value'=>$model->cayNhom->ten_cay_nhom
+                    'format'=>'raw',
+                    'value'=>Html::a($model->cayNhom->ten_cay_nhom, ['/maucua/cay-nhom/view', 'id'=>$model->id_cay_nhom], ['role'=>'modal-remote'])
                 ],
                 'chieu_dai'=>[
                     'attribute' => 'chieu_dai',
@@ -41,6 +48,12 @@ use yii\widgets\DetailView;
         	<?= $this->render('_lichSuTonKho', ['model'=>$model->history]) ?>
         </div>
     </div>
+</div>
+
+<div style="display:none">
+<div id="print">
+<?= $this->render('../qr/_print_qr', compact('model')) ?>
+</div>
 </div>
 
 <script>

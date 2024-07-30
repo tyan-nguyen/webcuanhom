@@ -111,12 +111,12 @@ class DuAnBase extends \app\models\CuaDuAn
     {
         return [
             'id' => 'ID',
-            'code' => 'Mã Dự án',
-            'ten_du_an' => 'Tên Dự án',
-            'ten_khach_hang' => 'Tên Khách hàng',
-            'dia_chi' => 'Địa chỉ',
-            'so_dien_thoai' => 'SĐT',
-            'email' => 'Email',
+            'code' => 'Mã Kế hoạch',
+            'ten_du_an' => 'Tên Kế hoạch',
+            //'ten_khach_hang' => 'Tên Khách hàng',
+            //'dia_chi' => 'Địa chỉ',
+            //'so_dien_thoai' => 'SĐT',
+            //'email' => 'Email',
             'trang_thai' => 'Trạng thái',
             'toi_uu_tat_ca' => 'Tối ưu toàn dự án',
             'ngay_bat_dau_thuc_hien' => 'Ngày bắt đầu thực hiện Dự án',

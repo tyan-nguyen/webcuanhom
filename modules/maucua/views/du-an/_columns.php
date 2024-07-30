@@ -46,7 +46,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_du_an',
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_khach_hang',
     ],
@@ -61,11 +61,11 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'email',
+    ], */
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'trang_thai',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'trang_thai',
-    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ngay_bat_dau_thuc_hien',

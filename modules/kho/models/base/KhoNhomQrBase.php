@@ -6,6 +6,7 @@ use Yii;
 use app\custom\CustomFunc;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\NhomSuDung;
+use Da\QrCode\QrCode;
 
 /**
  * @property int $id
@@ -64,6 +65,22 @@ class KhoNhomQrBase extends \app\models\CuaKhoNhomQr
         return parent::beforeSave($insert);
     }
     
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        //check qrcode
+        if($this->qr_code != null){
+            $qrPath = Yii::getAlias('@webroot/images/qr/') . $this->qr_code . '.png';
+            if(!file_exists($qrPath)){
+                $this->createQRcode($this->qr_code);
+            }
+        }
+        
+        return parent::afterSave($insert, $changedAttributes);
+    } 
+    
     public function getRandomCode(){
         $cus = new CustomFunc();
         $code = rand(1,9) . $cus->generateRandomString();
@@ -74,6 +91,23 @@ class KhoNhomQrBase extends \app\models\CuaKhoNhomQr
         } else {
             $this->getRandomCode();
         }
+    }
+    
+    /**
+     * tao QR code cho 1 chuoi ky tu
+     * @param string $string // --> ex: /folder/abc/
+     */
+    public function createQRcode($string){
+        $string = Yii::$app->params['webUrl'] . '/qr/view?code=' . $string;
+        $qrPath = Yii::getAlias('@webroot/images/qr/') .$string;
+        $qrCode = (new QrCode($string))
+        // ->useLogo(Yii::getAlias('@webroot/uploads/qrlibs/'). 'logo.png')
+        ->setSize(2000)
+        ->setMargin(5)
+        ->useForegroundColor(0, 0, 0);
+        //->useForegroundColor(51, 153, 255);
+        
+        $qrCode->writeFile($qrPath . '.png');
     }
     
 }

@@ -75,6 +75,38 @@ class DuAnController extends Controller
 	}
 	
 	/**
+	 * load phieu xuat kho
+	 * @return mixed
+	 */
+	public function actionGetPhieuInAjax2($idDuAn, $type)
+	{
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $model = DuAn::findOne($idDuAn);
+	    if($model !=null){
+	        if($type == "phieuthongtin"){
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('_print_phieu_thong_tin', [
+	                    'model' => $model
+	                ])
+	            ];
+	        } else if ($type == "phieuxuatkho"){
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('_print_phieu_xuat_kho_2', [
+	                    'model' => $model
+	                ])
+	            ];
+	        }
+	    } else {
+	        return [
+	            'status'=>'failed',
+	            'content' => 'Phiếu xuất kho không tồn tại!'
+	        ];
+	    }
+	}
+	
+	/**
 	 * tao toi uu cho tat ca bo cua trong giao dien xem du an (toi uu cho rieng tung bo cua rieng le)
 	 * @param integer $idDuAn
 	 * @return array
@@ -305,7 +337,7 @@ class DuAnController extends Controller
 	        
 	        return [
 	            'forceReload'=>'#crud-datatable-pjax',
-	            'title'=> "Thông tin dự án",
+	            'title'=> "Thông tin Kế hoạch",
 	            'content'=>$this->renderAjax('view', [
 	                'model' => $model,
 	            ]),
@@ -343,7 +375,7 @@ class DuAnController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Thông tin Dự án",
+                    'title'=> "Thông tin Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -351,10 +383,10 @@ class DuAnController extends Controller
                                     ['update','id'=>$id],
                                     ['role'=>'modal-remote']
                                 ). '&nbsp;' .
-                            Html::a('Import1',
+                           /*  Html::a('Import1',
                                 Yii::getAlias('@web/maucua/import/upload?id='.$id.'&type=').DuAn::MODEL_ID ,
                                 ['role'=>'modal-remote']
-                            ). '&nbsp;' .
+                            ). '&nbsp;' . */
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
             ];    
         }else{
@@ -382,7 +414,7 @@ class DuAnController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm Dự án",
+                    'title'=> "Thêm Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -393,14 +425,14 @@ class DuAnController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thêm Dự án",
-                    'content'=>'<span class="text-success">Thêm mới Dự án thành công!</span>',
+                    'title'=> "Thêm Kế hoạch sản xuất",
+                    'content'=>'<span class="text-success">Thêm mới Kế hoạch sản xuất thành công!</span>',
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' . 
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else{           
                 return [
-                    'title'=> "Thêm Dự án",
+                    'title'=> "Thêm Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -443,7 +475,7 @@ class DuAnController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Chỉnh sửa Dự án",
+                    'title'=> "Chỉnh sửa Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -453,7 +485,7 @@ class DuAnController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thông tin Dự án",
+                    'title'=> "Thông tin Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -462,7 +494,7 @@ class DuAnController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Chỉnh sửa Dự án",
+                    'title'=> "Chỉnh sửa Kế hoạch sản xuất",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
