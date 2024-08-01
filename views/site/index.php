@@ -23,7 +23,20 @@ $this->title = 'Phần mềm Quản lý cửa';
         	   		   <div class="card-header bg-transparent text-center card-title">
                       		THÔNG TIN BẢN CẬP NHẬT
                       </div>
+                      
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Phiên bản 0.2.2</h5>
+                      		<p>
+                          		Ngày cập nhật:  31/07/2024
+                          		<br/>
+                          		Nội dung cập nhật:
+                      		</p>
+                      		<ul>
+                      			<li>Chỉnh sửa quy trình sản xuất cửa: nhập thông tin khách hàng -> tạo dự án của khách hàng -> import mẫu cửa -> thêm cửa vào kế hoạch sản xuất -> tối ưu -> xuất kho -> in phiếu sản xuất và tem nhãn</li>
+                      			<li>Bổ sung chức năng in tem nhãn để dán vào nhôm dư sau khi cắt nhôm, tem hiển thị mã cây nhôm, hình ảnh Qr.</li>
+                      			<li>Bổ sung chức năng quét mã QR qua camera điện thoại, sau khi quét hiển thị thông tin cây nhôm: mã nhôm, tên cây nhôm, số lượng tồn kho...</li>
+                      			<li>In phiếu sản xuất hiển thị thông tin mẫu cửa trong Kế hoạch và bảng chi tiết nhôm đã tối ưu.</li>
+                      		</ul>
                       		<h5>Phiên bản 0.2.1</h5>
                       		<p>
                           		Ngày cập nhật:  19/06/2024
@@ -74,6 +87,11 @@ $this->title = 'Phần mềm Quản lý cửa';
                       		CÁC CHỨC NĂNG ĐANG PHÁT TRIỂN
                       </div>
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Yêu cầu của Duy ngày 10/7/2024</h5>
+                      		<ul>
+                      			<li>Tạo phiếu in Kế hoạch sản xuất cửa thể hiện chi tiết theo mẫu</li>
+                      			<li>Quản lý được thời gian sản xuất và dự kiến thời gian giao cửa cho khách hàng</li>
+                      		</ul>
                       		<h5>Yêu cầu của Duy ngày 16/6</h5>
                       		<ul>
                       			<li style="text-decoration: underline;">Mã nhôm: cùng mã, khác hãng (nhà cung cấp) và độ dầy (<span style="color:#3c8dbc">đã thực hiện</span>)</li>
