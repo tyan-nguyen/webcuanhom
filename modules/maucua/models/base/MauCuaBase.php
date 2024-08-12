@@ -26,6 +26,7 @@ use app\modules\maucua\models\CongTrinh;
  * @property int|null $id_parent
  * @property int $id_du_an
  * @property int|null $id_cong_trinh
+ * @property string|null $ngay_yeu_cau
  * @property int|null $so_luong
  * @property string|null $status
  * @property string|null $date_created
@@ -93,7 +94,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_cong_trinh'], 'required'],
             [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
-            [['date_created', 'nhomDu'], 'safe'],
+            [['ngay_yeu_cau', 'date_created', 'nhomDu'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],
@@ -121,6 +122,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             'id_parent' => 'Mẫu kế thừa',
             'id_du_an' => 'Thuộc Kế hoạch SX',
             'id_cong_trinh' => 'Thuộc công trình',
+            'ngay_yeu_cau' => 'Ngày khách hàng yêu cầu',
             'so_luong' => 'Số lượng',
             'status' => 'Trạng thái',
             'date_created' => 'Ngày tạo dữ liệu',
@@ -159,6 +161,13 @@ class MauCuaBase extends \app\models\CuaMauCua
                 $this->code = $this->getRandomCode();
             }
         }
+        
+        //set date
+        $custom = new CustomFunc();
+        if($this->ngay_yeu_cau !=null){
+            $this->ngay_yeu_cau = $custom->convertDMYToYMD($this->ngay_yeu_cau);
+        }
+        
         return parent::beforeSave($insert);
     }
     

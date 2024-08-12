@@ -6,10 +6,14 @@ use app\modules\maucua\models\MauCua;
 use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\HeNhom;
 use app\modules\maucua\models\LoaiCua;
+use kartik\date\DatePicker;
+use app\custom\CustomFunc;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\MauCua */
 /* @var $form yii\widgets\ActiveForm */
+$custom = new CustomFunc();
+$model->ngay_yeu_cau = $custom->convertYMDToDMY($model->ngay_yeu_cau);
 ?>
 
 <div class="mau-cua-form">
@@ -19,6 +23,19 @@ use app\modules\maucua\models\LoaiCua;
 	<div class="row">
     	<div class="col-md-6">
             <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            <?php
+                echo DatePicker::widget([
+            	    'model' => $model, 
+            	    'name' => 'MauCua[ngay_yeu_cau]',
+                    'value' => $model->ngay_yeu_cau,
+                    'type' => DatePicker::TYPE_COMPONENT_APPEND,
+            	    'pluginOptions' => [
+            	        'autoclose' => true,
+            	        'format' => 'dd/mm/yyyy'
+            	    ],
+                    'removeButton'=>false
+            	]);
+            ?>
         
             <?= $form->field($model, 'ten_cua')->textInput(['maxlength' => true]) ?>
         

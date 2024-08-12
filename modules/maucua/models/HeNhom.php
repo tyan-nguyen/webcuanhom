@@ -8,6 +8,7 @@ use app\custom\CustomFunc;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\modules\kho\models\XuatXu;
+use yii\db\Expression;
 
 class HeNhom extends HeNhomBase
 {
@@ -27,11 +28,20 @@ class HeNhom extends HeNhomBase
         return $this->hasOne(XuatXu::class, ['id' => 'xuat_xu']);
     }
     /**
-     * lay danh sach don vi tinh de fill vao dropdownlist
+     * lay danh sach he nhom de fill vao dropdownlist (id->ten)
      */
     public static function getList(){
         $list = HeNhom::find()->all();
         return ArrayHelper::map($list, 'id', 'ten_he_nhom');
+    }
+    /**
+     * lay danh sach he nhom de fill vao dropdownlist (code -> ten)
+     */
+    public function getListCode(){
+        $list = HeNhom::find()->select('*'
+            //['*', 'code as code1', "CONCAT(code, ' ', ten_he_nhom) as xxx"]
+            )/* ->addSelect(['code as code1']) */->all();
+        return ArrayHelper::map($list, 'code', 'ten_he_nhom');
     }
     /**
      * virtual attribute

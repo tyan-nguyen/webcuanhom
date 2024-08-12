@@ -22,6 +22,7 @@ use app\modules\kho\models\KhoVatTu;
  */
 class MauCuaVatTuBase extends \app\models\CuaMauCuaVatTu
 {
+    public $sluong; //dung de sum so luong khi tong hop vat tu
     /**
      * {@inheritdoc}
      */
@@ -32,7 +33,7 @@ class MauCuaVatTuBase extends \app\models\CuaMauCuaVatTu
             [['id_mau_cua', 'id_kho_vat_tu', 'la_phu_kien', 'user_created'], 'integer'],
             [['so_luong', 'don_gia', 'so_luong_xuat', 'so_luong_nhap_lai'], 'number'],
             [['ghi_chu_xuat', 'ghi_chu_nhap_lai'], 'string'],
-            [['date_created'], 'safe'],
+            [['date_created', 'sluong'], 'safe'],
             [['dvt'], 'string', 'max' => 20],
         ];
     }

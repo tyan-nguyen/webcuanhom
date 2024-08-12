@@ -226,15 +226,63 @@ class CayNhomController extends Controller
                             Html::button('Close',['data-bs-dismiss'=>'modal'])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thêm mới cây nhôm",
-                    'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
-                    'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
-        
-                ];         
+            }else if($model->load($request->post())){
+                //check nhôm trùng
+                $checkNhomExist = false;
+                if($model->code == null){
+                    $nhomExist = CayNhom::find()->where([
+                        'id_he_nhom'=>$model->id_he_nhom,
+                        'ten_cay_nhom'=>$model->ten_cay_nhom,
+                        'do_day'=>$model->do_day,
+                    ])->one();
+                } else {
+                    $nhomExist = CayNhom::find()->where([
+                        'id_he_nhom'=>$model->id_he_nhom,
+                        'code'=>$model->code,
+                        'ten_cay_nhom'=>$model->ten_cay_nhom,
+                        'do_day'=>$model->do_day,
+                    ])->one();
+                }
+                if($nhomExist != null){
+                    $checkNhomExist = true;
+                }
+                if($checkNhomExist){
+                    $model->addError('ten_cay_nhom', 'Thông tin cây nhôm đã tồn tại, vui lòng kiểm tra lại!');
+                    $model->addError('id_he_nhom', 'Thông tin cây nhôm đã tồn tại, vui lòng kiểm tra lại!');
+                    $model->addError('do_day', 'Thông tin cây nhôm đã tồn tại, vui lòng kiểm tra lại!');
+                    if($model->code != null){
+                       $model->addError('code', 'Thông tin cây nhôm đã tồn tại, vui lòng kiểm tra lại!');
+                    }
+                    return [
+                        'title'=> "Thêm mới cây nhôm",
+                        'content'=>$this->renderAjax('create', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        
+                    ];  
+                }
+                if($model->save()){
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Thêm mới cây nhôm",
+                        'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
+                        'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+                                Html::button('Close',['data-bs-dismiss'=>"modal"])
+            
+                    ];  
+                }else{
+                    return [
+                        'title'=> "Thêm mới cây nhôm",
+                        'content'=>$this->renderAjax('create', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        
+                    ];
+                }
             }else{           
                 return [
                     'title'=> "Thêm mới cây nhôm",

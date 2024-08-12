@@ -1,0 +1,17 @@
+1) Độ dày nhôm: Xuất từ pm dowes không có độ dày, chỉ có độ dày của hệ nhôm. Mỗi cây nhôm có thể có độ dày khác, phương án là nhập độ dày của dowes là mặc định, còn lại cập nhật thêm cột độ dày thực tế.
+2) Màu sắc: Chưa có quản lý phiên bản, để sử dụng thì sẽ biên tâp lại file excel 1 là tách ra sheet excel khác, 2 là thêm một dòng trên chung 1 sheet excel. (Duy đã yêu cầu tách ra sheet khác)
+3) Giao diện: Từ kế hoạch chọn giao diện danh sách cửa để thêm vào kế hoạch. Trên giao diện thể hiện tên cửa, tên khách hàng, ngày thực hiện, ngày khách hàng yêu cầu cho từng bộ cửa (thêm cột dữ liệu). Có lọc dữ liệu theo ngày và hệ nhôm..-------
+4) Thông báo tồn kho nhôm, xuất file nhập kho thiếu cho kế hoạch và toàn kho nhôm. ------- đã thông báo chưa xuất file
+
+---khác---
+1) Đơn vị tính: qui về lẻ, chuyển đổi giữa các đơn vị
+2) Chuyển đổi bịch, ký, hộp sang đơn vị lẻ
+
+
+----lỗi----
+1)Chỉnh giao diện mẫu cửa thuộc KHSX: thêm tên dự án.--|
+2)Lỗi thêm trùng cây nhôm cùng hệ cùng mã cùng độ dày.
+3)Làm file giao diện nhập danh sách trước để lấy ý kiến.--
+4)Lỗi lấy ảnh
+5) order new is top
+6) add ngày yêu cầu cho mẫu cửa--

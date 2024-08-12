@@ -61,6 +61,119 @@ class CongTrinhController extends Controller
 	    }
 	}
 	
+	//xóa mẫu cửa vào kế hoạch sản xuất
+	public function actionRemoveMauCuaCongTrinh($idct,$idmc){
+	    $request = Yii::$app->request;
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $modelCongTrinh = CongTrinh::findOne($idct);
+	    $modelMauCua = MauCua::findOne($idmc);
+	    if($modelCongTrinh == null){
+	        return [
+	            'title'=> 'Thông báo',
+	            'content'=>'Công trình không tồn tại!',
+	            'footer'=> Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+	        ];
+	    }
+	    if($modelMauCua == null){
+	        return [
+	            'title'=> 'Thông báo',
+	            'content'=>'Mẫu cửa bạn chọn không tồn tại!',
+	            'footer'=> Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+	        ];
+	    }
+	    if($request->isAjax){
+	       //check valid before delete
+	       //..................
+	       $modelMauCua->delete();
+	       
+	        return [
+	            'forceReload'=>'#crud-datatable-pjax',
+	            'title'=> "Thông tin Công trình",
+	            'content'=>$this->renderAjax('view', [
+	                'model' => $modelCongTrinh,
+	                'showFlash'=> 'Xóa mẫu cửa #'. $modelMauCua->code .' thành công!'
+	            ]),
+	            'footer'=> Html::a('Edit',
+	                ['update','id'=>$idct],
+    	                ['role'=>'modal-remote']
+    	                ). '&nbsp;' .
+    	            Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm vào KHSX',
+    	                ['add-khsx','id'=>$idct],
+    	                ['role'=>'modal-remote', 'class'=>'btn btn-primary']
+    	                ). '&nbsp;' .
+    	            Html::a('Import1',
+    	                Yii::getAlias('@web/maucua/import/upload?id='.$idct.'&type=').CongTrinh::MODEL_ID ,
+    	                ['role'=>'modal-remote']
+    	                ). '&nbsp;' .
+    	            Html::button('Close',['data-bs-dismiss'=>"modal"])
+	        ];
+	        
+	    }//if isAjax
+	}
+	
+	/**
+	 * Displays list cua thuoc ke hoach theo kieu hien thi.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionGetViewHienThiCua($idCongTrinh, $type)
+	{
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $model = CongTrinh::findOne($idCongTrinh);
+	    if($model !=null){
+	        $session = Yii::$app->session;
+	        $session->set('default-view-list', $type);
+	        if($type == "danhSach"){
+	            $session = Yii::$app->session;
+	            $cookieSearch = isset($_SESSION['search-dsCua-enable']) ? $_SESSION['search-dsCua-enable'] : '';
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('view_cua_item_ds', [
+	                    'model' => $model,
+	                    'cookieSearch'=>$cookieSearch
+	                ])
+	            ];
+	        } else if ($type == "anhLon"){
+	            return [
+	                'status'=>'success',
+	                'content' => $this->renderAjax('view_cua_item_anh_lon', [
+	                    'model' => $model
+	                ])
+	            ];
+	        }
+	    } else {
+	        return [
+	            'status'=>'failed',
+	            'content' => 'Phiếu xuất kho không tồn tại!'
+	        ];
+	    }
+	}
+	/**
+	 * Lưu trạng thái khi click nút search.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionSetShowSearch($type)
+	{
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $session = Yii::$app->session;
+	    if($type == "dsCua"){
+	        $session->set('search-dsCua-enable', 1);
+	        return [
+	            'status'=>'success',
+	            'content' => ''
+	        ];
+	    } else {
+	        if ($session->has('search-dsCua-enable')){
+	            $session->remove('search-dsCua-enable');
+	        }
+	        return [
+	            'status'=>'success',
+	            'content' => ''
+	        ];
+	    }
+	}
+	
 	/**
 	 * tao toi uu cho tat ca bo cua trong giao dien xem du an (toi uu cho rieng tung bo cua rieng le)
 	 * @param integer $idDuAn
@@ -336,9 +449,10 @@ class CongTrinhController extends Controller
         }
     }
     
-    //thêm vào kho
+    //thêm vào kế hoạch
     public function actionAddKhsx($id){
         $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = CongTrinh::findOne($id);
         $model->scenario = 'add-ke-hoach';
         if($model == null){
@@ -349,7 +463,6 @@ class CongTrinhController extends Controller
             ];
         }
         if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
                     'title'=> "Thêm vào kế hoạch sản xuất",

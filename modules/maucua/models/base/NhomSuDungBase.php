@@ -24,7 +24,6 @@ use Yii;
  */
 class NhomSuDungBase extends \app\models\CuaMauCuaNhomSuDung
 {
-    
     /**
      * {@inheritdoc}
      */

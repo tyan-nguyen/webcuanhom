@@ -28,6 +28,7 @@ class DuAnBase extends \app\models\CuaDuAn
 {  
     const MODEL_ID = 'du-an';
     public $nhomDu;//su dung trong form nhap nhom du
+    public $vMauCua;//dung trong form them mau cua vao ke hoach
     /**
      * Danh muc mau thiet ke (file excel)
      * @return string[]
@@ -95,7 +96,7 @@ class DuAnBase extends \app\models\CuaDuAn
         return [
             [['ten_du_an'], 'required'],
             [['dia_chi', 'ghi_chu'], 'string'],
-            [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created', 'nhomDu'], 'safe'],
+            [['ngay_bat_dau_thuc_hien', 'ngay_hoan_thanh_du_an', 'date_created', 'nhomDu', 'vMauCua'], 'safe'],
             [['toi_uu_tat_ca', 'user_created'], 'integer'],
             [['ten_du_an', 'email'], 'string', 'max' => 255],
             [['ten_khach_hang'], 'string', 'max' => 100],
@@ -118,9 +119,9 @@ class DuAnBase extends \app\models\CuaDuAn
             //'so_dien_thoai' => 'SĐT',
             //'email' => 'Email',
             'trang_thai' => 'Trạng thái',
-            'toi_uu_tat_ca' => 'Tối ưu toàn dự án',
-            'ngay_bat_dau_thuc_hien' => 'Ngày bắt đầu thực hiện Dự án',
-            'ngay_hoan_thanh_du_an' => 'Ngày hoàn thành Dự án',
+            'toi_uu_tat_ca' => 'Tối ưu toàn Kế hoạch',
+            'ngay_bat_dau_thuc_hien' => 'Ngày bắt đầu thực hiện',
+            'ngay_hoan_thanh_du_an' => 'Ngày hoàn thành',
             'ghi_chu' => 'Ghi chú',
             'code_mau_thiet_ke' => 'Phiên bản mẫu thiết kế',
             'date_created' => 'Ngày tạo dữ liệu',

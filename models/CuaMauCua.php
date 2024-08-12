@@ -16,8 +16,9 @@ use Yii;
  * @property int|null $id_he_nhom
  * @property int $id_loai_cua
  * @property int|null $id_parent
- * @property int $id_du_an
+ * @property int|null $id_du_an
  * @property int|null $id_cong_trinh
+ * @property string|null $ngay_yeu_cau
  * @property int|null $so_luong
  * @property string|null $status
  * @property string|null $date_created
@@ -51,10 +52,10 @@ class CuaMauCua extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ten_cua', 'kich_thuoc', 'id_loai_cua', 'id_cong_trinh'], 'required'],
+            [['ten_cua', 'kich_thuoc', 'id_loai_cua'], 'required'],
             [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
-            [['date_created'], 'safe'],
+            [['ngay_yeu_cau', 'date_created'], 'safe'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],
@@ -82,6 +83,7 @@ class CuaMauCua extends \yii\db\ActiveRecord
             'id_parent' => 'Id Parent',
             'id_du_an' => 'Id Du An',
             'id_cong_trinh' => 'Id Cong Trinh',
+            'ngay_yeu_cau' => 'Ngay Yeu Cau',
             'so_luong' => 'So Luong',
             'status' => 'Status',
             'date_created' => 'Date Created',

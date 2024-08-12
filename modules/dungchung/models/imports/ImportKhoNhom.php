@@ -218,6 +218,7 @@ class ImportKhoNhom
                 $cayNhom = CayNhom::findOne([
                     'code' => $row['D'],
                     'id_he_nhom' => $heNhom->id,
+                    'ten_cay_nhom' => $row['E'],
                     'do_day' => $cayNhomDoDay>0 ? $cayNhomDoDay : $heNhom->do_day_mac_dinh,
                 ]);
                 if($cayNhom == null){

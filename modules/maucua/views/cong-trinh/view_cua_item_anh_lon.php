@@ -2,24 +2,28 @@
 use yii\bootstrap5\Html;
 use app\modules\maucua\models\DuAn;
 ?>
-<div class="col-xl-6 col-md-6 col-sm-6 mb-4">
+
+<?php foreach ($model->mauCuas as $iMau => $mau){ ?>
+
+<div class="col-xl-6 col-md-12 col-sm-12 mb-4">
     <div class="card" style="max-width: 100%;">
       <div class="card-body p-0">
-        <?= Html::img($model->imageUrl, ['width'=>'100%']) ?>
+        <?= Html::img($mau->imageUrl, ['width'=>'100%']) ?>
       </div>
       <div class="card-footer bg-transparent text-center">
-      	Tên cửa: <?= Html::a($model->ten_cua . ' ('. $model->so_luong .')  bộ', 
+      	<span style="color:white;">Tên cửa:</span> <?= Html::a($mau->ten_cua . ' ('. $mau->so_luong .')  bộ', 
       	    [Yii::getAlias('@web/maucua/mau-cua/view'), 
-      	        'id'=>$model->id,
+      	        'id'=>$mau->id,
       	        'back'=>DuAn::MODEL_ID,
-      	        'backid'=>$model->id_du_an,
+      	        'backid'=>$mau->id_du_an,
       	        //'dactid' => $model->id
       	    ],
       	    ['class'=>'card-link-custom card-link-custom-2', 
       	        'role'=>'modal-remote']
       	) ?>
       	<br/>
-      	Tên công trình: <span style="color:white;font-weight: bold">(<?= $model->congTrinh->ten_cong_trinh ?>)</span>
+      	<span style="color:white">(<?= $mau->trangThaiCua ?>)</span>
       </div>
     </div>
 </div>
+<?php } ?>

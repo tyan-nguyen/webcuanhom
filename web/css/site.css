@@ -263,3 +263,19 @@ a.desc:after {
 	color:red;
 	font-weight: bold;
 }
+/***************for custom webcuanhom ******************/
+/*fieldset*/
+.fs-custom{
+	border: 1px solid #ddd !important;
+	border-radius: 5px;
+	padding:0 10px 10px 10px;
+}
+.fs-custom legend{
+	padding:0px;
+	margin:0px;
+	width: auto!important;
+	float: none!important;
+	font-size: 120%;	
+	font-weight: bold;
+	color:#0d6efd;
+} 

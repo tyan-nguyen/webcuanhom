@@ -6,6 +6,8 @@ use app\modules\maucua\models\base\DuAnBase;
 use Yii;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
+use yii\db\Expression;
+use app\modules\kho\models\KhoVatTu;
 
 
 class DuAn extends DuAnBase
@@ -39,6 +41,79 @@ class DuAn extends DuAnBase
     {
         return DuAnSettings::findOne(['id_du_an'=>$this->id]);
     }
+    
+    /**
+     * get tong hop vat tu
+     */
+    public function getVatTus(){
+       /*  $sql = 'SELECT a.id_kho_vat_tu, a.so_luong, sum(a.so_luong) as sluong
+                FROM cua_mau_cua_vat_tu a, cua_mau_cua b
+                WHERE a.id_mau_cua = b.id AND b.id_du_an = 6
+                GROUP BY a.id_kho_vat_tu;';        
+        return Yii::$app->db->createCommand($sql)->queryAll(); */
+        $query = MauCuaVatTu::find()->alias('t')   
+            ->select(['t.*', 'mc.*', 'kvt.code as maVT', 'kvt.id as idkvt', 'kvt.ten_vat_tu', 'dvt.ten_dvt', 'sum(t.so_luong) as sluong'])
+            ->joinWith(['mauCua as mc', 'khoVatTu as kvt', 'khoVatTu.donViTinh as dvt'])
+            ->andWhere(['mc.id_du_an' => $this->id])
+            ->groupBy(['id_kho_vat_tu']);
+         //return $query->createCommand()->getRawSql();
+         //return $query->all();
+            return $query->createCommand()->queryAll();
+    }
+    
+    /**
+     * get tong hop vat tu
+     */
+    public function getNhomSuDungs(){
+        /*  $sql = 'SELECT a.id_kho_vat_tu, a.so_luong, sum(a.so_luong) as sluong
+         FROM cua_mau_cua_vat_tu a, cua_mau_cua b
+         WHERE a.id_mau_cua = b.id AND b.id_du_an = 6
+         GROUP BY a.id_kho_vat_tu;';
+         return Yii::$app->db->createCommand($sql)->queryAll(); */
+        $query = NhomSuDung::find()->alias('t')
+        ->select(['t.*', 't.id_kho_nhom as idKhoNhom', 'kn.qr_code as knQrCode', 'kn.chieu_dai as kncd', 'kn.so_luong as knsl', 'cn.code as cnCode', 'cn.ten_cay_nhom as cnTenCayNhom', 'hn.code as hnCode', 'count(t.id_kho_nhom) as sluong'])
+        ->joinWith(['duAn as da', 'khoNhom as kn', 'khoNhom.cayNhom as cn', 'khoNhom.cayNhom.heNhom as hn'])
+        ->andWhere(['t.id_du_an' => $this->id])
+        ->groupBy(['id_kho_nhom']);
+        //return $query->createCommand()->getRawSql();
+        //return $query->all();
+        return $query->createCommand()->queryAll();
+    }
+    /**
+     * check trạng thái kho vat tu
+     * true: đủ vật tư, false: có vật tư thiếu tồn kho
+     */
+    public function getTrangThaiVatTuOk(){
+        $trangThaiVatTu = true;//ok
+        foreach ($this->vatTus as $indexVT=>$vt){
+            $sluongVT = round($vt['sluong'], 2);
+            $vatTu = KhoVatTu::findOne($vt['idkvt']);
+            //chưa tính mốc kho min
+            if($vatTu->so_luong <= 0 || $vatTu->so_luong - $sluongVT < 0){
+                $trangThaiVatTu = false; //not ok
+                break;
+            }
+        }
+        return $trangThaiVatTu;
+    }
+    /**
+     * check trạng thái kho nhôm
+     * true: đủ nhôm sx, false: thiếu nhôm sx
+     */
+    public function getTrangThaiKhoNhomOk(){
+        $trangThaiKhoNhom = true;//ok
+        foreach ($this->nhomSuDungs as $indexNhom=>$nhom){
+            $sluongNhom = round($nhom['sluong'], 2);
+            $khoNhom = KhoNhom::findOne($nhom['idKhoNhom']);
+            //chưa tính mốc kho min
+            if($khoNhom->so_luong <= 0 || $khoNhom->so_luong - $sluongNhom < 0){
+                $trangThaiKhoNhom = false; //not ok
+                break;
+            }
+        }
+        return $trangThaiKhoNhom;
+    }
+    
     
     /**
      * lay danh sach tat ca du an

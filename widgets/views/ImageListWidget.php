@@ -33,8 +33,7 @@ class ImageListWidget extends Widget{
         $maHtml .= '
         </div>
         ';
-        
-        
+ 
         $maHtml .= '<div class="carousel-inner">';
         
         foreach ($data as $key=>$val){
@@ -54,13 +53,8 @@ class ImageListWidget extends Widget{
         
         $maHtml .= '</div>';//carousel-inner
         
-        
-        
-        
         $maHtml .= '</div>';//end 
         
-        
-       
         }
         
         return $maHtml;

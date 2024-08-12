@@ -13,6 +13,26 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
 ?>
 <script src="/js/vue.js"></script>
 
+<?php if(isset($showFlash)){ ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <?= $showFlash ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+<?php } ?>
+
+<?php if($model->trang_thai == 'TOI_UU' && $model->getTrangThaiKhoNhomOk() == false){?>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Thiếu nhôm để sản xuất cho KHSX này, vui lòng xem tại tab <strong>Tổng hợp nhôm</strong>.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php } ?>
+<?php if( ($model->trang_thai == 'TOI_UU' || $model->trang_thai == 'KHOI_TAO') && $model->getTrangThaiVatTuOk() == false){?>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Vật tư đang thiếu để sản xuất cho KHSX này, vui lòng xem tại tab <strong>Tổng hợp vật tư</strong>.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php } ?>
 <div class="du-an-view container">
 	
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -23,38 +43,51 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
             <li class="nav-item" role="presentation">
             <button class="nav-link" id="toiuucat-tab" data-bs-toggle="tab" data-bs-target="#toiuucat" type="button" role="tab" aria-controls="toiuucat" aria-selected="false">Tối ưu cắt</button>
             </li>
+            
+            <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tonghopnhom-tab" data-bs-toggle="tab" data-bs-target="#tonghopnhom" type="button" role="tab" aria-controls="tonghopnhom" aria-selected="false">Tổng hợp nhôm</button>
+            </li>
+            
+            <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tonghopvattu-tab" data-bs-toggle="tab" data-bs-target="#tonghopvattu" type="button" role="tab" aria-controls="tonghopvattu" aria-selected="false">Tổng hợp vật tư</button>
+            </li>
+            
         <?php } ?>
     </ul>
 
  	<div class="tab-content" id="myTabContent">
 		<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 			<div class="row">
-				<div class="col-md-6">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'attributes' => [
-                            //'id',
-                            'ten_du_an',
-                            /* 'ten_khach_hang',
-                            'dia_chi:ntext',
-                            'so_dien_thoai',
-                            'email:email', */
-                            'trang_thai',
-                            'ngay_bat_dau_thuc_hien',
-                            'ngay_hoan_thanh_du_an',
-                            'code_mau_thiet_ke',
-                            [
-                                'attribute'=>'toi_uu_tat_ca',
-                                'value'=>function($model){
-                                    return $model->toi_uu_tat_ca==1?"YES":'NO';
-                                }
+				<div class="col-md-4">
+					 <fieldset class="fs-custom">
+						<legend>Kế hoạch: #<?= $model->code ?></legend>
+                        <?= DetailView::widget([
+                            'model' => $model,
+                            'attributes' => [
+                                //'id',
+                                'ten_du_an',
+                                /* 'ten_khach_hang',
+                                'dia_chi:ntext',
+                                'so_dien_thoai',
+                                'email:email', */
+                                'trang_thai',
+                                'ngay_bat_dau_thuc_hien',
+                                'ngay_hoan_thanh_du_an',
+                                'code_mau_thiet_ke',
+                                [
+                                    'attribute'=>'toi_uu_tat_ca',
+                                    'value'=>function($model){
+                                        return $model->toi_uu_tat_ca==1?"YES":'NO';
+                                    }
+                                ],
+                                [
+                                    'attribute'=>'ghi_chu',
+                                    'format'=>'html'
+                                ]
                             ],
-                            [
-                                'attribute'=>'ghi_chu',
-                                'format'=>'html'
-                            ]
-                        ],
-                    ]) ?>
+                            'template' => "<tr><th style='width: 40%;'>{label}</th><td class='align-middle'>{value}.</td></tr>"
+                        ]) ?>
+                    </fieldset>
         			
         			<?php if(count($model->mauCuas) > 0) {?>
         			
@@ -63,30 +96,30 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                         ?>
                         
                         <?php if($model->toi_uu_tat_ca == 0 || $model->toi_uu_tat_ca == NULL) { ?>
-                        <strong>TỐI ƯU TỪNG MẪU CỬA RIÊNG</strong>
-                        <br/>
-                        <a href="#" onclick="ToiUuLeDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a> &nbsp;
-                        <a href="#" onclick="ToiUuLeDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a> &nbsp;
-                        
+                        <fieldset class="fs-custom">
+                        <legend>TỐI ƯU TỪNG MẪU CỬA RIÊNG</legend>
+                        <a href="#" onclick="ToiUuLeDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu từ kho nhôm</a> &nbsp;
+                        <a href="#" onclick="ToiUuLeDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu từ nhôm mới</a> &nbsp;
+                        </fieldset>
                         <?php } ?>
                         <?php if($model->toi_uu_tat_ca == 1) { ?>
                         
-                        <strong>TỐI ƯU CHO TOÀN KẾ HOẠCH SẢN XUẤT</strong>
-                        <br/>
-                        <a href="#" onclick="ToiUuDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ kho nhôm</a>
-                        <a href="#" onclick="ToiUuDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu tất cả mẫu cửa từ nhôm mới</a>
+                         <fieldset class="fs-custom">                        
+                            <legend>TỐI ƯU CHO TOÀN KHSX</legend>
+                            <a href="#" onclick="ToiUuDuAnTonKho()" class="btn btn-primary btn-sm">Tối ưu kho nhôm</a>
+                            <a href="#" onclick="ToiUuDuAnNhomMoi()" class="btn btn-primary btn-sm">Tối ưu nhôm mới</a>	
+                        </fieldset>
                      	<?php } ?>   
                         <div>
                             <span class="loadingAjax" style="display:none"><img src="/images/loading.gif" width="50" alt="loading..." /></span>
                             <span class="completeAjax text-primary" style="display:none"></span>
                     	</div>
                     <?php } ?>
-                    <br/>
+                   
                     
                     <?php if($model->toi_uu_tat_ca == 1) { ?>
-                    
-                     <strong>GIAI ĐOẠN XUẤT KHO</strong>
-                     <br/>
+                     <fieldset class="fs-custom">    
+                     <legend>GIAI ĐOẠN XUẤT KHO</legend>
                      <?php 
                         if($model->trang_thai == 'TOI_UU'){                      
                            echo Html::a('<i class="fa-solid fa-truck-fast"></i> Xuất kho',['xuat-kho','id'=>$model->id],[
@@ -97,7 +130,10 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                           
                           
                       } ?>
+                      
+                      <a href="#" onClick="InPhieuXuatKho2()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
                      
+                     <p style="margin-top:5px">
                        <?php 
                        if($model->trang_thai == 'DA_XUAT_KHO' || $model->trang_thai == 'TOI_UU' || $model->trang_thai == 'DA_NHAP_KHO'){                      
                        ?>
@@ -128,11 +164,11 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                     <!-- 
                    <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
                     -->
-                   <p style="margin-top:10px">
-                   		<a href="#" onClick="InPhieuXuatKho2()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
-                   </p>
+                    
+                    </p>
                    
                    
+                   </fieldset>
                    <?php } //end giai doan xuat kho ?>
                    
                    
@@ -147,14 +183,40 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
         
         
     			</div>
-                <div class="col-md-6">
-                    <div class="container indexPage" style="overflow:scroll;height:600px;">
-                    	<div class="row">
-                            <?php 
-                                foreach ($model->mauCuas as $iMau => $mau){
-                                    echo $this->render('view_cua_item', ['model'=>$mau]);
-                                }
-                            ?>
+                <div class="col-md-8">
+                    <div class="container indexPage" style="overflow:scroll;height:600px; font-size:95%;">
+                    	<div class="row" style="padding:5px;position:absolute;margin-top:-45px;right:20px;z-index: 99999">
+                        	<div class="col-md-12">
+                        		<?php
+                                $session = Yii::$app->session;
+                                $cookieValue = isset($_SESSION['default-view-list']) ? $_SESSION['default-view-list'] : 'anhLon';
+                                $cookieSearch = isset($_SESSION['search-dsCua-enable']) ? $_SESSION['search-dsCua-enable'] : '';
+                                ?>
+                            	<div class="btn-group float-end">
+                                      <a href="#" onClick="setHienThiDanhSachCua('danhSach')" class="cls-view-group danhSach btn btn-sm btn-primary <?= $cookieValue=='danhSach'?'active':'' ?>" aria-current="page"><i class="fa-solid fa-list-ol"></i></a>
+                                      <a href="#" onClick="setHienThiDanhSachCua('anhLon')" class="cls-view-group anhLon btn btn-sm btn-primary <?= $cookieValue=='anhLon'?'active':'' ?>"><i class="fa-solid fa-images"></i></a>
+                                      
+                                       <a href="#" onClick="setHienThiKhungSearch()" class="btnSearch btn btn-sm btn-primary <?= $cookieSearch!=null?'active':'' ?>"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                       
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="div-ds-cua">
+                        	<?php 
+                            	
+                                    if($cookieValue == 'danhSach'){
+                                        echo $this->render('view_cua_item_ds', ['model'=>$model, 'cookieSearch'=>$cookieSearch]);
+                                    } else {
+                                        echo $this->render('view_cua_item_anh_lon', ['model'=>$model]);
+                                    }
+                        	?>
+        						
+                                <?php 
+                                    /* foreach ($model->mauCuas as $iMau => $mau){
+                                        echo $this->render('view_cua_item', ['model'=>$mau]);
+                                    } */
+                                ?>
+                                
                         </div>
                     </div>
                 </div>
@@ -165,6 +227,19 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
         		<?= $this->render('toiUuCatView', ['model'=>$model]) ?>
         	</div>
         </div><!-- tab pane -->
+        
+         <div class="tab-pane fade" id="tonghopnhom" role="tabpanel" aria-labelledby="tonghopnhom-tab">
+        	<div id="tonghopnhom" style="width:100%;overflow-x: scroll;overflow:scroll;height:600px;">
+        		<?= $this->render('_view_tongHopNhom', ['model'=>$model]) ?>
+        	</div>
+        </div><!-- tab pane -->
+        
+        <div class="tab-pane fade" id="tonghopvattu" role="tabpanel" aria-labelledby="tonghopvattu-tab">
+        	<div id="tonghopvattu" style="width:100%;overflow-x: scroll;overflow:scroll;height:600px;">
+        		<?= $this->render('_view_tongHopVatTu', ['model'=>$model]) ?>
+        	</div>
+        </div><!-- tab pane -->
+        
 	</div><!-- tab content -->
 
 </div><!-- container -->
@@ -299,4 +374,73 @@ function InPhieuXuatKho2(){
         },
     });	
 }
+
+function setHienThiDanhSachCua(type){
+	$.ajax({
+        type: 'post',
+        url: '/maucua/du-an/get-view-hien-thi-cua?idKeHoach=' + <?= $model->id ?> + '&type='+type,
+        //data: frm.serialize(),
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#div-ds-cua').html(data.content);
+            	$('.cls-view-group').removeClass('active');
+            	$('.' + type).addClass('active');
+            } else {
+            	alert('Kế hoạch không tồn tại trên hệ thống!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
+}
+
+function setHienThiKhungSearch(){
+	if(!$('.btnSearch').hasClass('active')){
+    	$.ajax({
+            type: 'post',
+            url: '/maucua/du-an/set-show-search?type=dsCua',
+            //data: frm.serialize(),
+            success: function (data) {
+                console.log('Submission was successful.');
+                console.log(data);            
+                if(data.status == 'success'){
+                	$('#fs-search').toggle();
+                	$('.btnSearch').addClass('active');
+                } else {
+                	alert('Lỗi!');
+                }
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+            },
+        });	
+    } else {
+    	$.ajax({
+            type: 'post',
+            url: '/maucua/du-an/set-show-search?type=none',
+            //data: frm.serialize(),
+            success: function (data) {
+                console.log('Submission was successful.');
+                console.log(data);            
+                if(data.status == 'success'){
+                	$('#fs-search').toggle();
+                	$('.btnSearch').removeClass('active');
+                } else {
+                	alert('Lỗi!');
+                }
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+            },
+        });	
+    }
+	
+}
+
 </script>

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use app\custom\CustomFunc;
 
 return [
     [
@@ -57,6 +58,15 @@ return [
         'attribute'=>'id_loai_cua',
         'value'=>function($model){
             return $model->loaiCua->ten_loai_cua;
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ngay_yeu_cau',
+        'label'=>'Ngày yêu cầu',
+        'value'=>function($model){
+            $custom = new CustomFunc();
+            return $custom->convertYMDToDMY($model->ngay_yeu_cau);
         }
     ],
     // [

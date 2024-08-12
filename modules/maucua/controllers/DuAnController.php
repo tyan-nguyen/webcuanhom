@@ -379,7 +379,14 @@ class DuAnController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::a('Edit',
+                'footer'=> Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm cửa vào KHSX',
+                                ['them-mau-cua-vao-ke-hoach','idkh'=>$id],
+                                [
+                                    'role'=>'modal-remote',
+                                    'class' => 'btn btn-sm btn-primary'
+                                ]
+                                ). '&nbsp;' .
+                                Html::a('Edit',
                                     ['update','id'=>$id],
                                     ['role'=>'modal-remote']
                                 ). '&nbsp;' .
@@ -393,6 +400,191 @@ class DuAnController extends Controller
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
+        }
+    }
+    
+    //thêm mẫu cửa vào kế hoạch sản xuất
+    public function actionThemMauCuaVaoKeHoach($idkh){
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = DuAn::findOne($idkh);
+        $mauCuas = MauCua::find()->where('id_du_an IS NULL AND id_cong_trinh IS NOT NULL')
+                ->orderBy(['ngay_yeu_cau'=>SORT_ASC, 'id_cong_trinh'=>SORT_DESC])->all();
+        if($model == null){
+            return [
+                'title'=> 'Thông báo',
+                'content'=>'Kế hoạch không tồn tại!',
+                'footer'=> Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+            ];
+        }
+        if($request->isAjax){            
+            if($request->isGet){
+                return [
+                    'title'=> "Thêm mẫu cửa vào KHSX ". $model->ten_du_an,
+                    'content'=>$this->renderAjax('_formAddKhsx', [
+                        'model' => $model,
+                        'mauCuas' => $mauCuas
+                    ]),
+                    'footer'=> Html::a('<i class="fa-solid fa-arrow-left"></i> Quay lại',
+                        ['view','id'=>$idkh],
+                        ['role'=>'modal-remote', 'class'=>'btn btn-primary']
+                        ). '&nbsp;' . Html::button('Save-Popup',['type'=>'submit']). '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                ];
+            }else if($model->load($request->post())){
+                if($model->validate('vMauCua')){
+                    //xu ly them vao khsx
+                    if($model->vMauCua != null){
+                        foreach ($model->vMauCua as $idMc=>$mc){
+                            $mauCua = MauCua::findOne($idMc);
+                            if($mauCua != null){
+                                $mauCua->id_du_an = $idkh;
+                                $mauCua->save();
+                            }
+                        }
+                    }
+                }
+                
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Thông tin Kế hoạch sản xuất",
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                        'showFlash'=> 'Thêm '. count($model->vMauCua) . ' mẫu cửa vào KHSX thành công!'
+                    ]),
+                    'footer'=> Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm cửa vào KHSX',
+                        ['them-mau-cua-vao-ke-hoach','idkh'=>$idkh],
+                        [
+                            'role'=>'modal-remote',
+                            'class' => 'btn btn-sm btn-primary'
+                        ]
+                        ). '&nbsp;' .
+                    Html::a('Edit',['update','id'=>$idkh],['role'=>'modal-remote']) . '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];   
+            }else{
+                return [
+                    'title'=> "Thêm mẫu cửa vào KHSX ". $model->ten_du_an,
+                    'content'=>$this->renderAjax('_formAddKhsx', [
+                        'model' => $model,
+                        'mauCuas' => $mauCuas
+                    ]),
+                    'footer'=> Html::a('<i class="fa-solid fa-arrow-left"></i> Quay lại',
+                        ['view','id'=>$idkh],
+                        ['role'=>'modal-remote', 'class'=>'btn btn-primary']
+                        ). '&nbsp;' . Html::button('Save-Popup',['type'=>'submit']). '&nbsp;' .
+                    Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+                ];
+            }
+        }//if isAjax
+    }
+    
+    //xóa mẫu cửa vào kế hoạch sản xuất
+    public function actionRemoveMauCuaKeHoach($idkh,$idmc){
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $modelKeHoach = DuAn::findOne($idkh);
+        $modelMauCua = MauCua::findOne($idmc);
+        if($modelKeHoach == null){
+            return [
+                'title'=> 'Thông báo',
+                'content'=>'Kế hoạch không tồn tại!',
+                'footer'=> Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+            ];
+        }
+        if($modelMauCua == null){
+            return [
+                'title'=> 'Thông báo',
+                'content'=>'Mẫu cửa bạn chọn không tồn tại!',
+                'footer'=> Html::button('Close-Popup',['data-bs-dismiss'=>'modal'])
+            ];
+        }
+        if($request->isAjax){
+
+            $modelMauCua->id_du_an = NULL;
+            $modelMauCua->save();
+            
+            return [
+                'forceReload'=>'#crud-datatable-pjax',
+                'title'=> "Thông tin Kế hoạch sản xuất",
+                'content'=>$this->renderAjax('view', [
+                    'model' => $modelKeHoach,
+                    'showFlash'=> 'Xóa mẫu cửa #'. $modelMauCua->code .' khỏi KHSX thành công!'
+                ]),
+                'footer'=> Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm cửa vào KHSX',
+                    ['them-mau-cua-vao-ke-hoach','idkh'=>$idkh],
+                    [
+                        'role'=>'modal-remote',
+                        'class' => 'btn btn-sm btn-primary'
+                    ]
+                    ). '&nbsp;' .
+                Html::a('Edit',['update','id'=>$idkh],['role'=>'modal-remote']) . '&nbsp;' .
+                Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+            
+        }//if isAjax
+    }
+    
+    /**
+     * Displays list cua thuoc ke hoach theo kieu hien thi.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionGetViewHienThiCua($idKeHoach, $type)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = DuAn::findOne($idKeHoach);
+        if($model !=null){
+            $session = Yii::$app->session;
+            $session->set('default-view-list', $type);
+            if($type == "danhSach"){
+                $session = Yii::$app->session;
+                $cookieSearch = isset($_SESSION['search-dsCua-enable']) ? $_SESSION['search-dsCua-enable'] : '';
+                return [
+                    'status'=>'success',
+                    'content' => $this->renderAjax('view_cua_item_ds', [
+                        'model' => $model,
+                        'cookieSearch'=>$cookieSearch
+                    ])
+                ];
+            } else if ($type == "anhLon"){
+                return [
+                    'status'=>'success',
+                    'content' => $this->renderAjax('view_cua_item_anh_lon', [
+                        'model' => $model
+                    ])
+                ];
+            }
+        } else {
+            return [
+                'status'=>'failed',
+                'content' => 'Phiếu xuất kho không tồn tại!'
+            ];
+        }
+    }
+    /**
+     * Lưu trạng thái khi click nút search.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionSetShowSearch($type)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $session = Yii::$app->session;
+        if($type == "dsCua"){
+            $session->set('search-dsCua-enable', 1);
+            return [
+                'status'=>'success',
+                'content' => ''
+            ];
+        } else {
+            if ($session->has('search-dsCua-enable')){
+                $session->remove('search-dsCua-enable');
+            }
+            return [
+                'status'=>'success',
+                'content' => ''
+            ];
         }
     }
 
@@ -423,6 +615,7 @@ class DuAnController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thêm Kế hoạch sản xuất",
@@ -489,7 +682,14 @@ class DuAnController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                    'footer'=> Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm cửa vào KHSX',
+                        ['them-mau-cua-vao-ke-hoach','idkh'=>$id],
+                        [
+                            'role'=>'modal-remote',
+                            'class' => 'btn btn-sm btn-primary'
+                        ]
+                        ). '&nbsp;' .
+                        Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];    
             }else{

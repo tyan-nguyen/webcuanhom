@@ -93,6 +93,7 @@ class KhoVatTu extends KhoVatTuBase
         return $slKhoiTaoModel == null ? 0 : $slKhoiTaoModel;
     }
     //Tinh toan so luong ton kho dang bị ket trong du an dang thuc hien
+    //use for phien ban cu
     public function getSoLuongKetDangThucHien()
     {
         // 1- tim kiem bang cua-vat-tu, cua-phu-kien
@@ -117,6 +118,45 @@ class KhoVatTu extends KhoVatTuBase
     public function getSoLuongTonKhoDeXuat(){
         //lay so luong ton kho thuc te bang khovattu - virtual so luong ton kho dang trong du an moi khoi tao - virtual so luong ton kho dang bat dau
         return $this->so_luong - $this->getSoLuongKetBatDau() - $this->getSoLuongKetDangThucHien();
+    }
+    
+    
+    /**
+     * phien bản mới tính theo kế hoạch
+     */
+    //Tinh toan so luong ton kho dang bị ket trong du an da toi uu
+    public function getSoLuongTrongKeHoachDaToiUu()
+    {
+        // 1- tim kiem bang cua-vat-tu, cua-phu-kien
+        // 2- select bang mau cua - trang thai cua bang DuAn là TOI_UU
+        // 3 - sum so luong
+        // return
+        $slDangThucHienModel = MauCuaVatTu::find()->alias('t')->joinWith([
+            'mauCua as mc', 'mauCua.duAn as da'
+        ])->where([
+            'id_kho_vat_tu' => $this->id,
+            'da.trang_thai'=>'TOI_UU',
+        ])->sum('t.so_luong');
+        return $slDangThucHienModel == null ? 0 : round($slDangThucHienModel,2);
+    }
+    //Tinh toan so luong ton kho dang bị ket trong du an moi khoi tao (chi danh cho vat tu - phu kien, nhom thi toi uu xong moi co)
+    public function getSoLuongTrongKeHoachMoiKhoiTao()
+    {
+        // 1- tim kiem bang cua-vat-tu, cua-phu-kien
+        // 2- select bang mau cua - trang thai cua bang DuAn là KHOI_TAO
+        // 3 - sum so luong
+        // return
+        $slDangThucHienModel = MauCuaVatTu::find()->alias('t')->joinWith([
+            'mauCua as mc', 'mauCua.duAn as da'
+        ])->where([
+            'id_kho_vat_tu' => $this->id,
+            'da.trang_thai'=>'KHOI_TAO',
+        ])->sum('t.so_luong');
+        return $slDangThucHienModel == null ? 0 : round($slDangThucHienModel,2);
+    }
+    public function getSoLuongTonKhoDuKien()
+    {
+        return $this->so_luong - $this->getSoLuongTrongKeHoachMoiKhoiTao() - $this->getSoLuongTrongKeHoachMoiKhoiTao();
     }
     /***** /virtual attributes *****/
 }
