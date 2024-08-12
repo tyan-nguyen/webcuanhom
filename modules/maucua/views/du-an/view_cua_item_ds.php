@@ -2,6 +2,9 @@
 use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\HeNhom;
 use yii\helpers\Html;
+use app\custom\CustomFunc;
+
+$custom = new CustomFunc();
 ?>
 
 <link href="/js/datatables/datatables.min.css" rel="stylesheet">
@@ -78,7 +81,7 @@ use yii\helpers\Html;
       	         ) ?>
       	    </td>
         	<td><?= $mau->congTrinh->ten_cong_trinh ?></td>
-        	<td></td>
+        	<td><?= $custom->convertYMDToDMY($mau->ngay_yeu_cau) ?></td>
         	<td><?= $mau->heNhom->code ?></td>
         	<td>
         	<a role="modal-remote" data-pjax="0" class="dropdown-item" href="/maucua/du-an/remove-mau-cua-ke-hoach?idkh=<?= $model->id ?>&idmc=<?= $mau->id ?>" data-request-method="post" data-toggle="tooltip" data-confirm-title="Xác nhận xóa mẫu cửa khỏi KHSX?" data-confirm-message="Bạn có chắc chắn muốn xóa mẫu cửa khỏi Kế hoạch sản xuất?"><i class="fa-solid fa-calendar-xmark"></i></a>        	
