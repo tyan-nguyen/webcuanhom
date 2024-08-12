@@ -23,6 +23,7 @@ $model->ngay_yeu_cau = $custom->convertYMDToDMY($model->ngay_yeu_cau);
 	<div class="row">
     	<div class="col-md-6">
             <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            <label>Ngày khách hàng yêu cầu</label>
             <?php
                 echo DatePicker::widget([
             	    'model' => $model, 

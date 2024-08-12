@@ -160,8 +160,10 @@ class ImportCongTrinh
             
             //get id he nhom
             //tìm xem đã có hệ nhôm này chưa
+            $heNhomExist = true;//use to check cay nhom
             $heNhomModel = HeNhom::findOne(['ten_he_nhom'=>$xls_data[13]['A']]);
             if($heNhomModel == null){
+                $heNhomExist = false;
                 //nếu chưa có thì thêm trước sau đó lấy id gán cho id he nhom
                 //1.thêm mới hệ nhôm
                 $heNhomModel = new HeNhom();
