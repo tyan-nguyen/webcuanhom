@@ -35,6 +35,7 @@ $this->title = 'Phần mềm Quản lý cửa';
                       			<li>Thêm Thông báo tồn kho và danh sách vật tư, phụ kiện sử dụng cho KHSX (chức năng thực thi sau khi thêm danh sách cửa vào KHSX)</li>
                       			<li>Thêm Thông báo tồn kho và danh sách nhôm sử dụng cho KHSX (chức năng sẽ thực thi sau khi tối ưu nhôm)</li>
                       			<li>Bổ sung chắc năng thêm danh sách cửa từ dự án/công trình vào KHSX trên giao diện xem KHSX. Từ kế hoạch chọn giao diện danh sách cửa để thêm vào kế hoạch. Trên giao diện thể hiện tên cửa, tên khách hàng, ngày thực hiện, ngày khách hàng yêu cầu cho từng bộ cửa (thêm cột dữ liệu). Có lọc dữ liệu theo ngày và hệ nhôm.</li>
+                      			<li>Thêm giao diện hiển thị cho danh sách cửa dạng danh sách và dạng thumbnails, bổ sung tính năng tìm kiếm theo mẫu cửa, hệ nhôm... từ giao diện danh sách cửa quản lý công trình/dự án và quản lý KHSX</li>
                       			<li>Chỉnh lại giao diện mẫu cửa thuộc KHSX: thêm tên dự án.</li>
 								<li>Sửa lỗi hiển thị nhiều cây nhôm trùng mã nhôm.</li>
                       		</ul>
