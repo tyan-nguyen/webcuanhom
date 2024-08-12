@@ -25,6 +25,19 @@ $this->title = 'Phần mềm Quản lý cửa';
                       </div>
                       
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Phiên bản 0.2.3</h5>
+                      		<p>
+                          		Ngày cập nhật:  12/08/2024
+                          		<br/>
+                          		Nội dung cập nhật:
+                      		</p>
+                      		<ul>
+                      			<li>Thêm Thông báo tồn kho và danh sách vật tư, phụ kiện sử dụng cho KHSX (chức năng thực thi sau khi thêm danh sách cửa vào KHSX)</li>
+                      			<li>Thêm Thông báo tồn kho và danh sách nhôm sử dụng cho KHSX (chức năng sẽ thực thi sau khi tối ưu nhôm)</li>
+                      			<li>Bổ sung chắc năng thêm danh sách cửa từ dự án/công trình vào KHSX trên giao diện xem KHSX. Từ kế hoạch chọn giao diện danh sách cửa để thêm vào kế hoạch. Trên giao diện thể hiện tên cửa, tên khách hàng, ngày thực hiện, ngày khách hàng yêu cầu cho từng bộ cửa (thêm cột dữ liệu). Có lọc dữ liệu theo ngày và hệ nhôm.</li>
+                      			<li>Chỉnh lại giao diện mẫu cửa thuộc KHSX: thêm tên dự án.</li>
+								<li>Sửa lỗi hiển thị nhiều cây nhôm trùng mã nhôm.</li>
+                      		</ul>
                       		<h5>Phiên bản 0.2.2</h5>
                       		<p>
                           		Ngày cập nhật:  31/07/2024
@@ -87,6 +100,13 @@ $this->title = 'Phần mềm Quản lý cửa';
                       		CÁC CHỨC NĂNG ĐANG PHÁT TRIỂN
                       </div>
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Yêu cầu ngày 06/08/2024</h5>
+                      		<ul>
+                      			<li>Giao diện: Từ kế hoạch chọn giao diện danh sách cửa để thêm vào kế hoạch. Trên giao diện thể hiện tên cửa, tên khách hàng, ngày thực hiện, ngày khách hàng yêu cầu cho từng bộ cửa (thêm cột dữ liệu). Có lọc dữ liệu theo ngày và hệ nhôm.</li>
+                      			<li>Độ dày nhôm: Xuất từ pm dowes không có độ dày, chỉ có độ dày của hệ nhôm. Mỗi cây nhôm có thể có độ dày khác, phương án là nhập độ dày của dowes là mặc định, còn lại cập nhật thêm cột độ dày thực tế.</li>
+                      			<li>Chỉnh giao diện mẫu cửa thuộc KHSX: thêm tên dự án.</li>
+								<li>Lỗi trùng cây nhôm cùng mã.</li>
+                      		</ul>
                       		<h5>Yêu cầu của Duy ngày 10/7/2024</h5>
                       		<ul>
                       			<li>Tạo phiếu in Kế hoạch sản xuất cửa thể hiện chi tiết theo mẫu</li>
