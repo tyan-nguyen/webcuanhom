@@ -1,6 +1,6 @@
 <?php
 use yii\bootstrap5\Html;
-use app\modules\maucua\models\DuAn;
+use app\modules\maucua\models\CongTrinh;
 ?>
 
 <?php foreach ($model->mauCuas as $iMau => $mau){ ?>
@@ -14,8 +14,8 @@ use app\modules\maucua\models\DuAn;
       	<span style="color:white;">Tên cửa:</span> <?= Html::a($mau->ten_cua . ' ('. $mau->so_luong .')  bộ', 
       	    [Yii::getAlias('@web/maucua/mau-cua/view'), 
       	        'id'=>$mau->id,
-      	        'back'=>DuAn::MODEL_ID,
-      	        'backid'=>$mau->id_du_an,
+      	        'back'=>CongTrinh::MODEL_ID,
+      	        'backid'=>$mau->id_cong_trinh,
       	        //'dactid' => $model->id
       	    ],
       	    ['class'=>'card-link-custom card-link-custom-2', 

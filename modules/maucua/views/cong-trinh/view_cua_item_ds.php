@@ -1,7 +1,7 @@
 <?php
-use app\modules\maucua\models\DuAn;
 use app\modules\maucua\models\HeNhom;
 use yii\helpers\Html;
+use app\modules\maucua\models\CongTrinh;
 ?>
 
 <link href="/js/datatables/datatables.min.css" rel="stylesheet">
@@ -68,8 +68,8 @@ use yii\helpers\Html;
         	<td><?= Html::a($mau->ten_cua . ' ('. $mau->so_luong .')  bộ', 
               	    [Yii::getAlias('@web/maucua/mau-cua/view'), 
               	        'id'=>$mau->id,
-              	        'back'=>DuAn::MODEL_ID,
-              	        'backid'=>$mau->id_du_an,
+              	        'back'=>CongTrinh::MODEL_ID,
+              	        'backid'=>$mau->id_cong_trinh,
               	        //'dactid' => $model->id
               	    ],
               	    [/* 'class'=>'card-link-custom card-link-custom-2', */ 

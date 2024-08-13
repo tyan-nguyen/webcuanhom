@@ -22,6 +22,7 @@ use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
 use app\modules\maucua\models\MauCuaSettings;
 use app\modules\dungchung\models\Setting;
+use app\modules\maucua\models\CongTrinh;
 
 /**
  * MauCuaController implements the CRUD actions for MauCua model.
@@ -281,6 +282,9 @@ class MauCuaController extends Controller
             if($back != null && $backid != null){
                 if($back == DuAn::MODEL_ID){
                     $backLink = [Yii::getAlias('@web/maucua/du-an/view'), 'id'=>$backid];
+                    //$dactModel = DuAnChiTiet::findOne($dactid);
+                }else if($back == CongTrinh::MODEL_ID){
+                    $backLink = [Yii::getAlias('@web/maucua/cong-trinh/view'), 'id'=>$backid];
                     //$dactModel = DuAnChiTiet::findOne($dactid);
                 }
             }
