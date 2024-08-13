@@ -304,9 +304,9 @@ class MauCuaController extends Controller
                 ( ($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU') ? Html::a('Edit',['update','id'=>$id],[
                             'role'=>'modal-remote'
                         ]) : '') . '&nbsp;' .
-                (($model->status == 'TOI_UU') ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
+                /*tam tat (($model->status == 'TOI_UU') ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
                             'role'=>'modal-remote'
-                        ]) : '') . '&nbsp;' .
+                        ]) : '') . '&nbsp;' . */
                         Html::button('Close',['data-bs-dismiss'=>"modal"])
                 
                 ];    
