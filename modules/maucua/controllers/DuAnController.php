@@ -409,7 +409,7 @@ class DuAnController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = DuAn::findOne($idkh);
         $mauCuas = MauCua::find()->where('id_du_an IS NULL AND id_cong_trinh IS NOT NULL')
-                ->orderBy(['ngay_yeu_cau'=>SORT_ASC, 'id_cong_trinh'=>SORT_DESC])->all();
+                ->orderBy(['ngay_yeu_cau'=>SORT_DESC, 'id_cong_trinh'=>SORT_DESC])->all();
         if($model == null){
             return [
                 'title'=> 'Thông báo',
