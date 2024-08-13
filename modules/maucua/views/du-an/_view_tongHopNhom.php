@@ -11,8 +11,8 @@ use app\modules\maucua\models\KhoNhom;
         	<th width="10%">Mã QR</th>  
         	<th width="10%">Mã cây nhôm</th>  
         	<th width="25%">Tên cây nhôm</th>
-        	<th width="25%">Chiều dài</th>
-        	<th width="25%">Hệ nhôm</th>      	
+        	<th width="10%">Chiều dài</th>
+        	<th width="10%">Hệ nhôm</th>      	
         	<th width="10%">Số lượng sử dụng</th>
         	<th width="10%">Tồn kho TT</th>
         	<th width="10%">Đang trong KH đã tối ưu</th>
