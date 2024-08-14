@@ -44,6 +44,14 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'congTrinh.ten_cong_trinh',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'duAn.ten_du_an',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'kich_thuoc',
     ],
     [
