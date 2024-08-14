@@ -56,25 +56,28 @@ class MauCua extends MauCuaBase
      */
     public function getTrangThaiThoiHan(){
         $setting = Setting::find()->one();
-        
+                
         $trangThai = '-';
-        if($this->getNgayBanGiaoDuKien() != null){
-            $now = time();
-            $your_date = strtotime($this->getNgayBanGiaoDuKien());
-            $datediff = $your_date - $now;
-            
-            $soNgayConLai =  round($datediff / (60 * 60 * 24)) + 1;
-            
-            if($soNgayConLai > 0){
-                if($soNgayConLai  <= $setting->so_ngay_canh_bao_giao_cua){
-                    $trangThai = '<span style="color:blue">Sắp đến hạn bàn giao (' . $soNgayConLai . ' ngày nữa)</span>';
-                } else {
-                    $trangThai = '' . $soNgayConLai . ' ngày nữa';
+        if($this->getTrangThaiCua() != 'Đã sản xuất' ){
+            if($this->getNgayBanGiaoDuKien() != null){
+                $now = time();
+                $your_date = strtotime($this->getNgayBanGiaoDuKien());
+                $datediff = $your_date - $now;
+                
+                $soNgayConLai =  round($datediff / (60 * 60 * 24)) + 1;
+                
+                if($soNgayConLai > 0){
+                    if($soNgayConLai  <= $setting->so_ngay_canh_bao_giao_cua){
+                        $trangThai = '<span style="color:blue">Sắp đến hạn bàn giao (' . $soNgayConLai . ' ngày nữa)</span>';
+                    } else {
+                        $trangThai = '' . $soNgayConLai . ' ngày nữa';
+                    }
                 }
+                else
+                    $trangThai = '<span style="color:red">Đã trễ hạn ('. abs($soNgayConLai) . ' ngày)</span>';
             }
-            else
-                $trangThai = '<span style="color:red">Đã trễ hạn ('. abs($soNgayConLai) . ' ngày)</span>';
         }
+        
         return $trangThai;
     }
      
