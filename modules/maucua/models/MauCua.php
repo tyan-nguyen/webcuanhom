@@ -657,12 +657,12 @@ class MauCua extends MauCuaBase
      * Ngày bàn giao dự kiến: 1) Ngày khách hàng yêu cầu riêng cho mẫu cửa, 2) Ngày kết thúc của công trình
      */
     public function getNgayBanGiaoDuKien(){
-        $custom = new CustomFunc();
+        /* $custom = new CustomFunc();
         if($this->ngay_yeu_cau != null){
             return $this->ngay_yeu_cau;
-        } else {
+        } else { */
             return $this->congTrinh->ngay_hoan_thanh;
-        }
+        //}
     }
     public function getNgayBanGiaoDuKienDMY(){
         $custom = new CustomFunc();
