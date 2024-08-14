@@ -71,7 +71,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ngay_yeu_cau',
-        'label'=>'Ngày yêu cầu',
+        'label'=>'Hạn hoàn thành',
         'format'=>'html',
         'value'=>function($model){
             //$custom = new CustomFunc();
