@@ -8,17 +8,16 @@ use app\modules\maucua\models\KhoNhom;
 	<thead>
     	<tr style="font-size:85%">
         	<th width="5%" class="text-center">STT</th>
-        	<th width="10%">Mã QR</th>  
-        	<th width="10%">Mã cây nhôm</th>  
+        	<th width="10%">Mã QR</th>
+        	<th width="10%">Mã cây nhôm</th>
         	<th width="25%">Tên cây nhôm</th>
         	<th width="10%">Chiều dài</th>
-        	<th width="10%">Hệ nhôm</th>      	
+        	<th width="10%">Hệ nhôm</th>
         	<th width="10%">Số lượng sử dụng</th>
         	<th width="10%">Tồn kho TT</th>
         	<th width="10%">Đang trong KH đã tối ưu</th>
         	<th width="10%">Tồn kho dự kiến</th>
         	<th width="10%">Nhập cho KHSX</th>
-        	
     	</tr>    	
 	</thead>
 	<tbody>

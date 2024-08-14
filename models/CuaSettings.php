@@ -12,6 +12,7 @@ use Yii;
  * @property int|null $an_kho_nhom_bang_khong
  * @property float|null $vet_cat
  * @property float|null $chieu_dai_nhom_mac_dinh
+ * @property int|null $so_ngay_canh_bao_giao_cua
  */
 class CuaSettings extends \yii\db\ActiveRecord
 {
@@ -30,7 +31,7 @@ class CuaSettings extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'cho_phep_nhap_kho_am', 'an_kho_nhom_bang_khong'], 'integer'],
+            [['id', 'cho_phep_nhap_kho_am', 'an_kho_nhom_bang_khong', 'so_ngay_canh_bao_giao_cua'], 'integer'],
             [['vet_cat', 'chieu_dai_nhom_mac_dinh'], 'number'],
             [['id'], 'unique'],
         ];
@@ -47,6 +48,7 @@ class CuaSettings extends \yii\db\ActiveRecord
             'an_kho_nhom_bang_khong' => 'An Kho Nhom Bang Khong',
             'vet_cat' => 'Vet Cat',
             'chieu_dai_nhom_mac_dinh' => 'Chieu Dai Nhom Mac Dinh',
+            'so_ngay_canh_bao_giao_cua' => 'So Ngay Canh Bao Giao Cua',
         ];
     }
 }

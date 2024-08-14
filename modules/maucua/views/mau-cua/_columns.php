@@ -64,9 +64,29 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ngay_yeu_cau',
         'label'=>'Ngày yêu cầu',
+        'format'=>'html',
         'value'=>function($model){
-            $custom = new CustomFunc();
-            return $custom->convertYMDToDMY($model->ngay_yeu_cau);
+            //$custom = new CustomFunc();
+            //return $custom->convertYMDToDMY($model->ngay_yeu_cau);
+            return '<span '. ($model->ngay_yeu_cau!=null?'style="color:blue"':'') .'>' . $model->getNgayBanGiaoDuKienDMY() . '</span>';
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'trangThai',
+        'label'=>'Trạng thái sản xuất',
+        'format'=>'html',
+        'value'=>function($model){
+            return $model->trangThaiCua;
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'thoiHan',
+        'label'=>'Thời hạn',
+        'format'=>'html',
+        'value'=>function($model){
+            return $model->trangThaiThoiHan;
         }
     ],
     // [

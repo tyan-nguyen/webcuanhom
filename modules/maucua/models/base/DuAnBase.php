@@ -60,9 +60,9 @@ class DuAnBase extends \app\models\CuaDuAn
             'KHOI_TAO'=>'Khởi tạo',
             'THUC_HIEN'=>'Đang thực hiện',//for toi uu theo mau cua
             'TOI_UU'=>'Đã tối ưu',
-            'DA_XUAT_KHO'=>'Đã hoàn thành',
-            'DA_NHAP_KHO'=>'Đã nhập kho',
-            'HOAN_THANH'=>'Đã hoàn thành'
+            'DA_XUAT_KHO'=>'Đã xuất kho sản xuất',
+            'DA_NHAP_KHO'=>'Đã nhập kho nhôm dư',
+            'HOAN_THANH'=>'Đã hoàn thành qui trình KHSX'
         ];
     }
     

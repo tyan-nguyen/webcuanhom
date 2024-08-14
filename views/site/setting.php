@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 	if(isset($message)){
 	?>
 	<div class="alert alert-primary d-flex align-items-center" role="alert">
-      <i class="fa-solid fa-circle-exclamation"></i>
+      <i class="fa-solid fa-check"></i>
       <div>
         &nbsp;<?= $message ?>
       </div>
@@ -23,6 +23,7 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'vet_cat')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chieu_dai_nhom_mac_dinh')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'so_ngay_canh_bao_giao_cua')->textInput(['maxlength' => true]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

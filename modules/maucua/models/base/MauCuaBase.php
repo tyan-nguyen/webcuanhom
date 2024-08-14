@@ -50,6 +50,8 @@ class MauCuaBase extends \app\models\CuaMauCua
     const MODEL_ID = 'mau-cua';
     
     public $nhomDu;//su dung trong form nhap nhom du
+    public $trangThai;//lấy trạng thái sản xuất theo cách tính mới, trạng thái tính theo trạng thái của mẫu cửa nằm trong KHSX
+    public $thoiHan;//thể hiện thời hạn trễ, đến hạn, chưa đến hạn...
     
     /**
      * Danh muc trang thai du an

@@ -8,11 +8,12 @@ use Yii;
 use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use app\modules\dungchung\models\Setting;
+use app\custom\CustomFunc;
 
 class MauCua extends MauCuaBase
 {
     //get trang thai mau cua
-    public function getTrangThaiCua(){
+   /*  public function getTrangThaiCua(){
         $trangThaiText = '';
         if($this->id_du_an == NULL){
             $trangThaiText = 'Mới tạo';
@@ -24,7 +25,59 @@ class MauCua extends MauCuaBase
             }
         }
         return $trangThaiText;
+    } */
+    /**
+     * Lấy trạng thái dựa vào KHSX:
+     * 1) Mẫu cửa chưa thuộc KHSX nào: trạng thái chưa lên kế hoạch sản xuất
+     * 2) Mẫu cửa đã thuộc KHSX: Đang sản xuất
+     * 2.1) Trạng thái đã lên KHSX, chưa tối ưu: KHSX ở trạng thái KHOI_TAO
+     * 2.2) Trạng thái đã tối ưu, chưa sản xuất: KHSX ở trạng thái TOI_UU
+     * 2.3) Trạng thái đã xuất kho sản xuất: KHSX ở trạng thái DA_XUAT_KHO, DA_NHAP_KHO, HOAN_THANH
+     */
+     public function getTrangThaiCua(){
+        $trangThai = 'Chưa lên KHSX';
+        if($this->id_du_an != NULL){
+            if($this->duAn->trang_thai == 'KHOI_TAO'){
+                $trangThai = 'Đã lên Kế hoạch, đang chờ tối ưu';
+            } else if($this->duAn->trang_thai == 'TOI_UU'){
+                $trangThai = 'Đã tối ưu Kế hoạch, đang chờ xuất kho sản xuất';
+            } else if($this->duAn->trang_thai == 'TOI_UU' || $this->duAn->trang_thai == 'DA_XUAT_KHO' || $this->duAn->trang_thai == 'DA_NHAP_KHO' || $this->duAn->trang_thai == 'HOAN_THANH'){
+                $trangThai = 'Đã sản xuất';
+            } else {
+                $trangThai = 'Đã lên Kế hoạch, trạng thái không xác định';
+            }
+        }
+        return $trangThai;
     }
+    
+    /**
+     * Lấy trạng thái thời hạn sản xuất:
+     * 1) Số ngày đến hạn = Ngày giao(ngày kh yêu cầu/ngày kết thúc công trình) - ngày hiện tại >= ngày  
+     */
+    public function getTrangThaiThoiHan(){
+        $setting = Setting::find()->one();
+        
+        $trangThai = '-';
+        if($this->getNgayBanGiaoDuKien() != null){
+            $now = time();
+            $your_date = strtotime($this->getNgayBanGiaoDuKien());
+            $datediff = $your_date - $now;
+            
+            $soNgayConLai =  round($datediff / (60 * 60 * 24)) + 1;
+            
+            if($soNgayConLai > 0){
+                if($soNgayConLai  <= $setting->so_ngay_canh_bao_giao_cua){
+                    $trangThai = '<span style="color:blue">Sắp đến hạn bàn giao (' . $soNgayConLai . ' ngày nữa)</span>';
+                } else {
+                    $trangThai = '' . $soNgayConLai . ' ngày nữa';
+                }
+            }
+            else
+                $trangThai = '<span style="color:red">Đã trễ hạn ('. abs($soNgayConLai) . ' ngày)</span>';
+        }
+        return $trangThai;
+    }
+     
     /***** relation *****/
     /**
      * Gets query for [[DuAn]].
@@ -596,6 +649,21 @@ class MauCua extends MauCuaBase
     
     public function getImageUrl(){
         return Yii::getAlias('@web/uploads/images/'.$this->hinhAnh);
+    }
+    /**
+     * Ngày bàn giao dự kiến: 1) Ngày khách hàng yêu cầu riêng cho mẫu cửa, 2) Ngày kết thúc của công trình
+     */
+    public function getNgayBanGiaoDuKien(){
+        $custom = new CustomFunc();
+        if($this->ngay_yeu_cau != null){
+            return $this->ngay_yeu_cau;
+        } else {
+            return $this->congTrinh->ngay_hoan_thanh;
+        }
+    }
+    public function getNgayBanGiaoDuKienDMY(){
+        $custom = new CustomFunc();
+        return $custom->convertYMDToDMY($this->getNgayBanGiaoDuKien());
     }
     /***** end virtual attribute *****/
 }
