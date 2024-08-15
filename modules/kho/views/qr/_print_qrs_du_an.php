@@ -29,7 +29,7 @@ use yii\helpers\Html;
                     	<td class="title">
                         	#<?= $model->duAn->code?>-<?= $stt ?>                        	
                         	<br/>
-                        	CD: <?= number_format($model->khoNhom->chieu_dai) ?>
+                        	CD: <?= number_format($model->chieu_dai_con_lai) ?>
                         	<br/>
                         	TT:________
                     	</td>
