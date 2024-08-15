@@ -27,13 +27,16 @@ use yii\helpers\Html;
                     <tr>
                     	<td><?= Html::img($model->qrImage, ['class'=>'img']) ?></td>
                     	<td class="title">
-                        	#<?= $model->duAn->code?>-<?= $stt ?>
+                        	#<?= $model->duAn->code?>-<?= $stt ?>                        	
                         	<br/>
-                        	<?= $model->khoNhom->cayNhom->ten_cay_nhom ?>
+                        	CD: <?= number_format($model->khoNhom->chieu_dai) ?>
+                        	<br/>
+                        	TT:________
                     	</td>
                     </tr>
                     <tr>
-                    <td colspan="2" align="center" class="title-2">DNTN SX-TM Nguyễn Trình</td>
+                    <!-- <td colspan="2" align="center" class="title-2">DNTN SX-TM Nguyễn Trình</td> -->
+                    <td colspan="2" align="center" class="title-2"><?= $model->khoNhom->cayNhom->ten_cay_nhom ?></td>
                     </tr>
                     </table>
                     </div>
