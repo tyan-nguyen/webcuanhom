@@ -342,7 +342,8 @@ class ImportKhoNhom
                             }
                         } else {
                             $errorCount++;
-                            $errorByRow[$index] = 'Dòng '. $index . ' bị lỗi (Chiều dài cây nhôm không khớp với dữ liệu tồn kho)!' . 'temp: ' . $chieuDaiTemp . '--thuc te:' . $cayNhom->chieu_dai . '--doday:' . $doDay;
+                            //$errorByRow[$index] = 'Dòng '. $index . ' bị lỗi (Chiều dài cây nhôm không khớp với dữ liệu tồn kho)!' . 'temp: ' . $chieuDaiTemp . '--thuc te:' . $cayNhom->chieu_dai . '--doday:' . $doDay;
+                            $errorByRow[$index] = 'Dòng '. $index . ' bị lỗi (Chiều dài cây nhôm không khớp với dữ liệu tồn kho)!';
                             $errors[] = [];
                         }
                         //neu option overwrite thì ghi đè lại số lượng (khong can de so luong cay nhom, chi de so luong kho nhom thoi)
