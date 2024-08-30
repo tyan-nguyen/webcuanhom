@@ -13,7 +13,7 @@ $this->title = 'Phần mềm Quản lý cửa';
 <div class="container indexPage">
 	<div class="row mx-auto">
 		<div class="col-md-12" style="margin-bottom: 10px;">
-			<h1 class="pageTitle">PHẦN MỀM QUẢN LÝ SẢN XUẤT CỬA (v0.2.3)</h1>
+			<h1 class="pageTitle">PHẦN MỀM QUẢN LÝ SẢN XUẤT CỬA (v0.3.0)</h1>
 		</div>
 	</div>
     <div class="row">
@@ -25,6 +25,20 @@ $this->title = 'Phần mềm Quản lý cửa';
                       </div>
                       
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Phiên bản 0.3.0</h5>
+                      		<p>
+                          		Ngày cập nhật:  29/08/2024
+                          		<br/>
+                          		Nội dung cập nhật:
+                      		</p>
+                      		<ul>
+                      			<li>Thêm thay đổi nhôm cho mẫu cửa, thêm cây nhôm khác hệ nhôm vào mẫu cửa</li>
+                      			<li>Thêm quản lý hệ màu cho hệ nhôm. Quản lý kho nhôm theo hệ màu, một mã nhôm có thể có nhiều màu</li>
+                      			<li>Quản lý kho phụ kiện và vật tư theo hệ màu, cùng mã phụ kiện/vật tư có thể có nhiều màu khác nhau</li>
+                      			<li>Thay đổi giao diện theo quản lý nhôm, phụ kiện, hiển thị tối ưu, nhôm sử dụng và phụ kiện</li>
+                      			<li>Bổ sung các button để hạn chế đóng popup rồi tìm mở lại gây mất thời gian</li>
+                      			<li>Cập nhật lại các mẫu file import theo quản lý kho theo màu của nhôm và phụ kiện</li>
+                      		</ul>
                       		<h5>Phiên bản 0.2.3</h5>
                       		<p>
                           		Ngày cập nhật:  12/08/2024
