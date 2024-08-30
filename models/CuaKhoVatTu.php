@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string|null $code
  * @property string $ten_vat_tu
+ * @property int|null $id_he_mau
  * @property int|null $id_nhom_vat_tu
  * @property int|null $thuong_hieu
  * @property string|null $model
@@ -44,7 +45,7 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
     {
         return [
             [['ten_vat_tu', 'dvt'], 'required'],
-            [['id_nhom_vat_tu', 'thuong_hieu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
+            [['id_he_mau', 'id_nhom_vat_tu', 'thuong_hieu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
@@ -63,6 +64,7 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
             'id' => 'ID',
             'code' => 'Code',
             'ten_vat_tu' => 'Ten Vat Tu',
+            'id_he_mau' => 'Id He Mau',
             'id_nhom_vat_tu' => 'Id Nhom Vat Tu',
             'thuong_hieu' => 'Thuong Hieu',
             'model' => 'Model',

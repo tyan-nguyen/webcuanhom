@@ -3,7 +3,10 @@
         <tr>
         	<th>STT</th>
         	<th>Mã cây nhôm</th>
+        	<th>Màu</th>
         	<th>Tên cây nhôm</th>
+        	<th>Hệ nhôm</th>
+        	<th>Độ dày</th>
         	<th>Chiều dài</th>
         	<th>Chiều dài tồn kho</th>
         	<th>Số lượng</th>
@@ -14,7 +17,10 @@
         <tr v-for="(result, index) in results" :key="result.id">
         	<td>{{ index + 1 }}</td>
         	<td>{{ result.maCayNhom }}</td>
-        	<td>{{ result.tenCayNhom }}</td>
+        	<td><span :style="{backgroundColor:result.maHeMau}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        	<td>{{ result.tenCayNhom }} <span>({{result.codeHeMau}})</span></td>
+        	<td>{{ result.heNhom }}</td>
+        	<td>{{ result.doDay }}</td>
         	<td>{{ result.chieuDai }}</td>
         	<td>{{ result.chieuDaiTonKhoNhom }}</td>
         	<td>{{ result.soLuong }}</td>
@@ -26,6 +32,8 @@
 </div>
 
 <?php 
+//tạm ẩn do đã áp dụng tối ưu toàn bộ hoặc riêng lẻ tại KHSX
+/*
 if($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU'){ 
 ?>
 <a href="#" onclick="getData2()" class="btn btn-primary btn-sm">Tối ưu kho</a>
@@ -33,39 +41,13 @@ if($model->status == 'KHOI_TAO' || $model->status == 'TOI_UU'){
 <span class="loadingAjax" style="display:none"><img src="/images/loading.gif" width="50" alt="loading..." /></span>
 <span class="completeAjax text-primary" style="display:none"> <i class="fa-solid fa-thumbs-up"></i> Đã xử lý thành công!</span>
 
-<?php } ?>
+<?php }*/ ?>
+
 <script type="text/javascript">
 var vue2 = new Vue({
 	el: '#objToiUuNhom',
 	data: {
-		results: <?= json_encode($model->dsToiUu()) ?> /*[
-			{
-    			id: 11,
-    			idMauCua: 11,
-    			idCuaNhom: 22,
-    			idTonKhoNhom: 33,
-    			maCayNhom: 'ma0001',
-    			tenCayNhom: 'Cây nhôm abc',
-    			chieuDai: 550,
-    			soLuong: 1,
-    			kieuCat: '==\\',
-    			khoiLuong: 2000,
-    			chieuDaiCayNhom: 5900
-			},
-			{
-    			id: 111,
-    			idMauCua: 111,
-    			idCuaNhom: 222,
-    			idTonKhoNhom: 333,
-    			maCayNhom: 'ma00011',
-    			tenCayNhom: 'Cây nhôm abc2',
-    			chieuDai: 600,
-    			soLuong: 1,
-    			kieuCat: '==\\',
-    			khoiLuong: 2000,
-    			chieuDaiCayNhom: 5900
-			}, 
-		]*/
+		results: <?= json_encode($model->dsToiUu()) ?>
 	},
 	methods: {
 		/* changeValue: function(event){

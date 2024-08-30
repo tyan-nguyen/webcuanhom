@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use app\modules\maucua\models\HeNhomMau;
 
 /**
  * HeNhomController implements the CRUD actions for HeNhom model.
@@ -105,10 +106,29 @@ class HeNhomController extends Controller
                             Html::button('Close',['data-bs-dismiss'=>'modal'])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                
+                if($model->mauNhom != null){
+                    $slMauNhom = count($model->mauNhom);
+                    foreach ($model->mauNhom as $i=>$val){
+                        $heNhomMau = new HeNhomMau();
+                        $heNhomMau->id_he_nhom = $model->id;
+                        $heNhomMau->id_he_mau = $i; //i is index and id of hemau
+                        if($slMauNhom == 1)
+                            $heNhomMau->is_mac_dinh = 1;
+                        $heNhomMau->save();
+                    }
+                }
+                
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thêm mới hệ nhôm",
-                    'content'=>'<span class="text-success">Thêm mới dữ liệu thành công!</span>',
+                    'content'=>'<div class="alert alert-success" role="alert">Thêm mới dữ liệu thành công!</div>'.
+                        Html::a('Xem hệ nhôm vừa thêm',['view', 'id'=>$model->id],[
+                            'role'=>'modal-remote',
+                            'class'=>'btn btn-sm btn-primary'
+                        ]),
+                    
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
         
@@ -163,18 +183,96 @@ class HeNhomController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::a('Cancel',['view','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thông tin hệ nhôm",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
-                ];    
+            }else if($model->load($request->post())){
+                //get mang hemaunhom before update
+                $oldMauList = array();
+                $oldMaus = HeNhomMau::find()->where(['id_he_nhom' => $model->id])->all();
+                if($oldMaus != null){
+                    foreach ($oldMaus as $i=>$oldMau){
+                        $oldMauList[] = $oldMau->id_he_mau;
+                    }
+                }
+                //bien tap lai mang hemaunhom da post len
+                $newMauList = array();
+                if($model->mauNhom != null){
+                    foreach ($model->mauNhom as $i=>$val){//lay $i la id cua he mau can lay
+                        $newMauList[] = $i;
+                    }
+                }
+                if($model->save()){
+                    //xoa cac he mau bi xoa khi update
+                    if($oldMauList != null) {
+                        //sét lại màu mặc định
+                        $model->resetMauMacDinh();
+                        
+                        foreach ($oldMauList as $i=>$oldMau){
+                            //xóa hệ màu không có trong list mới
+                            if(!in_array($oldMau, $newMauList)){
+                                $heNhomMauSingle = HeNhomMau::find()
+                                ->where([
+                                    'id_he_nhom' => $model->id,
+                                    'id_he_mau' => $oldMau
+                                ])->one();
+                                if($heNhomMauSingle != null)
+                                    $heNhomMauSingle->delete();
+                            } else{
+                                if($model->mauMacDinhInput == $oldMau){
+                                    $heNhomMauSingle = HeNhomMau::find()
+                                    ->where([
+                                        'id_he_nhom' => $model->id,
+                                        'id_he_mau' => $oldMau
+                                    ])->one();
+                                    if($heNhomMauSingle != null){
+                                        $heNhomMauSingle->is_mac_dinh = 1;
+                                        $heNhomMauSingle->save();
+                                    }
+                                }
+                           
+                            }
+                        }
+                    }
+                    
+                    //luu cac henhommau moi
+                    if($newMauList != null){
+                        foreach ($newMauList as $i=>$newMau){
+                            if($oldMauList != null){
+                                if(!in_array($newMau, $oldMauList)){
+                                    $heNhomMauSingle = new HeNhomMau();
+                                    $heNhomMauSingle->id_he_nhom = $model->id;
+                                    $heNhomMauSingle->id_he_mau = $newMau;
+                                    $heNhomMauSingle->save();
+                                }
+                            } else{
+                                $heNhomMauSingle = new HeNhomMau();
+                                $heNhomMauSingle->id_he_nhom = $model->id;
+                                $heNhomMauSingle->id_he_mau = $newMau;
+                                $heNhomMauSingle->save();
+                            }
+                        }
+                    }
+                    
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Thông tin hệ nhôm",
+                        'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                                Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];   
+                }else{
+                    return [
+                        'title'=> "Cập nhật hệ nhôm",
+                        'content'=>$this->renderAjax('update', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                }
             }else{
                  return [
                     'title'=> "Cập nhật hệ nhôm",

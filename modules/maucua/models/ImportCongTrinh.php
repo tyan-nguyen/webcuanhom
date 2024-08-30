@@ -98,6 +98,96 @@ class ImportCongTrinh
                     array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' chưa được nhập độ dày mặc định!');
                     $errors[$sheet->getTitle()][$index] = $errorByRow;
                 }
+                if($heNhomModel->mauNhoms == null){
+                    $errCount++;//tang error len
+                    array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' chưa cấu hình màu nhôm!');
+                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                } else if($heNhomModel->mauMacDinh == null){
+                    $errCount++;//tang error len
+                    array_push($errorByRow, 'Hệ nhôm ' . $xls_data[13]['A'] . ' chưa cấu hình màu nhôm mặc định!');
+                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                }
+            }
+            
+            //check nội dung dữ liệu
+            foreach ($xls_data as $index=>$row){
+                //****check data nhôm****
+                $startRow = $arrr[0] + 1;
+                $endRow = $arrr[1] - 3;
+                $errorByRow = array();//important
+                if($index>=$startRow && $index<=$endRow){
+                    //*****check cột màu bổ sung thêm
+                    if(isset($row['N']) && $row['N']){
+                        $checkHeMau = HeMau::findOne(['code'=>$row['N']]);
+                        if(!$checkHeMau){
+                            $errCount++;//tang error len
+                            array_push($errorByRow, 'Mã màu ' . $xls_data[$index]['N'] . ' không tìm thấy!');
+                            $errors[$sheet->getTitle()][$index] = $errorByRow;
+                        } else {
+                            //check hệ nhôm có màu này ko
+                            if($heNhomModel!=null && $heNhomModel->mauNhoms!=null){
+                                $checkHeNhomMau = HeNhomMau::findOne([
+                                    'id_he_nhom' => $heNhomModel->id,
+                                    'id_he_mau' => $checkHeMau->id
+                                ]);
+                                if(!$checkHeNhomMau){
+                                    $errCount++;//tang error len
+                                    array_push($errorByRow, 'Mã màu ' . $xls_data[$index]['N'] . ' tìm thấy nhưng không được cấu hình cho hệ nhôm này! Vui lòng kiểm tra lại.');
+                                    $errors[$sheet->getTitle()][$index] = $errorByRow;
+                                }
+                                
+                            }
+                        }
+                    }
+                    //*****check cột hệ nhôm bổ sung thêm
+                    if(isset($row['M']) && $row['M']){
+                        $heNhomCheck = HeNhom::findOne(['code'=>$row['M']]);
+                        if(!$heNhomCheck){
+                            $errCount++;//tang error len
+                            array_push($errorByRow, 'Mã hệ nhôm ' . $xls_data[$index]['M'] . ' không tìm thấy! Vui lòng kiểm tra lại.');
+                            $errors[$sheet->getTitle()][$index] = $errorByRow;
+                        }
+                        
+                    }
+                    
+                }
+                //****check data kính****
+                $startRow = $arrr[1] + 1;
+                $endRow = $arrr[2] - 3;
+                
+                //****check data phụ kiện****
+                $startRow = $arrr[2] + 1;
+                $endRow = $arrr[3] - 2;
+                if($index>=$startRow && $index<=$endRow){
+                    //** check hệ màu xem có tồn tại không
+                    if(isset($row['K']) && $row['K']){
+                        $heMauCheck = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);
+                        if(!$heMauCheck){
+                            $errCount++;//tang error len
+                            array_push($errorByRow, 'Mã hệ màu ' . $xls_data[$index]['K'] . ' cho phụ kiện không tồn tại! Vui lòng kiểm tra lại.');
+                            $errors[$sheet->getTitle()][$index] = $errorByRow;
+                        }
+                        
+                    }
+                }
+                
+                //****check data vật tư****
+                $startRow = $arrr[3] + 1;
+                if($index>=$startRow){
+                    //** check hệ màu xem có tồn tại không
+                    if(isset($row['K']) && $row['K']){
+                        $heMauCheck = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);
+                        if(!$heMauCheck){
+                            $errCount++;//tang error len
+                            array_push($errorByRow, 'Mã hệ màu ' . $xls_data[$index]['K'] . ' cho vật tư không tồn tại! Vui lòng kiểm tra lại.');
+                            $errors[$sheet->getTitle()][$index] = $errorByRow;
+                        }
+                        
+                    }
+                }
+                
+                
+                
             }
             
             /* foreach ($xls_data as $index=>$row){
@@ -221,9 +311,7 @@ class ImportCongTrinh
             
             /*save data*/
             foreach ($xls_data as $index=>$row){
-                /**
-                 * them cua-nhom
-                 */
+                //**** them cua-nhom
                 $startRow = $arrr[0] + 1;
                 $endRow = $arrr[1] - 3;
                 if($index>=$startRow && $index<=$endRow){
@@ -264,6 +352,23 @@ class ImportCongTrinh
                             }
                         }
                     }
+                    //check mau nhom neu co
+                    if(isset($row['N']) && $row['N']){
+                        $heMau = HeMau::findOne(['code'=>$row['N']]);
+                        if(isset($row['M']) && $row['M']){                            
+                            $cayNhomModel = CayNhom::find()->where([
+                                'code' => $row['B'],
+                                'id_he_mau' => $heMau->id,
+                                'id_he_nhom' => HeNhom::findOne(['code'=>$sheet->getCell('M'.$index)->getValue()])->id
+                            ])->one();
+                        } else {
+                            $cayNhomModel = CayNhom::find()->where([
+                                'code' => $row['B'],
+                                'id_he_mau' => $heMau->id,
+                                
+                            ])->one();
+                        }
+                    }
                     if($cayNhomModel == null){
                         $cayNhomModel = new CayNhom();
                         //set he nhom
@@ -289,6 +394,17 @@ class ImportCongTrinh
                         if($khoiLuongCuaCayNhom > 0){
                             $cayNhomModel->khoi_luong = $khoiLuongCuaCayNhom;
                         }
+                        //bo sung 28/8 (hệ màu)
+                        if(isset($row['N']) && $row['N']){
+                            $cayNhomModel->id_he_mau = $heMau->id;
+                        } else {
+                            $heNhomMau = HeNhomMau::find()->where([
+                                'id_he_nhom'=>$heNhomModel->id,
+                                'is_mac_dinh' => 1
+                            ])->one();//chắc chắn có vì đã check trước khi import nên ko cần check lại
+                            $cayNhomModel->id_he_mau = $heNhomMau->id_he_mau;
+                        }
+                        
                         //other***
                         $cayNhomModel->save();
                     }
@@ -298,7 +414,7 @@ class ImportCongTrinh
                     $nhomCua->so_luong = $row['H'];
                     $nhomCua->kieu_cat = $row['G'];
                     $nhomCua->khoi_luong = $row['I'];
-                    $nhomCua->don_gia = 0;
+                    $nhomCua->don_gia = 0;                    
                     $nhomCua->save();
                 }
                 /**
@@ -351,14 +467,28 @@ class ImportCongTrinh
                             $dvtModel->ten_dvt = $row['G'];
                             $dvtModel->save();//**
                         }
-                        $phuKienModel = KhoVatTu::findOne([
+                        $phuKienModel = KhoVatTu::find()->where([
                             'ten_vat_tu'=>$row['C'],
-                            'dvt'=>$dvtModel->id
+                            'dvt'=>$dvtModel->id,
+                            'id_nhom_vat_tu'=>1//1 is phu kien
                         ]);
+                        //thêm màu
+                        if(isset($row['K']) && $row['K']){
+                            $heMau = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);//da kiem tra khi import nên chắc chắn có
+                            $phuKienModel = $phuKienModel->andWhere(['id_he_mau'=>$heMau->id]);
+                        }else{
+                            $phuKienModel = $phuKienModel->andWhere('id_he_mau IS NULL');
+                        }
+                        $phuKienModel = $phuKienModel->one();
                         if($phuKienModel==null){
                             $phuKienModel = new KhoVatTu();
                             $phuKienModel->ten_vat_tu = $row['C'];
                             $phuKienModel->id_nhom_vat_tu = 1;//1 la phu kien, xem KhoVatBase.
+                            if(isset($row['K']) && $row['K']){//set hệ màu
+                                $phuKienModel->id_he_mau = $heMau->id;
+                            }else{
+                                $phuKienModel->id_he_mau = NULL;
+                            }
                             $phuKienModel->la_phu_kien = 1;
                             //$phuKienModel->so_luong = $row['I'];
                             $phuKienModel->so_luong = 0;
@@ -368,11 +498,24 @@ class ImportCongTrinh
                         }
                     } else {
                         //neu co ma vat tu thi kiem tra theo ma_vat_tu
-                        $phuKienModel = KhoVatTu::findOne(['code'=>$row['H']]);
+                        $phuKienModel = KhoVatTu::find()->where(['code'=>$row['H']]);
+                        //thêm màu
+                        if(isset($row['K']) && $row['K']){
+                            $heMau = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);//da kiem tra khi import nên chắc chắn có
+                            $phuKienModel = $phuKienModel->andWhere(['id_he_mau'=>$heMau->id]);
+                        }else{
+                            $phuKienModel = $phuKienModel->andWhere('id_he_mau IS NULL');
+                        }
+                        $phuKienModel = $phuKienModel->one();
                         if($phuKienModel==null){
                             $phuKienModel = new KhoVatTu();
                             $phuKienModel->code = $row['H'];//****this line different from below condition.
                             $phuKienModel->ten_vat_tu = $row['C'];
+                            if(isset($row['K']) && $row['K']){//set hệ màu
+                                $phuKienModel->id_he_mau = $heMau->id;
+                            }else{
+                                $phuKienModel->id_he_mau = NULL;
+                            }
                             $phuKienModel->id_nhom_vat_tu = 1;//1 la phu kien, xem KhoVatBase.
                             $phuKienModel->la_phu_kien = 1;
                             //$phuKienModel->so_luong = $row['I'];
@@ -410,13 +553,29 @@ class ImportCongTrinh
                             $dvtModel->ten_dvt = $row['G'];
                             $dvtModel->save();//**
                         }
-                        $phuKienModel = KhoVatTu::findOne([
+                        
+                        $phuKienModel = KhoVatTu::find()->where([
                             'ten_vat_tu'=>$row['C'],
-                            'dvt'=>$dvtModel->id
+                            'dvt'=>$dvtModel->id,
+                            'id_nhom_vat_tu'=>2//2 is vat tu
                         ]);
+                        //thêm màu
+                        if(isset($row['K']) && $row['K']){
+                            $heMau = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);//da kiem tra khi import nên chắc chắn có
+                            $phuKienModel = $phuKienModel->andWhere(['id_he_mau'=>$heMau->id]);
+                        }else{
+                            $phuKienModel = $phuKienModel->andWhere('id_he_mau IS NULL');
+                        }
+                        $phuKienModel = $phuKienModel->one();
+                        
                         if($phuKienModel==null){
                             $phuKienModel = new KhoVatTu();
                             $phuKienModel->ten_vat_tu = $row['C'];
+                            if(isset($row['K']) && $row['K']){//set hệ màu
+                                $phuKienModel->id_he_mau = $heMau->id;
+                            }else{
+                                $phuKienModel->id_he_mau = NULL;
+                            }
                             $phuKienModel->id_nhom_vat_tu = 2;//2 la vat tu, xem KhoVatBase.
                             $phuKienModel->la_phu_kien = 0;
                             //$phuKienModel->so_luong = $row['I'];
@@ -426,11 +585,25 @@ class ImportCongTrinh
                             $phuKienModel->save(); //**
                         }
                     } else {
-                        $phuKienModel = KhoVatTu::findOne(['code'=>$row['H']]);
+                        //neu co ma vat tu thi kiem tra theo ma_vat_tu
+                        $phuKienModel = KhoVatTu::find()->where(['code'=>$row['H']]);
+                        //thêm màu
+                        if(isset($row['K']) && $row['K']){
+                            $heMau = HeMau::findOne(['code'=>$row['K'], 'for_phu_kien'=>1]);//da kiem tra khi import nên chắc chắn có
+                            $phuKienModel = $phuKienModel->andWhere(['id_he_mau'=>$heMau->id]);
+                        }else{
+                            $phuKienModel = $phuKienModel->andWhere('id_he_mau IS NULL');
+                        }
+                        $phuKienModel = $phuKienModel->one();
                         if($phuKienModel==null){
                             $phuKienModel = new KhoVatTu();
                             $phuKienModel->code = $row['H'];//****this line different from below condition.
                             $phuKienModel->ten_vat_tu = $row['C'];
+                            if(isset($row['K']) && $row['K']){//set hệ màu
+                                $phuKienModel->id_he_mau = $heMau->id;
+                            }else{
+                                $phuKienModel->id_he_mau = NULL;
+                            }
                             $phuKienModel->id_nhom_vat_tu = 2;//2 la vat tu, xem KhoVatBase.
                             $phuKienModel->la_phu_kien = 0;
                             //$phuKienModel->so_luong = $row['I'];

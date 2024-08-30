@@ -46,6 +46,7 @@ class PhuKienSearch extends PhuKien
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['code' => SORT_ASC]],
         ]);
         
         $this->load($params);

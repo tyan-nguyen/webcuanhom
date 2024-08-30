@@ -18,6 +18,18 @@ use yii\widgets\DetailView;
                     //'id',
                     'code',
                     'ten_vat_tu',
+                    [
+                        'attribute'=>'id',
+                        'label'=>'Mã Màu',
+                        'format'=>'html',
+                        'value'=>$model->heMau?$model->heMau->code:''
+                    ],
+                    [
+                        'attribute'=>'id',
+                        'label'=>'Màu',
+                        'format'=>'html',
+                        'value'=>$model->heMau?'<span style="background-color:'.$model->heMau->ma_mau.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>':''
+                    ],
                     /* 'id_nhom_vat_tu'=>[
                         'attribute'=>'id_nhom_vat_tu',
                         'value'=>$model->getDmNhomVatTuLabel($model->id_nhom_vat_tu)

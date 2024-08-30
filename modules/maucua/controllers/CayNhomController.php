@@ -50,6 +50,24 @@ class CayNhomController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    /**
+     * lấy thông tin cây nhôm để hiển thị thông tin trước khi lưu khi chọn nhôm trong dropdownlist
+     * @param int $id
+     * @return string[]|NULL[]|string[]
+     */
+    public function actionGetNhomAjax($id){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $vt = CayNhom::findOne($id);
+        if($vt != null){
+            return [
+                'status'=>'success',
+                'html'=>$this->renderAjax('_nhom_info_ajax', ['model'=>$vt])
+            ];
+        } else {
+            return ['status'=>'failed'];
+        }
+    }
 
 
     /**
@@ -199,6 +217,77 @@ class CayNhomController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    /**
+     * add cây nhôm khác màu cùng mã nhôm
+     * id: id cây nhôm
+     */
+    public function actionAddColor($id){
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if(!$model->id_he_mau){
+            return [
+                'title'=> "Thêm cây nhôm cùng mã " . $model->code ,
+                'content'=>'<div class="alert alert-warning" role="alert">
+                            Cây nhôm chưa cấu hình màu, Vui lòng chọn màu trước khi thực hiện thao tác</div>' .
+                    Html::a('Chọn màu cho cây nhôm',['update', 'id'=>$model->id],[
+                        'role'=>'modal-remote',
+                        'class'=>'btn btn-sm btn-primary'
+                    ]),
+                'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                .Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+        }
+        if($request->isGet){
+            return [
+                'title'=> "Thêm cây nhôm cùng mã " . $model->code ,
+                'content'=>$this->renderAjax('form-add-color', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                .Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+        }else if($model->load($request->post())){
+            if($model->copyMauNhom != null){
+                foreach ($model->copyMauNhom as $i=>$val){
+                    $cayNhomNew = new CayNhom();
+                    $cayNhomNew->attributes = $model->attributes;
+                    $cayNhomNew->id_he_mau = $i;
+                    $cayNhomNew->id = null;
+                    $cayNhomNew->so_luong = 0;
+                    $cayNhomNew->save();
+                }
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Cây nhôm",
+                    'content'=>'<div class="alert alert-success" role="alert">
+                          Đã thêm thành công '. count($model->copyMauNhom) .' mã màu cho cây nhôm '.$model->code.'
+                        </div>',
+                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            } else {
+                $model->addError('copyMauNhom', 'Vui lòng chọn mã màu để thêm!');
+                return [
+                    'title'=> "Thêm cây nhôm cùng mã " . $model->code ,
+                    'content'=>$this->renderAjax('form-add-color', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        } else {
+            return [
+                'title'=> "Thêm cây nhôm cùng mã " . $model->code ,
+                'content'=>$this->renderAjax('form-add-color', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                .Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+        }
+    }
 
     /**
      * Creates a new CayNhom model.
@@ -320,6 +409,7 @@ class CayNhomController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $oldModel = $this->findModel($id);
         $chieuDaiCu = $model->chieu_dai;//xu ly ton kho neu chieu dai co thay doi
 
         if($request->isAjax){
@@ -336,38 +426,64 @@ class CayNhomController extends Controller
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
-                /**
-                 * kiem tra xem chieu dai co thay doi thi thay doi luon ton kho nhom cua cay nhom moi
-                 * -neu chieu dai khong thay doi thi thoi
-                 * -neu chieu dai co thay doi thi cap nhat chieu dai ben ton kho nhom tuong ung lai cho
-                 * cay nhom moi
-                 */
-                if($model->chieu_dai != $chieuDaiCu){
-                    $khoNhom = KhoNhom::find()->where([
-                        'chieu_dai'=>$chieuDaiCu,
-                        'id_cay_nhom'=>$model->id,
-                    ])->one();
-                    if($khoNhom == null){
-                        $khoNhom = new KhoNhom();
-                        $khoNhom->id_cay_nhom = $model->id;
-                        $khoNhom->chieu_dai = $model->chieu_dai;
-                        $khoNhom->so_luong = $model->so_luong!=null?$model->so_luong:0;
-                        $khoNhom->save(false);
+            }else if($model->load($request->post()) ){
+                //check update trung mau
+                if($model->id_he_mau != $oldModel->id_he_mau){
+                    $checkPK = CayNhom::find()->where([
+                        'code'=>$model->code,
+                        'id_he_nhom'=>$model->id_he_nhom
+                    ])->andWhere('cast(do_day as decimal(5,2)) ='.$model->do_day);
+                    if($model->id_he_mau == NULL){
+                        $checkPK = $checkPK->andWhere('id_he_mau IS NULL');
+                    } else {
+                        $checkPK = $checkPK->andWhere(['id_he_mau'=>$model->id_he_mau]);
                     }
-                    $khoNhom->chieu_dai = $model->chieu_dai;
-                    $khoNhom->save(false);
+                    if($checkPK->one() != NULL){
+                        $model->addError('id_he_mau', 'Đã tồn tại cây nhôm cùng mã, cùng hệ có màu bạn chọn, vui lòng kiểm tra lại!');
+                        return [
+                            'title'=> "Cập nhật cây nhôm",
+                            'content'=>$this->renderAjax('update', [
+                                'model' => $model,
+                            ]),
+                            'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        ];  
+                    }
                 }
                 
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Cây nhôm",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
-                ];    
+                if($model->save()){
+                    /**
+                     * kiem tra xem chieu dai co thay doi thi thay doi luon ton kho nhom cua cay nhom moi
+                     * -neu chieu dai khong thay doi thi thoi
+                     * -neu chieu dai co thay doi thi cap nhat chieu dai ben ton kho nhom tuong ung lai cho
+                     * cay nhom moi
+                     */
+                    if($model->chieu_dai != $chieuDaiCu){
+                        $khoNhom = KhoNhom::find()->where([
+                            'chieu_dai'=>$chieuDaiCu,
+                            'id_cay_nhom'=>$model->id,
+                        ])->one();
+                        if($khoNhom == null){
+                            $khoNhom = new KhoNhom();
+                            $khoNhom->id_cay_nhom = $model->id;
+                            $khoNhom->chieu_dai = $model->chieu_dai;
+                            $khoNhom->so_luong = $model->so_luong!=null?$model->so_luong:0;
+                            $khoNhom->save(false);
+                        }
+                        $khoNhom->chieu_dai = $model->chieu_dai;
+                        $khoNhom->save(false);
+                    }
+                    
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Cây nhôm",
+                        'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                                Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ]; 
+                }
             }else{
                  return [
                     'title'=> "Cập nhật cây nhôm",

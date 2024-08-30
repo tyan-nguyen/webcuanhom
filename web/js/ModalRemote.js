@@ -153,6 +153,7 @@ function ModalRemote(modalId) {
         
         content = content.replace('>Close<', ' class="btn btn-sm btn-primary-custom pull-left" accesskey="x"><i class="fa-regular fa-circle-xmark"></i>&nbsp; Đóng (X)<');
         content = content.replace('>Save<', ' class="btn btn-sm btn-primary" accesskey="s"><i class="fa-solid fa-download"></i>&nbsp;Lưu lại (S)<');
+        content = content.replace('>Cancel<', ' class="btn btn-sm btn-secondary" accesskey="h"><i class="fa-solid fa-ban"></i>&nbsp;Hủy bỏ (H)<');
         content = content.replace('>Create More<', ' class="btn btn-sm btn-primary" accesskey="m"><i class="fa-solid fa-plus"></i>&nbsp;Tiếp tục thêm (M)<');
         content = content.replace('>Import1<', ' class="btn btn-sm btn-primary"><i class="fa-solid fa-file-excel"></i>&nbsp;Nhập cửa từ Excel<');
         content = content.replace('>Edit<', ' class="btn btn-sm btn-primary" accesskey="u"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Chỉnh sửa (U)<');
@@ -322,6 +323,14 @@ function ModalRemote(modalId) {
 					runFunc3(response.runFunc3Val1, response.runFunc3Val2);
 				} else {
 					runFunc3();
+				}
+			}
+			
+			if(response.runFunc4 == true){
+				if(response.runFunc4Val1 != undefined && response.runFunc4Val2 != undefined){
+					runFunc4(response.runFunc4Val1, response.runFunc4Val2);
+				} else {
+					runFunc4();
 				}
 			}
 			

@@ -28,6 +28,7 @@ class VatTu extends KhoVatTu
             'ghi_chu' => 'Ghi chú',
             'date_created' => 'Ngày tạo',
             'user_created' => 'Tài khoản',
+            'id_he_mau' => 'Hệ màu'
         ];
     }
     /***** /relation *****/
@@ -35,7 +36,7 @@ class VatTu extends KhoVatTu
     /***** /custom function *****/
     /***** virtual attributes *****/
     public function getShowAction(){
-        return Html::a($this->code,
+        return Html::a($this->codeByColor,
             [Yii::getAlias('@web/kho/vat-tu/view'), 'id'=>$this->id],
             ['role'=>'modal-remote', 'class'=>'aInGrid']
             );

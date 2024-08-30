@@ -13,6 +13,7 @@ use app\modules\maucua\models\CayNhom;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
 use app\modules\dungchung\models\Setting;
+use app\modules\maucua\models\HeMau;
 
 class ImportKhoNhom
 {
@@ -38,8 +39,9 @@ class ImportKhoNhom
             $errorByRow = array();            
             
             if($index>=ImportPhuKien::START_ROW){    
-                $heNhom = HeNhom::findOne(['code'=>$row['C']]); //chac chan ko bang null vi da co buoc checkfile truoc do
-                $cayNhomDoDay = $sheet->getCell('H'.$index)->getValue();
+                $heNhom = HeNhom::findOne(['code'=>$row['C']]);
+                $cayNhomDoDay = $sheet->getCell('I'.$index)->getValue();
+                $codeHeMau = $row['E'];
                 
                 //check B <la cay nhom moi>, x or X or null
                 $mod = new CheckFile();
@@ -73,9 +75,9 @@ class ImportKhoNhom
                 if($row['B'] == 'x' || $row['B'] == 'X'){
                     $currentCodeNhomMoi = $row['D'];
                     $currentHeNhomMoi = $row['C'];
-                    $currentDoDayMoi = $row['H'];
+                    $currentDoDayMoi = $row['I'];
                 }
-                if($row['B'] == null && ($row['D'] != $currentCodeNhomMoi || $row['C'] != $currentHeNhomMoi || $row['H'] != $currentDoDayMoi ) && $heNhom != null){
+                if($row['B'] == null && ($row['D'] != $currentCodeNhomMoi || $row['C'] != $currentHeNhomMoi || $row['I'] != $currentDoDayMoi ) && $heNhom != null){
                     $mod = new CheckFile();
                     $mod->isExist = true;
                     $mod->allowNull = false;
@@ -89,33 +91,34 @@ class ImportKhoNhom
                         array_push($errorByRow, $err);
                     }
                 }
-                
-                //check E, <ten_cay_nhom> not null
+                //check E code hệ màu, hệ màu phải tồn tại
                 $mod = new CheckFile();
+                $mod->isExist = true;
                 $mod->allowNull = false;
+                $mod->modelExist = HeMau::find()->where(['code'=>$row['E'], 'for_nhom'=>1]);
                 $err = $mod->checkVal('E'.$index, $row['E']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }
                 
-                //check F, <chieu_dai> >= 0
+                //check F, <ten_cay_nhom> not null
+                $mod = new CheckFile();
+                $mod->allowNull = false;
+                $err = $mod->checkVal('F'.$index, $row['F']);
+                if(!empty($err)){
+                    array_push($errorByRow, $err);
+                }
+                
+                //check G, <chieu_dai> >= 0
                $mod = new CheckFile();
                $mod->isGreaterThan = 0; //>=0
                //$mod->allowNull = false;
-               $err = $mod->checkVal('F'.$index, $sheet->getCell('F'.$index)->getValue());
+               $err = $mod->checkVal('G'.$index, $sheet->getCell('G'.$index)->getValue());
                if(!empty($err)){
                    array_push($errorByRow, $err);
                }
                
-               //check G <khoi_luong> >= 0
-               $mod = new CheckFile();
-               $mod->isGreaterThan = 0;
-               $err = $mod->checkVal('G'.$index, $row['G']);
-               if(!empty($err)){
-                   array_push($errorByRow, $err);
-               }
-               
-               //check H <do_day> >= 0
+               //check H <khoi_luong> >= 0
                $mod = new CheckFile();
                $mod->isGreaterThan = 0;
                $err = $mod->checkVal('H'.$index, $row['H']);
@@ -123,33 +126,33 @@ class ImportKhoNhom
                    array_push($errorByRow, $err);
                }
                
-               //check I, <ton_kho> >= 0
+               //check I <do_day> >= 0
                $mod = new CheckFile();
                $mod->isGreaterThan = 0;
                $err = $mod->checkVal('I'.$index, $row['I']);
                if(!empty($err)){
                    array_push($errorByRow, $err);
                }
+               
+               //check J, <ton_kho> >= 0
+               $mod = new CheckFile();
+               $mod->isGreaterThan = 0;
+               $err = $mod->checkVal('J'.$index, $row['J']);
+               if(!empty($err)){
+                   array_push($errorByRow, $err);
+               }
                 
-                //check J <don_gia> is not null (chỉ cho nhôm chính)
+                //check K <don_gia> is not null (chỉ cho nhôm chính)
                if($row['B'] == 'x' || $row['B'] == 'X'){
                     $mod = new CheckFile();
                     $mod->allowNull = false;
-                    $err = $mod->checkVal('J'.$index, $row['J']);
+                    $err = $mod->checkVal('K'.$index, $row['K']);
                     if(!empty($err)){
                         array_push($errorByRow, $err);
                     }
                }
                 
-                //check K <dung_cho_cua_so>, x or X or null
-                $mod = new CheckFile();
-                $mod->isCompare = true;
-                $mod->valueCompare = ['x', 'X'];
-                $err = $mod->checkVal('K'.$index, $row['K']);
-                if(!empty($err)){
-                    array_push($errorByRow, $err);
-                } 
-                //check L <dung_cho_cua_di>, x or X or null
+                //check L <dung_cho_cua_so>, x or X or null
                 $mod = new CheckFile();
                 $mod->isCompare = true;
                 $mod->valueCompare = ['x', 'X'];
@@ -157,21 +160,29 @@ class ImportKhoNhom
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 } 
-                
-                //check M <chieu_dai_toi_thieu_cat>, >= 0
+                //check M <dung_cho_cua_di>, x or X or null
                 $mod = new CheckFile();
-                $mod->allowNull = false;
-                $mod->isGreaterThan = 0;
+                $mod->isCompare = true;
+                $mod->valueCompare = ['x', 'X'];
                 $err = $mod->checkVal('M'.$index, $row['M']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
-                }
+                } 
                 
                 //check N <chieu_dai_toi_thieu_cat>, >= 0
                 $mod = new CheckFile();
                 $mod->allowNull = false;
                 $mod->isGreaterThan = 0;
                 $err = $mod->checkVal('N'.$index, $row['N']);
+                if(!empty($err)){
+                    array_push($errorByRow, $err);
+                }
+                
+                //check O <chieu_dai_toi_thieu_cat>, >= 0
+                $mod = new CheckFile();
+                $mod->allowNull = false;
+                $mod->isGreaterThan = 0;
+                $err = $mod->checkVal('O'.$index, $row['O']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }
@@ -213,34 +224,37 @@ class ImportKhoNhom
                           
                 //kiem tra cay nhom co phai la cay nhom dang thao tac khong
                 $heNhom = HeNhom::findOne(['code'=>$row['C']]); //chac chan ko bang null vi da co buoc checkfile truoc do
-                $cayNhomDoDay = $sheet->getCell('H'.$index)->getValue();
+                $cayNhomDoDay = $sheet->getCell('I'.$index)->getValue();
                 
-                $cayNhom = CayNhom::findOne([
+                $doDay = $cayNhomDoDay>0 ? $cayNhomDoDay : $heNhom->do_day_mac_dinh;
+                $heMau = HeMau::find()->where(['code'=>$row['E'], 'for_nhom'=>1])->one();//chac chan ko bang null
+                $cayNhom = CayNhom::find()->where([
                     'code' => $row['D'],
                     'id_he_nhom' => $heNhom->id,
-                    'ten_cay_nhom' => $row['E'],
-                    'do_day' => $cayNhomDoDay>0 ? $cayNhomDoDay : $heNhom->do_day_mac_dinh,
-                ]);
+                    'ten_cay_nhom' => $row['F'],
+                    'id_he_mau' => $heMau->id
+                ])->andWhere('cast(do_day as decimal(5,2)) ='.$doDay)->one();
                 if($cayNhom == null){
                     if($row['B'] == 'x' || $row['B']=='X'){
                         //xu ly khi la cay nhom chinh
                         $cayNhom = new CayNhom();
                         $cayNhom->id_he_nhom = $heNhom->id;                                            
                         $cayNhom->code = $row['D'];
-                        $cayNhom->ten_cay_nhom = $row['E'];
-                        $cayNhom->chieu_dai = $sheet->getCell('F'.$index)->getValue();
-                        $cayNhom->khoi_luong = $sheet->getCell('G'.$index)->getValue();
-                        $cayNhom->do_day = $sheet->getCell('H'.$index)->getValue();
-                        $cayNhom->so_luong = $sheet->getCell('I'.$index)->getValue();
-                        $cayNhom->don_gia = $sheet->getCell('J'.$index)->getValue();
-                        if($row['K'] == 'x' || $row['K']=='X'){
+                        $cayNhom->id_he_mau = $heMau->id;
+                        $cayNhom->ten_cay_nhom = $row['F'];
+                        $cayNhom->chieu_dai = $sheet->getCell('G'.$index)->getValue();
+                        $cayNhom->khoi_luong = $sheet->getCell('H'.$index)->getValue();
+                        $cayNhom->do_day = $sheet->getCell('I'.$index)->getValue();
+                        $cayNhom->so_luong = $sheet->getCell('J'.$index)->getValue();
+                        $cayNhom->don_gia = $sheet->getCell('K'.$index)->getValue();
+                        if($row['L'] == 'x' || $row['L']=='X'){
                             $cayNhom->for_cua_so = 1;
                         }
-                        if($row['L'] == 'x' || $row['L']=='X'){
+                        if($row['M'] == 'x' || $row['M']=='X'){
                             $cayNhom->for_cua_di = 1;
                         }
-                        $cayNhom->min_allow_cut = $sheet->getCell('M'.$index)->getValue();
-                        $cayNhom->min_allow_cut_under = $sheet->getCell('N'.$index)->getValue();
+                        $cayNhom->min_allow_cut = $sheet->getCell('N'.$index)->getValue();
+                        $cayNhom->min_allow_cut_under = $sheet->getCell('O'.$index)->getValue();
                         if($cayNhom->save()){
                             $successCount++;
                         } else {
@@ -260,7 +274,8 @@ class ImportKhoNhom
                     if($row['B'] == 'x' || $row['B']=='X'){
                         //xu ly khi la cay nhom chinh
                         //set chieu dai cay nhom neu = 0 hoac null
-                        $chieuDaiTemp = $sheet->getCell('F'.$index)->getValue();
+                        $chieuDaiTemp = $sheet->getCell('G'.$index)->getValue();
+                        //$chieuDaiTemp = (int) $row['G'];
                         $chieuDaiTemp = $chieuDaiTemp == null ? $setting->chieu_dai_nhom_mac_dinh : 0;
                         if($chieuDaiTemp == $cayNhom->chieu_dai){
                             $khoNhom = KhoNhom::findOne([
@@ -276,7 +291,7 @@ class ImportKhoNhom
                                 $khoNhom = new KhoNhom();
                                 $khoNhom->id_cay_nhom = $cayNhom->id;
                                 $khoNhom->chieu_dai = $cayNhom->chieu_dai;
-                                $khoNhom->so_luong = $sheet->getCell('I'.$index)->getValue();
+                                $khoNhom->so_luong = $sheet->getCell('J'.$index)->getValue();
                                 if($khoNhom->save()){
                                     $successCount++;
                                 } else {
@@ -290,7 +305,7 @@ class ImportKhoNhom
                                 //neu ko co overwrite thì cộng số lượng vô
                                 if($isOverwrite ==false){
                                     //add so luong vao ton kho
-                                    $khoNhom->so_luong = $khoNhom->so_luong + $sheet->getCell('I'.$index)->getValue();
+                                    $khoNhom->so_luong = $khoNhom->so_luong + $sheet->getCell('J'.$index)->getValue();
                                     if($khoNhom->save()){
                                         
                                         $successCount++;
@@ -298,7 +313,7 @@ class ImportKhoNhom
                                         if($khoNhom->so_luong != $khoNhomOld->so_luong){
                                             $history = new KhoNhomLichSu();
                                             $history->id_kho_nhom = $khoNhom->id;
-                                            $history->so_luong = $sheet->getCell('I'.$index)->getValue();
+                                            $history->so_luong = $sheet->getCell('J'.$index)->getValue();
                                             $history->so_luong_cu = $khoNhomOld->so_luong;
                                             $history->so_luong_moi = $khoNhom->so_luong;
                                             $history->noi_dung = 'Cập nhật tồn kho do cập nhật dữ liệu kho nhôm #'.$khoNhom->cayNhom->code . ' (' . $khoNhom->chieu_dai . ') từ file exel';
@@ -308,7 +323,7 @@ class ImportKhoNhom
                                     
                                 } else {
                                     //set lại tồn kho
-                                    $khoNhom->so_luong = $sheet->getCell('I'.$index)->getValue();
+                                    $khoNhom->so_luong = $sheet->getCell('J'.$index)->getValue();
                                     if($khoNhom->save()){
                                         
                                         $successCount++;
@@ -316,7 +331,7 @@ class ImportKhoNhom
                                         if($khoNhom->so_luong != $khoNhomOld->so_luong){
                                             $history = new KhoNhomLichSu();
                                             $history->id_kho_nhom = $khoNhom->id;
-                                            $history->so_luong = $khoNhomOld->so_luong - $sheet->getCell('I'.$index)->getValue();
+                                            $history->so_luong = $khoNhomOld->so_luong - $sheet->getCell('J'.$index)->getValue();
                                             $history->so_luong_cu = $khoNhomOld->so_luong;
                                             $history->so_luong_moi = $khoNhom->so_luong;
                                             $history->noi_dung = 'Cập nhật tồn kho do cập nhật đè dữ liệu kho nhôm #'.$khoNhom->cayNhom->code . ' (' . $khoNhom->chieu_dai . ') từ file excel';
@@ -327,7 +342,7 @@ class ImportKhoNhom
                             }
                         } else {
                             $errorCount++;
-                            $errorByRow[$index] = 'Dòng '. $index . ' bị lỗi (Chiều dài cây nhôm không khớp với dữ liệu tồn kho)!';
+                            $errorByRow[$index] = 'Dòng '. $index . ' bị lỗi (Chiều dài cây nhôm không khớp với dữ liệu tồn kho)!' . 'temp: ' . $chieuDaiTemp . '--thuc te:' . $cayNhom->chieu_dai . '--doday:' . $doDay;
                             $errors[] = [];
                         }
                         //neu option overwrite thì ghi đè lại số lượng (khong can de so luong cay nhom, chi de so luong kho nhom thoi)
@@ -337,18 +352,18 @@ class ImportKhoNhom
                         //neu option overwrite thì ghi đè lại số lượng
                         $khoNhom = KhoNhom::findOne([
                             'id_cay_nhom'=>$cayNhom->id,
-                            'chieu_dai'=>$sheet->getCell('F'.$index)->getValue()
+                            'chieu_dai'=>$sheet->getCell('G'.$index)->getValue()
                         ]);
                         $khoNhomOld = KhoNhom::findOne([
                             'id_cay_nhom'=>$cayNhom->id,
-                            'chieu_dai'=>$sheet->getCell('F'.$index)->getValue()
+                            'chieu_dai'=>$sheet->getCell('G'.$index)->getValue()
                         ]);
                         if($khoNhom ==null){
                             //ko co thi cu them moi la xong
                             $khoNhom = new KhoNhom();
                             $khoNhom->id_cay_nhom = $cayNhom->id;
-                            $khoNhom->chieu_dai = $sheet->getCell('F'.$index)->getValue();
-                            $khoNhom->so_luong = $sheet->getCell('I'.$index)->getValue();
+                            $khoNhom->chieu_dai = $sheet->getCell('G'.$index)->getValue();
+                            $khoNhom->so_luong = $sheet->getCell('J'.$index)->getValue();
                             $khoNhom->noiDung = 'Tạo mới kho nhôm khi import kho nhôm từ file excel';
                             if($khoNhom->save()){
                                 $successCount++;
@@ -363,7 +378,7 @@ class ImportKhoNhom
                             //neu ko co overwrite thì cộng số lượng vô
                             if($isOverwrite ==false){
                                 //add so luong vao ton kho
-                                $khoNhom->so_luong = $khoNhom->so_luong + $sheet->getCell('I'.$index)->getValue();
+                                $khoNhom->so_luong = $khoNhom->so_luong + $sheet->getCell('J'.$index)->getValue();
                                 if($khoNhom->save()){
                                     
                                     $successCount++;
@@ -371,7 +386,7 @@ class ImportKhoNhom
                                     if($khoNhom->so_luong != $khoNhomOld->so_luong){
                                         $history = new KhoNhomLichSu();
                                         $history->id_kho_nhom = $khoNhom->id;
-                                        $history->so_luong = $sheet->getCell('I'.$index)->getValue();
+                                        $history->so_luong = $sheet->getCell('J'.$index)->getValue();
                                         $history->so_luong_cu = $khoNhomOld->so_luong;
                                         $history->so_luong_moi = $khoNhom->so_luong;
                                         $history->noi_dung = 'Cập nhật tồn kho do cập nhật dữ liệu kho nhôm #'.$khoNhom->cayNhom->code . ' (' . $khoNhom->chieu_dai . ') từ file exel';
@@ -381,7 +396,7 @@ class ImportKhoNhom
                                 
                             } else {
                                 //set lại tồn kho
-                                $khoNhom->so_luong = $sheet->getCell('I'.$index)->getValue();
+                                $khoNhom->so_luong = $sheet->getCell('J'.$index)->getValue();
                                 if($khoNhom->save()){
                                     
                                     $successCount++;
@@ -389,7 +404,7 @@ class ImportKhoNhom
                                     if($khoNhom->so_luong != $khoNhomOld->so_luong){
                                         $history = new KhoNhomLichSu();
                                         $history->id_kho_nhom = $khoNhom->id;
-                                        $history->so_luong = $khoNhomOld->so_luong - $sheet->getCell('I'.$index)->getValue();
+                                        $history->so_luong = $khoNhomOld->so_luong - $sheet->getCell('J'.$index)->getValue();
                                         $history->so_luong_cu = $khoNhomOld->so_luong;
                                         $history->so_luong_moi = $khoNhom->so_luong;
                                         $history->noi_dung = 'Cập nhật tồn kho do cập nhật đè dữ liệu kho nhôm #'.$khoNhom->cayNhom->code . ' (' . $khoNhom->chieu_dai . ') từ file excel';

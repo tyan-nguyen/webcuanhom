@@ -4,6 +4,7 @@ use yii\widgets\ActiveForm;
 use app\modules\kho\models\DonViTinh;
 use app\modules\kho\models\XuatXu;
 use app\modules\kho\models\ThuongHieu;
+use app\modules\maucua\models\HeMau;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\kho\models\KhoVatTu */
@@ -17,6 +18,8 @@ use app\modules\kho\models\ThuongHieu;
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ten_vat_tu')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'id_he_mau')->dropDownList((new HeMau())->getListByPhuKien(), ['prompt'=>'--Chọn--']) ?>
 
     <?= $form->field($model, 'id_nhom_vat_tu')->dropDownList($model->getDmNhomVatTu(), ['prompt'=>'-Chọn-']) ?>
 

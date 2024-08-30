@@ -70,7 +70,10 @@ class ImportController extends Controller
                             'title'=> "Test file dữ liệu",
                             'content'=>$this->renderAjax('error', compact('rt')),
                             'tcontent'=>'File có lỗi! Vui lòng kiểm tra dữ liệu',
-                            'footer'=> Html::button('Close',['data-bs-dismiss'=>"modal"])
+                            'footer'=> Html::a('Back',
+                                [Yii::getAlias('@web/maucua/cong-trinh/view'), 'id'=>$id],
+                                ['role'=>'modal-remote']). '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                             
                         ];
                     }
@@ -106,6 +109,7 @@ class ImportController extends Controller
                         'forceReload'=>'#crud-datatable-pjax',
                         'title'=> "Kết quả import dữ liệu",
                         'content'=>$this->renderAjax('result', [
+                            'model'=>$duAn,
                             'success'=>$result['success'],
                             'error'=>$result['error'],
                             'errorArr'=>$result['errorArr']

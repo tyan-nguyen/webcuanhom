@@ -246,8 +246,11 @@ class MauCua extends MauCuaBase
                 'khoiLuong'=>$nhom->mauCuaNhom->khoi_luong, //lay tu MauCua-Nhom
                 'chieuDaiTonKhoNhom'=>$nhom->tonKhoNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
                 'chieuDaiCayNhom'=>$nhom->tonKhoNhom->cayNhom->chieu_dai,//chieu dai cay nhom trong kho (lay tu table ton_kho_nhom)
-                'slTonKho'=>$nhom->tonKhoNhom->so_luong
-                
+                'slTonKho'=>$nhom->tonKhoNhom->so_luong,
+                'heNhom'=>$nhom->mauCuaNhom->cayNhom->heNhom->code,
+                'doDay'=>$nhom->mauCuaNhom->cayNhom->do_day,
+                'codeHeMau'=>$nhom->mauCuaNhom->cayNhom->heMau->code,
+                'maHeMau'=>$nhom->mauCuaNhom->cayNhom->heMau->ma_mau,
             ];
         }
         return $result;
@@ -601,6 +604,8 @@ class MauCua extends MauCuaBase
             $result[] = [
                 'id'=>$pk->id,
                 'maPhuKien' => $pk->khoVatTu->code,
+                'codeHeMau'=>$pk->khoVatTu->heMau?$pk->khoVatTu->heMau->code:'Không màu',
+                'maHeMau'=>$pk->khoVatTu->heMau?$pk->khoVatTu->heMau->ma_mau:'',
                 'tenPhuKien' => $pk->khoVatTu->ten_vat_tu,
                 'dvt' => $pk->dvt,
                 'soLuong' => $pk->so_luong,
@@ -619,6 +624,8 @@ class MauCua extends MauCuaBase
             $result[] = [
                 'id'=>$pk->id,
                 'maVatTu' => $pk->khoVatTu->code,
+                'codeHeMau'=>$pk->khoVatTu->heMau?$pk->khoVatTu->heMau->code:'Không màu',
+                'maHeMau'=>$pk->khoVatTu->heMau?$pk->khoVatTu->heMau->ma_mau:'',
                 'tenVatTu' => $pk->khoVatTu->ten_vat_tu,
                 'dvt' => $pk->dvt,
                 'soLuong' => $pk->so_luong,
@@ -635,6 +642,10 @@ class MauCua extends MauCuaBase
     /**
      * show action column for code attribute
      */
+    public function getDangSanXuat(){
+        return $this->id_du_an==NULL?false:true;    
+    }
+    
     public function getShowAction(){
         return Html::a($this->code,
             [Yii::getAlias('@web/maucua/mau-cua/view'), 'id'=>$this->id],

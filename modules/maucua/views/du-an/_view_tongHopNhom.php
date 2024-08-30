@@ -10,6 +10,7 @@ use app\modules\maucua\models\KhoNhom;
         	<th width="5%" class="text-center">STT</th>
         	<th width="10%">Mã QR</th>
         	<th width="10%">Mã cây nhôm</th>
+        	<th width="10%">Màu</th>
         	<th width="25%">Tên cây nhôm</th>
         	<th width="10%">Chiều dài</th>
         	<th width="10%">Hệ nhôm</th>
@@ -40,7 +41,8 @@ use app\modules\maucua\models\KhoNhom;
         	<td class="text-center"><?= ($indexNhom+1) ?></td>
         	<td><?= $nhom['knQrCode'] ?></td>
         	<td><?= $nhom['cnCode'] ?></td>
-        	<td><?= $nhom['cnTenCayNhom'] ?></td>
+        	<td><?= $nhom['maHeMau']?'<span style="background-color:'.$nhom['maHeMau'].'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>':''?></td>
+        	<td><?= $nhom['cnTenCayNhom'] ?> (<?= $nhom['codeHeMau'] ?>)</td>
         	<td><?= $nhom['kncd'] ?></td>
         	<td><?= $nhom['hnCode'] ?></td>
         	<td><?= $sluongNhom ?></td>

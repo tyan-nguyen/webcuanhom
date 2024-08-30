@@ -8,6 +8,7 @@ use app\modules\kho\models\KhoVatTu;
     	<tr style="font-size:85%">
         	<th width="5%" class="text-center">STT</th>
         	<th width="10%">Mã</th>  
+        	<th width="10%">Màu</th>
         	<th width="25%">Tên vật tư</th>        	
         	<th width="10%">Số lượng</th>
         	<th width="10%">DVT</th>
@@ -48,7 +49,8 @@ use app\modules\kho\models\KhoVatTu;
         	<tr>
         	<td class="text-center"><?= ($indexVT+1) ?></td>
         	<td><?= $vt['maVT'] ?></td>
-        	<td><?= $vt['ten_vat_tu'] ?></td>
+        	<td><?= $vt['maHeMau']?'<span style="background-color:'.$vt['maHeMau'].'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>':''?></td>
+        	<td><?= $vt['ten_vat_tu'] ?> <?= ($vt['codeHeMau']?'('.$vt['codeHeMau'].')':'') ?></td>
         	<td><?= $sluongVT ?></td>
         	<td><?= $vt['ten_dvt'] ?></td>
         	<td <?= ($vatTu->so_luong<0?'style="color:red"':'') ?> > <?= $vatTu->so_luong ?></td>

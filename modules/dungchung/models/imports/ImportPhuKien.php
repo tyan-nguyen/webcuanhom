@@ -9,6 +9,7 @@ use app\modules\kho\models\DonViTinh;
 use app\modules\kho\models\KhoVatTu;
 use app\modules\kho\models\NhaCungCap;
 use app\modules\kho\models\KhoVatTuLichSu;
+use app\modules\maucua\models\HeMau;
 
 class ImportPhuKien
 {    
@@ -51,28 +52,38 @@ class ImportPhuKien
                     //null thì sinh code
                 }
                 
-                //check C
+                //check C code hệ màu, hệ màu phải tồn tại
                 $mod = new CheckFile();
-                $mod->allowNull = false;
+                $mod->isExist = true;
+                $mod->allowNull = true;
+                $mod->modelExist = HeMau::find()->where(['code'=>$row['C'], 'for_phu_kien'=>1]);
                 $err = $mod->checkVal('C'.$index, $row['C']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }
                 
-                //check F <nha_cung_cap> exist if not null
+                //check D
                 $mod = new CheckFile();
-                $mod->isExist = true;
-                $mod->allowNull = true;
-                $mod->modelExist = NhaCungCap::find()->where(['code'=>$row['F']]);
-                $err = $mod->checkVal('F'.$index, $row['F']);
+                $mod->allowNull = false;
+                $err = $mod->checkVal('D'.$index, $row['D']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }
                 
-                //check I <don_gia> is not null
+                //check G <nha_cung_cap> exist if not null
+                $mod = new CheckFile();
+                $mod->isExist = true;
+                $mod->allowNull = true;
+                $mod->modelExist = NhaCungCap::find()->where(['code'=>$row['G']]);
+                $err = $mod->checkVal('G'.$index, $row['G']);
+                if(!empty($err)){
+                    array_push($errorByRow, $err);
+                }
+                
+                //check J <don_gia> is not null
                 $mod = new CheckFile();
                 $mod->allowNull = false;
-                $err = $mod->checkVal('I'.$index, $row['I']);
+                $err = $mod->checkVal('J'.$index, $row['J']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }
@@ -81,7 +92,7 @@ class ImportPhuKien
                 /* $mod = new CheckFile();
                 $mod->isCompare = true;
                 $mod->valueCompare = [0, 1, 2, 3];
-                $err = $mod->checkVal('D'.$index, $row['D']);
+                $err = $mod->checkVal('E'.$index, $row['E']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 }   */  
@@ -90,7 +101,7 @@ class ImportPhuKien
                 /* $mod = new CheckFile();
                 $mod->isCompare = true;
                 $mod->valueCompare = ['x', 'X'];
-                $err = $mod->checkVal('E'.$index, $row['E']);
+                $err = $mod->checkVal('F'.$index, $row['F']);
                 if(!empty($err)){
                     array_push($errorByRow, $err);
                 } */
@@ -118,41 +129,47 @@ class ImportPhuKien
         $errors = array();
         foreach ($xls_data as $index=>$row){
             if($index>=ImportPhuKien::START_ROW){
+                if(isset($row['C']) && $row['C'] != NULL){
+                    $heMau = HeMau::find()->where(['code'=>$row['C'], 'for_phu_kien'=>1])->one();//sure exist
+                }
                 if($isOverwrite == true){
-                    $model = KhoVatTu::findOne(['code'=>$row['B']]);
+                    $model = KhoVatTu::findOne(['code'=>$row['B'], 'id_he_mau'=>$heMau->id]);
                     $oldModel = KhoVatTu::findOne(['code'=>$row['B']]);
                     if($model != null && $row['B'] != null){
                         //y chang ở dưới khác không tạo mới và sinh lịch sử bằng tay
-                        $model->ten_vat_tu = $row['C'];
+                        $model->ten_vat_tu = $row['D'];
+                        if(isset($row['C']) && $row['C'] != NULL){
+                            $model->id_he_mau = $heMau->id;
+                        }
                         $model->id_nhom_vat_tu = 1; //1 is phu kien
                         $model->la_phu_kien = 1;
-                        $model->thuong_hieu = $row['D'];
-                        $model->model = $row['E'];
+                        $model->thuong_hieu = $row['E'];
+                        $model->model = $row['F'];
                         $model->xuat_xu = 1; //1 is khong biet
-                        if($row['F'] != null){
-                            $ncc = NhaCungCap::findOne(['code'=>$row['F']]);
+                        if($row['G'] != null){
+                            $ncc = NhaCungCap::findOne(['code'=>$row['G']]);
                             if($ncc != null){
                                 $model->nha_cung_cap = $ncc->id;
                             }
                         }
-                        //$model->so_luong = (int)$row['G'];
-                        $model->so_luong = $sheet->getCell('G'.$index)->getValue();
-                        if($row['H'] == null){
+                        //$model->so_luong = (int)$row['H'];
+                        $model->so_luong = $sheet->getCell('H'.$index)->getValue();
+                        if($row['I'] == null){
                             $model->dvt = 1;//1 is chưa phân loại
                         } else {
-                            $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['H']])->one();
+                            $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['I']])->one();
                             if($donViTinh!=null){
                                 $model->dvt = $donViTinh->id;
                             } else {
                                 $dvtModel = new DonViTinh();
-                                $dvtModel->ten_dvt = $row['H'];
+                                $dvtModel->ten_dvt = $row['I'];
                                 $dvtModel->save();
                                 $model->dvt = $dvtModel->id;
                             }
                         }
-                        //$model->don_gia = $xls_data[$row]['I'];
-                        $model->don_gia = $sheet->getCell('I'.$index)->getValue();
-                        $model->ghi_chu = $row['J'];
+                        //$model->don_gia = $xls_data[$row]['J'];
+                        $model->don_gia = $sheet->getCell('J'.$index)->getValue();
+                        $model->ghi_chu = $row['K'];
                         if($model->save()){
                             $successCount++;
                             if($model->so_luong != $oldModel->so_luong){
@@ -176,36 +193,39 @@ class ImportPhuKien
                         //y chang ở dưới
                         $model = new KhoVatTu();
                         $model->code = $row['B'];
-                        $model->ten_vat_tu = $row['C'];
+                        $model->ten_vat_tu = $row['D'];
+                        if(isset($row['C']) && $row['C'] != NULL){
+                            $model->id_he_mau = $heMau->id;
+                        }
                         $model->id_nhom_vat_tu = 1; //1 is phu kien
                         $model->la_phu_kien = 1;
-                        $model->thuong_hieu = $row['D'];
-                        $model->model = $row['E'];
+                        $model->thuong_hieu = $row['E'];
+                        $model->model = $row['F'];
                         $model->xuat_xu = 1; //1 is khong biet
-                        if($row['F'] != null){
-                            $ncc = NhaCungCap::findOne(['code'=>$row['F']]);
+                        if($row['G'] != null){
+                            $ncc = NhaCungCap::findOne(['code'=>$row['G']]);
                             if($ncc != null){
                                 $model->nha_cung_cap = $ncc->id;
                             }
                         }
-                        //$model->so_luong = (int)$row['G'];
-                        $model->so_luong = $sheet->getCell('G'.$index)->getValue();
-                        if($row['H'] == null){
+                        //$model->so_luong = (int)$row['H'];
+                        $model->so_luong = $sheet->getCell('H'.$index)->getValue();
+                        if($row['I'] == null){
                             $model->dvt = 1;//1 is chưa phân loại
                         } else {
-                            $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['H']])->one();
+                            $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['I']])->one();
                             if($donViTinh!=null){
                                 $model->dvt = $donViTinh->id;
                             } else {
                                 $dvtModel = new DonViTinh();
-                                $dvtModel->ten_dvt = $row['H'];
+                                $dvtModel->ten_dvt = $row['I'];
                                 $dvtModel->save();
                                 $model->dvt = $dvtModel->id;
                             }
                         }
-                        //$model->don_gia = $xls_data[$row]['I'];
-                        $model->don_gia = $sheet->getCell('I'.$index)->getValue();
-                        $model->ghi_chu = $row['J'];
+                        //$model->don_gia = $xls_data[$row]['J'];
+                        $model->don_gia = $sheet->getCell('J'.$index)->getValue();
+                        $model->ghi_chu = $row['K'];
                         if($model->save()){
                             $successCount++;
                         } else {
@@ -217,36 +237,39 @@ class ImportPhuKien
                 }else {
                     $model = new KhoVatTu();
                     $model->code = $row['B'];
-                    $model->ten_vat_tu = $row['C'];
+                    $model->ten_vat_tu = $row['D'];
+                    if(isset($row['C']) && $row['C'] != NULL){
+                        $model->id_he_mau = $heMau->id;
+                    }
                     $model->id_nhom_vat_tu = 1; //1 is phu kien                
                     $model->la_phu_kien = 1;
-                    $model->thuong_hieu = $row['D'];
-                    $model->model = $row['E'];
+                    $model->thuong_hieu = $row['E'];
+                    $model->model = $row['F'];
                     $model->xuat_xu = 1; //1 is khong biet
-                    if($row['F'] != null){
-                        $ncc = NhaCungCap::findOne(['code'=>$row['F']]);
+                    if($row['G'] != null){
+                        $ncc = NhaCungCap::findOne(['code'=>$row['G']]);
                         if($ncc != null){
                             $model->nha_cung_cap = $ncc->id;
                         }
                     }
-                    //$model->so_luong = (int)$row['G'];
-                    $model->so_luong = $sheet->getCell('G'.$index)->getValue();
-                    if($row['H'] == null){
+                    //$model->so_luong = (int)$row['H'];
+                    $model->so_luong = $sheet->getCell('H'.$index)->getValue();
+                    if($row['I'] == null){
                         $model->dvt = 1;//1 is chưa phân loại
                     } else {
-                        $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['H']])->one();
+                        $donViTinh = DonViTinh::find()->where(['ten_dvt'=>$row['I']])->one();
                         if($donViTinh!=null){
                             $model->dvt = $donViTinh->id;
                         } else {
                             $dvtModel = new DonViTinh();
-                            $dvtModel->ten_dvt = $row['H'];
+                            $dvtModel->ten_dvt = $row['I'];
                             $dvtModel->save();
                             $model->dvt = $dvtModel->id;
                         }
                     }
-                    //$model->don_gia = $xls_data[$row]['I'];
-                    $model->don_gia = $sheet->getCell('I'.$index)->getValue();
-                    $model->ghi_chu = $row['J'];
+                    //$model->don_gia = $xls_data[$row]['J'];
+                    $model->don_gia = $sheet->getCell('J'.$index)->getValue();
+                    $model->ghi_chu = $row['K'];
                     if($model->save()){
                         $successCount++;
                     } else {

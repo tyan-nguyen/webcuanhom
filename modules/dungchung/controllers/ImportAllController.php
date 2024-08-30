@@ -50,8 +50,9 @@ class ImportAllController extends Controller
                 return [
                     'title'=> "Upload file",
                     'content'=>$this->renderAjax('upload', compact('model', 'showOverwrite')),
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                    Html::button('Tải lên',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> 
+                    Html::button('Tải lên',['class'=>'btn btn-primary','type'=>"submit"]) . '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
                     
                 ];
             }else if($model->load($request->post())){
@@ -96,8 +97,9 @@ class ImportAllController extends Controller
                         return [
                             'title'=> "Kiểm tra file dữ liệu",
                             'content'=>$this->renderAjax('checkSuccess'),
-                            'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Tiến hành upload',['import?type='.$type.'&file=' . $fileName . '&isOverwrite='.$model->isOverwrite],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            'footer'=> 
+                            Html::a('Tiến hành upload',['import?type='.$type.'&file=' . $fileName . '&isOverwrite='.$model->isOverwrite],['class'=>'btn btn-sm btn-primary','role'=>'modal-remote']) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                             
                         ];
                     } else {
@@ -106,7 +108,8 @@ class ImportAllController extends Controller
                             'title'=> "Test file dữ liệu",
                             'content'=>$this->renderAjax('error', compact('rt')),
                             'tcontent'=>'File có lỗi! Vui lòng kiểm tra dữ liệu',
-                            'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
+                            'footer'=> Html::a('<i class="fa-solid fa-upload"></i> Upload lại', Yii::getAlias('@web/dungchung/import-all/upload?type='). $type . '&showOverwrite=1', [ 'class'=>'btn btn-primary btn-sm', 'role'=>'modal-remote']) . '&nbsp;' .                            
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
                             
                         ];
                     }
@@ -167,7 +170,7 @@ class ImportAllController extends Controller
                             'errorArr'=>$result['errorArr']
                         ]),
                         'abc'=>$result['errors'],
-                        'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
+                        'footer'=> Html::button('Close',['data-bs-dismiss'=>"modal"])
                         
                     ];
                 }

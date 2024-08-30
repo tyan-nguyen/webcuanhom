@@ -311,6 +311,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                       	<li><a href="/kho/xuat-xu"><i class="fa-regular fa-file"></i> Xuất xứ</a></li>
                       	<li>|</li>
                       	<li><a href="/kho/thuong-hieu"><i class="fa-regular fa-file"></i> Thương hiệu</a></li>
+                      	<li>|</li>
+                      	<li><a href="/maucua/he-mau"><i class="fa-regular fa-file"></i> Hệ màu</a></li>
                   	
                   </ul>
               
@@ -425,7 +427,7 @@ $script = <<< JS
         	}else if(controllerName == 'phu-kien' || controllerName == 'vat-tu' || controllerName == 'thiet-bi' || controllerName == 'he-vach'){
                 $('#kho-tab').addClass('active');
                 $('#kho').addClass('show active');
-        	}else if(controllerName == 'khach-hang' || controllerName == 'nha-cung-cap' || controllerName == 'dvt' || controllerName == 'xuat-xu' || controllerName == 'thuong-hieu'){
+        	}else if(controllerName == 'khach-hang' || controllerName == 'nha-cung-cap' || controllerName == 'dvt' || controllerName == 'xuat-xu' || controllerName == 'thuong-hieu' || controllerName == 'he-mau'){
                 $('#dm-tab').addClass('active');
                 $('#dm').addClass('show active');
         	}else if(controllerName == 'user' || controllerName == 'setting'){

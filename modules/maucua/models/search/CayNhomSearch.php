@@ -46,6 +46,7 @@ class CayNhomSearch extends CayNhom
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['id_he_nhom'=>SORT_DESC, 'code' => SORT_ASC, 'do_day'=>SORT_ASC]],
         ]);
 
         $this->load($params);
@@ -63,17 +64,20 @@ class CayNhomSearch extends CayNhom
             'don_gia' => $this->don_gia,
             'khoi_luong' => $this->khoi_luong,
             'chieu_dai' => $this->chieu_dai,
-            'do_day' => $this->do_day,
+           // 'do_day' => $this->do_day,
             'min_allow_cut' => $this->min_allow_cut,
             'min_allow_cut_under' => $this->min_allow_cut_under,
             'date_created' => $this->date_created,
             'user_created' => $this->user_created,
+            'code' => $this->code
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'ten_cay_nhom', $this->ten_cay_nhom])
+        $query->andFilterWhere(['like', 'ten_cay_nhom', $this->ten_cay_nhom])
             ->andFilterWhere(['like', 'for_cua_so', $this->for_cua_so])
             ->andFilterWhere(['like', 'for_cua_di', $this->for_cua_di]);
+        if($this->do_day != null){
+            $query->andWhere('cast(do_day as decimal(5,2)) ='.$this->do_day);
+        }
 
         return $dataProvider;
     }

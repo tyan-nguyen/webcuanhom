@@ -61,19 +61,29 @@
 <table class="table table-bordered">
 <tr>
 	<th>STT</th>
-	<th>Mã phụ kiện <i class="fa-regular fa-pen-to-square"></i></th>
+	<th>Mã phụ kiện  <?= !$model->dangSanXuat ? '<i class="fa-regular fa-pen-to-square"></i>' : '' ?></th>
+	<th>Màu</th>
 	<th>Tên phụ kiện</th>
 	<th>Đơn vị tính</th>
-	<th>Số lượng <i class="fa-regular fa-pen-to-square"></i></th>
+	<th>Số lượng  <?= !$model->dangSanXuat ? '<i class="fa-regular fa-pen-to-square"></i>' : '' ?></th>
 	<th>Tồn kho</th>
 	<!-- <th></th> -->
 </tr>
 <tr v-for="(phuKien, index) in phuKiens" :key="phuKien.id">
 	<td>{{ index + 1 }}</td>
+	<?php if(!$model->dangSanXuat){?>
 	<td><a class="a-edit-wrap" :href="`/maucua/mau-cua-vat-tu/sua-vat-tu-popup?id=${phuKien.id}`" role="modal-remote-2">{{ phuKien.maPhuKien }}</a></td>
-	<td>{{ phuKien.tenPhuKien }}</td>
+	<?php } else {?>
+	<td>{{ phuKien.maPhuKien }}</td>
+	<?php } ?>
+	<td><span :style="{backgroundColor:phuKien.maHeMau}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+	<td>{{ phuKien.tenPhuKien }} <span>({{phuKien.codeHeMau}})</span></td>
 	<td>{{ phuKien.dvt }}</td>
+	<?php if(!$model->dangSanXuat){?>
 	<td><a class="a-edit-wrap" :href="`/maucua/mau-cua-vat-tu/sua-vat-tu-popup?id=${phuKien.id}`" role="modal-remote-2"><span :id="`${phuKien.id}`">{{ phuKien.soLuong }}</span></a></td>
+	<?php } else {?>
+	<td>{{ phuKien.soLuong }}</td>
+	<?php }?>
 	<td>{{ phuKien.tonKho }}</td>
 	<!-- <td><a :href="`/maucua/mau-cua-vat-tu/delete?id=${phuKien.id}`" role="modal-remote-2" data-confirm="false" data-method="false" data-confirm-title="Xác nhận xóa thông tin?" data-confirm-message="Dữ liệu bị xóa sẽ thông thể phục hồi. Bạn có chắc chắn thực hiện hành động này?"><i class="fa-solid fa-trash"></i></a></td> -->
 </tr>
@@ -86,6 +96,7 @@
 <tr>
 	<th>STT</th>
 	<th>Mã vật tư <i class="fa-regular fa-pen-to-square"></i></th>
+	<th>Màu</th>
 	<th>Tên vật tư</th>
 	<th>Đơn vị tính</th>
 	<th>Số lượng <i class="fa-regular fa-pen-to-square"></i></th>
@@ -94,7 +105,8 @@
 <tr v-for="(vatTu, index) in vatTus" :key="vatTu.id">
 	<td>{{ index + 1 }}</td>
 	<td><a class="a-edit-wrap" :href="`/maucua/mau-cua-vat-tu/sua-vat-tu-popup?id=${vatTu.id}`" role="modal-remote-2">{{ vatTu.maVatTu }}</a></td>
-	<td>{{ vatTu.tenVatTu }}</td>
+	<td><span :style="{backgroundColor:vatTu.maHeMau}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+	<td>{{ vatTu.tenVatTu }} <span>({{vatTu.codeHeMau}})</span></td>
 	<td>{{ vatTu.dvt }}</td>
 	<td><a class="a-edit-wrap" :href="`/maucua/mau-cua-vat-tu/sua-vat-tu-popup?id=${vatTu.id}`" role="modal-remote-2"><span :id="`${vatTu.id}`">{{ vatTu.soLuong }}</span></a></td>
 	<td>{{ vatTu.tonKho }}</td>

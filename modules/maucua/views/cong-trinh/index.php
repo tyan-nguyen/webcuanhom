@@ -25,6 +25,7 @@ CrudAsset::register($this);
 }
 #ajaxCrudModal2 .modal-content{
     border-top:2px solid blue;
+    background-color: #f7f7f7 !important;
 }
 </style>
 

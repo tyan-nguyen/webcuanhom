@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
+use app\modules\maucua\models\HeNhom;
+use app\widgets\BtnBackWidget;
 
 return [
     [
@@ -14,25 +17,79 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'id',
     // ],
-    
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'code',
-        'format'=>'raw',
-        'value'=>'showAction'
-    ],
-    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_he_nhom',
-        'value'=>'heNhom.code'
+        'format'=>'raw',
+        //'value'=>'heNhom.code',
+        'value'=>function($model){
+            return Html::a($model->heNhom->code,
+                [Yii::getAlias('@web/maucua/he-nhom/view'), 'id'=>$model->id_he_nhom],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']);
+        },
+        'filter'=>Html::activeDropDownList($searchModel, 'id_he_nhom', HeNhom::getList(), [
+            'prompt'=>'-Tất cả-',
+            'class'=>'form-control'
+        ]),
+        'group'=>true,
+        //'width'=> '100px',
+        'contentOptions'=>['style'=>'vertical-align:middle;']
     ],
-    
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'code',
+        //'format'=>'raw',
+        //'value'=>'showAction',
+        'group'=>true,
+        //'width'=> '100px',
+        'contentOptions'=>['style'=>'vertical-align:middle;']
+    ],
+   
+    /*[
+        'class'=>'\kartik\grid\DataColumn',
+        //'attribute'=>'code',
+        'label'=>'Mã nhôm',
+        'format'=>'raw',
+        //'value'=>'showAction',
+        'value'=>function($model){
+            return $model->heMau->code;
+            //return Html::a($model->heMau->code,
+            //    [Yii::getAlias('@web/maucua/cay-nhom/view'), 'id'=>$model->id],
+            //    ['role'=>'modal-remote', 'class'=>'aInGrid']);
+        },
+        //'width'=> '200px',
+        'contentOptions'=>['style'=>'vertical-align:middle;']
+    ],*/
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        //'attribute'=>'code',
+        'label'=>'Màu',
+        'format'=>'raw',
+        //'value'=>'showColor'
+        'value'=>function($model){
+            return $model->id_he_mau ? Html::a($model->showColor,
+                [Yii::getAlias('@web/maucua/he-mau/view'), 'id'=>$model->id_he_mau],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']) : '';
+        },
+    ],    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_cay_nhom',
+        'format'=>'raw',
+        'value'=>function($model){
+        return Html::a($model->ten_cay_nhom . ($model->heMau?(' <span style="color:'.$model->heMau->ma_mau.'">('.$model->heMau->code.')</span>'):''),
+                [Yii::getAlias('@web/maucua/cay-nhom/view'), 'id'=>$model->id],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']);
+        },
     ],
-    
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'do_day',
+        'value'=>function($model){
+            return $model->do_day . ' mm';
+        },
+        'contentOptions'=>['style'=>'text-align:center']
+    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_luong',
@@ -56,11 +113,6 @@ return [
      [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'khoi_luong',
-     ],
-     
-     [
-         'class'=>'\kartik\grid\DataColumn',
-         'attribute'=>'do_day',
      ],
 
      [
@@ -99,11 +151,13 @@ return [
       'attribute'=>'heNhom.xuatXu.ten_xuat_xu',
       'value'=>'heNhom.xuatXu.ten_xuat_xu'
       ], */
-     [
+         
+     /* [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'heNhom.hang_san_xuat',
          'value'=>'heNhom.hang_san_xuat'
-     ],
+     ], */
+     
          
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -113,6 +167,25 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'user_created',
     // ],
+    
+       [
+           'class'=>'\kartik\grid\DataColumn',
+           'attribute'=>'id',
+           'label'=>'',
+           'format'=>'raw',
+           'filter'=>false,
+           'value'=>function($model){
+               return BtnBackWidget::widget([
+                   'linkList'=>[
+                       [
+                           'icon'=>'<i class="fa-solid fa-circle-plus"></i>',
+                           'text'=>'Thêm cây nhôm cùng mã khác màu',
+                           'url' => Yii::getAlias('@web/maucua/cay-nhom/add-color?id='.$model->id)
+                       ]
+                   ]
+               ]);
+           }
+       ],
    /*  [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

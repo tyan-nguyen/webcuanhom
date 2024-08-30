@@ -17,10 +17,18 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'cayNhom.code',
+        //'format' => 'raw',
+        //'header'=>$mod->getAttributeLabel('code') . ' <i class="fa-regular fa-pen-to-square"></i>',
+        //'format'=>'raw',
+        //'value'=>'showAction',
+        'group'=>true
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
         'format' => 'raw',
         //'header'=>$mod->getAttributeLabel('code') . ' <i class="fa-regular fa-pen-to-square"></i>',
-        'format'=>'raw',
         'value'=>'showAction',
         'group'=>true
     ],
@@ -31,6 +39,11 @@ return [
             return $model->cayNhom->ten_cay_nhom;
         },
         //'group'=>true
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'cayNhom.do_day',
+        'contentOptions'=>['class'=>'text-center']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

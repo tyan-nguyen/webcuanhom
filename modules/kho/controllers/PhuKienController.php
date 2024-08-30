@@ -80,6 +80,66 @@ class PhuKienController extends Controller
             ]);
         }
     }
+    
+    /**
+     * add phụ kiện khác màu cùng mã
+     * id: id cây nhôm
+     */
+    public function actionAddColor($id){
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if($request->isGet){
+            return [
+                'title'=> "Thêm phụ kiện cùng mã " . $model->code ,
+                'content'=>$this->renderAjax('form-add-color', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                .Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+        }else if($model->load($request->post())){
+            if($model->copyMau != null){
+                foreach ($model->copyMau as $i=>$val){
+                    $phuKienNew = new PhuKien();
+                    $phuKienNew->attributes = $model->attributes;
+                    $phuKienNew->id_he_mau = $i;
+                    $phuKienNew->id = null;
+                    $phuKienNew->so_luong = 0;
+                    $phuKienNew->save();
+                }
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Phụ kiện",
+                    'content'=>'<div class="alert alert-success" role="alert">
+                          Đã thêm thành công '. count($model->copyMau) .' mã màu cho phụ kiện '.$model->code.'
+                        </div>',
+                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                    Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            } else {
+                $model->addError('copyMau', 'Vui lòng chọn mã màu để thêm!');
+                return [
+                    'title'=> "Thêm cây nhôm cùng mã " . $model->code ,
+                    'content'=>$this->renderAjax('form-add-color', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                    .Html::button('Close',['data-bs-dismiss'=>"modal"])
+                ];
+            }
+        } else {
+            return [
+                'title'=> "Thêm phụ kiện cùng mã " . $model->code ,
+                'content'=>$this->renderAjax('form-add-color', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Save',['type'=>"submit"]). '&nbsp;'
+                .Html::button('Close',['data-bs-dismiss'=>"modal"])
+            ];
+        }
+    }
+    
     /**
      * them ton kho vat tu
      * sua so luong ton kho va luu vao lich su thay doi ton kho
@@ -371,30 +431,62 @@ class PhuKienController extends Controller
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
                     Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                //them lich su ton kho neu thay so luong co thay doi
-                if($model->so_luong != $oldModel->so_luong){
-                    $lichSuTonKho = new KhoVatTuLichSu();
-                    $lichSuTonKho->id_kho_vat_tu = $model->id;
-                    $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
-                    $lichSuTonKho->ghi_chu = 'Sửa số lượng tồn kho';
-                    $lichSuTonKho->so_luong = $model->so_luong - $oldModel->so_luong;
-                    $lichSuTonKho->so_luong_cu = $oldModel->so_luong;
-                    $lichSuTonKho->so_luong_moi = $model->so_luong;
-                    $lichSuTonKho->id_mau_cua = null;//*********
-                    $lichSuTonKho->save();
+            }else if($model->load($request->post())){
+                //check update trung mau
+                if($model->id_he_mau != $oldModel->id_he_mau){
+                    $checkPK = PhuKien::find()->where([
+                        'code'=>$model->code,
+                    ]);
+                    if($model->id_he_mau == NULL){
+                        $checkPK = $checkPK->andWhere('id_he_mau IS NULL');
+                    } else {
+                        $checkPK = $checkPK->andWhere(['id_he_mau'=>$model->id_he_mau]);
+                    }
+                    if($checkPK->one() != NULL){
+                        $model->addError('id_he_mau', 'Đã tồn tại phụ kiện cùng mã có màu bạn chọn, vui lòng kiểm tra lại!');
+                        return [
+                            'title'=> "Cập nhật phụ kiện",
+                            'content'=>$this->renderAjax('update', [
+                                'model' => $model,
+                            ]),
+                            'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        ];
+                    }
                 }
-                
-                
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thông tin phụ kiện",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
-                    Html::button('Close',['data-bs-dismiss'=>"modal"])
-                ];
+                if($model->save()){
+                    //them lich su ton kho neu thay so luong co thay doi
+                    if($model->so_luong != $oldModel->so_luong){
+                        $lichSuTonKho = new KhoVatTuLichSu();
+                        $lichSuTonKho->id_kho_vat_tu = $model->id;
+                        $lichSuTonKho->id_nha_cung_cap = 1; //1 la chua phan loai, khong duoc xoa danh muc id 1
+                        $lichSuTonKho->ghi_chu = 'Sửa số lượng tồn kho';
+                        $lichSuTonKho->so_luong = $model->so_luong - $oldModel->so_luong;
+                        $lichSuTonKho->so_luong_cu = $oldModel->so_luong;
+                        $lichSuTonKho->so_luong_moi = $model->so_luong;
+                        $lichSuTonKho->id_mau_cua = null;//*********
+                        $lichSuTonKho->save();
+                    }               
+                    
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Thông tin phụ kiện",
+                        'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                }else{
+                    return [
+                        'title'=> "Cập nhật phụ kiện",
+                        'content'=>$this->renderAjax('update', [
+                            'model' => $model,
+                        ]),
+                        'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"])
+                    ];
+                }
             }else{
                 return [
                     'title'=> "Cập nhật phụ kiện",

@@ -57,6 +57,12 @@ return [
         'attribute'=>'user_created',
         'value'=>'nguoiLuu'
     ],
+    [
+        'format'=>'raw',
+        'value'=>function($model){
+            return !$model->warning?'':'<i class="fa-solid fa-triangle-exclamation text-warning"></i>';
+        }
+    ],
     /* [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

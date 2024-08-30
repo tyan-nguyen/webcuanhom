@@ -2,6 +2,7 @@
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use app\modules\maucua\models\HeNhom;
+use app\modules\maucua\models\HeNhomMau;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\CayNhom */
@@ -15,7 +16,9 @@ use app\modules\maucua\models\HeNhom;
     <?= $form->field($model, 'id_he_nhom')->dropDownList((new HeNhom())->getList(), ['prompt'=>'--Chọn--']) ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
+    <?php if(!$model->isNewRecord){?>
+    <?= $form->field($model, 'id_he_mau')->dropDownList((new HeNhom())->getListByHeNhom($model->id_he_nhom), ['prompt'=>'--Chọn--']) ?>
+	<?php }?>
     <?= $form->field($model, 'ten_cay_nhom')->textInput(['maxlength' => true]) ?>
     
    	<?php 
@@ -37,6 +40,8 @@ use app\modules\maucua\models\HeNhom;
     <?= $form->field($model, 'for_cua_so')->checkbox() ?>
 
     <?= $form->field($model, 'for_cua_di')->checkbox() ?>
+    
+    <?= $form->field($model, 'dung_cho_nhieu_he_nhom')->checkbox() ?>
 
     <?= $form->field($model, 'min_allow_cut')->textInput() ?>
     

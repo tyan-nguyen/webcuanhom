@@ -6,11 +6,20 @@ use Yii;
 use app\modules\kho\models\base\KhoVatTuBase;
 use yii\helpers\Html;
 use app\modules\maucua\models\MauCuaVatTu;
+use app\modules\maucua\models\HeMau;
 
 class KhoVatTu extends KhoVatTuBase
 {
     /***** relation *****/
-    
+    /**
+     * Gets query for [[HeMau]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHeMau()
+    {
+        return $this->hasOne(HeMau::class, ['id' => 'id_he_mau']);
+    }
     /**
      * Gets query for [[CuaKhoVatTuLichSus]]
      * @return \yii\db\ActiveQuery
@@ -77,6 +86,20 @@ class KhoVatTu extends KhoVatTuBase
             [Yii::getAlias('@web/kho/kho-vat-tu/view'), 'id'=>$this->id],
             ['role'=>'modal-remote', 'class'=>'aInGrid']
             );
+    }
+    public function getCodeByColor(){
+        if($this->heMau != null){
+            return $this->code . ' (' . $this->heMau->code . ')';
+        } else {
+            return $this->code;
+        }
+    }
+    public function getShowColor(){
+        if($this->heMau != null){
+            return '<span style="background-color:'.$this->heMau->ma_mau.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+        } else {
+            return '<span style="background-color:white;border:1px solid #212121;">&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;</span>';
+        }
     }
     //Tinh toan so luong ton kho dang bi ket trong du an dang bat dau
     public function getSoLuongKetBatDau(){

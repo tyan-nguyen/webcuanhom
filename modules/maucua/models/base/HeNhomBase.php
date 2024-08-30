@@ -4,6 +4,7 @@ namespace app\modules\maucua\models\base;
 
 use Yii;
 use app\custom\CustomFunc;
+use app\modules\maucua\models\HeNhomMau;
 
 /**
  * @property int $id
@@ -19,6 +20,8 @@ use app\custom\CustomFunc;
  */
 class HeNhomBase extends \app\models\CuaHeNhom
 {
+    public $mauNhom; //màu nhôm arr
+    public $mauMacDinhInput; //sử dụng trong form HeNhom
     /**
      * {@inheritdoc}
      */
@@ -28,7 +31,7 @@ class HeNhomBase extends \app\models\CuaHeNhom
             [['ten_he_nhom', 'code', 'do_day_mac_dinh'], 'required'],
             [['do_day_mac_dinh'], 'number'],
             [['ghi_chu'], 'string'],
-            [['date_created'], 'safe'],
+            [['date_created', 'mauNhom', 'mauMacDinhInput'], 'safe'],
             [['user_created', 'xuat_xu'], 'integer'],
             [['code'], 'string', 'max' => 20],
             [['ten_he_nhom'], 'string', 'max' => 255],
@@ -53,6 +56,8 @@ class HeNhomBase extends \app\models\CuaHeNhom
             'ghi_chu' => 'Ghi chú',
             'date_created' => 'Ngày tạo',
             'user_created' => 'Tài khoản',
+            'mauNhom' => 'Màu nhôm',
+            'mauMacDinhInput' => 'Màu mặc định'
         ];
     }
     
@@ -83,6 +88,16 @@ class HeNhomBase extends \app\models\CuaHeNhom
             return $code;
         } else {
             $this->getRandomCode();
+        }
+    }
+    
+    public function resetMauMacDinh(){
+        $heNhomMau = HeNhomMau::find()->where(['id_he_nhom'=>$this->id])->all();
+        if($heNhomMau != null){
+            foreach ($heNhomMau as $mau){
+                $mau->is_mac_dinh = 0;
+                $mau->save();
+            }
         }
     }
     

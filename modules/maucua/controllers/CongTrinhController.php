@@ -434,7 +434,7 @@ class CongTrinhController extends Controller
                                 ). '&nbsp;' .
                         Html::a('<i class="fa-solid fa-calendar-plus"></i> Thêm vào KHSX',
                             ['add-khsx','id'=>$id],
-                            ['role'=>'modal-remote', 'class'=>'btn btn-primary']
+                            ['role'=>'modal-remote', 'class'=>'btn btn-sm btn-primary']
                             ). '&nbsp;' .
                             Html::a('Import1',
                                 Yii::getAlias('@web/maucua/import/upload?id='.$id.'&type=').CongTrinh::MODEL_ID ,
@@ -550,7 +550,11 @@ class CongTrinhController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thêm Công trình",
-                    'content'=>'<span class="text-success">Thêm mới Công trình thành công!</span>',
+                    'content'=>'<div class="alert alert-success" role="alert">Thêm mới Công trình/Dự án thành công!</div>'.
+                        Html::a('Xem dữ liệu vừa thêm',['view', 'id'=>$model->id],[
+                            'role'=>'modal-remote',
+                            'class'=>'btn btn-sm btn-primary'
+                    ]),
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' . 
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         

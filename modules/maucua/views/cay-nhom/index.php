@@ -21,6 +21,12 @@ CrudAsset::register($this);
 <!-- editor -->
 <script src="<?= Yii::getAlias('@web') ?>/js/editor/tinymce/tinymce.min.js"></script>
 <!-- <script src="<?= Yii::getAlias('@web') ?>/filemanager/responsivefilemanager.com_fancybox_jquery.fancybox-1.3.4.js" type="text/javascript" ></script> -->
+<style>
+/*table group*/
+td.kv-grid-group {
+    background-color: white !important;
+}
+</style>
 
 <div id="dToolbar">
 <?= 

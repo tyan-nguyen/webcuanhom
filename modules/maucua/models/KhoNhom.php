@@ -52,8 +52,9 @@ class KhoNhom extends KhoNhomBase
     }
     /***** virtual attribute *****/
     public function getScode(){
-        return $this->cayNhom->code;
+        return $this->cayNhom->codebyColor;
     }
+    
     //get qrcode
     public function getQrImage(){
         $qrPath = Yii::getAlias('@web/images/qr/') .$this->qr_code . '.png';

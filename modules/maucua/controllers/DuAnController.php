@@ -619,7 +619,11 @@ class DuAnController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thêm Kế hoạch sản xuất",
-                    'content'=>'<span class="text-success">Thêm mới Kế hoạch sản xuất thành công!</span>',
+                    'content'=>'<div class="alert alert-success" role="alert">Thêm mới Kế hoạch sản xuất (KHSX) thành công!</div>'.
+                        Html::a('Xem dữ liệu vừa thêm',['view', 'id'=>$model->id],[
+                            'role'=>'modal-remote',
+                            'class'=>'btn btn-sm btn-primary'
+                    ]),
                     'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' . 
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         

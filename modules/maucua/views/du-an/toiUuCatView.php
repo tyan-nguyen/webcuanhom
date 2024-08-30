@@ -41,7 +41,7 @@
 		
 		<div v-for="(result, indexResult) in results" :key="result.id" >
 			<!-- <p>{{ result.width }}</p> -->
-			<h6 style="margin-top:20px"> [{{ result.stt }}] Thanh nhôm {{ indexResult+1 }} {{ result.macaynhom }} ({{ result.chieudai }})</h6>
+			<h6 style="margin-top:20px"> [{{ result.stt }}] Cây nhôm {{ result.macaynhom }} ({{result.codeHeMau}}) ({{ result.chieudai }})</h6>
 			<div style="margin-top:20px 0px;">
 				<div v-for="result1 in result.soluong" :key="result1.id" :style="{
 					width: (result1.width-result1.left-result1.right)/7 + 'px',

@@ -10,6 +10,7 @@ use app\modules\kho\models\KhoVatTuLichSu;
  * @property int $id
  * @property string|null $code
  * @property string $ten_vat_tu
+ * @property int|null $id_he_mau
  * @property int|null $id_nhom_vat_tu
  * @property string|null $thuong_hieu
  * @property string|null $model
@@ -28,6 +29,7 @@ use app\modules\kho\models\KhoVatTuLichSu;
 class KhoVatTuBase extends \app\models\CuaKhoVatTu
 {
     const MODEL_ID = 'kho-vat-tu';
+    public $copyMau;//use in copy-mau phu kien/vat tu
     /**
      * {@inheritdoc}
      */
@@ -35,10 +37,10 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
     {
         return [
             [['ten_vat_tu'], 'required'],
-            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created', 'thuong_hieu'], 'integer'],
+            [['id_nhom_vat_tu', 'xuat_xu', 'nha_cung_cap', 'la_phu_kien', 'dvt', 'user_created', 'thuong_hieu', 'id_he_mau'], 'integer'],
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
-            [['date_created'], 'safe'],
+            [['date_created', 'copyMau'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_vat_tu', 'model'], 'string', 'max' => 255],
         ];
@@ -53,6 +55,7 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             'id' => 'ID',
             'code' => 'Mã vật tư',
             'ten_vat_tu' => 'Tên vật tư',
+            'id_he_mau' => 'Hệ màu',
             'id_nhom_vat_tu' => 'Nhóm vật tư',
             'thuong_hieu' => 'Thương hiệu',
             'model' => 'Model',

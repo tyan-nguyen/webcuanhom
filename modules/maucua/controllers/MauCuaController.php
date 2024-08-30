@@ -23,6 +23,7 @@ use app\modules\maucua\models\KhoNhomLichSu;
 use app\modules\maucua\models\MauCuaSettings;
 use app\modules\dungchung\models\Setting;
 use app\modules\maucua\models\CongTrinh;
+use app\widgets\BtnBackForMauCuaWidget;
 
 /**
  * MauCuaController implements the CRUD actions for MauCua model.
@@ -307,8 +308,10 @@ class MauCuaController extends Controller
                 /*tam tat (($model->status == 'TOI_UU') ? Html::a('xuatKho',['xuat-kho','id'=>$id],[
                             'role'=>'modal-remote'
                         ]) : '') . '&nbsp;' . */
-                        Html::button('Close',['data-bs-dismiss'=>"modal"])
-                
+                        
+                       
+                        Html::button('Close',['data-bs-dismiss'=>"modal"]) . '&nbsp;' .
+                        BtnBackForMauCuaWidget::widget(['model'=>$model, 'type'=>'view'])         
                 ];    
         }else{
             return $this->render('view', [
@@ -612,7 +615,9 @@ class MauCuaController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        Html::a('Cancel',['view','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                        Html::button('Close',['data-bs-dismiss'=>"modal"]) . '&nbsp;' .
+                        BtnBackForMauCuaWidget::widget(['model'=>$model, 'type'=>'update'])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -622,7 +627,8 @@ class MauCuaController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::a('Edit',['update','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                        Html::button('Close',['data-bs-dismiss'=>"modal"]) . '&nbsp;' .
+                        BtnBackForMauCuaWidget::widget(['model'=>$model, 'type'=>'update'])
                 ];    
             }else{
                  return [
@@ -631,7 +637,9 @@ class MauCuaController extends Controller
                         'model' => $model,
                     ]),
                      'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
-                            Html::button('Close',['data-bs-dismiss'=>"modal"])
+                         Html::a('Cancel',['view','id'=>$id],['role'=>'modal-remote']) . '&nbsp;' .
+                         Html::button('Close',['data-bs-dismiss'=>"modal"]) . '&nbsp;' .
+                         BtnBackForMauCuaWidget::widget(['model'=>$model, 'type'=>'update'])
                 ];        
             }
         }else{

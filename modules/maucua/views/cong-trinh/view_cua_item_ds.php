@@ -40,9 +40,10 @@ use app\modules\maucua\models\CongTrinh;
             	<th width="5%" class="text-center">STT</th>
             	<th width="10%">Ảnh</th>
             	<th width="25%">Tên cửa</th>
-            	<th width="25%">Tên C.Tr</th>
-            	<th width="15%">Ngày YC</th>
             	<th width="15%">Hệ nhôm</th>
+            	<th width="25%">KHSX</th>
+            	<th width="15%">Ngày YC</th>
+            	
             	<th width="5%"></th>
         	</tr>
         	
@@ -77,11 +78,19 @@ use app\modules\maucua\models\CongTrinh;
               	        'role'=>'modal-remote']
       	         ) ?>
       	    </td>
-        	<td><?= $mau->congTrinh->ten_cong_trinh ?></td>
+      	    <td><?= $mau->heNhom->code ?></td>
+        	<td><?= $mau->duAn?$mau->duAn->ten_du_an:'' ?></td>
         	<td></td>
-        	<td><?= $mau->heNhom->code ?></td>
+        	
         	<td>
-        	<a role="modal-remote" data-pjax="0" class="dropdown-item" href="/maucua/cong-trinh/remove-mau-cua-cong-trinh?idct=<?= $model->id ?>&idmc=<?= $mau->id ?>" data-request-method="post" data-toggle="tooltip" data-confirm-title="Xác nhận xóa mẫu cửa khỏi KHSX?" data-confirm-message="Bạn có chắc chắn muốn xóa mẫu cửa khỏi công trình/dự án?"><i class="fa-solid fa-calendar-xmark"></i></a>        	
+        	<?php 
+        	   //kiem tra xem cua co nam trong khsx khong, neu có an nut xoa
+        	   if(!$mau->duAn){
+        	?>
+        	<a role="modal-remote" data-pjax="0" class="dropdown-item" href="/maucua/cong-trinh/remove-mau-cua-cong-trinh?idct=<?= $model->id ?>&idmc=<?= $mau->id ?>" data-request-method="post" data-toggle="tooltip" data-confirm-title="Xác nhận xóa mẫu cửa khỏi KHSX?" data-confirm-message="Mẫu cửa bị xóa và thông tin liên quan cũng sẽ được xóa khỏi dữ liệu và không thể phục hồi. Bạn có chắc chắn muốn xóa mẫu cửa khỏi công trình/dự án?"><i class="fa-solid fa-calendar-xmark text-dark"></i></a>
+        	<?php } else {?>        
+        		<i class="fa-solid fa-calendar-xmark text-black-50" title="Không thể xóa mẫu cửa đang trong KHSX"></i>
+        	<?php } ?>	
         	</td>
         </tr>
         

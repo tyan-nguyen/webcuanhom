@@ -13,6 +13,18 @@ use yii\widgets\DetailView;
             'attributes' => [
                 //'id',
                 'heNhom.code',
+                [
+                    'attribute'=>'id',
+                    'label'=>'Mã Màu',
+                    'format'=>'html',
+                    'value'=>$model->heMau?$model->heMau->code:''
+                ],
+                [
+                    'attribute'=>'id',
+                    'label'=>'Màu',
+                    'format'=>'html',
+                    'value'=>$model->heMau?'<span style="background-color:'.$model->heMau->ma_mau.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>':''
+                ],
                 'heNhom.ten_he_nhom',
                 'heNhom.xuatXu.ten_xuat_xu',
                 'heNhom.hang_san_xuat',
@@ -46,6 +58,10 @@ use yii\widgets\DetailView;
                 'for_cua_di'=>[
                     'attribute'=>'for_cua_di',
                     'value'=>$model->for_cua_di==true ? 'YES' : ''
+                ],
+                'dung_cho_nhieu_he_nhom'=>[
+                    'attribute'=>'dung_cho_nhieu_he_nhom',
+                    'value'=>$model->dung_cho_nhieu_he_nhom==true ? 'YES' : ''
                 ],
                 'min_allow_cut'=>[
                     'attribute'=>'min_allow_cut',

@@ -52,8 +52,8 @@ class DuAn extends DuAnBase
                 GROUP BY a.id_kho_vat_tu;';        
         return Yii::$app->db->createCommand($sql)->queryAll(); */
         $query = MauCuaVatTu::find()->alias('t')   
-            ->select(['t.*', 'mc.*', 'kvt.code as maVT', 'kvt.id as idkvt', 'kvt.ten_vat_tu', 'dvt.ten_dvt', 'sum(t.so_luong) as sluong'])
-            ->joinWith(['mauCua as mc', 'khoVatTu as kvt', 'khoVatTu.donViTinh as dvt'])
+        ->select(['t.*', 'mc.*', 'kvt.code as maVT', 'kvt.id as idkvt', 'kvt.ten_vat_tu', 'dvt.ten_dvt', 'hmm.ma_mau as maHeMau', 'hmm.code as codeHeMau', 'sum(t.so_luong) as sluong'])
+            ->joinWith(['mauCua as mc', 'khoVatTu as kvt', 'khoVatTu.donViTinh as dvt', 'khoVatTu.heMau as hmm'])
             ->andWhere(['mc.id_du_an' => $this->id])
             ->groupBy(['id_kho_vat_tu']);
          //return $query->createCommand()->getRawSql();
@@ -71,8 +71,8 @@ class DuAn extends DuAnBase
          GROUP BY a.id_kho_vat_tu;';
          return Yii::$app->db->createCommand($sql)->queryAll(); */
         $query = NhomSuDung::find()->alias('t')
-        ->select(['t.*', 't.id_kho_nhom as idKhoNhom', 'kn.qr_code as knQrCode', 'kn.chieu_dai as kncd', 'kn.so_luong as knsl', 'cn.code as cnCode', 'cn.ten_cay_nhom as cnTenCayNhom', 'hn.code as hnCode', 'count(t.id_kho_nhom) as sluong'])
-        ->joinWith(['duAn as da', 'khoNhom as kn', 'khoNhom.cayNhom as cn', 'khoNhom.cayNhom.heNhom as hn'])
+        ->select(['t.*', 't.id_kho_nhom as idKhoNhom', 'kn.qr_code as knQrCode', 'kn.chieu_dai as kncd', 'kn.so_luong as knsl', 'cn.code as cnCode', 'cn.ten_cay_nhom as cnTenCayNhom', 'hn.code as hnCode', 'hmm.ma_mau as maHeMau', 'hmm.code as codeHeMau', 'count(t.id_kho_nhom) as sluong'])
+        ->joinWith(['duAn as da', 'khoNhom as kn', 'khoNhom.cayNhom as cn', 'khoNhom.cayNhom.heNhom as hn', 'khoNhom.cayNhom.heMau as hmm'])
         ->andWhere(['t.id_du_an' => $this->id])
         ->groupBy(['id_kho_nhom']);
         //return $query->createCommand()->getRawSql();
@@ -294,6 +294,7 @@ class DuAn extends DuAnBase
             $result[] = [
                 'id'=>$nhom->id, //id toi uu
                 'macaynhom'=>$nhom->khoNhom->cayNhom->code,
+                'codeHeMau'=>$nhom->khoNhom->cayNhom->heMau->code,
                 'soluong'=>$soLuongArr,
                 'chieudai'=>$nhom->chieu_dai_ban_dau,
                 'vetcat'=> $nhom->duAn->setting['vet_cat'],

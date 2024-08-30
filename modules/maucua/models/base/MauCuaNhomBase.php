@@ -21,6 +21,8 @@ use Yii;
  */
 class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
 {    
+    public $xoaCayNhomNguon; //tuy chon xoa cay nhom goc sau khi doi sang cay nhom khac trong mauCuaNhom
+    public $capNhatChoNhomCungMa; // tuy chon de thay doi luon cac cay nhom cung ma trong mauCua
     /**
      * {@inheritdoc}
      */
@@ -30,7 +32,7 @@ class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
             [['id_mau_cua', 'id_cay_nhom'], 'required'],
             [['id_mau_cua', 'id_cay_nhom', 'so_luong', 'user_created'], 'integer'],
             [['chieu_dai', 'khoi_luong', 'don_gia'], 'number'],
-            [['date_created'], 'safe'],
+            [['date_created', 'xoaCayNhomNguon', 'capNhatChoNhomCungMa'], 'safe'],
             [['kieu_cat'], 'string', 'max' => 11],
             [['id_mau_cua'], 'exist', 'skipOnError' => true, 'targetClass' => MauCuaBase::class, 'targetAttribute' => ['id_mau_cua' => 'id']],
             [['id_cay_nhom'], 'exist', 'skipOnError' => true, 'targetClass' => CayNhomBase::class, 'targetAttribute' => ['id_cay_nhom' => 'id']],
@@ -45,7 +47,7 @@ class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
         return [
             'id' => 'ID',
             'id_mau_cua' => 'Id Mau Cua',
-            'id_cay_nhom' => 'Id Cay Nhom',
+            'id_cay_nhom' => 'Cây nhôm',
             'chieu_dai' => 'Chieu Dai',
             'so_luong' => 'So Luong',
             'kieu_cat' => 'Kieu Cat',
@@ -53,6 +55,8 @@ class MauCuaNhomBase extends \app\models\CuaMauCuaNhom
             'don_gia' => 'Don Gia',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
+            'xoaCayNhomNguon' => 'Xóa cây nhôm nguồn',
+            'capNhatChoNhomCungMa' => 'Cập nhật cho tất cả cây nhôm cùng mã trong mẫu cửa'
         ];
     }
     

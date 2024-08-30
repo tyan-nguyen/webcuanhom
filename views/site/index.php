@@ -101,6 +101,12 @@ $this->title = 'Phần mềm Quản lý cửa';
                       		CÁC CHỨC NĂNG ĐANG PHÁT TRIỂN
                       </div>
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Yêu cầu ngày 15/08/2024</h5>
+                      		<ul>
+                      			<li>Quản lý nhôm: Sản xuất bộ cửa theo màu nhôm. Yêu cầu: Quản lý cây nhôm cùng hệ nhưng khác màu, tồn kho nhôm theo màu, tối ưu sản xuất cửa theo màu nhôm</li>
+                      			<li>Quản lý màu phụ kiện: Sản xuất cửa theo màu phụ kiện. Yêu cầu: Thay đổi được bộ phụ kiện và màu sắc khi import mẫu cửa từ excel, quản lý tồn kho phụ kiện theo màu sắc</li>
+                      			<li>Chỉnh sửa trường hợp cây nhôm (Ví dụ cây nẹp) sử dụng cho nhiều bộ cửa khác nhau, khác hệ nhôm và độ dày nhưng sử dụng chung cây nẹp.</li>
+                      		</ul>
                       		<h5>Yêu cầu ngày 06/08/2024</h5>
                       		<ul>
                       			<li>Giao diện: Từ kế hoạch chọn giao diện danh sách cửa để thêm vào kế hoạch. Trên giao diện thể hiện tên cửa, tên khách hàng, ngày thực hiện, ngày khách hàng yêu cầu cho từng bộ cửa (thêm cột dữ liệu). Có lọc dữ liệu theo ngày và hệ nhôm.</li>
