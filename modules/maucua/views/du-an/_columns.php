@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use app\custom\CustomFunc;
 
 return [
     [
@@ -66,14 +67,22 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'trang_thai',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ngay_bat_dau_thuc_hien',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ngay_hoan_thanh_du_an',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ngay_bat_dau_thuc_hien',
+        'value'=>function($model){
+            $custom = new CustomFunc();
+            return $custom->convertYMDToDMY($model->ngay_bat_dau_thuc_hien);
+        }
+     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'ngay_hoan_thanh_du_an',
+         'value'=>function($model){
+             $custom = new CustomFunc();
+             return $custom->convertYMDToDMY($model->ngay_hoan_thanh_du_an);
+         }
+     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ghi_chu',
