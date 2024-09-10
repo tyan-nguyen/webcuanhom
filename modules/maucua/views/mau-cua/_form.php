@@ -15,7 +15,7 @@ use app\custom\CustomFunc;
 $custom = new CustomFunc();
 $model->ngay_yeu_cau = $custom->convertYMDToDMY($model->ngay_yeu_cau);
 ?>
-
+<script src="<?= Yii::getAlias('@web') ?>/js/tinymce/tinymce_5.10.7.min.js"></script>
 <div class="mau-cua-form">
 
     <?php $form = ActiveForm::begin(); ?>
