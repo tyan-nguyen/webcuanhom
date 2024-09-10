@@ -99,6 +99,7 @@ $custom = new CustomFunc();
                             ],
                             [
                                 'label'=>'Thời hạn',
+                                'format'=>'html',
                                 // 'value'=>$model->getDmTrangThaiLabel($model->status)
                                 'value'=>$model->trangThaiThoiHan
                             ],
