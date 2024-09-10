@@ -33,6 +33,9 @@ $config = [
         'banle' => [
             'class' => 'app\modules\banle\Module',
         ],
+        'users' => [
+            'class' => 'app\modules\users\Module',
+        ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             
@@ -86,12 +89,26 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
+        /* 'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => '@app/mail',
             // send all mails to a file by default.
             'useFileTransport' => true,
+        ], */
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@app/mail',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'encryption' => 'ssl',
+                'host' => 'smtp.hostinger.com',
+                'port' => '465',
+                'username' => 'notification@vnweb.online',
+                'password' => 'vnW@123!@#',
+            ],
         ],
+        
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

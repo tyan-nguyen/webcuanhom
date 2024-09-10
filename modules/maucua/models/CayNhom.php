@@ -84,15 +84,17 @@ class CayNhom extends CayNhomBase
      * lay danh sach cay nhom su dung duoc cho nhieu he nhom de fill vao dropdownlist
      */
     public static function getListForMulti(){
-        $list = CayNhom::find()->select([
+        $list = CayNhom::find()/* ->select([
             'id',
             'ten_cay_nhom as ten',
             'code',
             "CONCAT(code, ' (', ten_cay_nhom, ')') as ten_cay_nhom"
-        ])->where([
+        ]) */->where([
             'dung_cho_nhieu_he_nhom'=>1
         ])->all();
-        return ArrayHelper::map($list, 'id', 'ten_cay_nhom');
+        return ArrayHelper::map($list, 'id', function($model) {
+            return $model->code . ' - ' . $model->tenCayNhomByColor;
+        });
     }
     
     /**

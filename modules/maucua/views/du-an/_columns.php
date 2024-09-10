@@ -83,6 +83,23 @@ return [
              return $custom->convertYMDToDMY($model->ngay_hoan_thanh_du_an);
          }
      ],
+     
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'danhGia',
+         'label'=>'Đánh giá',
+         'format'=>'html',
+         'value'=>function($model){
+             if($model->danhGia == null){
+                     return '';
+             } else {
+                return $model->danhGia=='success'?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>';
+             }
+         },
+         'headerOptions' => ['width' => '100px'],
+         'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
+    ],
+         
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ghi_chu',

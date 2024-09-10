@@ -329,6 +329,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               	<ul class="ul-ribbon">
               		<li><a href="/user-management/user"><i class="fa-regular fa-file"></i> Tài khoản</a></li>
               		<li>|</li>
+              		<li><a href="/users/tai-khoan-info"><i class="fa-regular fa-file"></i> Nhân viên</a></li>
+              		<li>|</li>
               		<li><a role="modal-remote" href="/site/setting"><i class="fa-regular fa-file"></i> Cấu hình</a></li>
               		<li>|</li>
               		<?php if(Yii::$app->user->isGuest){ ?>
@@ -430,7 +432,7 @@ $script = <<< JS
         	}else if(controllerName == 'khach-hang' || controllerName == 'nha-cung-cap' || controllerName == 'dvt' || controllerName == 'xuat-xu' || controllerName == 'thuong-hieu' || controllerName == 'he-mau'){
                 $('#dm-tab').addClass('active');
                 $('#dm').addClass('show active');
-        	}else if(controllerName == 'user' || controllerName == 'setting'){
+        	}else if(controllerName == 'user' || controllerName == 'setting' || controllerName == 'tai-khoan-info'){
                 $('#taikhoan-tab').addClass('active');
                 $('#taikhoan').addClass('show active');
         	}

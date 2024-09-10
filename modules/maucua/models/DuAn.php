@@ -114,6 +114,29 @@ class DuAn extends DuAnBase
         return $trangThaiKhoNhom;
     }
     
+    /**
+     * đánh giá kế hoạch
+     */
+    public function getDanhGia()
+    {
+        $kq = null;
+        $kqTrue = 0;
+        foreach ($this->mauCuas as $mc){
+            if($mc->danhGia!=NULL && !$mc->danhGia->trangThai){
+                $kq = 'failed';
+                break;
+            } else if($mc->danhGia!=NULL && $mc->danhGia->trangThai){
+                $kqTrue++;
+            }
+        }
+        if($kq!='failed'){
+            if(count($this->mauCuas) == $kqTrue){
+                $kq = 'success';
+            }
+        }
+        return $kq;
+    }
+    
     
     /**
      * lay danh sach tat ca du an

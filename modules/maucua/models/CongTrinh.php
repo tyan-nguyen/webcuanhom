@@ -13,6 +13,28 @@ use app\custom\CustomFunc;
 
 class CongTrinh extends CongTrinhBase
 {
+    /**
+     * đánh giá công trình
+     */
+    public function getDanhGia()
+    {
+        $kq = null;
+        $kqTrue = 0;
+        foreach ($this->mauCuas as $mc){
+            if($mc->danhGia!=NULL && !$mc->danhGia->trangThai){
+                $kq = 'failed';
+                break;
+            } else if($mc->danhGia!=NULL && $mc->danhGia->trangThai){
+                $kqTrue++;
+            }
+        }
+        if($kq!='failed'){
+            if(count($this->mauCuas) == $kqTrue){
+                $kq = 'success';
+            }
+        }
+        return $kq;
+    }
     //get Dm ke hoach load vao combo idKeHoach
     public function getDmKeHoach(){
         $list = DuAn::find()->limit(10)->orderBy(['id'=>SORT_DESC])->all();

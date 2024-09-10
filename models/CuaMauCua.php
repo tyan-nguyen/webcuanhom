@@ -21,11 +21,11 @@ use Yii;
  * @property string|null $ngay_yeu_cau
  * @property int|null $so_luong
  * @property string|null $status
+ * @property string|null $ghi_chu
  * @property string|null $date_created
  * @property int|null $user_created
  *
  * @property CuaCongTrinh $congTrinh
- * @property CuaDuAnChiTiet[] $cuaDuAnChiTiets
  * @property CuaMauCuaNhomSuDung[] $cuaMauCuaNhomSuDungs
  * @property CuaMauCuaNhom[] $cuaMauCuaNhoms
  * @property CuaMauCuaSettings[] $cuaMauCuaSettings
@@ -56,6 +56,7 @@ class CuaMauCua extends \yii\db\ActiveRecord
             [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
             [['ngay_yeu_cau', 'date_created'], 'safe'],
+            [['ghi_chu'], 'string'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],
@@ -86,6 +87,7 @@ class CuaMauCua extends \yii\db\ActiveRecord
             'ngay_yeu_cau' => 'Ngay Yeu Cau',
             'so_luong' => 'So Luong',
             'status' => 'Status',
+            'ghi_chu' => 'Ghi Chu',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',
         ];
@@ -99,16 +101,6 @@ class CuaMauCua extends \yii\db\ActiveRecord
     public function getCongTrinh()
     {
         return $this->hasOne(CuaCongTrinh::class, ['id' => 'id_cong_trinh']);
-    }
-
-    /**
-     * Gets query for [[CuaDuAnChiTiets]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCuaDuAnChiTiets()
-    {
-        return $this->hasMany(CuaDuAnChiTiet::class, ['id_mau_cua' => 'id']);
     }
 
     /**

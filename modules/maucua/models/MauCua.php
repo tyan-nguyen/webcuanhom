@@ -41,7 +41,7 @@ class MauCua extends MauCuaBase
                 $trangThai = 'Đã lên Kế hoạch, đang chờ tối ưu';
             } else if($this->duAn->trang_thai == 'TOI_UU'){
                 $trangThai = 'Đã tối ưu Kế hoạch, đang chờ xuất kho sản xuất';
-            } else if($this->duAn->trang_thai == 'TOI_UU' || $this->duAn->trang_thai == 'DA_XUAT_KHO' || $this->duAn->trang_thai == 'DA_NHAP_KHO' || $this->duAn->trang_thai == 'HOAN_THANH'){
+            } else if(/* $this->duAn->trang_thai == 'TOI_UU' || */ $this->duAn->trang_thai == 'DA_XUAT_KHO' || $this->duAn->trang_thai == 'DA_NHAP_KHO' || $this->duAn->trang_thai == 'HOAN_THANH'){
                 $trangThai = 'Đã sản xuất';
             } else {
                 $trangThai = 'Đã lên Kế hoạch, trạng thái không xác định';
@@ -118,6 +118,35 @@ class MauCua extends MauCuaBase
     public function getLoaiCua()
     {
         return $this->hasOne(LoaiCua::class, ['id' => 'id_loai_cua']);
+    }
+    
+    /**
+     * Gets query for [[LoaiCua]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(MauCua::class, ['id' => 'id_parent']);
+    }
+    
+    /**
+     * Gets query for [[DanhGia]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDsDanhGia()
+    {
+        return $this->hasMany(DanhGia::class, ['id_mau_cua' => 'id']);
+    }
+    /**
+     * Gets query for [[DanhGia]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDanhGia()
+    {
+        return DanhGia::find()->where(['id_mau_cua'=>$this->id])->orderBy(['lan_thu'=>SORT_DESC])->one();
     }
     
     /**
@@ -668,12 +697,12 @@ class MauCua extends MauCuaBase
      * Ngày bàn giao dự kiến: 1) Ngày khách hàng yêu cầu riêng cho mẫu cửa, 2) Ngày kết thúc của công trình
      */
     public function getNgayBanGiaoDuKien(){
-        /* $custom = new CustomFunc();
+        $custom = new CustomFunc();
         if($this->ngay_yeu_cau != null){
             return $this->ngay_yeu_cau;
-        } else { */
+        } else {
             return $this->congTrinh->ngay_hoan_thanh;
-        //}
+        }
     }
     public function getNgayBanGiaoDuKienDMY(){
         $custom = new CustomFunc();

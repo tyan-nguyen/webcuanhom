@@ -29,6 +29,7 @@ use app\modules\maucua\models\CongTrinh;
  * @property string|null $ngay_yeu_cau
  * @property int|null $so_luong
  * @property string|null $status
+ * @property string|null $ghi_chu
  * @property string|null $date_created
  * @property int|null $user_created
  *
@@ -97,6 +98,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             [['ngang', 'cao'], 'number'],
             [['id_he_nhom', 'id_loai_cua', 'id_parent', 'id_du_an', 'id_cong_trinh', 'so_luong', 'user_created'], 'integer'],
             [['ngay_yeu_cau', 'date_created', 'nhomDu'], 'safe'],
+            [['ghi_chu'], 'string'],
             [['code', 'kich_thuoc', 'status'], 'string', 'max' => 20],
             [['ten_cua'], 'string', 'max' => 255],
             [['code'], 'unique'],
@@ -127,6 +129,7 @@ class MauCuaBase extends \app\models\CuaMauCua
             'ngay_yeu_cau' => 'Ngày khách hàng yêu cầu',
             'so_luong' => 'Số lượng',
             'status' => 'Trạng thái',
+            'ghi_chu' => 'Chú thích',
             'date_created' => 'Ngày tạo dữ liệu',
             'user_created' => 'Người tạo dữ liệu',
         ];

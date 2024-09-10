@@ -7,6 +7,9 @@ use app\widgets\views\ImageListWidget;
 use app\modules\maucua\models\MauCua;
 use app\modules\maucua\models\MauCuaSettings;
 use kartik\helpers\Html;
+use app\custom\CustomFunc;
+
+$custom = new CustomFunc();
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\maucua\models\MauCua */
@@ -51,6 +54,9 @@ use kartik\helpers\Html;
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="test3-tab" data-bs-toggle="tab" data-bs-target="#test3" type="button" role="tab" aria-controls="vach" aria-selected="false">Tối ưu cắt</button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="danhgia-tab" data-bs-toggle="tab" data-bs-target="#danhgia" type="button" role="tab" aria-controls="danhgia" aria-selected="false"><i class="fa-solid fa-star-half-stroke"></i> Đánh giá</button>
+          </li>
            
           
         </ul>
@@ -66,17 +72,49 @@ use kartik\helpers\Html;
                             'code',
                             'ten_cua',
                             'kich_thuoc',
-                            'id_he_nhom',
-                            'id_loai_cua',
-                            'id_parent',
+                            'id_he_nhom'=>[
+                                'attribute'=>'id_he_nhom',
+                                'value'=>$model->heNhom!=null?$model->heNhom->ten_he_nhom:''
+                            ],
+                            'id_loai_cua'=>[
+                                'attribute'=>'id_loai_cua',
+                                'value'=>$model->loaiCua!=null?$model->loaiCua->ten_loai_cua:''
+                            ],
+                            'id_parent'=>[
+                                'attribute'=>'id_parent',
+                                'value'=>$model->parent!=null?$model->parent->code:''
+                            ],
                             'id_du_an'=>[
-                                'attribute'=>'status',
+                                'attribute'=>'id_du_an',
                                 'value'=>$model->duAn!=null?$model->duAn->ten_du_an:''
                             ],
-                            'so_luong',
-                            'status'=>[
-                                'attribute'=>'status',
-                                'value'=>$model->getDmTrangThaiLabel($model->status)
+                            'so_luong'=>[
+                                'attribute'=>'so_luong',
+                                'value'=>$model->so_luong . ' (bộ)'
+                            ],
+                            [
+                                'label'=>'Trạng thái',
+                               // 'value'=>$model->getDmTrangThaiLabel($model->status)
+                                'value'=>$model->trangThaiCua
+                            ],
+                            [
+                                'label'=>'Thời hạn',
+                                // 'value'=>$model->getDmTrangThaiLabel($model->status)
+                                'value'=>$model->trangThaiThoiHan
+                            ],
+                            'ghi_chu'=>[
+                                'attribute'=>'ghi_chu',
+                                'format'=>'html',
+                                'value'=>$model->ghi_chu
+                            ],
+                            [
+                                'attribute'=>'ngay_yeu_cau',
+                                'value'=>$custom->convertYMDToDMY($model->ngay_yeu_cau)
+                            ],
+                            [
+                                'label'=>'Kết quả đánh giá',
+                                'format'=>'html',
+                                'value'=>$model->danhGia?('<span class="badge ' . ($model->danhGia->trangThai?'text-bg-success':'text-bg-danger') . '">' .$model->danhGia->trangThaiText . '</span>'):'Chưa đánh giá'
                             ],
                             [
                                 'label'=>'Cấu hình cửa',
@@ -137,6 +175,8 @@ use kartik\helpers\Html;
                     ?>
                    
                 	<a href="#" onClick="InPhieuThongTin()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In thông mẫu cửa</a>
+                	
+                	<a href="/maucua/danh-gia/create?idMauCua=<?= $model->id ?>" role="modal-remote" class="btn btn-primary btn-sm"><i class="fa-solid fa-star-half-stroke"></i> Đánh giá</a>
                    <!-- <a href="#" onClick="InPhieuXuatKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a> -->
                    <!-- 
                    <a href="#" onClick="InPhieuNhapKho()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu Nhập nhôm dư</a>
@@ -203,6 +243,12 @@ use kartik\helpers\Html;
           		    'model'=>$model,
           		]) ?>         
           		</div>   
+     		</div>
+     		
+     		<div class="tab-pane fade" id="danhgia" role="tabpanel" aria-labelledby="danhgia-tab">
+        		<?= $this->render('_danh_gia', [
+          		    'model'=>$model->dsDanhGia,
+          		]) ?>           
      		</div>
             
            

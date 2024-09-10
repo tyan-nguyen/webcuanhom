@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use app\custom\CustomFunc;
+use yii\helpers\Html;
 
 return [
     [
@@ -12,6 +13,24 @@ return [
         'width' => '30px',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'congTrinh.ten_cong_trinh',
+        'group'=>true,
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
+    ],
+    [
+        'format' => 'raw',
+        'value'=>function($model){
+            return Html::a( Html::img($model->imageUrl, ['width'=>'75px', 'class'=>'imgBig']), $model->imageUrl, [
+                'data-fancybox'=>'gallery',
+                'data-caption'=>$model->ten_cua
+            ]);
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
+    ],
+    [
         'format' => 'raw',
         'value'=>function($model){
         return '<div class="btn-group dropend">
@@ -20,12 +39,15 @@ return [
                   </button>
                   <ul class="dropdown-menu">
                     <li style="border-bottom:1px solid black;"><a class="dropdown-item" href="#"><strong>Chọn chức năng</strong></a></li>
+                    <li><a data-pjax="0" class="dropdown-item" href="/maucua/mau-cua/view?id='.$model->id.'" role="modal-remote"><i class="fa-solid fa-square-up-right"></i> Xem thông tin mẫu cửa</a></li>
                     <li><a data-pjax="0" class="dropdown-item" href="/maucua/bao-gia/index?id='.$model->id.'"><i class="fa-solid fa-square-up-right"></i> Báo giá</a></li>
 
                   </ul>
                 </div>';
-        }
-  ],
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
+    ],
         // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'id',
@@ -36,57 +58,73 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
         'format'=>'raw',
-        'value'=>'showAction'
+        'value'=>'showAction',
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ten_cua',
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'congTrinh.ten_cong_trinh',
-    ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'duAn.ten_du_an',
+        'label'=>'Kế hoạch SX',
+        'value'=>function($model){
+            $custom = new CustomFunc();
+            return $model->duAn?$custom->convertYMDToDMY($model->duAn->ngay_bat_dau_thuc_hien):'';
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'kich_thuoc',
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_he_nhom',
         'value'=>function($model){
-            return $model->heNhom->ten_he_nhom;
-        }
+            return $model->heNhom->code;
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_loai_cua',
         'value'=>function($model){
             return $model->loaiCua->ten_loai_cua;
         }
-    ],
+    ], */
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ngay_yeu_cau',
-        'label'=>'Hạn hoàn thành',
+        'label'=>'Thời hạn',
         'format'=>'html',
         'value'=>function($model){
             //$custom = new CustomFunc();
             //return $custom->convertYMDToDMY($model->ngay_yeu_cau);
             return '<span '. ($model->ngay_yeu_cau!=null?'style="color:blue"':'') .'>' . $model->getNgayBanGiaoDuKienDMY() . '</span>';
-        }
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'trangThai',
-        'label'=>'Trạng thái sản xuất',
+        'label'=>'Trạng thái',
         'format'=>'html',
         'value'=>function($model){
             return $model->trangThaiCua;
-        }
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -95,8 +133,21 @@ return [
         'format'=>'html',
         'value'=>function($model){
             return $model->trangThaiThoiHan;
-        }
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'danhGia',
+        'label'=>'Đánh giá',
+        'format'=>'html',
+        'value'=>function($model){
+            return $model->danhGia==null?'':($model->danhGia->trangThai?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>');
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
+        ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'id_parent',

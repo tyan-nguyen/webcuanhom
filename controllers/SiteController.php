@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\modules\dungchung\models\Setting;
 use yii\helpers\Html;
+use app\modules\users\models\TaiKhoanInfo;
 
 class SiteController extends Controller
 {
@@ -30,6 +31,35 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+    
+    public function actionTest7(){
+        /* $arr = TaiKhoanInfo::getListEmailNhanThongBao();
+        if($arr!=null){
+            $html = '<b>Kết quả kiểm tra mẫu cửa không đạt</b>'; 
+            Yii::$app->mailer->compose() // Sử dụng nếu có template
+            ->setFrom('notification@vnweb.online') // Mail sẽ gửi đi
+            ->setTo($arr) // Mail sẽ nhận
+            ->setSubject('[PM Cửa nhôm] Kết quả kiểm tra không đạt') // tiêu đề mail
+            ->setHtmlBody($html) // Nội dung mail dạng Html nếu không muốn dùng html thì có thể thay thế bằng setTextBody('Nội dung gửi mail trong Yii2') để chỉ hiển thị text
+            ->send();
+        } */
+    }
+    
+    public function actionSendEmail(){
+        Yii::$app->mailer->compose() // Sử dụng nếu có template
+        ->setFrom('notification@vnweb.online') // Mail sẽ gửi đi
+        ->setTo('travinhfashion@gmail.com') // Mail sẽ nhận
+        ->setSubject('Demo gửi mail trong Yii2') // tiêu đề mail
+        ->setHtmlBody('<b>Nội dung gửi mail trong Yii2</b>') // Nội dung mail dạng Html nếu không muốn dùng html thì có thể thay thế bằng setTextBody('Nội dung gửi mail trong Yii2') để chỉ hiển thị text
+        ->send();
+        
+        Yii::$app->mailer->compose() // Sử dụng nếu có template
+        ->setFrom('notification@vnweb.online') // Mail sẽ gửi đi
+        ->setTo('nguyenvantyan@gmail.com') // Mail sẽ nhận
+        ->setSubject('Demo gửi mail trong Yii2') // tiêu đề mail
+        ->setHtmlBody('<b>Nội dung gửi mail trong Yii2</b>') // Nội dung mail dạng Html nếu không muốn dùng html thì có thể thay thế bằng setTextBody('Nội dung gửi mail trong Yii2') để chỉ hiển thị text
+        ->send();
     }
 
     /**

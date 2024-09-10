@@ -2,6 +2,9 @@
 use app\modules\maucua\models\HeNhom;
 use yii\helpers\Html;
 use app\modules\maucua\models\CongTrinh;
+use app\custom\CustomFunc;
+
+$custom = new CustomFunc();
 ?>
 
 <link href="/js/datatables/datatables.min.css" rel="stylesheet">
@@ -37,13 +40,13 @@ use app\modules\maucua\models\CongTrinh;
     <table id="tblDanhSachCua" class="table table-striped table-hover" style="width:100%">
     	<thead>
         	<tr style="font-size:85%">
-            	<th width="5%" class="text-center">STT</th>
-            	<th width="10%">Ảnh</th>
-            	<th width="25%">Tên cửa</th>
-            	<th width="15%">Hệ nhôm</th>
-            	<th width="25%">KHSX</th>
-            	<th width="15%">Ngày YC</th>
-            	
+            	<th width="3%" class="text-center">STT</th>
+            	<th width="7%">Ảnh</th>
+            	<th width="20%">Tên cửa</th>
+            	<th width="20%">Hệ nhôm</th>
+            	<th width="20%">KHSX</th>
+            	<th width="10%">Ngày YC</th>
+            	<th width="5%"><i class="fa-solid fa-star-half-stroke"></i></th>
             	<th width="5%"></th>
         	</tr>
         	
@@ -80,8 +83,8 @@ use app\modules\maucua\models\CongTrinh;
       	    </td>
       	    <td><?= $mau->heNhom->code ?></td>
         	<td><?= $mau->duAn?$mau->duAn->ten_du_an:'' ?></td>
-        	<td></td>
-        	
+        	<td><?= $custom->convertYMDToDMY($mau->ngay_yeu_cau) ?></td>
+        	<td style="text-align: center"><?= $mau->danhGia==null?'':($mau->danhGia->trangThai?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>') ?></td>
         	<td>
         	<?php 
         	   //kiem tra xem cua co nam trong khsx khong, neu có an nut xoa

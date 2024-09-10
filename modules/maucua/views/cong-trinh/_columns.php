@@ -52,7 +52,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_khach_hang',
         'value'=>function($model){
-            return $model->khachHang->ten_khach_hang;
+            return $model->khachHang?$model->khachHang->ten_khach_hang:'';
         }
     ],
    
@@ -73,6 +73,21 @@ return [
         'value'=>function($model){
             return $model->ngayHoanThanh;
         }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'danhGia',
+        'label'=>'Đánh giá',
+        'format'=>'html',
+        'value'=>function($model){
+            if($model->danhGia == null){
+                return '';
+            } else {
+                return $model->danhGia=='success'?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>';
+            }
+        },
+        'headerOptions' => ['width' => '100px'],
+        'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
     ],
     /* [
         'class'=>'\kartik\grid\DataColumn',

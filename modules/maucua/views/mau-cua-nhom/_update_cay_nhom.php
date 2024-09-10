@@ -40,7 +40,7 @@ use app\modules\maucua\models\CayNhom;
 	<div class="row">
 		<div class="col-md-5">
 			Từ cây nhôm: <strong><?= $oldModel->cayNhom->code ?></strong>
-			<br/>Tên cây nhôm: <?= $oldModel->cayNhom->ten_cay_nhom ?>
+			<br/>Tên cây nhôm: <?= $oldModel->cayNhom->tenCayNhomByColor ?>
 			<br/>Hệ nhôm: <strong><?= $oldModel->cayNhom->heNhom->code ?></strong> (<?= $model->cayNhom->heNhom->ten_he_nhom ?>)
 			<br/>Độ dày: <?= $oldModel->cayNhom->do_day ?> (mm)
 			<br/>Số lượng tồn kho:

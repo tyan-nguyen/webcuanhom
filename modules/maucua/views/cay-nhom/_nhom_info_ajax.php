@@ -1,5 +1,5 @@
 Cây nhôm: <strong><?= $model->code ?></strong>
-<br/>Tên cây nhôm: <?= $model->ten_cay_nhom ?>
+<br/>Tên cây nhôm: <?= $model->tenCayNhomByColor ?>
 <br/>Hệ nhôm: <strong><?= $model->heNhom->code ?></strong> (<?= $model->heNhom->ten_he_nhom ?>)
 <br/>Độ dày: <?= $model->do_day ?> (mm)
 <br/>Số lượng tồn kho:

@@ -55,6 +55,8 @@ $model->ngay_yeu_cau = $custom->convertYMDToDMY($model->ngay_yeu_cau);
             <?= $form->field($model, 'status')->dropDownList((new MauCua())->getDmTrangThai(), ['prompt'=>'--Select--']) ?>
         </div>
         <div class="col-md-6">
+            <?= $form->field($model, 'ghi_chu')->textarea(['id'=>'txtGhiChu', 'rows' => 6]) ?>
+
             <p class="text-muted card-sub-title mt-1">
         		<?= $model->isNewRecord ? 'Vui lòng bấm lưu lại để tải ảnh lên' : 'Chọn file hình ảnh.' ?>
         	</p>
@@ -79,3 +81,30 @@ $model->ngay_yeu_cau = $custom->convertYMDToDMY($model->ngay_yeu_cau);
     <?php ActiveForm::end(); ?>
     
 </div>
+
+
+<script>
+tinyMCE.remove();
+tinymce.init({
+	branding: false,
+  selector: 'textarea#txtGhiChu',
+  height: 200,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste code help wordcount'
+  ],
+  toolbar: 'undo redo | formatselect | ' +
+  'bold italic backcolor | alignleft aligncenter ' +
+  'alignright alignjustify | bullist numlist outdent indent | ' +
+  'removeformat | help',
+  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+  setup: function (editor) {
+	    editor.on('change', function () {
+	        tinymce.triggerSave();
+	    });
+	}
+});
+//tinyMCE.triggerSave();
+</script>

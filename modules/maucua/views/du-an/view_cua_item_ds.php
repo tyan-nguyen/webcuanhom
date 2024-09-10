@@ -40,12 +40,13 @@ $custom = new CustomFunc();
     <table id="tblDanhSachCua" class="table table-striped table-hover" style="width:100%">
     	<thead>
         	<tr style="font-size:85%">
-            	<th width="5%" class="text-center">STT</th>
-            	<th width="10%">Ảnh</th>
-            	<th width="25%">Tên cửa</th>
-            	<th width="25%">Tên C.Tr</th>
-            	<th width="15%">Ngày YC</th>
-            	<th width="15%">Hệ nhôm</th>
+            	<th width="3%" class="text-center">STT</th>
+            	<th width="7%">Ảnh</th>
+            	<th width="20%">Tên cửa</th>
+            	<th width="20%">Tên C.Tr</th>
+            	<th width="20%">Ngày YC</th>
+            	<th width="20%">Hệ nhôm</th>
+            	<th width="5%"><i class="fa-solid fa-star-half-stroke"></i></th>
             	<th width="5%"></th>
         	</tr>
         	
@@ -83,6 +84,7 @@ $custom = new CustomFunc();
         	<td><?= $mau->congTrinh->ten_cong_trinh ?></td>
         	<td><?= $custom->convertYMDToDMY($mau->ngay_yeu_cau) ?></td>
         	<td><?= $mau->heNhom->code ?></td>
+        	<td style="text-align: center"><?= $mau->danhGia==null?'':($mau->danhGia->trangThai?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>') ?></td>
         	<td>
         	<a role="modal-remote" data-pjax="0" class="dropdown-item" href="/maucua/du-an/remove-mau-cua-ke-hoach?idkh=<?= $model->id ?>&idmc=<?= $mau->id ?>" data-request-method="post" data-toggle="tooltip" data-confirm-title="Xác nhận xóa mẫu cửa khỏi KHSX?" data-confirm-message="Bạn có chắc chắn muốn xóa mẫu cửa khỏi Kế hoạch sản xuất?"><i class="fa-solid fa-calendar-xmark"></i></a>        	
         	</td>
