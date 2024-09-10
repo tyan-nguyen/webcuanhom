@@ -13,7 +13,7 @@ $this->title = 'Phần mềm Quản lý cửa';
 <div class="container indexPage">
 	<div class="row mx-auto">
 		<div class="col-md-12" style="margin-bottom: 10px;">
-			<h1 class="pageTitle">PHẦN MỀM QUẢN LÝ SẢN XUẤT CỬA (v0.3.0)</h1>
+			<h1 class="pageTitle">PHẦN MỀM QUẢN LÝ SẢN XUẤT CỬA (v0.3.1)</h1>
 		</div>
 	</div>
     <div class="row">
