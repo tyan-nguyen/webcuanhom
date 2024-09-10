@@ -25,6 +25,22 @@ $this->title = 'Phần mềm Quản lý cửa';
                       </div>
                       
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		<h5>Phiên bản 0.3.1</h5>
+                      		<p>
+                          		Ngày cập nhật:  10/09/2024
+                          		<br/>
+                          		Nội dung cập nhật:
+                      		</p>
+                      		<ul>
+                      			<li>Thêm phiếu đánh giá cho mẫu cửa bao gồm các tiêu chí, 1 tiêu chí không đạt là mẫu cửa không đạt</li>
+                      			<li>Cảnh báo qua Email khi có mẫu cửa không đạt yêu cầu</li>
+                      			<li>Bổ sung cấu hình tài khoản nhận cảnh báo trong menu Tài Khoản</li>
+                      			<li>Thêm cột chú thích cho mẫu cửa</li>
+                      			<li>Thay đổi giao diện trang trạng thái cửa, thêm hình ảnh cửa, nhóm theo công trình, bổ sung thông tin và loại bỏ bớt thông tin loại cửa</li>
+                      			<li>Sửa thông báo ngày giao hàng ưu tiên theo ngày khách hàng yêu cầu, tiếp theo đến ngày kết thúc dự án khi nhập thông tin</li>
+                      			<li>Hiển thị màu cây nhôm trong chức năg thay đổi cây nhôm sử dụng cho nhiều hệ</li>
+                      			
+                      		</ul>
                       		<h5>Phiên bản 0.3.0</h5>
                       		<p>
                           		Ngày cập nhật:  29/08/2024
@@ -115,6 +131,7 @@ $this->title = 'Phần mềm Quản lý cửa';
                       		CÁC CHỨC NĂNG ĐANG PHÁT TRIỂN
                       </div>
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
+                      		
                       		<h5>Yêu cầu ngày 15/08/2024</h5>
                       		<ul>
                       			<li>Quản lý nhôm: Sản xuất bộ cửa theo màu nhôm. Yêu cầu: Quản lý cây nhôm cùng hệ nhưng khác màu, tồn kho nhôm theo màu, tối ưu sản xuất cửa theo màu nhôm</li>
