@@ -82,7 +82,7 @@ $custom = new CustomFunc();
       	         ) ?>
       	    </td>
         	<td><?= $mau->congTrinh->ten_cong_trinh ?></td>
-        	<td><?= $custom->convertYMDToDMY($mau->ngay_yeu_cau) ?></td>
+        	<td <?= ($mau->ngay_yeu_cau!=null?'style="color:blue"':'') ?>><?= $custom->convertYMDToDMY($mau->ngayBanGiaoDuKien) ?></td>
         	<td><?= $mau->heNhom->code ?></td>
         	<td style="text-align: center"><?= $mau->danhGia==null?'':($mau->danhGia->trangThai?'<span class="text-success"><i class="fa-solid fa-calendar-check"></i></span>':'<span class="text-danger"><i class="fa-regular fa-circle-xmark"></i></span>') ?></td>
         	<td>

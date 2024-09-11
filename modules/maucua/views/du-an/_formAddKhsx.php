@@ -71,7 +71,7 @@ $custom = new CustomFunc();
         	<td style="vertical-align:middle"><?= $mc->ten_cua ?></td>
         	<td style="vertical-align:middle"><?= $mc->congTrinh!=null ? $mc->congTrinh->ten_cong_trinh : ''  ?></td>
         	<td style="vertical-align:middle"><?= $mc->congTrinh->khachHang->ten_khach_hang ?></td>
-        	<td style="vertical-align:middle"><?= $custom->convertYMDToDMY($mc->ngay_yeu_cau)  ?></td>
+        	<td style="vertical-align:middle;<?= ($mc->ngay_yeu_cau!=null?'color:blue;':'') ?>"><?= $custom->convertYMDToDMY($mc->ngayBanGiaoDuKien)  ?></td>
         	<td style="vertical-align:middle"><?= $mc->heNhom->code ?></td>
         </tr>
         <?php } ?>
