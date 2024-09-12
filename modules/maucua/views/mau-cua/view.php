@@ -72,6 +72,11 @@ $custom = new CustomFunc();
                             'code',
                             'ten_cua',
                             'kich_thuoc',
+                            [
+                                'label'=>'Diện tích',
+                                'format'=>'html',
+                                'value'=>$model->dienTichM2 .' m<sup>2</sup>'
+                            ],
                             'id_he_nhom'=>[
                                 'attribute'=>'id_he_nhom',
                                 'value'=>$model->heNhom!=null?$model->heNhom->ten_he_nhom:''

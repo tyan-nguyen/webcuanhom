@@ -66,6 +66,16 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                             'attributes' => [
                                 //'id',
                                 'ten_du_an',
+                                [
+                                    'label' => 'Tổng diện tích',
+                                    'format' => 'html',
+                                    'value'=>round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>'
+                                ],
+                                [
+                                    'label' => 'Tổng diện tích nghiệm thu',
+                                    'format' => 'html',
+                                    'value'=>round($model->tongDienTichDatChatLuong/1000000,2) . '/' . round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>'
+                                ],
                                 /* 'ten_khach_hang',
                                 'dia_chi:ntext',
                                 'so_dien_thoai',
@@ -85,7 +95,7 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                                     'format'=>'html'
                                 ]
                             ],
-                            'template' => "<tr><th style='width: 40%;'>{label}</th><td class='align-middle'>{value}.</td></tr>"
+                            'template' => "<tr><th style='width: 40%;'>{label}</th><td class='align-middle'>{value}</td></tr>"
                         ]) ?>
                     </fieldset>
         			

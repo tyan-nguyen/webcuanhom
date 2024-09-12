@@ -317,7 +317,7 @@ class DuAn extends DuAnBase
             $result[] = [
                 'id'=>$nhom->id, //id toi uu
                 'macaynhom'=>$nhom->khoNhom->cayNhom->code,
-                'codeHeMau'=>$nhom->khoNhom->cayNhom->heMau->code,
+                'codeHeMau'=>($nhom->khoNhom->cayNhom->heMau?$nhom->khoNhom->cayNhom->heMau->code:''),
                 'soluong'=>$soLuongArr,
                 'chieudai'=>$nhom->chieu_dai_ban_dau,
                 'vetcat'=> $nhom->duAn->setting['vet_cat'],
@@ -380,4 +380,39 @@ class DuAn extends DuAnBase
         }
     }
     
+    /**
+     * lay tong dien tich thi cong
+     */
+    public function getTongDienTichThiCong(){
+        $dt = 0;
+        if($this->mauCuas){
+            foreach ($this->mauCuas as $indexMc=>$mc){
+                $dt += $mc->dienTich;
+            }
+        }
+        return $dt;
+    }
+    /**
+     * lay tong dien tich thi cong dat chat luong
+     */
+    public function getTongDienTichDatChatLuong(){
+        $dt = 0;
+        if($this->mauCuas){
+            foreach ($this->mauCuas as $indexMc=>$mc){
+                if($mc->danhGia && $mc->danhGia->trangThai){
+                    $dt += $mc->dienTich;
+                }
+            }
+        }
+        return $dt;
+    }
+    /**
+     * lay lan danh gia nghiem thu cuoi cung
+     */
+    public function getLanDanhGiaCuoi(){
+        $danhGia = DanhGia::find()->alias('t')->joinWith(['mauCua as mc'])->where([
+            'mc.id_du_an' => $this->id,
+        ])->orderBy(['t.lan_thu'=>SORT_DESC])->one();
+        return $danhGia?$danhGia->lan_thu:'';
+    }
 }

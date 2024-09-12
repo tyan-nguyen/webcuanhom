@@ -690,6 +690,29 @@ class MauCua extends MauCuaBase
         return $img != null ? $img->ten_file_luu : null;
     }
     
+    public function getDienTich(){
+        $ngang = 0;
+        $cao = 0;
+        if($this->ngang == NULL || $this->cao == NULL){
+            if($this->kich_thuoc!=null){
+                $dienTich = explode(' ', $this->kich_thuoc);
+                $dt = explode('x', $dienTich[0]);
+                if(isset($dt[0]) && $dt[0] != null && isset($dt[1]) && $dt[1] != null){
+                    $ngang = $dt[0];
+                    $cao = $dt[1];
+                }
+            }
+        } else {
+            $ngang = $this->ngang;
+            $cao = $this->cao;
+        }
+        return round($ngang*$cao,2);
+    }
+    
+    public function getDienTichM2(){
+        return round($this->dienTich/1000000,2);
+    }
+    
     public function getImageUrl(){
         return Yii::getAlias('@web/uploads/images/'.$this->hinhAnh);
     }
