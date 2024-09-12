@@ -69,12 +69,12 @@ $model->ngay_hoan_thanh_du_an = $custom->convertYMDToDMY($model->ngay_hoan_thanh
                                 [
                                     'label' => 'Tổng diện tích',
                                     'format' => 'html',
-                                    'value'=>round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>'
+                                    'value'=>round($model->tongDienTichThiCong/1000000,2) . ' m<sup>2</sup>'
                                 ],
                                 [
                                     'label' => 'Tổng diện tích nghiệm thu',
                                     'format' => 'html',
-                                    'value'=>round($model->tongDienTichDatChatLuong/1000000,2) . '/' . round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>'
+                                    'value'=>round($model->tongDienTichDatChatLuong/1000000,2) . '/' . round($model->tongDienTichThiCong/1000000,2) . ' m<sup>2</sup>'
                                 ],
                                 /* 'ten_khach_hang',
                                 'dia_chi:ntext',

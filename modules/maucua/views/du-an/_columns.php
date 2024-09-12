@@ -111,7 +111,7 @@ return [
         'label'=>'Tổng DT',
         'format'=>'html',
         'value'=>function($model){
-            return round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>';
+            return round($model->tongDienTichThiCong/1000000,2) . ' m<sup>2</sup>';
         },
         'headerOptions' => ['width' => '100px'],
         'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
@@ -122,7 +122,7 @@ return [
          'label'=>'Tổng nghiệm thu',
          'format'=>'html',
          'value'=>function($model){
-         return round($model->tongDienTichDatChatLuong/1000000,2) . '/' . round($model->tongDienTichThiCong/1000000,2) . ' m <sup>2</sup>';
+         return round($model->tongDienTichDatChatLuong/1000000,2) . '/' . round($model->tongDienTichThiCong/1000000,2) . ' m<sup>2</sup>';
          },
          'headerOptions' => ['width' => '100px'],
          'contentOptions'=>['style'=>'text-align:center;vertical-align: middle;']
