@@ -36,7 +36,7 @@ class HoaDonChiTietController extends Controller
             if($vts != null){
                 $options .= '<optgroup label="'. KhoVatTu::getDmNhomVatTuLabel($lvt) .'">';
                 foreach ($vts as $vt){
-                    $options .= '<option value="'. $vt->id .'" '. ($vt->id==$selected ? 'selected' : '') .'>'. $vt->ten_vat_tu .'</option>';
+                     $options .= '<option value="'. $vt->id .'" '. ($vt->id==$selected ? 'selected' : '') .'>'. $vt->ten_vat_tu . ' - ' . $vt->codeByColor .'</option>';
                 }
                 $options .= '</optgroup>';
             }
