@@ -52,7 +52,7 @@ class HoaDon extends HoaDonBase
                 'id'=>$vatTu->id,
                 'idPhieu'=>$vatTu->id_hoa_don,
                 'idVatTu'=>$vatTu->id_vat_tu,
-                'tenVatTu'=>$vatTu->tenVatTu,
+                'tenVatTu'=>$vatTu->tenVatTu . ($vatTu->vatTu->heMau?(' - ' . $vatTu->vatTu->heMau->code):''),
                 'loaiVatTu'=>$vatTu->loai_vat_tu,
                 'dvt'=>$vatTu->dvtVatTu,
                 'dvtCayNhom'=>'Cây',

@@ -77,7 +77,7 @@ $custom = new CustomFunc();
     			?>
     			<tr>
         			<td style="text-align:center"><?= $stt ?></td>
-        			<td><?= $vt->tenVatTu ?></td>
+        			<td><?= $vt->tenVatTu . ($vt->vatTu->heMau?(' - ' . $vt->vatTu->heMau->code):'') ?></td>
         			<td style="text-align:center"><?= $vt->maVatTu ?></td>
         			<td style="text-align:center"><?= $vt->dvtVatTu ?></td>
         			<td style="text-align:right"><?= $vt->soLuong ?></td>
