@@ -92,7 +92,7 @@ use app\modules\banle\models\KhachHang;
     <?php ActiveForm::end(); ?>
     
     <div id="objDanhSachVatTu" style="margin-top:10px;">
-    <div class="row">
+    <div class="row" style="height:400px;overflow-y: scroll;">
     	<div class="col-xs-12 table-responsive">
         	<div class="box">
         		<div class="box-header">
