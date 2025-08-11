@@ -571,6 +571,7 @@ function runFunc(sendVal){
         }, */
         success: function (response) {
             $('#ddlKhachHang').html(response.options);
+            getKhachHangAjax(sendVal);
         },
         contentType: false,
         cache: false,
