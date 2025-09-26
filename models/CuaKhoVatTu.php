@@ -49,7 +49,7 @@ class CuaKhoVatTu extends \yii\db\ActiveRecord
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created'], 'safe'],
-            [['code'], 'string', 'max' => 20],
+            [['code'], 'string', 'max' => 50],
             [['ten_vat_tu', 'model'], 'string', 'max' => 255],
             [['xuat_xu'], 'exist', 'skipOnError' => true, 'targetClass' => CuaXuatXu::class, 'targetAttribute' => ['xuat_xu' => 'id']],
         ];

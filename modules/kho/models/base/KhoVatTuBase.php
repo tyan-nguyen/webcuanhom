@@ -41,7 +41,7 @@ class KhoVatTuBase extends \app\models\CuaKhoVatTu
             [['so_luong', 'don_gia'], 'number'],
             [['ghi_chu'], 'string'],
             [['date_created', 'copyMau'], 'safe'],
-            [['code'], 'string', 'max' => 20],
+            [['code'], 'string', 'max' => 50],
             [['ten_vat_tu', 'model'], 'string', 'max' => 255],
         ];
     }
