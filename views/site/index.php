@@ -131,7 +131,12 @@ $this->title = 'Phần mềm Quản lý cửa';
                       		CÁC CHỨC NĂNG ĐANG PHÁT TRIỂN
                       </div>
                       <div class="card-body p-3" style="overflow-y: scroll; height:600px;">
-                      		
+                      		<h5>Yêu cầu ngày 30/09/2025</h5>
+                      		<ul>
+                      			<li>Quản lý bộ phụ kiện theo từng cửa, không nhập theo PM Dowes</li>
+                      			<li>Nhôm dư nhỏ hơn chặn dưới --> chuyển qua phế liệu tính kg, không cần nhập kho dở dang, ko in tem</li>
+                      			<li>Nhôm dư lớn hơn chặn dưới --> chuyển qua nhập kho, in tem dán</li>
+                      		</ul>
                       		<h5>Yêu cầu ngày 15/08/2024</h5>
                       		<ul>
                       			<li>Quản lý nhôm: Sản xuất bộ cửa theo màu nhôm. Yêu cầu: Quản lý cây nhôm cùng hệ nhưng khác màu, tồn kho nhôm theo màu, tối ưu sản xuất cửa theo màu nhôm</li>
