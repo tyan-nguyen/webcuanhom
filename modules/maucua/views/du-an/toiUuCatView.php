@@ -65,7 +65,8 @@
 					textAlign: 'center'
 				}">
 					
-					{{ result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat) }}
+					{{result.conlai}} 
+					<!--{{ result.chieudai - (result.soluong.reduce((total, obj) => obj.width + total,0) + result.soluong.length * result.vetcat) }}-->
 				</div>
 				
 				

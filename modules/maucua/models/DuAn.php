@@ -320,6 +320,7 @@ class DuAn extends DuAnBase
                 'codeHeMau'=>($nhom->khoNhom->cayNhom->heMau?$nhom->khoNhom->cayNhom->heMau->code:''),
                 'soluong'=>$soLuongArr,
                 'chieudai'=>$nhom->chieu_dai_ban_dau,
+                'conlai'=>$nhom->chieu_dai_con_lai,
                 'vetcat'=> $nhom->duAn->setting['vet_cat'],
                 'stt'=> ($iNhom+1),
                 
