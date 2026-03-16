@@ -2,6 +2,7 @@
 
 namespace app\modules\maucua\models;
 
+use app\modules\dungchung\models\Setting;
 use app\modules\maucua\models\base\DuAnBase;
 use Yii;
 use yii\bootstrap5\Html;
@@ -193,6 +194,7 @@ class DuAn extends DuAnBase
      */
     public function taoNhomSuDung(){
         $toiUuNhomCat =  new ToiUuNhomCat();
+        $vetCat = Setting::find()->one()->vet_cat??0;
         $newarray = array();
         //foreach($this->dsToiUu() as $key => $value){
         foreach($this->dsToiUuCoVetCat() as $key => $value){
@@ -202,7 +204,7 @@ class DuAn extends DuAnBase
             $vCopy = $v;
             $numbers = array_column($v, 'chieuDai');
             $tonKhoNhom = KhoNhom::findOne($vI);
-            $desiredSum = $tonKhoNhom->chieu_dai;
+            $desiredSum = $tonKhoNhom->chieu_dai + $vetCat;//chieu dai cay/doan nhom + vet cat de bu cho doan nhom cuoi
             $result = $toiUuNhomCat->ToiUu2($numbers, $desiredSum, null);
             
             foreach ($result as $i7=>$v7){
@@ -212,7 +214,7 @@ class DuAn extends DuAnBase
                 $nhomsd->id_du_an = $this->id;//new
                 $nhomsd->id_kho_nhom = $tonKhoNhom->id;
                 $nhomsd->chieu_dai_ban_dau = $tonKhoNhom->chieu_dai;
-                $nhomsd->chieu_dai_con_lai = $tonKhoNhom->chieu_dai - array_sum($v7);
+                $nhomsd->chieu_dai_con_lai = ($tonKhoNhom->chieu_dai + $vetCat) - array_sum($v7); // chieu dai + them vet cat de bu cho vet cat cong them cho thanh nhom cuoi */
                 if($nhomsd->save()){
                     $nhomsdSaveSuccess = true;
                 }else {
@@ -243,7 +245,7 @@ class DuAn extends DuAnBase
      */
     public function dsToiUuCoVetCat(){
         $result = array();
-        
+        $vetCat = Setting::find()->one()->vet_cat??0;
         $dsToiUu = ToiUu::find()->alias('t')->joinWith(['mauCua as mc'])->where([
             'mc.id_du_an'=>$this->id,
         ])->all();
@@ -271,7 +273,8 @@ class DuAn extends DuAnBase
                 'idTonKhoNhom'=>$nhom->id_ton_kho_nhom, //id ton kho nhom
                 'maCayNhom'=>$nhom->mauCuaNhom->cayNhom->code, //code cua nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
                 'tenCayNhom'=>$nhom->mauCuaNhom->cayNhom->ten_cay_nhom, // ten cay nhom (lay tu CayNhom - from MauCua-Nhom OR TonKhoNhom)
-                'chieuDai'=>$nhom->mauCuaNhom->chieu_dai + $nhom->mauCua->cuaSetting->vet_cat, //chieu dai cay nhom cat ra lay tu bang maucua-nhom
+                //'chieuDai'=>$nhom->mauCuaNhom->chieu_dai + $nhom->mauCua->cuaSetting->vet_cat,
+                'chieuDai'=>$nhom->mauCuaNhom->chieu_dai + $vetCat, //chieu dai cay nhom cat ra lay tu bang maucua-nhom
                 'soLuong'=>1, // boc tach ra tat nhien la 1, can thiet???
                 'kieuCat'=>$nhom->mauCuaNhom->kieu_cat, // lay tu MauCua-Nhom
                 'khoiLuong'=>$nhom->mauCuaNhom->khoi_luong, //lay tu MauCua-Nhom
