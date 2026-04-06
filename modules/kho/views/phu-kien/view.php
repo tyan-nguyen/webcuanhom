@@ -74,7 +74,7 @@ use yii\widgets\DetailView;
                     ],
                     'don_gia'=>[
                         'attribute'=>'don_gia',
-                        'value'=>number_format($model->don_gia)
+                        'value'=>$model->don_gia>=0?number_format($model->don_gia):''
                     ],
                     'date_created',
                     //'user_created',
