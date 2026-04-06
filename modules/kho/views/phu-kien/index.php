@@ -41,6 +41,9 @@ BulkButtonWidget::widget([
     Html::a('<i class="fa-solid fa-upload"></i> Upload', Yii::getAlias('@web/dungchung/import-all/upload?type=').PhuKien::MODEL_ID. '&showOverwrite=1', [ 'class'=>'btn btn-primary btn-sm btn-default-custom', 'role'=>'modal-remote']) . '&nbsp;' .
     
     Html::a('<i class="fa-solid fa-cloud-arrow-down"></i> Tải mẫu', Yii::getAlias('@web/files/excel/import-phu-kien.xlsx'), ['class'=>'btn btn-primary btn-sm btn-default-custom'])
+
+    . '&nbsp;||&nbsp;'.
+    Html::a('<i class="fa-solid fa-file-export"></i> Xuất file', ['export-from-template'], [ 'class'=>'btn btn-primary btn-sm btn-default-custom'])
 ]);
 ?>
 </div>

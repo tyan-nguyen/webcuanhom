@@ -21,6 +21,7 @@ use Yii;
  * @property int|null $for_cua_di
  * @property float|null $min_allow_cut
  * @property float|null $min_allow_cut_under
+ * @property float|null $scrap
  * @property int|null $dung_cho_nhieu_he_nhom
  * @property string|null $date_created
  * @property int|null $user_created
@@ -48,7 +49,7 @@ class CuaCayNhom extends \yii\db\ActiveRecord
         return [
             [['id_he_nhom', 'code', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'id_he_mau', 'so_luong', 'for_cua_so', 'for_cua_di', 'dung_cho_nhieu_he_nhom', 'user_created'], 'integer'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut', 'min_allow_cut_under'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut', 'min_allow_cut_under', 'scrap'], 'number'],
             [['date_created'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
@@ -77,6 +78,7 @@ class CuaCayNhom extends \yii\db\ActiveRecord
             'for_cua_di' => 'For Cua Di',
             'min_allow_cut' => 'Min Allow Cut',
             'min_allow_cut_under' => 'Min Allow Cut Under',
+            'scrap' => 'Scrap',
             'dung_cho_nhieu_he_nhom' => 'Dung Cho Nhieu He Nhom',
             'date_created' => 'Date Created',
             'user_created' => 'User Created',

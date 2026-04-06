@@ -145,6 +145,12 @@ return [
          'label'=>'Chặn dưới',
          'contentOptions'=>['style'=>'text-align:center']
      ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'scrap',
+         'label'=>'Phế liệu',
+         'contentOptions'=>['style'=>'text-align:center']
+     ],
      
      /* [
       'class'=>'\kartik\grid\DataColumn',

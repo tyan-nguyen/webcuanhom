@@ -71,6 +71,10 @@ use yii\widgets\DetailView;
                     'attribute'=>'min_allow_cut_under',
                     'value'=> $model->min_allow_cut_under>0 ? (number_format($model->min_allow_cut_under) . ' mm') : 'Không giới hạn'
                 ],
+                'scrap'=>[
+                    'attribute'=>'scrap',
+                    'value'=> $model->scrap>0 ? (number_format($model->scrap) . ' mm') : 'Chưa cấu hình'
+                ],
                 'date_created',
                 //'user_created',
             ],

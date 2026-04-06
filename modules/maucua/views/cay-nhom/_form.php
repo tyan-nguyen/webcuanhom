@@ -46,6 +46,8 @@ use app\modules\maucua\models\HeNhomMau;
     <?= $form->field($model, 'min_allow_cut')->textInput() ?>
     
      <?= $form->field($model, 'min_allow_cut_under')->textInput() ?>
+     
+     <?= $form->field($model, 'scrap')->textInput() ?>
 
     <!--<?= $form->field($model, 'date_created')->textInput() ?>
 

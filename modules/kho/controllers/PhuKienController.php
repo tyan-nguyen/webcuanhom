@@ -12,6 +12,11 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use app\modules\kho\models\KhoVatTuLichSu;
 use app\modules\dungchung\models\Setting;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 /**
  * PhuKienController implements the CRUD actions for PhuKien model.
@@ -21,7 +26,7 @@ class PhuKienController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors() { 
         return [
             'ghost-access'=> [
                 'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
@@ -584,5 +589,137 @@ class PhuKienController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionExportFromTemplate()
+    {
+       // 1. Load dữ liệu động từ model
+        $models = PhuKien::find()
+            ->where(['id_nhom_vat_tu' => 1])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+    
+        // 2. Load file Excel mẫu
+        $templatePath = Yii::getAlias('@webroot/templates/mau_xuat_phu_kien.xlsx');
+    
+        if (!file_exists($templatePath)) {
+            throw new \yii\web\NotFoundHttpException('File mẫu không tồn tại: ' . $templatePath);
+        }
+    
+        $spreadsheet = IOFactory::load($templatePath);
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // 3. Cập nhật ngày xuất (ô A3, đã merge A3:J3 trong mẫu)
+        $sheet->setCellValue('A3', 'Ngày xuất danh sách: ' . date('d/m/Y'));
+    
+        // 4. Xác định dòng bắt đầu ghi dữ liệu
+        //    File mẫu: row 4 = header, row 5 trở đi = dữ liệu mẫu
+        $dataStartRow = 5;
+    
+        // Lưu style từ dòng mẫu đầu tiên để copy cho các dòng mới
+        $templateRowStyles = [];
+        for ($col = 1; $col <= 10; $col++) {
+            $cell = $sheet->getCellByColumnAndRow($col, $dataStartRow);
+            $templateRowStyles[$col] = [
+                'font'          => clone $cell->getStyle()->getFont(),
+                'alignment'     => clone $cell->getStyle()->getAlignment(),
+                'border'        => clone $cell->getStyle()->getBorders(),
+                'numberFormat'  => $cell->getStyle()->getNumberFormat()->getFormatCode(),
+            ];
+        }
+    
+        // 5. Xóa toàn bộ dữ liệu mẫu cũ trong template
+        //    (xóa từ dòng dataStartRow đến hết vùng dữ liệu mẫu)
+       /*  $lastTemplateDataRow = 15; // dòng cuối có dữ liệu trong file mẫu
+        for ($r = $dataStartRow; $r <= $lastTemplateDataRow; $r++) {
+            for ($c = 1; $c <= 10; $c++) {
+                $sheet->getCellByColumnAndRow($c, $r)->setValue(null);
+            }
+        } */
+    
+        // 6. Ghi dữ liệu động vào sheet
+        foreach ($models as $i => $model) {
+            $row = $dataStartRow + $i;
+    
+            // Ghi giá trị
+            $sheet->getCellByColumnAndRow(1,  $row)->setValue($i + 1);
+            $sheet->getCellByColumnAndRow(2,  $row)->setValue($model->code);
+            $sheet->getCellByColumnAndRow(3,  $row)->setValue($model->heMau->code ?? ''); // Hiển thị mã màu nếu có, nếu không có thì để trống
+            $sheet->getCellByColumnAndRow(4,  $row)->setValue($model->ten_vat_tu);
+            $sheet->getCellByColumnAndRow(5,  $row)->setValue($model->thuongHieu->ten_thuong_hieu);
+            $sheet->getCellByColumnAndRow(6,  $row)->setValue($model->model);
+            $sheet->getCellByColumnAndRow(7,  $row)->setValue($model->so_luong);
+            $sheet->getCellByColumnAndRow(8,  $row)->setValue($model->donViTinh->ten_dvt ?? ''); // Hiển thị tên đơn vị tính nếu có, nếu không có thì để trống
+            $sheet->getCellByColumnAndRow(9,  $row)->setValue($model->don_gia);
+            $sheet->getCellByColumnAndRow(10, $row)->setValue($model->ghi_chu);
+    
+            // Copy style từ dòng mẫu
+            for ($col = 1; $col <= 10; $col++) {
+                $cellStyle = $sheet->getStyleByColumnAndRow($col, $row);
+                $tpl = $templateRowStyles[$col];
+    
+                $cellStyle->getFont()->applyFromArray([
+                    'name'  => $tpl['font']->getName(),
+                    'size'  => $tpl['font']->getSize(),
+                    'bold'  => $tpl['font']->getBold(),
+                ]);
+    
+                $cellStyle->getAlignment()->applyFromArray([
+                    'horizontal' => $tpl['alignment']->getHorizontal(),
+                    'vertical'   => $tpl['alignment']->getVertical(),
+                    'wrapText'   => $tpl['alignment']->getWrapText(),
+                ]);
+    
+                $cellStyle->getBorders()->applyFromArray([
+                    'allBorders' => ['borderStyle' => Border::BORDER_THIN],
+                ]);
+    
+                // Giữ nguyên format số (VD: #,##0 cho cột Tồn kho và Đơn giá)
+                $cellStyle->getNumberFormat()->setFormatCode($tpl['numberFormat']);
+            }
+        }
+    
+        // 7. Tính dòng cuối sau khi ghi xong dữ liệu
+        $lastDataRow = $dataStartRow + count($models) - 1;
+    
+        // 8. Cập nhật lại vị trí "NGƯỜI XUẤT" và tên người xuất
+        //    (dịch chuyển theo số dòng thực tế)
+        $nguoiXuatRow  = $lastDataRow + 2;
+        $tenNguoiRow   = $lastDataRow + 6;
+    
+        // Xóa các ô cũ từ file mẫu (nếu số dòng dữ liệu thay đổi)
+        //$sheet->setCellValue('I' . ($lastTemplateDataRow + 2), null);
+       // $sheet->setCellValue('I' . ($lastTemplateDataRow + 6), null);
+    
+        // Ghi lại đúng vị trí mới
+       // $sheet->mergeCells('I' . $nguoiXuatRow . ':J' . $nguoiXuatRow);
+        $sheet->setCellValue('I' . $nguoiXuatRow, 'NGƯỜI XUẤT');
+        $sheet->getStyleByColumnAndRow(9, $nguoiXuatRow)->getFont()->setBold(true);
+        $sheet->getStyleByColumnAndRow(9, $nguoiXuatRow)
+            ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    
+       // $sheet->mergeCells('I' . $tenNguoiRow . ':J' . $tenNguoiRow);
+        $sheet->setCellValue('I' . $tenNguoiRow, 'KHANG'); // <-- thay bằng tên người xuất động nếu cần
+        $sheet->getStyleByColumnAndRow(9, $tenNguoiRow)->getFont()->setBold(true);
+        $sheet->getStyleByColumnAndRow(9, $tenNguoiRow)
+            ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    
+        // 9. Xuất file ra trình duyệt
+        $filename = 'danh_sach_phu_kien_' . date('Ymd_His') . '.xlsx';
+    
+        // Tắt output buffering để tránh lỗi headers
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+    
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Pragma: public');
+    
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+    
+        Yii::$app->end();
     }
 }

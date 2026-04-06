@@ -25,6 +25,7 @@ use app\modules\maucua\models\HeMau;
  * @property int|null $for_cua_di
  * @property float|null $min_allow_cut
  * @property float|null $min_allow_cut_under
+ * @property float|null $scrap
  * @property int|null $dung_cho_nhieu_he_nhom
  * @property string|null $date_created
  * @property int|null $user_created
@@ -43,7 +44,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
         return [
             [['id_he_nhom', 'ten_cay_nhom'], 'required'],
             [['id_he_nhom', 'id_he_mau', 'so_luong', 'for_cua_so', 'for_cua_di', 'user_created', 'dung_cho_nhieu_he_nhom'], 'integer'],
-            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut', 'min_allow_cut_under'], 'number'],
+            [['don_gia', 'khoi_luong', 'chieu_dai', 'do_day', 'min_allow_cut', 'min_allow_cut_under', 'scrap'], 'number'],
             [['date_created', 'copyMauNhom'], 'safe'],
             [['code'], 'string', 'max' => 20],
             [['ten_cay_nhom'], 'string', 'max' => 255],
@@ -73,6 +74,7 @@ class CayNhomBase extends \app\models\CuaCayNhom
             'dung_cho_nhieu_he_nhom' => 'Sử dụng cho nhiều hệ nhôm',
             'min_allow_cut' => 'Chặn trên',
             'min_allow_cut_under' => 'Chặn dưới',
+            'scrap' => 'Phế liệu',
             'date_created' => 'Ngày tạo',
             'user_created' => 'Tài khoản',
             
@@ -131,6 +133,9 @@ class CayNhomBase extends \app\models\CuaCayNhom
             }
             if($this->min_allow_cut_under == null){
                 $this->min_allow_cut_under = 0;
+            }
+            if($this->scrap == null){
+                $this->scrap = 0;
             }
             //set code
             if($this->code == null){
