@@ -11,11 +11,9 @@ class TaiKhoan extends User{
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        
         $userInfo = new UserInfo();
         $userInfo->id_user = $this->id;
         $userInfo->save(false);
-        
     }
     
     public static function getListTaiKhoan(){
@@ -23,5 +21,20 @@ class TaiKhoan extends User{
         return ArrayHelper::map($taiKhoan, 'id', function($model){
            return $model->username; 
         });
+    }
+
+    public function getInfo()
+    {
+        return $this->hasOne(TaiKhoanInfo::class, ['id_user' => 'id']);
+    }
+
+    //get name of user by id
+    public static function getNameById($id){
+        $taiKhoan = TaiKhoan::findOne($id);
+        if($taiKhoan){
+            return $taiKhoan->info->name;
+        }   else {
+            return null;
+        }
     }
 }

@@ -12,6 +12,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use app\modules\kho\models\KhoVatTuLichSu;
 use app\modules\dungchung\models\Setting;
+use app\modules\users\models\TaiKhoan;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -698,8 +699,8 @@ class PhuKienController extends Controller
         $sheet->getStyleByColumnAndRow(9, $nguoiXuatRow)
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     
-       // $sheet->mergeCells('I' . $tenNguoiRow . ':J' . $tenNguoiRow);
-        $sheet->setCellValue('I' . $tenNguoiRow, 'KHANG'); // <-- thay bằng tên người xuất động nếu cần
+        // $sheet->mergeCells('I' . $tenNguoiRow . ':J' . $tenNguoiRow);
+        $sheet->setCellValue('I' . $tenNguoiRow, TaiKhoan::getNameById(Yii::$app->user->id)); // <-- thay bằng tên người xuất động nếu cần
         $sheet->getStyleByColumnAndRow(9, $tenNguoiRow)->getFont()->setBold(true);
         $sheet->getStyleByColumnAndRow(9, $tenNguoiRow)
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
