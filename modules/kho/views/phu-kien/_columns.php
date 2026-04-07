@@ -45,12 +45,22 @@ return [
         'attribute'=>'ten_vat_tu',
         'format'=>'raw',
         'value'=>function($model){
-            return Html::a($model->ten_vat_tu . ($model->heMau?(' <span style="color:'.$model->heMau->ma_mau.'">('.$model->heMau->code.')</span>'):''),
+           /*  return Html::a($model->ten_vat_tu . ($model->heMau?(' <span style="color:'.$model->heMau->ma_mau.'">('.$model->heMau->code.')</span>'):''),
                     [Yii::getAlias('@web/kho/phu-kien/view'), 'id'=>$model->id],
-                    ['role'=>'modal-remote', 'class'=>'aInGrid']);
+                    ['role'=>'modal-remote', 'class'=>'aInGrid']); */
+            return Html::a($model->ten_vat_tu,
+                [Yii::getAlias('@web/kho/phu-kien/view'), 'id'=>$model->id],
+                ['role'=>'modal-remote', 'class'=>'aInGrid']);    
         },
     ],
-    
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'label'=>'Mã Màu',
+        'format'=>'raw',
+        'value'=>function($model){
+            return $model->heMau ?  $model->heMau->code : '';
+        },
+    ],
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_nhom_vat_tu',
