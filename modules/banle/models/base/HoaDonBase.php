@@ -111,9 +111,9 @@ class HoaDonBase extends BanleHoaDon
     
     public function getSoHoaDon(){
         if($this->so_vao_so != null){
-            return 'HD' . $this->fillNumber($this->so_vao_so) . '/' . $this->namVaoSo;
+            return 'HĐ' . $this->fillNumber($this->so_vao_so) . '/' . $this->namVaoSo;
         } else {
-            return 'HDN' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1) . '/' . $this->namVaoSo;
+            return 'HĐN' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1) . '/' . $this->namVaoSo;
         }
     }
     

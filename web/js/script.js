@@ -32,7 +32,7 @@ function printHoaDon(){
 	$('#print').printThis({
 		 //debug: false,               // show the iframe for debugging
 		 importCSS: false,            // import parent page css
-		 loadCSS: ['/css/print-hoa-don.css?v=2'],
+		 loadCSS: ['/css/print-hoa-don.css?v=5'],
 		 //printDelay: 333,
     });
 }

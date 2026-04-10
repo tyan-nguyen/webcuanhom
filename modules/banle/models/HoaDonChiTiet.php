@@ -56,7 +56,8 @@ class HoaDonChiTiet extends HoaDonChiTietBase
             return $this->vatTu!=NULL ? ( $this->vatTu->cayNhom->ten_cay_nhom . ' ('. $this->vatTu->cayNhom->code .') ' . $this->vatTu->chieu_dai . 'm x ' . $this->so_luong . ' Cây x '. $this->vatTu->cayNhom->khoi_luong .' Kg)' ) : '';
        // } else if($this->loai_vat_tu == 'PHU_KIEN' || $this->loai_vat_tu == 'VAT_TU' || $this->loai_vat_tu == 'THIET_BI'){
         }else{
-            return $this->vatTu!=NULL ? ( $this->vatTu->ten_vat_tu . '(' .$this->vatTu->code .')' ) : '';
+            //return $this->vatTu!=NULL ? ( $this->vatTu->ten_vat_tu . '(' .$this->vatTu->code .')' ) : '';
+            return $this->vatTu!=NULL ? ( $this->vatTu->ten_vat_tu ) : '';
         }
     }
     //lấy mã vật tư theo loại vật tư
@@ -67,6 +68,15 @@ class HoaDonChiTiet extends HoaDonChiTietBase
             // } else if($this->loai_vat_tu == 'PHU_KIEN' || $this->loai_vat_tu == 'VAT_TU' || $this->loai_vat_tu == 'THIET_BI'){
         }else{
             return $this->vatTu!=NULL ? $this->vatTu->code : '';
+        }
+    }
+     //lấy mã màu vật tư
+    public function getMaMau()
+    {
+        if($this->loai_vat_tu == 'NHOM'){
+            return $this->vatTu!=NULL ? $this->vatTu->cayNhom->heMau->code : '';
+        }else{
+            return $this->vatTu!=NULL ? $this->vatTu->heMau->code : '';
         }
     }
     //lấy đơn giá vật tư theo loại vật tư

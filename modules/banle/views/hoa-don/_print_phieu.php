@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use app\custom\CustomFunc;
+use app\modules\users\models\TaiKhoan;
+
 $custom = new CustomFunc();
 ?>
 <!-- <link href="/css/print-hoa-don.css" rel="stylesheet"> -->
@@ -8,21 +10,19 @@ $custom = new CustomFunc();
     <div class="col-md-12" style="width: 100%"> 
     	<table id="table-top" style="width: 100%">
     		<tr>
-    			<td width="100px">
-    				<img src="/images/logo_500.png" width="100px" />
+    			<td width="80px">
+    				<img src="/images/logo_500.png" width="75px" />
     			</td>
     			<td>
     				<span style="font-weight: bold; font-size:14pt">DNTN SX-TM NGUYỄN TRÌNH</span>
     				<br/>
-    				<span style="font-size:10pt">ĐC: Nguyễn Đáng, Khóm 10, P.9, TP.TV</span>
+    				<span style="font-size:10pt">ĐC: Nguyễn Đáng, Khóm 20, P. Trà Vinh, Vĩnh Long</span>
     				<br/>
-    				<span style="font-size:10pt">ĐT: 0903.794.530 - 0903.794.531 - 0903.794.532</span>
-    				<br/>
-    				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt">0903.794.533 - 0903.794.534 - 0903.794.535</span> 				
+    				<span style="font-size:10pt">ĐT: 090.333.6470</span>			
     			</td>
     			<td width="100px">
-    				<div><?= $model->soHoaDon ?> </div>
-    				<div style="margin-top: 10px;">
+    				<div style="font-size:12px"><?= $model->soHoaDon ?> </div>
+    				<div style="margin-top: 10px;font-size:11px">
     					<span class="span-status"><?= $model->getDmTrangThaiLabel($model->trang_thai) ?></span> 					</div>
     			</td>
     		</tr>
@@ -30,22 +30,25 @@ $custom = new CustomFunc();
     	
     	<table style="width: 100%">
     		<tr>
-    			<td style="text-align: center"><span class="phieu-h1">HÓA ĐƠN BÁN HÀNG</span></td>
+    			<td style="text-align: center"><span class="phieu-h1">PHIẾU XUẤT KHO</span></td>
     		</tr>
     	</table>
     	
     	<table id="table-info" style="width: 100%; margin-top:10px;">
     		<tr>
-    			<td colspan="2">
-    				- Khách hàng: <?= $model->tenKhachHang ?>			
+    			<td>
+    				Khách hàng: <?= $model->tenKhachHang ?>			
+    			</td>
+				<td>
+    				Số điện thoại: <?= $model->sdtKhachHang ?>	
     			</td>
     		</tr>
     		<tr>
     			<td colspan="2">
-    				- Địa chỉ: <?= $model->diaChiKhachHang ?>	
+    				Địa chỉ: <?= $model->diaChiKhachHang ?>	
     			</td>
     		</tr>
-    		<tr>
+    		<!-- <tr>
     			<td>
     				- Số điện thoại: <?= $model->sdtKhachHang ?>	
     			</td>
@@ -53,20 +56,21 @@ $custom = new CustomFunc();
     			<td>
     				- Email: <?= $model->emailKhachHang ?>
     			</td>
-    		</tr>
+    		</tr>-->
     		
     	</table>
     	
     	<table id="table-content" style="width: 100%; margin-top:10px;">
     		<thead>
     			<tr style="font-weight:bold">
-        			<td style="width:5%">Số TT</td>
-        			<td style="width:30%">Tên hàng</td>
-        			<td style="width:10%">Mã số</td>
-        			<td style="width:10%">Đơn vị tính</td>
-        			<td style="width:10%">Số lượng</td>
-        			<td style="width:15%">Đơn giá<br/>(VND)</td>
-        			<td style="width:15%">Thành tiền<br/>(VND)</td>
+        			<td style="width:5%">STT</td>
+					<td style="width:15%">Mã hàng</td>
+        			<td style="width:27%">Tên hàng</td>
+        			<td style="width:10%">Màu</td>
+        			<td style="width:8%">ĐVT</td>
+        			<td style="width:8%">SL</td>
+        			<td style="width:12%">Đơn giá</td>
+        			<td style="width: 18%">Thành tiền</td>
     			</tr>
     		</thead>
     		<tbody>
@@ -77,8 +81,10 @@ $custom = new CustomFunc();
     			?>
     			<tr>
         			<td style="text-align:center"><?= $stt ?></td>
-        			<td><?= $vt->tenVatTu . ($vt->vatTu->heMau?(' - ' . $vt->vatTu->heMau->code):'') ?></td>
-        			<td style="text-align:center"><?= $vt->maVatTu ?></td>
+					<td style="text-align:center"><?= $vt->maVatTu ?></td>
+					<td><?= $vt->tenVatTu ?></td>
+        			<?php /* $vt->tenVatTu . ($vt->vatTu->heMau?(' - ' . $vt->vatTu->heMau->code):'')*/ ?></td>
+					<td style="text-align:center"><?= $vt->maMau ?></td>
         			<td style="text-align:center"><?= $vt->dvtVatTu ?></td>
         			<td style="text-align:right"><?= $vt->soLuong ?></td>
         			<td style="text-align:right"><?= number_format($vt->donGia) ?></td>
@@ -90,7 +96,7 @@ $custom = new CustomFunc();
     			?>
     			
     			<tr style="text-align:right;font-weight: bold">
-        			<td colspan="6">Tổng cộng:</td>
+        			<td colspan="7">Tổng cộng:</td>
         			<td><?= number_format($model->tongTien) ?></td>
     			</tr>
     			
@@ -101,14 +107,18 @@ $custom = new CustomFunc();
     	
     	<table id="table-ky-ten" style="width: 100%; margin-top:10px;">
     		<tr>
-    			<td style="text-align:right;font-weight:normal;font-style:italic">Trà Vinh, ngày <?= date('d') ?> tháng <?= date('m') ?> năm <?= date('Y') ?></td>
+    			<td style="text-align:right;font-weight:normal;font-style:italic">Vĩnh Long, ngày <?= date('d') ?> tháng <?= date('m') ?> năm <?= date('Y') ?></td>
     		</tr>
     	</table>
     	
     	<table id="table-ky-ten" style="width: 100%; margin-top:10px;">
     		<tr>
     			<td style="text-align:center;font-weight:bold;">KHÁCH HÀNG</td>
-    			<td style="text-align:right;font-weight:bold;">NHÂN VIÊN BÁN HÀNG</td>
+    			<td style="text-align:center;font-weight:bold;">NHÂN VIÊN</td>
+    		</tr>
+			<tr>
+    			<td style="text-align:center;font-weight:bold;"></td>
+    			<td style="text-align:center;font-weight:bold;font-style:normal"><br/><br/><br/><?= TaiKhoan::getNameById($model->user_created) ?></td>
     		</tr>
     	</table>
     	

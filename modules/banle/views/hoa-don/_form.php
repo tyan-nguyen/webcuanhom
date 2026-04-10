@@ -105,12 +105,14 @@ use app\modules\banle\models\KhachHang;
                 			<thead>
                 				<tr>
                 					<th style="width:5%">STT</th>
-                					<th style="width:15%">Loại vật tư</th>
-                					<th style="width:20%">Vật tư</th>
-                					<th style="width:10%">ĐVT</th>			
-                					<th style="width:10%">Số lượng</th>
-                					<th style="width:10%">Đơn giá(VND)</th>
-                					<th style="width:10%">Thành tiền(VND)</th>
+                					<th style="width:10%">Loại vật tư</th>
+                                    <th style="width:10%">Mã VT</th>
+                					<th style="width:20%">Tên Vật tư</th>
+                					<th style="width:7%; text-align: center">Màu</th>
+                					<th style="width:7%; text-align: center">ĐVT</th>			
+                					<th style="width:7%; text-align: right">SL</th>
+                					<th style="width:7%; text-align: right">Đơn giá</th>
+                					<th style="width:10%; text-align: right">Thành tiền</th>
                 					<!-- <th style="width:10%">Ghi chú</th>-->
                 					<th style="width:20%"></th>
                 				</tr>
@@ -119,11 +121,14 @@ use app\modules\banle\models\KhachHang;
                     			<tr :id="'tr' + result.id" v-for="(result, indexResult) in results.dsVatTu" :key="result.id">
                     				<td :id="'td' + indexResult">{{ (indexResult + 1) }}</td>
                     				<td>{{ result.loaiVatTu }}</td>
+                                    <td>{{ result.maVatTu }}</td>
                     				<td>{{ result.tenVatTu }}</td>
-                    				<td>{{ result.dvt }}</td>
-                    				<td>{{ result.soLuong.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</td>
-                    				<td>{{ result.donGia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</td>
-                    				<td>{{ result.thanhTien!=null?result.thanhTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0 }}</td>
+                    				<td style="text-align: center">{{ result.heMau }}</td>
+
+                    				<td style="text-align: center">{{ result.dvt }}</td>
+                    				<td style="text-align: right">{{ result.soLuong.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</td>
+                    				<td style="text-align: right">{{ result.donGia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</td>
+                    				<td style="text-align: right">{{ result.thanhTien!=null?result.thanhTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0 }}</td>
                     				<!-- <td>{{ result.ghiChu }}</td> -->
 								
 									<td>
@@ -141,9 +146,10 @@ use app\modules\banle\models\KhachHang;
                     		</tbody>
                     		 <tfoot>
                 				<tr>
-                                  	<th colspan="6" style="text-align: right">Tổng cộng</th>
-                					<th colspan="2"><span style="font-weight:bold">{{ results.tongTien!=null?results.tongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0 }} (VND)</span></th>
+                                  	<th colspan="8" style="text-align: right; text-transform: uppercase; font-weight: bold;">Tổng cộng</th>
+                					<th style="text-align: right"><span style="font-weight:bold">{{ results.tongTien!=null?results.tongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0 }}</span></th>
                 					<!-- <th style="width:10%">Ghi chú</th>-->
+                                     <td></td>
                                 </tr>
 
                               </tfoot>
@@ -233,7 +239,10 @@ function AddVatTu(){
 	var formRow = '<tr id="idTr">';
 	formRow += '<td>STT</td>';
 	formRow += '<td><div style="display:none"><input type="text" name="loaiVatTu" id="lvtNew" value="VAT-TU" /></div><span id="loaiVatTuNew">Loại vật tư</span></td>';
+    formRow += '<td><span id="maVatTuNew">Mã vật tư</span></td>';
 	formRow += '<td><select id="idVatTuAdd" name="idVatTu" required></select></td>';
+    
+	formRow += '<td><span id="heMauNew">Màu</span></td>';
 	formRow += '<td><span id="donViTinhNew">Đơn vị tính</span></td>';
 	formRow += '<td><input type="text" name="soLuong" id="soLuongNew" required/></td>';	
 	formRow += '<td><input type="text" name="donGia" id="donGiaNew" required/></td>';
@@ -279,7 +288,11 @@ function AddNhom(){
 	var formRow = '<tr id="idTr">';
 	formRow += '<td>STT</td>';
 	formRow += '<td><div style="display:none"><input type="text" name="loaiVatTu" id="lvtNew" value="NHOM" /></div><span id="loaiVatTuNew">Loại vật tư</span></td>';
+   
 	formRow += '<td><select id="idVatTuAdd" name="idVatTu" required></select></td>';
+    formRow += '<td><span id="maVatTuNew">Mã vật tư</span></td>';
+    formRow += '<td><span id="heMauNew">Màu</span></td>';
+	
 	formRow += '<td><span id="donViTinhNew">Đơn vị tính</span></td>';
 	formRow += '<td><input type="text" name="soLuong" id="soLuongNew" required/></td>';	
 	formRow += '<td><input type="text" name="donGia" id="donGiaNew" required/></td>';
@@ -328,8 +341,11 @@ function editVatTu(arr){
     	//alert(arr['slyc']);
     	var formRow = '<tr id="idTrUpdate">';
     	formRow += '<td><input type="text" name="id" value="' + arr['id'] + '" style="display:none" />'+ arr['id'] +'</td>';
+
     	formRow += '<td>'+ arr['loaiVatTu'] +'</td>';
+       formRow += '<td>'+ arr['maVatTu'] +'</td>';
     	formRow += '<td>'+ arr['tenVatTu'] +'</td>';
+        formRow += '<td>'+ arr['heMau'] +'</td>';
     	//formRow += '<td><select id="idVatTuEdit" name="idVatTu"></select></td>';
     	formRow += '<td>'+ (arr['loaiVatTu']=='NHOM' ? arr['dvtCayNhom'] : arr['dvt']) +'</td>';
     	formRow += '<td><input type="text" name="soLuong" value="' + (arr['loaiVatTu']=='NHOM' ? arr['soLuongCayNhom'] : arr['soLuong'] ) + '" id="soLuongEdit" required /></td>';    		
@@ -438,6 +454,8 @@ function getVatTuAjax(idvt){
             	$('#idTr #donGiaNew').val(data.donGia);
             	$('#idTr #loaiVatTuNew').text(data.loaiVatTu);
             	$('#idTr #donViTinhNew').text(data.dvt);
+                $('#idTr #heMauNew').text(data.heMau);
+                $('#idTr #maVatTuNew').text(data.maVatTu);
             	$('#idTr #soLuongNew').val(1);
             	//set thanh tien
             	$('#thanhTienNew').text(($('#soLuongNew').val()*$('#donGiaNew').val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -482,7 +500,9 @@ function getNhomAjax(idvt){
             	$('#idTr #donGiaNew').val(data.donGia);
             	$('#idTr #loaiVatTuNew').text(data.loaiVatTu);
             	$('#idTr #donViTinhNew').text(data.dvt);
+                $('#idTr #heMauNew').text(data.heMau);
             	$('#idTr #soLuongNew').val(1);
+            	$('#idTr #maVatTuNew').text(data.maVatTu);
             	//set thanh tien
             	$('#thanhTienNew').text(($('#soLuongNew').val()*$('#donGiaNew').val()).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             } else {
