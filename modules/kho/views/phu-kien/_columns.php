@@ -1,4 +1,6 @@
 <?php
+
+use app\modules\kho\models\ThuongHieu;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use app\widgets\BtnBackWidget;
@@ -60,6 +62,15 @@ return [
         'value'=>function($model){
             return $model->heMau ?  $model->heMau->code : '';
         },
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'thuong_hieu',
+        //'format'=>'raw',
+        'value'=>function($model){
+            return $model->thuongHieu ?  $model->thuongHieu->ten_thuong_hieu : '';
+        },
+        'filter'=>Html::activeDropDownList($searchModel, 'thuong_hieu', ThuongHieu::getList(), ['prompt'=>'--Chọn--', 'class'=>'form-control']),
     ],
     /* [
         'class'=>'\kartik\grid\DataColumn',
