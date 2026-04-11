@@ -95,21 +95,24 @@ return [
             } else {
                 return number_format($model->so_luong, 2);
             }
-        }
+        },
+        'contentOptions' => [ 'style' => 'text-align:right'],
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'dvt',
         'value'=>function($model){
             return $model->donViTinh->ten_dvt;
-        }
+        },
+        'contentOptions' => [ 'style' => 'text-align:center'],
     ],
     [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'don_gia',
          'value'=>function($model){
             return number_format($model->don_gia);
-         }
+         },
+         'contentOptions' => [ 'style' => 'text-align:right'],
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
