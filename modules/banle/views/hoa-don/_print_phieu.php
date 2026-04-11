@@ -14,11 +14,11 @@ $custom = new CustomFunc();
     				<img src="/images/logo_500.png" width="75px" />
     			</td>
     			<td>
-    				<span style="font-weight: bold; font-size:14pt">DNTN SX-TM NGUYỄN TRÌNH</span>
+    				<span style="font-weight: bold; font-size:12pt">CÔNG TY TNHH MỘT THÀNH VIÊN NGUYỄN TRÌNH</span>
     				<br/>
-    				<span style="font-size:10pt">ĐC: Nguyễn Đáng, Khóm 20, P. Trà Vinh, Vĩnh Long</span>
+    				<span style="font-size:10pt">Lô E, Khu Công Ngiệp Long Đức, xã Long Đức, tỉnh Vĩnh Long</span>
     				<br/>
-    				<span style="font-size:10pt">ĐT: 090.333.6470</span>			
+    				<span style="font-size:10pt">ĐT: 0903 794 553</span>			
     			</td>
     			<td width="100px">
     				<div style="font-size:12px"><?= $model->soHoaDon ?> </div>
@@ -107,7 +107,8 @@ $custom = new CustomFunc();
     	
     	<table id="table-ky-ten" style="width: 100%; margin-top:10px;">
     		<tr>
-    			<td style="text-align:right;font-weight:normal;font-style:italic">Vĩnh Long, ngày <?= date('d') ?> tháng <?= date('m') ?> năm <?= date('Y') ?></td>
+				<td style="width: 50%;"></td>
+    			<td style="width: 50%;text-align:center;font-weight:normal;font-style:italic">Vĩnh Long, ngày <?= date('d') ?> tháng <?= date('m') ?> năm <?= date('Y') ?></td>
     		</tr>
     	</table>
     	
