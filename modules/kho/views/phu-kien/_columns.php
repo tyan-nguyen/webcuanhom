@@ -22,6 +22,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'code',
+        'label'=>'Mã PK',
         'group'=>true,
         'contentOptions'=>['style'=>'vertical-align:middle;']
     ],
