@@ -1,4 +1,6 @@
 <?php
+
+use app\custom\CustomFunc;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use app\modules\banle\models\KhachHang;
@@ -18,6 +20,15 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'trang_thai',
+        'format'=>'raw',
+        'value'=>function($model){
+            return '<span class="badge bg-'. ($model->trang_thai=="BAN_NHAP"?'secondary':'primary') .'">' . $model->getDmTrangThaiLabel($model->trang_thai) . '</span>';
+        },
+        'filter'=>Html::activeDropDownList($searchModel, 'trang_thai', $searchModel->getDmTrangThai(), ['prompt'=>'-Chọn-', 'class'=>'form-control'])
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ma_hoa_don',
         'format'=>'raw',
         'value'=>function($model){
@@ -26,18 +37,11 @@ return [
                 'title'=>Yii::t('app', 'Update'),
                 'data-toggle'=>'tooltip',
                 //'class'=>'btn btn-primary btn-xs'
+                'style'=>'text-decoration:none;cursor:pointer;'
             ]);
         }
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'trang_thai',
-        'format'=>'raw',
-        'value'=>function($model){
-            return '<span class="badge bg-'. ($model->trang_thai=="BAN_NHAP"?'secondary':'primary') .'">' . $model->getDmTrangThaiLabel($model->trang_thai) . '</span>';
-        },
-        'filter'=>Html::activeDropDownList($searchModel, 'trang_thai', $searchModel->getDmTrangThai(), ['prompt'=>'-Chọn-', 'class'=>'form-control'])
-    ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'id_khach_hang',
@@ -54,11 +58,11 @@ return [
         },
         'contentOptions'=>['style'=>'text-align:right'],
     ],
-    [
+    /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_vao_so',
         'contentOptions'=>['style'=>'text-align:center'],
-    ],
+    ], */
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nam',
@@ -73,6 +77,22 @@ return [
         'attribute'=>'id_nguoi_lap',
         'value'=>function($model){
             return $model->nguoiTao();
+        }
+    ],
+   
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ngay_xuat',
+        'value'=>function($model){
+            return $model->ngay_xuat != null ? CustomFunc::convertYMDHISToDMYHI($model->ngay_xuat) : '';
+        }
+    ],
+
+     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'id_nguoi_xuat',
+        'value'=>function($model){
+            return $model->nguoiXuat();
         }
     ],
     // [

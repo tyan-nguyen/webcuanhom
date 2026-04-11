@@ -31,7 +31,7 @@ class CustomFunc
      * @param string $date_string
      * @return string
      */
-    public function convertYMDHISToDMYHI($date_string){
+    public static function convertYMDHISToDMYHI($date_string){
         return $date_string!=null ? date("d/m/Y H:i", strtotime($date_string)) : '';
     }
     

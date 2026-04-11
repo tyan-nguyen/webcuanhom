@@ -115,9 +115,10 @@ class HoaDonBase extends BanleHoaDon
     
     public function getSoHoaDon(){
         if($this->so_vao_so != null){
-            return 'HĐ' . $this->fillNumber($this->so_vao_so) . '/' . $this->namVaoSo;
+            return 'HĐ' . $this->fillNumber($this->so_vao_so) /* . '/' . $this->namVaoSo */;
         } else {
-            return 'HĐN' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1) . '/' . $this->namVaoSo;
+           /* return 'HĐN' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1)  . '/' . $this->namVaoSo ; */
+           return 'Nháp';
         }
     }
     
@@ -148,9 +149,9 @@ class HoaDonBase extends BanleHoaDon
     
     public function fillNumber($number){
         $num = strlen($number);
-        if( $num < 5){
+        if( $num < 4){
             $str0 = '';
-            for($i=1;$i<=(5-$num); $i++){
+            for($i=1;$i<=(4-$num); $i++){
                 $str0 .= '0';
             }
             return $str0 . $number;
