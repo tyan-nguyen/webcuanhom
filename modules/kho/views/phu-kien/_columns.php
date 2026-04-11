@@ -1,5 +1,6 @@
 <?php
 
+use app\custom\CustomFunc;
 use app\modules\kho\models\ThuongHieu;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -117,6 +118,10 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'date_created',
+        'value'=>function($model){
+            return $model->date_created != null ? CustomFunc::convertYMDHISToDMY($model->date_created) : '';
+        },
+        'contentOptions' => [ 'style' => 'text-align:center'],
     ],
     
     [

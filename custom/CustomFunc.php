@@ -25,6 +25,14 @@ class CustomFunc
     public function convertYMDHISToDMYHIS($date_string){
         return $date_string!=null ? date("d/m/Y (H:i:s)", strtotime($date_string)) : '';
     }
+     /**
+     * chuyen doi ngay chuoi Y-m-d H:i:s -> dd/mm/yyyy
+     * @param string $date_string
+     * @return string
+     */
+    public static function convertYMDHISToDMY($date_string){
+        return $date_string!=null ? date("d/m/Y", strtotime($date_string)) : '';
+    }
 
     /**
      * chuyen doi ngay chuoi Y-m-d H:i:s -> dd/mm/yyyy H:i
