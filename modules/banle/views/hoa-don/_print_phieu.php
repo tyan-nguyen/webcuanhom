@@ -16,7 +16,7 @@ $custom = new CustomFunc();
     			<td>
     				<span style="font-weight: bold; font-size:12pt">CÔNG TY TNHH MỘT THÀNH VIÊN NGUYỄN TRÌNH</span>
     				<br/>
-    				<span style="font-size:10pt">Lô E, Khu Công Ngiệp Long Đức, xã Long Đức, tỉnh Vĩnh Long</span>
+    				<span style="font-size:10pt">Lô E, Khu Công Nghiệp Long Đức, xã Long Đức, tỉnh Vĩnh Long</span>
     				<br/>
     				<span style="font-size:10pt">ĐT: 0903 794 553</span>			
     			</td>
