@@ -16,6 +16,8 @@ use Yii;
  * @property string|null $ngay_ban
  * @property int|null $id_nguoi_lap
  * @property string|null $ngay_lap
+ * @property int|null $id_nguoi_xuat
+ * @property string|null $ngay_xuat
  * @property string|null $trang_thai
  * @property int|null $edit_mode
  * @property int|null $id_khach_hang
@@ -41,9 +43,9 @@ class BanleHoaDon extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ma_hoa_don', 'so_vao_so', 'nam', 'id_nguoi_ban', 'id_nguoi_lap', 'edit_mode', 'id_khach_hang', 'user_created'], 'integer'],
+            [['ma_hoa_don', 'so_vao_so', 'nam', 'id_nguoi_ban', 'id_nguoi_lap', 'edit_mode', 'id_khach_hang', 'user_created', 'id_nguoi_xuat'], 'integer'],
             [['ghi_chu'], 'string'],
-            [['ngay_ban', 'ngay_lap', 'date_created'], 'safe'],
+            [['ngay_ban', 'ngay_lap', 'ngay_xuat', 'date_created'], 'safe'],
             [['trang_thai'], 'string', 'max' => 20],
             [['id_khach_hang'], 'exist', 'skipOnError' => true, 'targetClass' => BanleKhachHang::class, 'targetAttribute' => ['id_khach_hang' => 'id']],
         ];
@@ -64,6 +66,8 @@ class BanleHoaDon extends \yii\db\ActiveRecord
             'ngay_ban' => 'Ngay Ban',
             'id_nguoi_lap' => 'Id Nguoi Lap',
             'ngay_lap' => 'Ngay Lap',
+            'id_nguoi_xuat' => 'Id Nguoi Xuat',
+            'ngay_xuat' => 'Ngay Xuat',
             'trang_thai' => 'Trang Thai',
             'edit_mode' => 'Edit Mode',
             'id_khach_hang' => 'Id Khach Hang',

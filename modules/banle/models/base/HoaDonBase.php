@@ -17,6 +17,8 @@ use app\models\BanleHoaDon;
  * @property int|null $id_nguoi_lap
  * @property int|null $id_nguoi_lap
  * @property string|null $ngay_lap
+ * @property int|null $id_nguoi_xuat
+ * @property string|null $ngay_xuat
  * @property string|null $trang_thai
  * @property int|null $edit_mode
  * @property int|null $id_khach_hang
@@ -71,9 +73,9 @@ class HoaDonBase extends BanleHoaDon
     public function rules()
     {
         return [
-            [['ma_hoa_don', 'so_vao_so', 'nam', 'id_nguoi_ban', 'id_nguoi_lap', 'user_created', 'edit_mode', 'id_khach_hang'], 'integer'],
+            [['ma_hoa_don', 'so_vao_so', 'nam', 'id_nguoi_ban', 'id_nguoi_lap', 'user_created', 'edit_mode', 'id_khach_hang', 'id_nguoi_xuat'], 'integer'],
             [['ghi_chu'], 'string'],
-            [['ngay_ban', 'ngay_lap', 'date_created'], 'safe'],
+            [['ngay_ban', 'ngay_lap', 'ngay_xuat', 'date_created'], 'safe'],
             [['trang_thai'], 'string', 'max' => 20],
         ];
     }
@@ -93,6 +95,8 @@ class HoaDonBase extends BanleHoaDon
             'ngay_ban' => 'Ngay Ban',
             'id_nguoi_lap' => 'Người lập',
             'ngay_lap' => 'Ngày lập',
+            'id_nguoi_xuat' => 'Người xuất',
+            'ngay_xuat' => 'Ngày xuất',
             'trang_thai' => 'Trạng thái',
             'id_khach_hang' => 'Khách hàng',
             'date_created' => 'Thời gian tạo',

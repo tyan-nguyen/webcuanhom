@@ -161,6 +161,8 @@ class HoaDonController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model->trang_thai = 'DA_THANH_TOAN';
         $model->so_vao_so = $model->getSoHoaDonCuoi($model->nam) + 1;
+        $model->id_nguoi_xuat = Yii::$app->user->id;
+        $model->ngay_xuat = date('Y-m-d H:i:s');
         if($model->save()){
             $model->refresh();
             if($trangThaiHienTai == 'BAN_NHAP'){

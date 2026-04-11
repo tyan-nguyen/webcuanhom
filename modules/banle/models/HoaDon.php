@@ -8,6 +8,8 @@ use app\modules\kho\models\VatTu;
 use app\modules\kho\models\KhoVatTu;
 use app\modules\maucua\models\KhoNhom;
 use app\modules\maucua\models\KhoNhomLichSu;
+use app\modules\users\models\TaiKhoan;
+
 /**
  * HoaDon class
  * @author annvt
@@ -75,6 +77,10 @@ class HoaDon extends HoaDonBase
     public function nguoiTao(){
         $model = User::findOne($this->user_created);
         return $model!=null ? $model->username : '';
+    }
+
+     public function nguoiXuat(){
+        return $this->id_nguoi_xuat!=null ? TaiKhoan::getNameById ($this->id_nguoi_xuat) : '';
     }
     
     /**
