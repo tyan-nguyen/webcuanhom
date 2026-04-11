@@ -30,6 +30,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ma_hoa_don',
+        'label'=>'Mã phiếu',
         'format'=>'raw',
         'value'=>function($model){
             return Html::a($model->soHoaDon, ['/banle/hoa-don/update', 'id'=>$model->id], [
@@ -48,7 +49,27 @@ return [
         'value'=>function($model){
             return $model->khachHang != null ? $model->khachHang->ten_khach_hang : '';
         },
-        'filter'=>Html::activeDropDownList($searchModel, 'id_khach_hang', KhachHang::getList(), ['prompt'=>'-Chọn-', 'class'=>'form-control'])
+        'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+        'filter' => KhachHang::getList(),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => [
+            'placeholder' => '-Chọn-',
+        ],
+        /* 'filter'=>Html::activeDropDownList($searchModel, 'id_khach_hang', KhachHang::getList(), ['prompt'=>'-Chọn-', 'class'=>'form-control']) */
+    ],
+     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'sdt_khach_hang',
+        'label'=>'SĐT',
+         'value'=>function($model){
+            return $model->khachHang != null ? $model->khachHang->so_dien_thoai : '';
+        },
+        'value'=>function($model){
+            return $model->khachHang != null ? $model->khachHang->so_dien_thoai : '';
+        },
+        'filter'=>Html::activeTextInput($searchModel, 'sdt_khach_hang',  ['class'=>'form-control'])
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

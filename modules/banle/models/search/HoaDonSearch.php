@@ -12,6 +12,8 @@ use app\modules\banle\models\HoaDon;
  */
 class HoaDonSearch extends HoaDon
 {
+    public $sdt_khach_hang;
+    public $ten_khach_hang;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class HoaDonSearch extends HoaDon
     {
         return [
             [['id', 'ma_hoa_don', 'so_vao_so', 'nam', 'id_nguoi_lap', 'id_nguoi_lap', 'user_created', 'edit_mode', 'id_khach_hang'], 'integer'],
-            [['ghi_chu', 'ngay_ban', 'ngay_lap', 'trang_thai', 'date_created'], 'safe'],
+            [['ghi_chu', 'ngay_ban', 'ngay_lap', 'trang_thai', 'date_created', 'sdt_khach_hang', 'ten_khach_hang'], 'safe'],
         ];
     }
 
@@ -41,7 +43,8 @@ class HoaDonSearch extends HoaDon
      */
     public function search($params)
     {
-        $query = HoaDon::find();
+        $query = HoaDon::find()->alias('t');
+        $query->joinWith(['khachHang as kh']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -72,7 +75,9 @@ class HoaDonSearch extends HoaDon
         ]);
 
         $query->andFilterWhere(['like', 'ghi_chu', $this->ghi_chu])
-            ->andFilterWhere(['like', 'trang_thai', $this->trang_thai]);
+            ->andFilterWhere(['like', 'trang_thai', $this->trang_thai])
+            ->andFilterWhere(['like', 'kh.so_dien_thoai', $this->sdt_khach_hang])
+            ->andFilterWhere(['like', 'kh.ten_khach_hang', $this->ten_khach_hang]);
 
         return $dataProvider;
     }
