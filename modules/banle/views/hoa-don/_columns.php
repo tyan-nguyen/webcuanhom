@@ -57,6 +57,7 @@ return [
         'filterInputOptions' => [
             'placeholder' => '-Chọn-',
         ],
+        'width' => '250px',
         /* 'filter'=>Html::activeDropDownList($searchModel, 'id_khach_hang', KhachHang::getList(), ['prompt'=>'-Chọn-', 'class'=>'form-control']) */
     ],
      [
