@@ -210,7 +210,7 @@ class HoaDonController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                    'footer'=> (User::hasRole('rQuanLyHoaDonLe') ? (Html::button('Save',['type'=>"submit"]) . '&nbsp;') : '' ) .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -238,7 +238,7 @@ class HoaDonController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+                     'footer'=> (User::hasRole('rQuanLyHoaDonLe') ? (Html::button('Save',['type'=>"submit"]) . '&nbsp;') : '' ) .
                             Html::button('Close',['data-bs-dismiss'=>"modal"])
                 ];        
             }
