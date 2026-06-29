@@ -169,7 +169,7 @@ use app\modules\banle\models\KhachHang;
 <a href="#" onClick="AddVatTu()" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Thêm VT/PK</a>
 <a href="#" onClick="AddNhom()" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Thêm nhôm</a>
 <?php } ?>
-<a href="#" onClick="InHoaDon()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Hóa đơn</a>
+<a href="#" onClick="InHoaDon()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Phiếu xuất kho</a>
 
 <?php if($model->trang_thai == 'BAN_NHAP') { ?>
 <a class="btn btn-primary btn-sm" href="/banle/hoa-don/xuat-va-thanh-toan?id=<?= $model->id ?>" role="modal-remote"><i class="fa-solid fa-file-export"></i> Xuất và thanh toán</a>

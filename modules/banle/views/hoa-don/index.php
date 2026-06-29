@@ -10,7 +10,7 @@ use cangak\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\modules\banle\models\search\HoaDonSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Hóa đơn bán lẻ';
+$this->title = 'Hóa đơn bán lẻ - xuất kho';
 $this->params['breadcrumbs'][] = $this->title;
 
 //CrudAsset::register($this);
