@@ -266,7 +266,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
               
               <div class="tab-pane fade" id="banle" role="tabpanel" aria-labelledby="banle-tab">
               		<ul class="ul-ribbon">
-                      	<li><a href="/banle/hoa-don"><i class="fa-regular fa-file"></i> Hóa đơn bán lẻ</a></li>
+                      	<li><a href="/banle/hoa-don"><i class="fa-regular fa-file"></i> Phiếu xuất kho</a></li>
                       </ul>
               </div>
               
