@@ -204,7 +204,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </li>
                 
                  <li class="nav-item" role="presentation">
-                	<button class="nav-link main-nav-link" id="banle-tab" data-bs-toggle="pill" data-bs-target="#banle" type="button" role="tab" aria-controls="banle" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Bán lẻ</button>
+                	<button class="nav-link main-nav-link" id="banle-tab" data-bs-toggle="pill" data-bs-target="#banle" type="button" role="tab" aria-controls="banle" aria-selected="true"><i class="fa-solid fa-chart-simple"></i> Bán lẻ-Xuất kho</button>
                 </li>
                 
                  <li class="nav-item" role="presentation">
