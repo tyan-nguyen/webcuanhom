@@ -12,6 +12,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use app\modules\kho\models\KhoVatTuLichSu;
 use app\modules\kho\models\KhoVatTu;
+use webvimark\modules\UserManagement\models\User;
 
 /**
  * HoaDonController implements the CRUD actions for HoaDon model.
@@ -65,6 +66,10 @@ class HoaDonController extends Controller
     public function actionIndex()
     {    
         $searchModel = new HoaDonSearch();
+        //!!!!!!!!!!!! sét tạm, phải làm trạng thái là hằng số!
+        if(!User::hasRole('rQuanLyHoaDonLe')){
+            $searchModel->trang_thai = 'DA_THANH_TOAN';
+        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
